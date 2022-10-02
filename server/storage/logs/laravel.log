@@ -1,0 +1,137 @@
+[2022-09-27 07:57:48] local.ERROR: Class "App\Providers\Schema" not found {"exception":"[object] (Error(code: 0): Class \"App\\Providers\\Schema\" not found at C:\\wamp64\\www\\PM-HDT\\server\\app\\Providers\\AppServiceProvider.php:26)
+[stacktrace]
+#0 C:\\wamp64\\www\\PM-HDT\\server\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php(36): App\\Providers\\AppServiceProvider->boot()
+#1 C:\\wamp64\\www\\PM-HDT\\server\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Util.php(41): Illuminate\\Container\\BoundMethod::Illuminate\\Container\\{closure}()
+#2 C:\\wamp64\\www\\PM-HDT\\server\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php(93): Illuminate\\Container\\Util::unwrapIfClosure(Object(Closure))
+#3 C:\\wamp64\\www\\PM-HDT\\server\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php(37): Illuminate\\Container\\BoundMethod::callBoundMethod(Object(Illuminate\\Foundation\\Application), Array, Object(Closure))
+#4 C:\\wamp64\\www\\PM-HDT\\server\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Container.php(651): Illuminate\\Container\\BoundMethod::call(Object(Illuminate\\Foundation\\Application), Array, Array, NULL)
+#5 C:\\wamp64\\www\\PM-HDT\\server\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(933): Illuminate\\Container\\Container->call(Array)
+#6 C:\\wamp64\\www\\PM-HDT\\server\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(914): Illuminate\\Foundation\\Application->bootProvider(Object(App\\Providers\\AppServiceProvider))
+#7 [internal function]: Illuminate\\Foundation\\Application->Illuminate\\Foundation\\{closure}(Object(App\\Providers\\AppServiceProvider), 20)
+#8 C:\\wamp64\\www\\PM-HDT\\server\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(915): array_walk(Array, Object(Closure))
+#9 C:\\wamp64\\www\\PM-HDT\\server\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\BootProviders.php(17): Illuminate\\Foundation\\Application->boot()
+#10 C:\\wamp64\\www\\PM-HDT\\server\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(242): Illuminate\\Foundation\\Bootstrap\\BootProviders->bootstrap(Object(Illuminate\\Foundation\\Application))
+#11 C:\\wamp64\\www\\PM-HDT\\server\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(175): Illuminate\\Foundation\\Application->bootstrapWith(Array)
+#12 C:\\wamp64\\www\\PM-HDT\\server\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(159): Illuminate\\Foundation\\Http\\Kernel->bootstrap()
+#13 C:\\wamp64\\www\\PM-HDT\\server\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(133): Illuminate\\Foundation\\Http\\Kernel->sendRequestThroughRouter(Object(Illuminate\\Http\\Request))
+#14 C:\\wamp64\\www\\PM-HDT\\server\\public\\index.php(52): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
+#15 {main}
+"} 
+[2022-09-27 07:57:48] local.ERROR: Class "App\Providers\Schema" not found {"exception":"[object] (Error(code: 0): Class \"App\\Providers\\Schema\" not found at C:\\wamp64\\www\\PM-HDT\\server\\app\\Providers\\AppServiceProvider.php:26)
+[stacktrace]
+#0 C:\\wamp64\\www\\PM-HDT\\server\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php(36): App\\Providers\\AppServiceProvider->boot()
+#1 C:\\wamp64\\www\\PM-HDT\\server\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Util.php(41): Illuminate\\Container\\BoundMethod::Illuminate\\Container\\{closure}()
+#2 C:\\wamp64\\www\\PM-HDT\\server\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php(93): Illuminate\\Container\\Util::unwrapIfClosure(Object(Closure))
+#3 C:\\wamp64\\www\\PM-HDT\\server\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php(37): Illuminate\\Container\\BoundMethod::callBoundMethod(Object(Illuminate\\Foundation\\Application), Array, Object(Closure))
+#4 C:\\wamp64\\www\\PM-HDT\\server\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Container.php(651): Illuminate\\Container\\BoundMethod::call(Object(Illuminate\\Foundation\\Application), Array, Array, NULL)
+#5 C:\\wamp64\\www\\PM-HDT\\server\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(933): Illuminate\\Container\\Container->call(Array)
+#6 C:\\wamp64\\www\\PM-HDT\\server\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(914): Illuminate\\Foundation\\Application->bootProvider(Object(App\\Providers\\AppServiceProvider))
+#7 [internal function]: Illuminate\\Foundation\\Application->Illuminate\\Foundation\\{closure}(Object(App\\Providers\\AppServiceProvider), 20)
+#8 C:\\wamp64\\www\\PM-HDT\\server\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(915): array_walk(Array, Object(Closure))
+#9 C:\\wamp64\\www\\PM-HDT\\server\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\BootProviders.php(17): Illuminate\\Foundation\\Application->boot()
+#10 C:\\wamp64\\www\\PM-HDT\\server\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(242): Illuminate\\Foundation\\Bootstrap\\BootProviders->bootstrap(Object(Illuminate\\Foundation\\Application))
+#11 C:\\wamp64\\www\\PM-HDT\\server\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(175): Illuminate\\Foundation\\Application->bootstrapWith(Array)
+#12 C:\\wamp64\\www\\PM-HDT\\server\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(159): Illuminate\\Foundation\\Http\\Kernel->bootstrap()
+#13 C:\\wamp64\\www\\PM-HDT\\server\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(133): Illuminate\\Foundation\\Http\\Kernel->sendRequestThroughRouter(Object(Illuminate\\Http\\Request))
+#14 C:\\wamp64\\www\\PM-HDT\\server\\public\\index.php(52): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
+#15 {main}
+"} 
+[2022-09-28 14:25:21] local.ERROR: Class "App\Providers\Schema" not found {"exception":"[object] (Error(code: 0): Class \"App\\Providers\\Schema\" not found at C:\\wamp64\\www\\PM-HDT\\server\\app\\Providers\\AppServiceProvider.php:26)
+[stacktrace]
+#0 C:\\wamp64\\www\\PM-HDT\\server\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php(36): App\\Providers\\AppServiceProvider->boot()
+#1 C:\\wamp64\\www\\PM-HDT\\server\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Util.php(41): Illuminate\\Container\\BoundMethod::Illuminate\\Container\\{closure}()
+#2 C:\\wamp64\\www\\PM-HDT\\server\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php(93): Illuminate\\Container\\Util::unwrapIfClosure(Object(Closure))
+#3 C:\\wamp64\\www\\PM-HDT\\server\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php(37): Illuminate\\Container\\BoundMethod::callBoundMethod(Object(Illuminate\\Foundation\\Application), Array, Object(Closure))
+#4 C:\\wamp64\\www\\PM-HDT\\server\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Container.php(651): Illuminate\\Container\\BoundMethod::call(Object(Illuminate\\Foundation\\Application), Array, Array, NULL)
+#5 C:\\wamp64\\www\\PM-HDT\\server\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(933): Illuminate\\Container\\Container->call(Array)
+#6 C:\\wamp64\\www\\PM-HDT\\server\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(914): Illuminate\\Foundation\\Application->bootProvider(Object(App\\Providers\\AppServiceProvider))
+#7 [internal function]: Illuminate\\Foundation\\Application->Illuminate\\Foundation\\{closure}(Object(App\\Providers\\AppServiceProvider), 20)
+#8 C:\\wamp64\\www\\PM-HDT\\server\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(915): array_walk(Array, Object(Closure))
+#9 C:\\wamp64\\www\\PM-HDT\\server\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\BootProviders.php(17): Illuminate\\Foundation\\Application->boot()
+#10 C:\\wamp64\\www\\PM-HDT\\server\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(242): Illuminate\\Foundation\\Bootstrap\\BootProviders->bootstrap(Object(Illuminate\\Foundation\\Application))
+#11 C:\\wamp64\\www\\PM-HDT\\server\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(175): Illuminate\\Foundation\\Application->bootstrapWith(Array)
+#12 C:\\wamp64\\www\\PM-HDT\\server\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(159): Illuminate\\Foundation\\Http\\Kernel->bootstrap()
+#13 C:\\wamp64\\www\\PM-HDT\\server\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(133): Illuminate\\Foundation\\Http\\Kernel->sendRequestThroughRouter(Object(Illuminate\\Http\\Request))
+#14 C:\\wamp64\\www\\PM-HDT\\server\\public\\index.php(52): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
+#15 {main}
+"} 
+[2022-09-28 14:25:22] local.ERROR: Class "App\Providers\Schema" not found {"exception":"[object] (Error(code: 0): Class \"App\\Providers\\Schema\" not found at C:\\wamp64\\www\\PM-HDT\\server\\app\\Providers\\AppServiceProvider.php:26)
+[stacktrace]
+#0 C:\\wamp64\\www\\PM-HDT\\server\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php(36): App\\Providers\\AppServiceProvider->boot()
+#1 C:\\wamp64\\www\\PM-HDT\\server\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Util.php(41): Illuminate\\Container\\BoundMethod::Illuminate\\Container\\{closure}()
+#2 C:\\wamp64\\www\\PM-HDT\\server\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php(93): Illuminate\\Container\\Util::unwrapIfClosure(Object(Closure))
+#3 C:\\wamp64\\www\\PM-HDT\\server\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php(37): Illuminate\\Container\\BoundMethod::callBoundMethod(Object(Illuminate\\Foundation\\Application), Array, Object(Closure))
+#4 C:\\wamp64\\www\\PM-HDT\\server\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Container.php(651): Illuminate\\Container\\BoundMethod::call(Object(Illuminate\\Foundation\\Application), Array, Array, NULL)
+#5 C:\\wamp64\\www\\PM-HDT\\server\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(933): Illuminate\\Container\\Container->call(Array)
+#6 C:\\wamp64\\www\\PM-HDT\\server\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(914): Illuminate\\Foundation\\Application->bootProvider(Object(App\\Providers\\AppServiceProvider))
+#7 [internal function]: Illuminate\\Foundation\\Application->Illuminate\\Foundation\\{closure}(Object(App\\Providers\\AppServiceProvider), 20)
+#8 C:\\wamp64\\www\\PM-HDT\\server\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(915): array_walk(Array, Object(Closure))
+#9 C:\\wamp64\\www\\PM-HDT\\server\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\BootProviders.php(17): Illuminate\\Foundation\\Application->boot()
+#10 C:\\wamp64\\www\\PM-HDT\\server\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(242): Illuminate\\Foundation\\Bootstrap\\BootProviders->bootstrap(Object(Illuminate\\Foundation\\Application))
+#11 C:\\wamp64\\www\\PM-HDT\\server\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(175): Illuminate\\Foundation\\Application->bootstrapWith(Array)
+#12 C:\\wamp64\\www\\PM-HDT\\server\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(159): Illuminate\\Foundation\\Http\\Kernel->bootstrap()
+#13 C:\\wamp64\\www\\PM-HDT\\server\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(133): Illuminate\\Foundation\\Http\\Kernel->sendRequestThroughRouter(Object(Illuminate\\Http\\Request))
+#14 C:\\wamp64\\www\\PM-HDT\\server\\public\\index.php(52): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
+#15 {main}
+"} 
+[2022-10-01 04:17:37] local.ERROR: Command "make:auth" is not defined.
+
+Did you mean one of these?
+    make:cast
+    make:channel
+    make:command
+    make:component
+    make:controller
+    make:event
+    make:exception
+    make:factory
+    make:job
+    make:listener
+    make:mail
+    make:middleware
+    make:migration
+    make:model
+    make:notification
+    make:observer
+    make:policy
+    make:provider
+    make:request
+    make:resource
+    make:rule
+    make:scope
+    make:seeder
+    make:test {"exception":"[object] (Symfony\\Component\\Console\\Exception\\CommandNotFoundException(code: 0): Command \"make:auth\" is not defined.
+
+Did you mean one of these?
+    make:cast
+    make:channel
+    make:command
+    make:component
+    make:controller
+    make:event
+    make:exception
+    make:factory
+    make:job
+    make:listener
+    make:mail
+    make:middleware
+    make:migration
+    make:model
+    make:notification
+    make:observer
+    make:policy
+    make:provider
+    make:request
+    make:resource
+    make:rule
+    make:scope
+    make:seeder
+    make:test at C:\\wamp64\\www\\PM-HDT\\server\\vendor\\symfony\\console\\Application.php:692)
+[stacktrace]
+#0 C:\\wamp64\\www\\PM-HDT\\server\\vendor\\symfony\\console\\Application.php(259): Symfony\\Component\\Console\\Application->find('make:auth')
+#1 C:\\wamp64\\www\\PM-HDT\\server\\vendor\\symfony\\console\\Application.php(171): Symfony\\Component\\Console\\Application->doRun(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#2 C:\\wamp64\\www\\PM-HDT\\server\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\Application.php(102): Symfony\\Component\\Console\\Application->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#3 C:\\wamp64\\www\\PM-HDT\\server\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(151): Illuminate\\Console\\Application->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#4 C:\\wamp64\\www\\PM-HDT\\server\\artisan(37): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#5 {main}
+"} 
