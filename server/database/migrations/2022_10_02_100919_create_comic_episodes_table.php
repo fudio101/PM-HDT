@@ -13,14 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('comic_episodes', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
-//            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->foreignId('role_id')->constrained();
-//            $table->rememberToken();
+            $table->foreignId('comic_id')->constrained();
+            $table->unsignedInteger('episode_number');
+            $table->date('published_date');
+            $table->unsignedBigInteger('likes')->default(0);
+            $table->unsignedBigInteger('views')->default(0);
+            $table->foreignId('user_id')->constrained();
             $table->softDeletes();
             $table->timestamps();
         });
@@ -33,6 +33,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('comic_episodes');
     }
 };
