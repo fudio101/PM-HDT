@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginRequest;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 class AuthController extends Controller
@@ -28,10 +29,9 @@ class AuthController extends Controller
     {
         $credentials = $request->all(['email', 'password']);
 
-        if (!$token = auth()->attempt($credentials)) {
+        if (!$token = Auth::attempt($credentials)) {
             return response()->json([
-                    'status' => false,
-                    'error' => 'Unauthorized'
+                    'message' => 'Unauthorized'
                 ]
                 , ResponseAlias::HTTP_UNAUTHORIZED);
         }
@@ -46,7 +46,7 @@ class AuthController extends Controller
      */
     public function me()
     {
-        return response()->json(auth()->user());
+        return response()->json(Auth::user());
     }
 
     /**
@@ -59,7 +59,6 @@ class AuthController extends Controller
         auth()->logout();
 
         return response()->json([
-            'status' => true,
             'message' => 'Successfully logged out'
         ], ResponseAlias::HTTP_OK);
     }
@@ -71,7 +70,7 @@ class AuthController extends Controller
      */
     public function refresh()
     {
-        return $this->respondWithToken(auth()->refresh());
+        return $this->respondWithToken(Auth::refresh());
     }
 
     /**
@@ -81,15 +80,12 @@ class AuthController extends Controller
      *
      * @return JsonResponse
      */
-    protected function respondWithToken($token)
+    protected function respondWithToken(string $token)
     {
         return response()->json([
-            'status' => true,
-            'data' => [
-                'access_token' => $token,
-                'token_type' => 'bearer',
-                'expires_in' => auth()->factory()->getTTL() * 60
-            ],
+            'access_token' => $token,
+            'token_type' => 'bearer',
+            'expires_in' => Auth::factory()->getTTL() * 60
         ], ResponseAlias::HTTP_OK);
     }
 }
