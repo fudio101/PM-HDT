@@ -1,6 +1,6 @@
 First, run:
 ```
-composer update
+composer install
 ```
 
 Next, run:
