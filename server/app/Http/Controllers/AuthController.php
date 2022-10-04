@@ -7,9 +7,11 @@ use App\Http\Requests\ForgotPasswordRequest;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\ResetPasswordRequest;
 use App\Models\User;
+use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Password;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 class AuthController extends Controller
@@ -21,7 +23,7 @@ class AuthController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login']]);
+        $this->middleware('auth:api', ['except' => ['login', 'forgotPassword', 'resetPassword']]);
     }
 
     /**
@@ -112,6 +114,14 @@ class AuthController extends Controller
                 , ResponseAlias::HTTP_UNAUTHORIZED);
         }
 
+        if ($request->input('new_password') === $request->input('old_password')) {
+
+            return response()->json([
+                    'message' => 'The new password must not be the same as the old password'
+                ]
+                , ResponseAlias::HTTP_CONFLICT);
+        }
+
         #Update the new Password
         User::query()->where('id', Auth::user()->id)->update([
             'password' => Hash::make($request->input('new_password'))
@@ -133,8 +143,8 @@ class AuthController extends Controller
         );
 
         return $status === Password::RESET_LINK_SENT
-            ? response()->json(['result' => 'success'])
-            : response()->json(['result' => 'fail']);
+            ? response()->json(['message' => __($status)], ResponseAlias::HTTP_OK)
+            : response()->json(['message' => __($status)], ResponseAlias::HTTP_NOT_FOUND);
     }
 
     /**
@@ -148,7 +158,7 @@ class AuthController extends Controller
             function ($user, $password) {
                 $user->forceFill([
                     'password' => Hash::make($password)
-                ])->setRememberToken(Str::random(60));
+                ]);
 
                 $user->save();
 
@@ -157,7 +167,7 @@ class AuthController extends Controller
         );
 
         return $status === Password::PASSWORD_RESET
-            ? response()->json(['result' => 'success'])
-            : response()->json(['result' => 'fail']);
+            ? response()->json(['result' => __($status)], ResponseAlias::HTTP_OK)
+            : response()->json(['result' => __($status)], ResponseAlias::HTTP_NOT_FOUND);
     }
 }
