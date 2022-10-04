@@ -31,7 +31,7 @@
                                     <div class="input-group" style="padding-bottom: 0.75em">
                                         <span class="input-group-addon"><i
                                                 class="glyphicon glyphicon-envelope color-blue"></i></span>
-                                        <input id="password " name="password " placeholder="New password"
+                                        <input id="password" name="password" placeholder="New password"
                                                class="form-control" type="password" required>
                                         @if ($errors->has('password'))
                                             <span class="text-danger">{{ $errors->first('password') }}</span>
@@ -40,7 +40,7 @@
                                     <div class="input-group">
                                         <span class="input-group-addon"><i
                                                 class="glyphicon glyphicon-envelope color-blue"></i></span>
-                                        <input id="password_confirmation " name="password_confirmation "
+                                        <input id="password_confirmation" name="password_confirmation"
                                                placeholder="Confirm new password" class="form-control" type="password"
                                                required>
                                         @if ($errors->has('password_confirmation'))
@@ -49,11 +49,9 @@
                                         @endif
                                     </div>
                                     <input name="token" type="hidden" value="{{$token}}">
-                                    @csrf
                                 </div>
                                 <div class="form-group">
-                                    <input name="recover-submit" class="btn btn-lg btn-primary btn-block"
-                                           value="Submit" type="submit">
+                                    <input class="btn btn-lg btn-primary btn-block" type="submit">
                                 </div>
                             </form>
 

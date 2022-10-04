@@ -25,8 +25,8 @@ class ChangePasswordRequest extends FormRequest
     public function rules()
     {
         return [
-            'old_password' => Password::default()->mixedCase(),
-            'new_password' => Password::default()->mixedCase()->rules('confirmed')
+            'old_password' => Password::min(8)->mixedCase(),
+            'new_password' => Password::min(8)->mixedCase()->rules('confirmed')
         ];
     }
 }

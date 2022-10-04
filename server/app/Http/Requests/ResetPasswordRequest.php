@@ -27,7 +27,7 @@ class ResetPasswordRequest extends FormRequest
         return [
             'token' => 'required|string',
             'email' => 'required|email',
-            'password' => Password::default()->mixedCase()->rules('confirmed'),
+            'password' => Password::min(8)->mixedCase()->rules('confirmed'),
         ];
     }
 }
