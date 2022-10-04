@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use Illuminate\Auth\Notifications\ResetPassword;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -23,6 +25,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+//        ResetPassword::createUrlUsing(function ($user, string $token) {
+//            return 'https://example.com/reset-password?token='.$token.'/'.$user->email;
+//        });
+        App::setLocale('vi');
     }
 }
