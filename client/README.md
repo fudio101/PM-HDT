@@ -1,4 +1,4 @@
-# for first time setup:
+# for the first time setup:
 
 On Terminal Client : npm install
 
