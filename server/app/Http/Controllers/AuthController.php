@@ -4,37 +4,28 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginRequest;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 class AuthController extends Controller
 {
-    /**
-     * Create a new AuthController instance.
-     *
-     * @return void
-     */
+
     public function __construct()
     {
         $this->middleware('auth:api', ['except' => ['login']]);
     }
 
-    /**
-     * Get a JWT via given credentials.
-     *
-     * @param  LoginRequest  $request
-     * @return JsonResponse
-     */
+
     public function login(LoginRequest $request)
     {
         $credentials = $request->all(['email', 'password']);
 
-        if (!$token = auth()->attempt($credentials)) {
-            return response()->json([
-                    'status' => false,
-                    'error' => 'Unauthorized'
-                ]
-                , ResponseAlias::HTTP_UNAUTHORIZED);
-        }
+
+        if (!$token = Auth::attempt($credentials)) return response()->json([
+                'status' => false,
+                'error' => 'Unauthorized'
+            ]
+            , ResponseAlias::HTTP_UNAUTHORIZED);
 
         return $this->respondWithToken($token);
     }

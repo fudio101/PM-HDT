@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/PM-HDT.iml" filepath="$PROJECT_DIR$/.idea/PM-HDT.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../ShopNNP/.idea/ShopNNP.iml" filepath="$PROJECT_DIR$/../ShopNNP/.idea/ShopNNP.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../tttn_be/.idea/tttn_be.iml" filepath="$PROJECT_DIR$/../tttn_be/.idea/tttn_be.iml" />
+    </modules>
+  </component>
+</project>
