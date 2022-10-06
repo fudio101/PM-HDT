@@ -52,18 +52,18 @@ class AuthorController extends Controller
     {
         $author = Author::query()->create($request->only(['name']));
 
-        return \response()->json(['data' => $author], ResponseAlias::HTTP_OK);
+        return \response()->json(['data' => $author], ResponseAlias::HTTP_CREATED);
     }
 
     /**
      * Display the specified resource.
      *
      * @param  Author  $author
-     * @return Response
+     * @return JsonResponse
      */
     public function show(Author $author)
     {
-        //
+        return \response()->json(['data' => $author], ResponseAlias::HTTP_OK);
     }
 
     /**
@@ -82,21 +82,32 @@ class AuthorController extends Controller
      *
      * @param  UpdateAuthorRequest  $request
      * @param  Author  $author
-     * @return Response
+     * @return JsonResponse
      */
     public function update(UpdateAuthorRequest $request, Author $author)
     {
-        //
+        $result = $author->update($request->only(['name']));
+        if ($result) {
+            return \response()->json(['message' => 'Successfully update'], ResponseAlias::HTTP_OK);
+        }
+
+        return \response()->json(['message' => 'Fail'], ResponseAlias::HTTP_NOT_FOUND);
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param  Author  $author
-     * @return Response
+     * @return JsonResponse
      */
     public function destroy(Author $author)
     {
-        //
+        $result = $author->delete();
+
+        if ($result) {
+            return \response()->json(['message' => 'Successfully delete'], ResponseAlias::HTTP_OK);
+        }
+
+        return \response()->json(['message' => 'Fail'], ResponseAlias::HTTP_NOT_FOUND);
     }
 }
