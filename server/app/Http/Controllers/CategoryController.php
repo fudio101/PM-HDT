@@ -67,8 +67,8 @@ class CategoryController extends Controller
     public function show(Category $category)
     {
         return response()->json([
-            'status' => true,
-            'category' => $category,
+            'status'=>true,
+            'category'=>$category,
         ]);
     }
 
@@ -79,9 +79,36 @@ class CategoryController extends Controller
      * @param Category $category
      * @return \Illuminate\Http\Response
      **/
+    public function update(Request $request, Category $category)
+    {
+        try {
+            $validated = $request->validate([
+                'name' => 'required|unique:categories|max:255',
+            ]);
+            $category->update($request->only(['name']));
+            return response()->json([
+                'status' => true,
+                'message' => 'Update successful category',
+            ]);
+
+        } catch (Throwable $err) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Update error category',
+                'error' => $err->getMessage(),
+            ]);
+        }
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param Category $category
+     * @return \Illuminate\Http\Response
+     **/
     public function destroy(Category $category)
     {
-        if ($category->delete()) {
+        if($category->delete()){
             return response()->json([
                 'status' => true,
                 'message' => 'Delete successful category',
