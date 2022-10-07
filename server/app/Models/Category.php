@@ -41,8 +41,6 @@ class Category extends Model
     {
         return Category::where('id',$id)->delete();
     }
-//    function comics(){
-//        return $this->hasMany(App\Models\Comics,,)
-//    }
+
 
 }

@@ -38,20 +38,20 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         try {
-            $validated=$request->validate([
-                'name'=> 'required|unique:categories|max:255',
+            $validated = $request->validate([
+                'name' => 'required|unique:categories|max:255',
             ]);
             $this->category->create($request->only(['name']));
             return response()->json([
-                'status'=>true,
-                'message'=>'Add successful category',
+                'status' => true,
+                'message' => 'Add successful category',
             ]);
 
         } catch (Throwable $err) {
             return response()->json([
-                'status'=>false,
-                'message'=>'Add error category',
-                'error'=>$err->getMessage(),
+                'status' => false,
+                'message' => 'Add error category',
+                'error' => $err->getMessage(),
             ]);
         }
     }
@@ -59,24 +59,15 @@ class CategoryController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param int $id
+     * @param Category $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Category $id)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-
+        return response()->json([
+            'status'=>true,
+            'category'=>$id,
+        ]);
     }
 
     /**
@@ -88,7 +79,31 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $category=$this->category->getCategory($id);
+        if($category==null){
+            return response()->json([
+                'status' => false,
+                'message' => 'Category dose not exit!',
+
+            ]);
+        }
+        try {
+            $validated = $request->validate([
+                'name' => 'required|unique:categories|max:255',
+            ]);
+            $category->update($request->only(['name']));
+            return response()->json([
+                'status' => true,
+                'message' => 'Update successful category',
+            ]);
+
+        } catch (Throwable $err) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Update error category',
+                'error' => $err->getMessage(),
+            ]);
+        }
     }
 
     /**
@@ -99,6 +114,17 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        //
+        if($this->category->deletes($id)){
+            return response()->json([
+                'status' => true,
+                'message' => 'Delete successful category',
+            ]);
+        }
+       return response()->json([
+
+               'status' => false,
+               'message' => 'Category does not exist',
+
+       ]);
     }
 }
