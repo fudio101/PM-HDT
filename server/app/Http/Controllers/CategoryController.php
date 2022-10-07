@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Throwable;
 
 class CategoryController extends Controller
@@ -13,7 +15,7 @@ class CategoryController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function __construct()
     {
@@ -31,7 +33,7 @@ class CategoryController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
      */
 
 
@@ -59,14 +61,14 @@ class CategoryController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param Category $id
-     * @return \Illuminate\Http\Response
+     * @param Category $category
+     * @return JsonResponse
      */
     public function show(Category $category)
     {
         return response()->json([
-            'status'=>true,
-            'category'=>$category,
+            'status' => true,
+            'category' => $category,
         ]);
     }
 
@@ -76,37 +78,10 @@ class CategoryController extends Controller
      * @param \Illuminate\Http\Request $request
      * @param Category $category
      * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Category $category)
-    {
-        try {
-            $validated = $request->validate([
-                'name' => 'required|unique:categories|max:255',
-            ]);
-            $category->update($request->only(['name']));
-            return response()->json([
-                'status' => true,
-                'message' => 'Update successful category',
-            ]);
-
-        } catch (Throwable $err) {
-            return response()->json([
-                'status' => false,
-                'message' => 'Update error category',
-                'error' => $err->getMessage(),
-            ]);
-        }
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param Category $category
-     * @return \Illuminate\Http\Response
-     */
+     **/
     public function destroy(Category $category)
     {
-        if($category->delete()){
+        if ($category->delete()) {
             return response()->json([
                 'status' => true,
                 'message' => 'Delete successful category',
