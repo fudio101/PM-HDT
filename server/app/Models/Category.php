@@ -20,6 +20,9 @@ class Category extends Model
         static::creating(function ($category) {
             $category->user_id = Auth::user()->id;
         });
+        static::updating(function ($category) {
+            $category->user_id = Auth::user()->id;
+        });
     }
     function getCategory($id)
     {

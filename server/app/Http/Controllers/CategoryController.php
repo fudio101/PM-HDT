@@ -62,11 +62,11 @@ class CategoryController extends Controller
      * @param Category $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Category $id)
+    public function show(Category $category)
     {
         return response()->json([
             'status'=>true,
-            'category'=>$id,
+            'category'=>$category,
         ]);
     }
 
@@ -74,19 +74,11 @@ class CategoryController extends Controller
      * Update the specified resource in storage.
      *
      * @param \Illuminate\Http\Request $request
-     * @param int $id
+     * @param Category $category
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Category $category)
     {
-        $category=$this->category->getCategory($id);
-        if($category==null){
-            return response()->json([
-                'status' => false,
-                'message' => 'Category dose not exit!',
-
-            ]);
-        }
         try {
             $validated = $request->validate([
                 'name' => 'required|unique:categories|max:255',
@@ -109,22 +101,17 @@ class CategoryController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param int $id
+     * @param Category $category
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Category $category)
     {
-        if($this->category->deletes($id)){
+        if($category->delete()){
             return response()->json([
                 'status' => true,
                 'message' => 'Delete successful category',
             ]);
         }
-       return response()->json([
 
-               'status' => false,
-               'message' => 'Category does not exist',
-
-       ]);
     }
 }
