@@ -59,11 +59,11 @@
             contentType: 'application/json; charset=utf-8',
             dataType: "json",
             success: function (data) {
-                console.log(data);
+                alert(data.message);
             },
             error: function (XMLHttpRequest, textStatus, errorThrown) {
-                var err = eval("(" + XMLHttpRequest.responseText + ")");
-                console.log(err.message);
+                const err = eval("(" + XMLHttpRequest.responseText + ")");
+                alert(err.message);
             }
         });
     });
