@@ -9,16 +9,16 @@ class Author extends Model
 {
     use HasFactory;
 
-    protected $table;
+    protected $table="authors";
 
     function getAuthor($id)
     {
-        Author::find($id);
+        return Author::find($id);
     }
 
     function getAll()
     {
-        Author::get();
+        return Author::get();
     }
     function comics(){
         return $this->hasMany('Comics::class','author_id','id');
