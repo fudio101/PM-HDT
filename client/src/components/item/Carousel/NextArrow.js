@@ -8,7 +8,8 @@ function NextArrow(props) {
       className={className}
       style={{
         ...style,
-        display: "block",
+        display: "flex",
+        justifyContent: "center",
         background: "rgb(231 231 231)",
         borderRadius: "10.9rem",
         height: "2.5rem",

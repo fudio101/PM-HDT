@@ -37,6 +37,9 @@ body {
   grid-gap: 0 40px;
 }
 
+.post_item {
+  margin-right: 20px;
+}
 .post_media {
   margin-bottom: 10px;
   display: block;
@@ -185,5 +188,3 @@ body {
     line-height: 1.3;
   }
 }
-
-/*# sourceMappingURL=styles.css.map */

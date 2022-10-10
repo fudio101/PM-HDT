@@ -2,42 +2,22 @@ import React from "react";
 import { Route, Routes } from "react-router-dom";
 
 import Layout from "./components/layouts/Layout";
-import Home from "./pages/HomePage";
+import HomePage from "./pages/HomePage";
+import SearchPage from "./pages/SearchPage";
+import CategoryPage from "./pages/CategoryPage";
 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import HomePage from "./pages/HomePage";
 
 function App() {
   return (
     <Layout>
       <Routes>
-        <Route
-          path="/"
-          element={
-            <div className="center">
-              <Home />
-            </div>
-          }
-        ></Route>
-
-        <Route
-          path="/home"
-          element={
-            <div className="center">
-              <Home />
-            </div>
-          }
-        ></Route>
-
-        <Route
-          path="*"
-          element={
-            <div className="center">
-              <HomePage />
-            </div>
-          }
-        ></Route>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/home" element={<HomePage />} />
+        <Route path="*" element={<HomePage />} />
+        <Route path="/cate/*" element={<SearchPage />} />
+        <Route path="/categories" element={<CategoryPage />} />
       </Routes>
     </Layout>
   );
