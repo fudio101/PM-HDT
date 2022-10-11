@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AuthorController;
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -31,3 +32,4 @@ Route::prefix('auth')->group(function () {
 });
 
 Route::resource('author', AuthorController::class)->only('index', 'store', 'show', 'update', 'destroy');
+Route::resource('user', UserController::class)->only('index', 'store', 'show', 'update', 'destroy');
