@@ -28,6 +28,6 @@ class AppServiceProvider extends ServiceProvider
 //        ResetPassword::createUrlUsing(function ($user, string $token) {
 //            return 'https://example.com/reset-password?token='.$token.'/'.$user->email;
 //        });
-        App::setLocale('vi');
+//        App::setLocale('vi');
     }
 }
