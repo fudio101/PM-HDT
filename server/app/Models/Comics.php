@@ -13,7 +13,7 @@ class Comics extends Model
 
     protected $table = 'comics';
     protected $fillable = ['name', 'user_id', 'author_id', 'description', 'published_date', 'like', 'view', 'status'];
-    protected $appends=['author_text'];
+    protected $appends = ['author_text'];
 
     protected static function booted()
     {
@@ -27,14 +27,15 @@ class Comics extends Model
         });
     }
 
-    public function author_text(): Attribute
+
+    public function authorText(): Attribute
     {
-
         return Attribute::make(
-            get: static fn($value, $attributes) => 'hahaha'
-        );
+            get: static fn($value, $attributes) => Author::find($attributes['author_id'])->name
 
+        );
     }
+
 
     function getComics($id)
     {

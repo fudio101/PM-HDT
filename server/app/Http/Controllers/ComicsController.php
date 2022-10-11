@@ -30,13 +30,9 @@ class ComicsController extends Controller
      */
     public function index()
     {
-        $newList=$this->comics->getAll()->map(function ($value,$index){
-            $value->author_id_text=$value->author->name;
-           return $value;
-        });
         return  response()->json([
             'status'=>true,
-            'list'=>$newList,
+            'list'=>$this->comics->getAll(),
         ]);
     }
 
@@ -107,12 +103,13 @@ class ComicsController extends Controller
                 'name' => 'required|max:255',
                 'published_date' => 'required',
                 'author_id' => 'required',
-                'category_id'=>'required',
+                'category_id'=>'required|array',
+                'category_id.*'=>'exists:categories,id',
             ]);
             $comics=$this->comics->update($request->only(['name','published_date','author_id','description','status']));
+
             foreach ($request->category_id as $value) {
                 $this->comics_category->update([
-                    'comic_id'=>$comics->id,
                     'category_id'=>$value,
                 ]);
             };
