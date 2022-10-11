@@ -12,7 +12,7 @@
 
 <body>
 <div id="wrapper">
-    <div id="login">
+    <div class="login" id="form">
         <h1 class="heading">New Password</h1>
         <input type="hidden" class="input" id="email" value="{{$email}}">
         <div class="group">
@@ -32,6 +32,10 @@
 
         <input name="token" type="hidden" id="token" value="{{$token}}">
         <input type="submit" value="Reset Password" class="submit">
+    </div>
+
+    <div class="login" id="complete" style="padding: 6rem 0 6rem 0; display: none">
+        <h1 class="heading" style="margin-bottom: 0">Reset password successfully</h1>
     </div>
 </div>
 
@@ -59,7 +63,8 @@
             contentType: 'application/json; charset=utf-8',
             dataType: "json",
             success: function (data) {
-                alert(data.message);
+                $('#form').hide();
+                $('#complete').show();
             },
             error: function (XMLHttpRequest, textStatus, errorThrown) {
                 const err = eval("(" + XMLHttpRequest.responseText + ")");
