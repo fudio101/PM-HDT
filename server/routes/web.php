@@ -19,5 +19,8 @@ Route::get('/', function () {
 });
 
 Route::get('reset-password/{token}', function ($token, Request $request) {
-    return view('auth.reset-password', ['token' => $token, 'email'=>$request->input('email')]);
+    return view('auth.reset-password', [
+        'token' => $token,
+        'email' => $request->input('email')
+    ]);
 })->middleware('guest')->name('password.reset');
