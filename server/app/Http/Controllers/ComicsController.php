@@ -30,9 +30,9 @@ class ComicsController extends Controller
      */
     public function index()
     {
-        return  response()->json([
-            'status'=>true,
-            'list'=>$this->comics->getAll(),
+        return response()->json([
+            'status' => true,
+            'list' => $this->comics->getAll(),
         ]);
     }
 
@@ -50,26 +50,26 @@ class ComicsController extends Controller
                 'name' => 'required|max:255',
                 'published_date' => 'required',
                 'author_id' => 'required',
-                'category_id'=>'required|array',
-                'category_id.*'=>'exists:categories,id',
+                'category_id' => 'required|array',
+                'category_id.*' => 'exists:categories,id',
 
             ]);
-            $comics=$this->comics->create($request->only(['name','published_date','author_id','description','status']));
+            $comics = $this->comics->create($request->only(['name', 'published_date', 'author_id', 'description', 'status']));
             foreach ($request->category_id as $value) {
                 $this->comics_category->create([
-                    'comic_id'=>$comics->id,
-                    'category_id'=>$value,
+                    'comic_id' => $comics->id,
+                    'category_id' => $value,
                 ]);
             };
             return response()->json([
-                'status'=>true,
-                'message'=>'Add success comics!',
-               ]);
+                'status' => true,
+                'message' => 'Add success comics!',
+            ]);
         } catch (Throwable $err) {
             return response()->json([
-                'status'=>false,
-                'message'=>'Add error comics!',
-                'error'=>$err->getMessage(),
+                'status' => false,
+                'message' => 'Add error comics!',
+                'error' => $err->getMessage(),
             ]);
         }
     }
@@ -82,10 +82,10 @@ class ComicsController extends Controller
      */
     public function show(Comics $comic)
     {
-       return response()->json([
-           'status'=>$comic->author_id_text,
-           'comics'=>$comic,
-       ]);
+        return response()->json([
+            'status' => $comic->author_id_text,
+            'comics' => $comic,
+        ]);
     }
 
 
@@ -103,26 +103,25 @@ class ComicsController extends Controller
                 'name' => 'required|max:255',
                 'published_date' => 'required',
                 'author_id' => 'required',
-                'category_id'=>'required|array',
-                'category_id.*'=>'exists:categories,id',
+                'category_id' => 'required|array',
+                'category_id.*' => 'exists:categories,id',
             ]);
-            $comics=$this->comics->update($request->only(['name','published_date','author_id','description','status']));
+            $comics = $this->comics->update($request->only(['name', 'published_date', 'author_id', 'description', 'status']));
+            $listComicsCategory = $this->comics_category->getAllComics($comics->id);
+            foreach ($listComicsCategory as $index=>$item){
 
-            foreach ($request->category_id as $value) {
-                $this->comics_category->update([
-                    'category_id'=>$value,
-                ]);
-            };
+            }
+
             return response()->json([
-                'status'=>true,
-                'message'=>'Add success comics!',
+                'status' => true,
+                'message' => 'Update success comics!',
 
             ]);
         } catch (Throwable $err) {
             return response()->json([
-                'status'=>false,
-                'message'=>'Add error comics!',
-                'error'=>$err->getMessage(),
+                'status' => false,
+                'message' => 'Update error comics!',
+                'error' => $err->getMessage(),
             ]);
         }
 
@@ -138,8 +137,8 @@ class ComicsController extends Controller
     {
         $comic->delete();
         return response()->json([
-            'status'=>true,
-        'message'=>'Delete success comics!'
+            'status' => true,
+            'message' => 'Delete success comics!'
         ]);
     }
 }
