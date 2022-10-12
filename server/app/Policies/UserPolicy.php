@@ -18,7 +18,9 @@ class UserPolicy
      */
     public function viewAny(User $user)
     {
-        return Response::allow();
+        return $user->role->id === 1
+            ? Response::allow()
+            : Response::deny('You not a admin.');
     }
 
     /**
@@ -30,7 +32,9 @@ class UserPolicy
      */
     public function view(User $user, User $model)
     {
-        return Response::allow();
+        return $user->role->id === 1 || $user->role === $model->role
+            ? Response::allow()
+            : Response::deny('Denied action');
     }
 
     /**
@@ -41,7 +45,7 @@ class UserPolicy
      */
     public function create(User $user)
     {
-        return $user->role()->id === 1
+        return $user->role->id === 1
             ? Response::allow()
             : Response::deny('You not a admin.');
     }
@@ -55,7 +59,7 @@ class UserPolicy
      */
     public function update(User $user, User $model)
     {
-        return $user->role()->id === 1
+        return $user->role->id === 1
             ? Response::allow()
             : Response::deny('You not a admin.');
     }
@@ -69,7 +73,7 @@ class UserPolicy
      */
     public function delete(User $user, User $model)
     {
-        return $user->role()->id === 1
+        return $user->role->id === 1
             ? Response::allow()
             : Response::deny('You not a admin.');
     }
@@ -83,7 +87,7 @@ class UserPolicy
      */
     public function restore(User $user, User $model)
     {
-        return $user->role()->id === 1
+        return $user->role->id === 1
             ? Response::allow()
             : Response::deny('You not a admin.');
     }
@@ -97,7 +101,7 @@ class UserPolicy
      */
     public function forceDelete(User $user, User $model)
     {
-        return $user->role()->id === 1
+        return $user->role->id === 1
             ? Response::allow()
             : Response::deny('You not a admin.');
     }
