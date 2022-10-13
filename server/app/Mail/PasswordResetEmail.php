@@ -24,7 +24,7 @@ class PasswordResetEmail extends Mailable
      * @return void
      * @throws Exception
      */
-    public function __construct(User $user)
+    public function __construct($user)
     {
         $date = new DateTime("now", new DateTimeZone('America/New_York'));
         $this->message = (new MailMessage)
