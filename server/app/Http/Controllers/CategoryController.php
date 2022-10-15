@@ -10,7 +10,7 @@ use Throwable;
 
 class CategoryController extends Controller
 {
-    protected $category;
+    protected Category $category;
 
     /**
      * Display a listing of the resource.
@@ -43,7 +43,7 @@ class CategoryController extends Controller
             $validated = $request->validate([
                 'name' => 'required|unique:categories|max:255',
             ]);
-            $this->category->create($request->only(['name']));
+            $this->category->create($validated);
             return response()->json([
                 'status' => true,
                 'message' => 'Add successful category',
@@ -85,7 +85,7 @@ class CategoryController extends Controller
             $validated = $request->validate([
                 'name' => 'required|unique:categories|max:255',
             ]);
-            $category->update($request->only(['name']));
+            $category->update($validated);
             return response()->json([
                 'status' => true,
                 'message' => 'Update successful category',
