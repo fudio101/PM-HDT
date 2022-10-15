@@ -5,9 +5,10 @@ namespace App\Listeners;
 use App\Mail\PasswordResetEmail;
 use Exception;
 use Illuminate\Auth\Events\PasswordReset;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\Mail;
 
-class SendPasswordResetEmail
+class SendPasswordResetEmail implements ShouldQueue
 {
     /**
      * Handle the event.

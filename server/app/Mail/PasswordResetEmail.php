@@ -29,7 +29,7 @@ class PasswordResetEmail extends Mailable
         $date = new DateTime("now", new DateTimeZone('America/New_York'));
         $this->message = (new MailMessage)
             ->greeting('Hello '.$user->name)
-            ->line('Your password have been change at '.$date->format('Y-m-d H:i:s').'.');
+            ->line('Your password have been reset at '.$date->format('Y-m-d H:i:s').'.');
     }
 
     /**
