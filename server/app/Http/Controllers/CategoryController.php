@@ -15,7 +15,7 @@ class CategoryController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return Response
+     * @return void
      */
     public function __construct()
     {
