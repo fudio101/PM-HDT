@@ -7,7 +7,7 @@ function SearchPage() {
   return (
     <>
       <FilterSearch />
-      <PaginatedItems itemsPerPage={3} />
+      <PaginatedItems itemsPerPage={4} />
     </>
   );
 }

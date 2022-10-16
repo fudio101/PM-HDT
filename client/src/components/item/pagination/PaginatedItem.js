@@ -35,6 +35,12 @@ const items = [
   <DocumentItem />,
   <DocumentItem />,
   <DocumentItem />,
+  <DocumentItem />,
+  <DocumentItem />,
+  <DocumentItem />,
+  <DocumentItem />,
+  <DocumentItem />,
+  <DocumentItem />,
 ];
 
 function PaginatedItems({ itemsPerPage }) {
@@ -57,9 +63,9 @@ function PaginatedItems({ itemsPerPage }) {
   // Invoke when user click to request another page.
   const handlePageClick = (event) => {
     const newOffset = (event.selected * itemsPerPage) % items.length;
-    console.log(
-      `User requested page number (event.selected) ${event.selected}, which is offset (newOffset) ${newOffset}`
-    );
+    // console.log(
+    //   `User requested page number (event.selected) ${event.selected}, which is offset (newOffset) ${newOffset}`
+    // );
     setItemOffset(newOffset);
   };
 

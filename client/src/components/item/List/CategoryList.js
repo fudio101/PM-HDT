@@ -4,7 +4,6 @@ import Slider from "react-slick";
 import DocumentItem from "../DocumentItem";
 import NextArrow from "../Carousel/NextArrow";
 import PrevArrow from "../Carousel/PrevArrow";
-import SlideBar from "../Carousel/SlideBar";
 import classes from "./CategoryList.module.css";
 
 function CategoryList() {
@@ -45,7 +44,7 @@ function CategoryList() {
     <div className={classes.container}>
       <div className={classes.homepage_tags}>
         <h1>
-          <i>Computer Science</i>
+          <i>Category-Name</i>
         </h1>
         <div className={classes.clear}></div>
       </div>
