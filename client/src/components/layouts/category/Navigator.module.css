@@ -1,0 +1,40 @@
+.navigator {
+  width: 100%;
+  height: 3.5rem;
+  background-color: #363636;
+  padding: 0 10%;
+}
+
+.navigator nav {
+  height: 100%;
+}
+
+.navigator ul {
+  height: 100%;
+  list-style: none;
+  display: flex;
+  padding: 0;
+  margin: 0;
+  align-items: center;
+  justify-content: center;
+}
+
+.navigator li {
+  height: 100%;
+  margin: 0 1rem;
+  width: 5rem;
+  line-height: 3.5rem;
+}
+
+.navigator a {
+  color: white;
+  text-decoration: none;
+}
+
+.navigator a:hover,
+.navigator a:active,
+.navigator a.active {
+  color: #95bcf0;
+  padding-bottom: 0.25rem;
+  border-bottom: 4px solid #95bcf0;
+}
