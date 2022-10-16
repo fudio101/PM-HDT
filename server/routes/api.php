@@ -30,4 +30,4 @@ Route::prefix('auth')->group(function () {
     Route::post('reset-password', [AuthController::class, 'resetPassword'])->name('password.update');
 });
 
-Route::resource('author', AuthorController::class)->only('index', 'store', 'show', 'update', 'destroy');
+Route::apiResource('authors', AuthorController::class);
