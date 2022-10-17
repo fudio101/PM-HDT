@@ -13,7 +13,7 @@ class Comics extends Model
 
     protected $table = 'comics';
     protected $fillable = ['name', 'user_id', 'author_id', 'description', 'published_date', 'like', 'view', 'status'];
-    protected $appends = ['author_text'];
+    protected $appends = ['author_name', 'user_name', 'category_name'];
 
     protected static function booted()
     {
@@ -28,7 +28,7 @@ class Comics extends Model
     }
 
 
-    public function authorText(): Attribute
+    public function authorName(): Attribute
     {
         return Attribute::make(
             get: static fn($value, $attributes) => Author::find($attributes['author_id'])->name
@@ -36,6 +36,29 @@ class Comics extends Model
         );
     }
 
+    public function userName(): Attribute
+    {
+        return Attribute::make(
+            get: static fn($value, $attributes) => User::find($attributes['user_id'])->name
+        );
+    }
+
+    static public function getNameCategory($attributes)
+    {
+        $listCategoryname = [];
+        $list = ComicsCategory::getAllComics($attributes['id']);
+        foreach ($list as $value) {
+            $listCategoryname[] = Category::find($value->category_id)->name;
+        }
+        return $listCategoryname;
+    }
+
+    public function categoryName(): Attribute
+    {
+        return Attribute::make(
+            get: static fn($value, $attributes) => Comics::getNameCategory($attributes)
+        );
+    }
 
     function getComics($id)
     {
@@ -71,4 +94,5 @@ class Comics extends Model
     {
         return $this->belongsToMany(Category::class, 'comic_category', 'comic_id', 'category_id');
     }
+
 }

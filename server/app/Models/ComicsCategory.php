@@ -12,8 +12,11 @@ class ComicsCategory extends Model
     protected $fillable = ['comic_id','category_id'];
 
 
-    function getAllComics($comics_id){
+    static function getAllComics($comics_id){
         return ComicsCategory::where('comic_id',$comics_id)->get();
+    }
+    function deletes($comics_id){
+        return ComicsCategory::where('comic_id',$comics_id)->delete();
     }
 
 }

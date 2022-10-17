@@ -106,11 +106,14 @@ class ComicsController extends Controller
                 'category_id' => 'required|array',
                 'category_id.*' => 'exists:categories,id',
             ]);
-            $comics = $this->comics->update($request->only(['name', 'published_date', 'author_id', 'description', 'status']));
-            $listComicsCategory = $this->comics_category->getAllComics($comics->id);
-            foreach ($listComicsCategory as $index=>$item){
-
-            }
+            $comic->update($request->only(['name', 'published_date', 'author_id', 'description', 'status']));
+            $this->comics_category->deletes($comic->id);
+            foreach ($request->category_id as $value) {
+                $this->comics_category->create([
+                    'comic_id' => $comic->id,
+                    'category_id' => $value,
+                ]);
+            };
 
             return response()->json([
                 'status' => true,
