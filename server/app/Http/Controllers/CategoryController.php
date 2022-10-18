@@ -10,12 +10,12 @@ use Throwable;
 
 class CategoryController extends Controller
 {
-    protected $category;
+    protected Category $category;
 
     /**
      * Display a listing of the resource.
      *
-     * @return Response
+     * @return void
      */
     public function __construct()
     {
@@ -43,7 +43,7 @@ class CategoryController extends Controller
             $validated = $request->validate([
                 'name' => 'required|unique:categories|max:255',
             ]);
-            $this->category->create($request->only(['name']));
+            $this->category->create($validated);
             return response()->json([
                 'status' => true,
                 'message' => 'Add successful category',
@@ -75,9 +75,9 @@ class CategoryController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param  Request  $request
      * @param Category $category
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
      **/
     public function update(Request $request, Category $category)
     {
@@ -85,7 +85,7 @@ class CategoryController extends Controller
             $validated = $request->validate([
                 'name' => 'required|unique:categories|max:255',
             ]);
-            $category->update($request->only(['name']));
+            $category->update($validated);
             return response()->json([
                 'status' => true,
                 'message' => 'Update successful category',
@@ -104,7 +104,7 @@ class CategoryController extends Controller
      * Remove the specified resource from storage.
      *
      * @param Category $category
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
      **/
     public function destroy(Category $category)
     {
