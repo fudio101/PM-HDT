@@ -144,4 +144,20 @@ class ComicsController extends Controller
             'message' => 'Delete success comics!'
         ]);
     }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param Comics $comic
+     * @return \Illuminate\Http\Response
+     */
+    public function showId(Category $category)
+    {
+        return response()->json([
+            'status' => true,
+            'data' => $category->comics,
+
+        ]);
+    }
+
 }

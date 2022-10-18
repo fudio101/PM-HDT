@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class ComicsCategory extends Model
 {
-    use HasFactory;
+    use HasFactory,SoftDeletes;
     protected $table="comic_category";
     protected $fillable = ['comic_id','category_id'];
 

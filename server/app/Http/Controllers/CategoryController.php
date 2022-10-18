@@ -88,13 +88,13 @@ class CategoryController extends Controller
             $category->update($validated);
             return response()->json([
                 'status' => true,
-                'message' => 'Update successful category',
+                'message' => 'Update successful category!',
             ]);
 
         } catch (Throwable $err) {
             return response()->json([
                 'status' => false,
-                'message' => 'Update error category',
+                'message' => 'Update error category!',
                 'error' => $err->getMessage(),
             ]);
         }
@@ -108,12 +108,22 @@ class CategoryController extends Controller
      **/
     public function destroy(Category $category)
     {
-        if($category->delete()){
+        $listComics=$category->comics;
+        if(count($listComics)>=1){
             return response()->json([
-                'status' => true,
-                'message' => 'Delete successful category',
+                'status' => false,
+                'message' => 'The category contains comics that cannot be deleted!',
             ]);
+        }else{
+            if($category->delete()){
+                return response()->json([
+                    'status' => true,
+                    'message' => 'Delete successful category!',
+                ]);
+            }
+
         }
+
 
     }
 }

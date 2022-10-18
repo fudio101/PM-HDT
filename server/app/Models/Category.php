@@ -4,11 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
 
 class Category extends Model
 {
-    use HasFactory;
+    use HasFactory,SoftDeletes;
 
     protected $table = 'categories';
     protected $fillable = ['name','user_id'];
@@ -43,6 +44,10 @@ class Category extends Model
     function deletes($id)
     {
         return Category::where('id',$id)->delete();
+    }
+    function comics()
+    {
+        return $this->belongsToMany(Comics::class, 'comic_category', 'category_id', 'comic_id');
     }
 
 
