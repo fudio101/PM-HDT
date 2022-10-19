@@ -138,17 +138,21 @@ class ComicsController extends Controller
      */
     public function destroy(Comics $comic)
     {
-        $comic->delete();
+//       $comic->delete();
+//        return response()->json([
+//            'status' => true,
+//            'message' => 'Delete success comics!'
+//        ]);
         return response()->json([
-            'status' => true,
-            'message' => 'Delete success comics!'
+
+            'message' => $comic->category,
         ]);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param Comics $comic
+     * @param Category $category
      * @return \Illuminate\Http\Response
      */
     public function showId(Category $category)

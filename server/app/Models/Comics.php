@@ -93,7 +93,7 @@ class Comics extends Model
 
     function category()
     {
-        return $this->belongsToMany(Category::class, 'comic_category', 'comic_id', 'category_id');
+        return $this->belongsToMany(Category::class, 'comic_category', 'category_id', 'comic_id');
     }
 
 }
