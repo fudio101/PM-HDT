@@ -5,6 +5,8 @@ use App\Http\Controllers\AuthorController;
 use App\Http\Controllers\ComicEpisodeController;
 use App\Http\Controllers\EpisodeImageController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ComicsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -35,5 +37,8 @@ Route::prefix('auth')->group(function () {
 
 Route::apiResource('users', UserController::class);
 Route::apiResource('authors', AuthorController::class);
+Route::apiResource('categories',CategoryController::class);
+Route::apiResource('comics',ComicsController::class);
+Route::get('comics/categories/{category}',[ComicsController::class,'showCategory']);
 Route::apiResource('comic-episodes', ComicEpisodeController::class);
 Route::apiResource('episode-images', EpisodeImageController::class);
