@@ -13,7 +13,7 @@ class StoreComicEpisodeRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,9 @@ class StoreComicEpisodeRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'comic_id'=>'required|integer|exists:comics,id',
+            'episode_number'=>'required|integer|gt:0|unique:comic_episodes,episode_number',
+            'published_date'=>'required|date',
         ];
     }
 }

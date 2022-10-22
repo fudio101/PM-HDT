@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateComicEpisodeRequest extends FormRequest
 {
@@ -13,7 +14,7 @@ class UpdateComicEpisodeRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +25,14 @@ class UpdateComicEpisodeRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'comic_id' => 'required|integer|exists:comics,id',
+            'episode_number' => [
+                'required',
+                'integer',
+                'gt:0',
+                Rule::unique('comic_episodes', 'episode_number')->ignore($this->route('comic_episode')->id),
+            ],
+            'published_date' => 'required|date',
         ];
     }
 }
