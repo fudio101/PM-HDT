@@ -37,8 +37,9 @@ Route::prefix('auth')->group(function () {
 
 Route::apiResource('users', UserController::class);
 Route::apiResource('authors', AuthorController::class);
-Route::apiResource('categories',CategoryController::class);
-Route::apiResource('comics',ComicsController::class);
-Route::get('comics/categories/{category}',[ComicsController::class,'showCategory']);
+Route::apiResource('categories', CategoryController::class);
+Route::apiResource('comics', ComicsController::class);
+Route::get('comics/categories/{category}', [ComicsController::class, 'showCategory']);
 Route::apiResource('comic-episodes', ComicEpisodeController::class);
+Route::get('comic-episodes/images/{comicEpisode}', [ComicEpisodeController::class, 'getImages']);
 Route::apiResource('episode-images', EpisodeImageController::class);

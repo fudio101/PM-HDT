@@ -18,7 +18,7 @@ class ComicEpisodeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['index']]);
+        $this->middleware('auth:api', ['except' => ['index', 'getImages']]);
     }
 
     /**
@@ -111,5 +111,12 @@ class ComicEpisodeController extends Controller
         }
 
         return \response()->json(['message' => 'Fail'], ResponseAlias::HTTP_NOT_FOUND);
+    }
+
+    public function getImages(ComicEpisode $comicEpisode)
+    {
+        $images = $comicEpisode->episodeImages;
+
+        return \response()->json(['data' => $images], ResponseAlias::HTTP_OK);
     }
 }
