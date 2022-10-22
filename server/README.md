@@ -22,3 +22,7 @@ Configure database and run:
 php artisan migrate
 php artisan db:seed
 ```
+To use queue, run:
+```
+php artisan queue:work
+```

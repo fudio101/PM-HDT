@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\PasswordChanged;
 use App\Http\Requests\ChangePasswordRequest;
 use App\Http\Requests\ForgotPasswordRequest;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\ResetPasswordRequest;
 use App\Models\User;
+use Exception;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
@@ -105,31 +107,41 @@ class AuthController extends Controller
      */
     public function changePassword(ChangePasswordRequest $request)
     {
-        #Match The Old Password
-        if (!Hash::check($request->input('old_password'), Auth::user()->password)) {
+        try {
+            #Match The Old Password
+            if (!Hash::check($request->input('old_password'), Auth::user()->password)) {
+
+                return response()->json([
+                        'message' => 'Wrong old password'
+                    ]
+                    , ResponseAlias::HTTP_UNAUTHORIZED);
+            }
+
+            if ($request->input('new_password') === $request->input('old_password')) {
+
+                return response()->json([
+                        'message' => 'The new password must not be the same as the old password'
+                    ]
+                    , ResponseAlias::HTTP_CONFLICT);
+            }
+
+            #Update the new Password
+            $user = User::query()->find(Auth::user()->id);
+
+            $user->update([
+                'password' => Hash::make($request->input('new_password'))
+            ]);
+
+            event(new PasswordChanged($user));
 
             return response()->json([
-                    'message' => 'Wrong old password'
-                ]
-                , ResponseAlias::HTTP_UNAUTHORIZED);
-        }
-
-        if ($request->input('new_password') === $request->input('old_password')) {
-
+                'message' => 'Password changed successfully!',
+            ], ResponseAlias::HTTP_OK);
+        } catch (Exception $exception) {
             return response()->json([
-                    'message' => 'The new password must not be the same as the old password'
-                ]
-                , ResponseAlias::HTTP_CONFLICT);
+                'message' => $exception->getMessage(),
+            ], ResponseAlias::HTTP_OK);
         }
-
-        #Update the new Password
-        User::query()->where('id', Auth::user()->id)->update([
-            'password' => Hash::make($request->input('new_password'))
-        ]);
-
-        return response()->json([
-            'message' => 'Password changed successfully!',
-        ], ResponseAlias::HTTP_OK);
     }
 
     /**
