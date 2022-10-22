@@ -5,10 +5,11 @@ namespace App\Models;
 use App\Http\Traits\AddUser;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class ComicEpisode extends Model
 {
-    use HasFactory, AddUser;
+    use HasFactory, AddUser, SoftDeletes;
 
     protected $fillable = [
         'comic_id',
