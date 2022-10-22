@@ -25,29 +25,10 @@ class Category extends Model
             $category->user_id = Auth::user()->id;
         });
     }
-    function getCategory($id)
-    {
-        return Category::find($id);
-    }
-    function getAll()
-    {
-        return Category::get();
-    }
-    function getActive()
-    {
-        return Category::where('status',1)->get();
-    }
-    function getStop()
-    {
-        return Category::where('status',0)->get();
-    }
-    function deletes($id)
-    {
-        return Category::where('id',$id)->delete();
-    }
+
     function comics()
     {
-        return $this->belongsToMany(Comics::class, 'comic_category', 'comic_id', 'category_id');
+        return $this->belongsToMany(Comics::class, 'comic_category', 'category_id', 'comic_id');
     }
 
 

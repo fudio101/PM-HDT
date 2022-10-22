@@ -30,4 +30,4 @@ Route::middleware('api')->prefix('auth')->group(function (){
 Route::resource('category',CategoryController::class)->only(['index','store','show','update','destroy']);
 
 Route::resource('comics',ComicsController::class)->only(['index','store','show','update','destroy']);
-Route::get('comics/category/{category}',[ComicsController::class,'showId']);
+Route::get('comics/category/{category}',[ComicsController::class,'showCategory']);

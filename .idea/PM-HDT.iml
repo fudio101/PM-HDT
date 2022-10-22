@@ -13,5 +13,6 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="De3" />
     <orderEntry type="module" module-name="Lession2" />
+    <orderEntry type="module" module-name="Test" />
   </component>
 </module>

@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 
 class Comics extends Model
 {
-    use HasFactory,SoftDeletes;
+    use HasFactory, SoftDeletes;
 
     protected $table = 'comics';
     protected $fillable = ['name', 'user_id', 'author_id', 'description', 'published_date', 'like', 'view', 'status'];
@@ -44,46 +44,28 @@ class Comics extends Model
         );
     }
 
-    static public function getNameCategory($attributes)
-    {
-        $listCategoryname = [];
-        $list = ComicsCategory::getAllComics($attributes['id']);
-        foreach ($list as $value) {
-            $listCategoryname[] = Category::find($value->category_id)->name;
-        }
-        return $listCategoryname;
-    }
-
     public function categoryName(): Attribute
     {
         return Attribute::make(
-            get: static fn($value, $attributes) => Comics::getNameCategory($attributes)
+            get: static function ($value, $attributes) {
+                $listCategoryname = [];
+                $list = ComicsCategory::getAllComics($attributes['id']);
+                foreach ($list as $value) {
+                    $listCategoryname[] = Category::find($value->category_id)->name;
+                }
+                return $listCategoryname;
+            }
         );
     }
 
-    function getComics($id)
-    {
-        return Comics::find($id);
-    }
-
-    function getAll()
-    {
-        return Comics::get();
-    }
-
-    function getActive($id)
+    static function getActive($id)
     {
         return Comics::where('status', 1)->get();
     }
 
-    function getStop($id)
+    static function getStop($id)
     {
         return Comics::where('status', 0)->get();
-    }
-
-    function deletes($id)
-    {
-        return Comics::where('id', $id)->delete();
     }
 
     function author()
@@ -93,7 +75,7 @@ class Comics extends Model
 
     function category()
     {
-        return $this->belongsToMany(Category::class, 'comic_category', 'category_id', 'comic_id');
+        return $this->belongsToMany(Category::class, 'comic_category', 'comic_id', 'category_id');
     }
 
 }

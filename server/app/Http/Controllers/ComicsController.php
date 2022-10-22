@@ -6,7 +6,10 @@ use App\Models\Author;
 use App\Models\Category;
 use App\Models\Comics;
 use App\Models\ComicsCategory;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Throwable;
 
 class ComicsController extends Controller
 {
@@ -26,12 +29,11 @@ class ComicsController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
      */
     public function index()
     {
         return response()->json([
-            'status' => true,
             'list' => $this->comics->getAll(),
         ]);
     }
@@ -40,8 +42,8 @@ class ComicsController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return JsonResponse
      */
     public function store(Request $request)
     {
@@ -49,9 +51,9 @@ class ComicsController extends Controller
             $validated = $request->validate([
                 'name' => 'required|max:255',
                 'published_date' => 'required',
-                'author_id' => 'required',
+                'author_id' => 'required|exists:authors,id,deleted_at,NULL',
                 'category_id' => 'required|array',
-                'category_id.*' => 'exists:categories,id',
+                'category_id.*' => 'exists:categories,id,deleted_at,NULL',
 
             ]);
             $comics = $this->comics->create($request->only(['name', 'published_date', 'author_id', 'description', 'status']));
@@ -62,28 +64,26 @@ class ComicsController extends Controller
                 ]);
             };
             return response()->json([
-                'status' => true,
                 'message' => 'Add success comics!',
+                'comics'=> $comics
             ]);
         } catch (Throwable $err) {
             return response()->json([
-                'status' => false,
                 'message' => 'Add error comics!',
                 'error' => $err->getMessage(),
-            ]);
+            ],Response::HTTP_BAD_REQUEST);
         }
     }
 
     /**
      * Display the specified resource.
      *
-     * @param Comics $id
-     * @return \Illuminate\Http\Response
+     * @param Comics $comic
+     * @return JsonResponse
      */
     public function show(Comics $comic)
     {
         return response()->json([
-            'status' => $comic->author_id_text,
             'comics' => $comic,
         ]);
     }
@@ -92,7 +92,7 @@ class ComicsController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      * @param Comics $comic
      * @return \Illuminate\Http\Response
      */
@@ -102,9 +102,9 @@ class ComicsController extends Controller
             $validated = $request->validate([
                 'name' => 'required|max:255',
                 'published_date' => 'required',
-                'author_id' => 'required',
+                'author_id' =>'required|exists:authors,id,deleted_at,NULL',
                 'category_id' => 'required|array',
-                'category_id.*' => 'exists:categories,id',
+                'category_id.*' => 'exists:categories,id,deleted_at,NULL',
             ]);
             $comic->update($request->only(['name', 'published_date', 'author_id', 'description', 'status']));
             $this->comics_category->deletes($comic->id);
@@ -116,13 +116,11 @@ class ComicsController extends Controller
             };
 
             return response()->json([
-                'status' => true,
                 'message' => 'Update success comics!',
 
             ]);
         } catch (Throwable $err) {
             return response()->json([
-                'status' => false,
                 'message' => 'Update error comics!',
                 'error' => $err->getMessage(),
             ]);
@@ -144,7 +142,6 @@ class ComicsController extends Controller
 //            'message' => 'Delete success comics!'
 //        ]);
         return response()->json([
-
             'message' => $comic->category,
         ]);
     }
@@ -155,10 +152,9 @@ class ComicsController extends Controller
      * @param Category $category
      * @return \Illuminate\Http\Response
      */
-    public function showId(Category $category)
+    public function showCategory(Category $category)
     {
         return response()->json([
-            'status' => true,
             'data' => $category->comics,
 
         ]);
