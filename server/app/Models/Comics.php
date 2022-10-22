@@ -14,7 +14,7 @@ class Comics extends Model
 
     protected $table = 'comics';
     protected $fillable = ['name', 'user_id', 'author_id', 'description', 'published_date', 'like', 'view', 'status'];
-    protected $appends = ['author_name', 'user_name', 'category_name'];
+    protected $appends = ['author_name', 'user_name', 'category_names'];
 
     protected static function booted()
     {
@@ -44,16 +44,16 @@ class Comics extends Model
         );
     }
 
-    public function categoryName(): Attribute
+    public function categoryNames(): Attribute
     {
         return Attribute::make(
             get: static function ($value, $attributes) {
-                $listCategoryname = [];
-                $list = ComicsCategory::getAllComics($attributes['id']);
-                foreach ($list as $value) {
-                    $listCategoryname[] = Category::find($value->category_id)->name;
+                $categoryNames = [];
+                $categories = ComicsCategory::getByComic($attributes['id']);
+                foreach ($categories as $category) {
+                    $categoryNames[] = Category::find($category->category_id)->name;
                 }
-                return $listCategoryname;
+                return $categoryNames;
             }
         );
     }

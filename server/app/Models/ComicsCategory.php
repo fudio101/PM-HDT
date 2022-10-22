@@ -14,9 +14,9 @@ class ComicsCategory extends Model
     protected $fillable = ['comic_id', 'category_id'];
 
 
-    static function getAllComics($comics_id)
+    static function getByComic($comic_id)
     {
-        return self::where('comic_id', $comics_id)->get();
+        return self::where('comic_id', $comic_id)->get();
     }
 
     static function deletes($comics_id)

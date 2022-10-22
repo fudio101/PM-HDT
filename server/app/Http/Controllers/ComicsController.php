@@ -9,19 +9,14 @@ use App\Models\ComicsCategory;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 use Throwable;
 
 class ComicsController extends Controller
 {
-    protected $comics;
-    protected $category;
-    protected $author;
 
     public function __construct()
     {
-        $this->category = new Category;
-        $this->comics = new Comics;
-        $this->author = new Author;
     }
 
     /**
@@ -32,7 +27,7 @@ class ComicsController extends Controller
     public function index()
     {
         return response()->json([
-            'list' => Comics::all(),
+            'data' => Comics::all(),
         ]);
     }
 
@@ -54,7 +49,7 @@ class ComicsController extends Controller
                 'category_id.*' => 'exists:categories,id,deleted_at,NULL',
 
             ]);
-            $comics = $this->comics->create($request->only([
+            $comics = Comics::create($request->only([
                 'name', 'published_date', 'author_id', 'description', 'status'
             ]));
             foreach ($request->category_id as $value) {
@@ -65,13 +60,12 @@ class ComicsController extends Controller
             };
             return response()->json([
                 'message' => 'Add success comics!',
-                'comics' => $comics
+                'data' => $comics
             ]);
         } catch (Throwable $err) {
             return response()->json([
-                'message' => 'Add error comics!',
-                'error' => $err->getMessage(),
-            ], Response::HTTP_BAD_REQUEST);
+                'message' => $err->getMessage(),
+            ], ResponseAlias::HTTP_BAD_REQUEST);
         }
     }
 
@@ -84,7 +78,7 @@ class ComicsController extends Controller
     public function show(Comics $comic)
     {
         return response()->json([
-            'comics' => $comic,
+            'data' => $comic,
         ]);
     }
 
@@ -121,8 +115,7 @@ class ComicsController extends Controller
             ]);
         } catch (Throwable $err) {
             return response()->json([
-                'message' => 'Update error comics!',
-                'error' => $err->getMessage(),
+                'message' => $err->getMessage(),
             ]);
         }
 
@@ -138,9 +131,8 @@ class ComicsController extends Controller
     {
         $comic->delete();
         return response()->json([
-            'status' => true,
             'message' => 'Delete success comics!'
-        ]);
+        ], ResponseAlias::HTTP_OK);
     }
 
     /**
@@ -153,8 +145,7 @@ class ComicsController extends Controller
     {
         return response()->json([
             'data' => $category->comics,
-
-        ]);
+        ], ResponseAlias::HTTP_OK);
     }
 
 }

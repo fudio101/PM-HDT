@@ -27,7 +27,7 @@ Route::middleware('api')->prefix('auth')->group(function (){
     Route::post('refresh', [AuthController::class, 'refresh']);
     Route::post('me', [AuthController::class, 'me']);
 });
-Route::resource('category',CategoryController::class)->only(['index','store','show','update','destroy']);
+Route::resource('categories',CategoryController::class)->only(['index','store','show','update','destroy']);
 
 Route::resource('comics',ComicsController::class)->only(['index','store','show','update','destroy']);
-Route::get('comics/category/{category}',[ComicsController::class,'showCategory']);
+Route::get('comics/categories/{category}',[ComicsController::class,'showCategory']);

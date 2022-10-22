@@ -6,11 +6,11 @@ use App\Models\Category;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 use Throwable;
 
 class CategoryController extends Controller
 {
-    protected Category $category;
 
     /**
      * Display a listing of the resource.
@@ -19,15 +19,13 @@ class CategoryController extends Controller
      */
     public function __construct()
     {
-        $this->category = new Category;
     }
 
     public function index()
     {
         return response()->json([
-            'status' => true,
-            'list' => $this->category->getAll()
-        ]);
+            'data' => Category::all()
+        ], ResponseAlias::HTTP_OK);
     }
 
     /**
@@ -43,40 +41,36 @@ class CategoryController extends Controller
             $validated = $request->validate([
                 'name' => 'required|unique:categories|max:255',
             ]);
-            $this->category->create($validated);
+            Category::create($validated);
             return response()->json([
-                'status' => true,
                 'message' => 'Add successful category',
-            ]);
+            ], ResponseAlias::HTTP_CREATED);
 
         } catch (Throwable $err) {
             return response()->json([
-                'status' => false,
-                'message' => 'Add error category',
-                'error' => $err->getMessage(),
-            ]);
+                'message' => $err->getMessage(),
+            ], ResponseAlias::HTTP_BAD_REQUEST);
         }
     }
 
     /**
      * Display the specified resource.
      *
-     * @param Category $category
+     * @param  Category  $category
      * @return JsonResponse
      */
     public function show(Category $category)
     {
         return response()->json([
-            'status'=>true,
-            'category'=>$category,
-        ]);
+            'data' => $category,
+        ], ResponseAlias:: HTTP_OK);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  Request  $request
-     * @param Category $category
+     * @param  Category  $category
      * @return JsonResponse
      **/
     public function update(Request $request, Category $category)
@@ -87,43 +81,40 @@ class CategoryController extends Controller
             ]);
             $category->update($validated);
             return response()->json([
-                'status' => true,
                 'message' => 'Update successful category!',
-            ]);
+            ], ResponseAlias::HTTP_OK);
 
         } catch (Throwable $err) {
             return response()->json([
-                'status' => false,
-                'message' => 'Update error category!',
-                'error' => $err->getMessage(),
-            ]);
+                'message' => $err->getMessage(),
+            ], ResponseAlias::HTTP_BAD_REQUEST);
         }
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param Category $category
+     * @param  Category  $category
      * @return JsonResponse
      **/
     public function destroy(Category $category)
     {
-        $listComics=$category->comics;
-        if(count($listComics)>=1){
-            return response()->json([
-                'status' => false,
-                'message' => 'The category contains comics that cannot be deleted!',
-            ]);
-        }else{
-            if($category->delete()){
-                return response()->json([
-                    'status' => true,
-                    'message' => 'Delete successful category!',
-                ]);
-            }
+        $listComics = $category->comics;
 
+        if (count($listComics) >= 1) {
+            return response()->json([
+                'message' => 'The category contains comics that cannot be deleted!',
+            ], ResponseAlias::HTTP_BAD_REQUEST);
         }
 
+        if ($category->delete()) {
+            return response()->json([
+                'message' => 'Delete successful category!',
+            ], ResponseAlias::HTTP_OK);
+        }
 
+        return response()->json([
+            'message' => 'Get error when delete category!',
+        ], ResponseAlias::HTTP_BAD_REQUEST);
     }
 }
