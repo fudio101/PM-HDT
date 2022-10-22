@@ -13,7 +13,7 @@ class UpdateEpisodeImageRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,8 @@ class UpdateEpisodeImageRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'comic_episode_id' => 'required|exists:comic_episodes,id',
+            'image' => 'required|image',
         ];
     }
 }

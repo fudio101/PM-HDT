@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AuthorController;
 use App\Http\Controllers\ComicEpisodeController;
+use App\Http\Controllers\EpisodeImageController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -35,3 +36,4 @@ Route::prefix('auth')->group(function () {
 Route::apiResource('users', UserController::class);
 Route::apiResource('authors', AuthorController::class);
 Route::apiResource('comic-episodes', ComicEpisodeController::class);
+Route::apiResource('episode-images', EpisodeImageController::class);
