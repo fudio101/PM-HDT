@@ -35,16 +35,6 @@ class EpisodeImageController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  StoreEpisodeImageRequest  $request
@@ -86,50 +76,5 @@ class EpisodeImageController extends Controller
     public function show(EpisodeImage $episodeImage)
     {
         return \response()->json(['data' => $episodeImage], ResponseAlias::HTTP_OK);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  EpisodeImage  $episodeImage
-     * @return Response
-     */
-    public function edit(EpisodeImage $episodeImage)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  UpdateEpisodeImageRequest  $request
-     * @param  EpisodeImage  $episodeImage
-     * @return JsonResponse
-     */
-    public function update(UpdateEpisodeImageRequest $request, EpisodeImage $episodeImage)
-    {
-        $result = $episodeImage->update($request->only(['comic_episode_id', 'image']));
-        if ($result) {
-            return \response()->json(['message' => 'Successfully update'], ResponseAlias::HTTP_OK);
-        }
-
-        return \response()->json(['message' => 'Fail'], ResponseAlias::HTTP_NOT_FOUND);
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  EpisodeImage  $episodeImage
-     * @return JsonResponse
-     */
-    public function destroy(EpisodeImage $episodeImage)
-    {
-        $result = $episodeImage->delete();
-
-        if ($result) {
-            return \response()->json(['message' => 'Successfully delete'], ResponseAlias::HTTP_OK);
-        }
-
-        return \response()->json(['message' => 'Fail'], ResponseAlias::HTTP_NOT_FOUND);
     }
 }
