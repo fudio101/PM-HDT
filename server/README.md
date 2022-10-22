@@ -17,11 +17,16 @@ php artisan jwt:secret
 php artisan jwt:generate-certs
 ```
 
-Configure database and run:
+Configure database in .env first and run:
 ```
 php artisan migrate
 php artisan db:seed
 ```
+To public local disk, run:
+```
+php artisan storage:link
+```
+
 To use queue, run:
 ```
 php artisan queue:work
