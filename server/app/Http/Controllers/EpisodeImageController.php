@@ -8,8 +8,8 @@ use App\Http\Requests\StoreEpisodeImageRequest;
 use App\Http\Requests\UpdateEpisodeImageRequest;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
+use Throwable;
 
 class EpisodeImageController extends Controller
 {
@@ -52,16 +52,29 @@ class EpisodeImageController extends Controller
      */
     public function store(StoreEpisodeImageRequest $request)
     {
-        $comicEpisode = ComicEpisode::query()->find($request->input(['comic_episode_id']));
+        try {
+            $comicEpisodeId = $request->input(['comic_episode_id']);
 
-        $image = $request->file('image');
-        $imagePath = $image->storeAs('public', 'ga'.'.'.$image->extension());
+            // Delete old image of comic episode
+            EpisodeImage::query()->where('comic_episode_id', $comicEpisodeId)->delete();
 
-        $data = array_merge($request->only(['comic_episode_id']), ['image' => $imagePath]);
+            $comicEpisode = ComicEpisode::query()->find($comicEpisodeId);
+            $comic = $comicEpisode->comic;
 
-        $episodeImage = EpisodeImage::query()->create($data);
+            $images = $request->file('images');
+            $episodeImages = [];
+            foreach ($images as $key => $image) {
+                $imagePath = $image->storeAs('public/'.$comic->id.'/'.$comicEpisode->id, $key.'.'.$image->extension());
 
-        return \response()->json(['data' => $episodeImage], ResponseAlias::HTTP_CREATED);
+                $data = array_merge($request->only(['comic_episode_id']), ['image' => $imagePath]);
+
+                $episodeImages[] = EpisodeImage::query()->create($data);
+            }
+
+            return \response()->json(['data' => $episodeImages], ResponseAlias::HTTP_CREATED);
+        } catch (Throwable $exception) {
+            return \response()->json(['message' => $exception->getMessage()], ResponseAlias::HTTP_BAD_REQUEST);
+        }
     }
 
     /**

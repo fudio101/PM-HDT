@@ -18,4 +18,9 @@ class ComicEpisode extends Model
         'likes',
         'views'
     ];
+
+    public function comic()
+    {
+        return $this->belongsTo(Comics::class);
+    }
 }
