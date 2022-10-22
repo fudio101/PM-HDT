@@ -15,6 +15,7 @@ return new class extends Migration {
         Schema::create('comics', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('slug');
             $table->date('published_date');
             $table->unsignedBigInteger('likes')->default(0);
             $table->unsignedBigInteger('views')->default(0);

@@ -18,7 +18,6 @@ return new class extends Migration
             $table->foreignId('comic_episode_id')->constrained();
             $table->string('image');
             $table->foreignId('user_id')->constrained();
-            $table->softDeletes();
             $table->timestamps();
         });
     }

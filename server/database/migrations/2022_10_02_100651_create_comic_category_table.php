@@ -15,7 +15,6 @@ return new class extends Migration {
         Schema::create('comic_category', function (Blueprint $table) {
             $table->foreignId('comic_id')->constrained();
             $table->foreignId('category_id')->constrained();
-            $table->softDeletes();
             $table->timestamps();
         });
     }
