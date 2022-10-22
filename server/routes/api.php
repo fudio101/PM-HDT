@@ -27,7 +27,7 @@ Route::middleware('api')->prefix('auth')->group(function (){
     Route::post('refresh', [AuthController::class, 'refresh']);
     Route::post('me', [AuthController::class, 'me']);
 });
-Route::apiResource('categories',CategoryController::class);
 
+Route::apiResource('categories',CategoryController::class);
 Route::apiResource('comics',ComicsController::class);
 Route::get('comics/categories/{category}',[ComicsController::class,'showCategory']);
