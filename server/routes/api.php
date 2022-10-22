@@ -31,5 +31,5 @@ Route::prefix('auth')->group(function () {
     Route::post('reset-password', [AuthController::class, 'resetPassword'])->name('password.update');
 });
 
-Route::apiResource('user', UserController::class);
+Route::apiResource('users', UserController::class);
 Route::apiResource('authors', AuthorController::class);
