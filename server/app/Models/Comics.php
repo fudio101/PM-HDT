@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Http\Traits\AddUser;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -10,24 +11,11 @@ use Illuminate\Support\Facades\Auth;
 
 class Comics extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, AddUser;
 
     protected $table = 'comics';
     protected $fillable = ['name', 'user_id', 'author_id', 'description', 'published_date', 'like', 'view', 'status'];
     protected $appends = ['author_name', 'user_name', 'category_names'];
-
-    protected static function booted()
-    {
-        parent::booted();
-
-        static::creating(function ($comics) {
-            $comics->user_id = Auth::user()->id;
-        });
-        static::updating(function ($comics) {
-            $comics->user_id = Auth::user()->id;
-        });
-    }
-
 
     public function authorName(): Attribute
     {

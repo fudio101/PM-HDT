@@ -14,5 +14,9 @@ trait AddUser
         static::creating(function ($author) {
             $author->user_id = Auth::user()->id;
         });
+
+        static::updating(function ($category) {
+            $category->user_id = Auth::user()->id;
+        });
     }
 }
