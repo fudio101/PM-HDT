@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Author;
 use App\Models\Category;
+use App\Models\ComicEpisode;
 use App\Models\Comics;
 use App\Models\ComicsCategory;
 use Illuminate\Http\JsonResponse;
@@ -17,7 +18,7 @@ class ComicsController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['index']]);
+        $this->middleware('auth:api', ['except' => ['index','showImageEpisode']]);
     }
 
     /**
@@ -36,7 +37,7 @@ class ComicsController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  Request  $request
+     * @param Request $request
      * @return JsonResponse
      */
     public function store(Request $request)
@@ -73,7 +74,7 @@ class ComicsController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  Comics  $comic
+     * @param Comics $comic
      * @return JsonResponse
      */
     public function show(Comics $comic)
@@ -87,8 +88,8 @@ class ComicsController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  Request  $request
-     * @param  Comics  $comic
+     * @param Request $request
+     * @param Comics $comic
      * @return JsonResponse
      */
     public function update(Request $request, Comics $comic)
@@ -125,7 +126,7 @@ class ComicsController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  Comics  $comic
+     * @param Comics $comic
      * @return JsonResponse
      */
     public function destroy(Comics $comic)
@@ -139,7 +140,7 @@ class ComicsController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  Category  $category
+     * @param Category $category
      * @return JsonResponse
      */
     public function showCategory(Category $category)
@@ -147,6 +148,13 @@ class ComicsController extends Controller
         return response()->json([
             'data' => $category->comics,
         ], ResponseAlias::HTTP_OK);
+    }
+
+    public function showImageEpisode(Comics $comics, $episode_number)
+    {
+        return response()->json([
+           'data' => ComicEpisode::getEpisode($comics->id,$episode_number)->episodeImages,
+        ],ResponseAlias::HTTP_OK);
     }
 
 }

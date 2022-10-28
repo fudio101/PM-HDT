@@ -12,17 +12,11 @@ class Author extends Model
 {
     use HasFactory, SoftDeletes, AddUser;
 
+    protected $table = "authors";
+
     protected $fillable = [
         'name'
     ];
-    use Illuminate\Database\Eloquent\Factories\HasFactory;
-    use Illuminate\Database\Eloquent\Model;
-
-class Author extends Model
-{
-    use HasFactory;
-
-    protected $table = "authors";
 
     function comics()
     {

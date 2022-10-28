@@ -11,12 +11,12 @@ trait AddUser
     {
         parent::booted();
 
-        static::creating(function ($author) {
-            $author->user_id = Auth::user()->id;
+        static::creating(function ($model) {
+            $model->user_id = Auth::user()->id;
         });
 
-        static::updating(function ($category) {
-            $category->user_id = Auth::user()->id;
+        static::updating(function ($model) {
+            $model->user_id = Auth::user()->id;
         });
     }
 }

@@ -8,14 +8,25 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
+use Spatie\Sluggable\HasSlug;
+use Spatie\Sluggable\SlugOptions;
 
 class Comics extends Model
 {
-    use HasFactory, SoftDeletes, AddUser;
+    use HasFactory, SoftDeletes, AddUser,HasSlug;
 
     protected $table = 'comics';
     protected $fillable = ['name', 'user_id', 'author_id', 'description', 'published_date', 'like', 'view', 'status'];
     protected $appends = ['author_name', 'user_name', 'category_names'];
+
+
+
+    public function getSlugOptions() : SlugOptions
+    {
+        return SlugOptions::create()
+            ->generateSlugsFrom('name')
+            ->saveSlugsTo('slug');
+    }
 
     public function authorName(): Attribute
     {
@@ -55,6 +66,7 @@ class Comics extends Model
     {
         return Comics::where('status', 0)->get();
     }
+
 
     function author()
     {
