@@ -26,6 +26,12 @@ class Comics extends Model
         return 'comics_index';
     }
 
+    public function toSearchableArray()
+    {
+        $array['name'] = $this->name;
+        return $array;
+    }
+
     public function getSlugOptions(): SlugOptions
     {
         return SlugOptions::create()
