@@ -19,17 +19,13 @@ class ComicEpisode extends Model
         'views'
     ];
 
-    public static function getEpisode($comic_id,$episode_number)
-    {
-        return  ComicEpisode::where('comic_id',$comic_id)->where('episode_number',$episode_number)->first();
-    }
-
     public function comic()
     {
         return $this->belongsTo(Comics::class);
     }
 
-    public function episodeImages(){
+    public function episodeImages()
+    {
         return $this->hasMany(EpisodeImage::class);
     }
 }

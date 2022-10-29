@@ -18,7 +18,7 @@ class ComicsController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['index','showImageEpisode']]);
+        $this->middleware('auth:api', ['except' => ['index', 'showImageEpisode']]);
     }
 
     /**
@@ -37,7 +37,7 @@ class ComicsController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param Request $request
+     * @param  Request  $request
      * @return JsonResponse
      */
     public function store(Request $request)
@@ -74,7 +74,7 @@ class ComicsController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param Comics $comic
+     * @param  Comics  $comic
      * @return JsonResponse
      */
     public function show(Comics $comic)
@@ -88,8 +88,8 @@ class ComicsController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param Request $request
-     * @param Comics $comic
+     * @param  Request  $request
+     * @param  Comics  $comic
      * @return JsonResponse
      */
     public function update(Request $request, Comics $comic)
@@ -126,7 +126,7 @@ class ComicsController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param Comics $comic
+     * @param  Comics  $comic
      * @return JsonResponse
      */
     public function destroy(Comics $comic)
@@ -140,7 +140,7 @@ class ComicsController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param Category $category
+     * @param  Category  $category
      * @return JsonResponse
      */
     public function showCategory(Category $category)
@@ -150,11 +150,24 @@ class ComicsController extends Controller
         ], ResponseAlias::HTTP_OK);
     }
 
-    public function showImageEpisode(Comics $comics, $episode_number)
+    /**
+     * @param  Comics  $comics
+     * @param  int  $episode_number
+     * @return JsonResponse
+     */
+    public function showImageEpisode(Comics $comics, int $episode_number)
     {
+        $comicEpisode = $comics->getEpisode($episode_number);
+
+        if ($comicEpisode) {
+            return response()->json([
+                'data' => $comicEpisode->episodeImages,
+            ], ResponseAlias::HTTP_OK);
+        }
+
         return response()->json([
-           'data' => ComicEpisode::getEpisode($comics->id,$episode_number)->episodeImages,
-        ],ResponseAlias::HTTP_OK);
+            'message' => "Comic episode can't be found",
+        ], ResponseAlias::HTTP_BAD_REQUEST);
     }
 
 }

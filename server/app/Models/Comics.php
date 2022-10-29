@@ -6,6 +6,7 @@ use App\Http\Traits\AddUser;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Sluggable\HasSlug;
@@ -67,7 +68,6 @@ class Comics extends Model
         return Comics::where('status', 0)->get();
     }
 
-
     function author()
     {
         return $this->hasOne(Author::class, 'id', 'author_id');
@@ -78,4 +78,12 @@ class Comics extends Model
         return $this->belongsToMany(Category::class, 'comic_category', 'comic_id', 'category_id');
     }
 
+    /**
+     * @param  int  $episode_number
+     * @return Model|HasMany|object|null
+     */
+    public function getEpisode(int $episode_number)
+    {
+        return $this->hasMany(ComicEpisode::class,'comic_id', 'id')->where('episode_number', $episode_number)->first();
+    }
 }
