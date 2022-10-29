@@ -28,8 +28,9 @@ class Comics extends Model
 
     public function toSearchableArray()
     {
-        $array['name'] = $this->name;
-        return $array;
+        return [
+            'name' => $this->name,
+        ];
     }
 
     public function getSlugOptions(): SlugOptions
