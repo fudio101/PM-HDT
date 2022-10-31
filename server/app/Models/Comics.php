@@ -6,16 +6,28 @@ use App\Http\Traits\AddUser;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
+use Spatie\Sluggable\HasSlug;
+use Spatie\Sluggable\SlugOptions;
 
 class Comics extends Model
 {
-    use HasFactory, SoftDeletes, AddUser;
+    use HasFactory, SoftDeletes, AddUser,HasSlug;
 
     protected $table = 'comics';
     protected $fillable = ['name', 'user_id', 'author_id', 'description', 'published_date', 'like', 'view', 'status'];
     protected $appends = ['author_name', 'user_name', 'category_names'];
+
+
+
+    public function getSlugOptions() : SlugOptions
+    {
+        return SlugOptions::create()
+            ->generateSlugsFrom('name')
+            ->saveSlugsTo('slug');
+    }
 
     public function authorName(): Attribute
     {
@@ -66,4 +78,12 @@ class Comics extends Model
         return $this->belongsToMany(Category::class, 'comic_category', 'comic_id', 'category_id');
     }
 
+    /**
+     * @param  int  $episode_number
+     * @return Model|HasMany|object|null
+     */
+    public function getEpisode(int $episode_number)
+    {
+        return $this->hasMany(ComicEpisode::class,'comic_id', 'id')->where('episode_number', $episode_number)->first();
+    }
 }

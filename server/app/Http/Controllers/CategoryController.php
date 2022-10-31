@@ -42,9 +42,10 @@ class CategoryController extends Controller
             $validated = $request->validate([
                 'name' => 'required|unique:categories|max:255',
             ]);
-            Category::create($validated);
+            $category = Category::create($validated);
             return response()->json([
                 'message' => 'Add successful category',
+                'data' => $category,
             ], ResponseAlias::HTTP_CREATED);
 
         } catch (Throwable $err) {
