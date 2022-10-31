@@ -9,9 +9,9 @@ function VerticalBar() {
     <aside className={classes.sidebar}>
       <div className={classes.sidebar_title}>
         <NavLink to={"/dashboard"} className={classes.sidebar_brand}>
-          <span class="material-icons-outlined">inventory</span> Comics
+          <span className="material-icons-outlined">inventory</span> Comics
         </NavLink>
-        <span class="material-icons-outlined">close</span>
+        <span className="material-icons-outlined">close</span>
       </div>
 
       <ul className={classes.sidebar_list}>

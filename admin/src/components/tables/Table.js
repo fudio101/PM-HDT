@@ -1,23 +1,48 @@
 import React from "react";
 import { useTable, usePagination, useGlobalFilter } from "react-table";
+import classes from "./TableStyle.module.css";
 
-function Table({ columns, data }) {
+import { NavLink } from "react-router-dom";
+
+function Table({ columns, data, isComic, setRowSelected }) {
   const tableBtn = (hooks) => {
     hooks.visibleColumns.push((columns) => [
       ...columns,
       {
         Header: "Actions",
         accessor: "Action",
-        id: "action",
-        Cell: (row) => (
-          <div>
-            <button
-              onClick={() => alert(row.row.original.firstname + " clicked")}
-            >
-              edit
-            </button>
-          </div>
-        ),
+        id: "action0",
+        Cell: (row) => {
+          if (isComic) {
+            return (
+              <div>
+                <NavLink
+                  to={"/edit-comic"}
+                  className={classes.edit_btn}
+                  onClick={() => alert(row.row.original.firstname + " clicked")}
+                >
+                  edit
+                </NavLink>
+                <NavLink
+                  to={"/new-chapter"}
+                  className={classes.view_btn}
+                  onClick={() => alert(row.row.original.firstname + " clicked")}
+                >
+                  new
+                </NavLink>
+              </div>
+            );
+          } else {
+            return (
+              <div
+                className={classes.edit_btn}
+                onClick={() => setRowSelected(row.row.original.firstname)}
+              >
+                edit
+              </div>
+            );
+          }
+        },
       },
     ]);
   };
@@ -39,11 +64,7 @@ function Table({ columns, data }) {
     rows,
     prepareRow,
     setGlobalFilter,
-    state,
-    page, // Instead of using 'rows', we'll use page,
-    // which has only the rows for the active page
-
-    // The rest of these things are super handy, too ;)
+    page,
     canPreviousPage,
     canNextPage,
     pageOptions,
@@ -53,31 +74,35 @@ function Table({ columns, data }) {
     preGlobalFilteredRows,
     state: { pageIndex, pageSize, globalFilter },
   } = tableInstance;
-  console.log(tableInstance);
+  // console.log(tableInstance);
   React.useEffect(() => {
-    console.log(globalFilter);
+    // console.log(globalFilter);
   }, [globalFilter]);
 
   return (
     <>
-      <select
-        value={pageSize}
-        onChange={(e) => {
-          setPageSize(Number(e.target.value));
-        }}
-      >
-        {[10, 20, 30, 40, 50].map((pageSize) => (
-          <option key={pageSize} value={pageSize}>
-            Show {pageSize}
-          </option>
-        ))}
-      </select>
-      <input
-        type="text"
-        value={globalFilter || ""}
-        onChange={(e) => setGlobalFilter(e.target.value)}
-        placeholder={`search in ${preGlobalFilteredRows.length} records`}
-      />
+      <div className={classes.header_table_bar}>
+        <select
+          className={classes.select_field}
+          value={pageSize}
+          onChange={(e) => {
+            setPageSize(Number(e.target.value));
+          }}
+        >
+          {[10, 20, 30, 40, 50].map((pageSize) => (
+            <option key={pageSize} value={pageSize}>
+              Show {pageSize}
+            </option>
+          ))}
+        </select>
+        <input
+          className={classes.search_input}
+          type="text"
+          value={globalFilter || ""}
+          onChange={(e) => setGlobalFilter(e.target.value)}
+          placeholder={`search in ${preGlobalFilteredRows.length} records`}
+        />
+      </div>
       <table {...getTableProps()}>
         <thead>
           {headerGroups.map((headerGroup) => (
@@ -106,27 +131,28 @@ function Table({ columns, data }) {
           })}
         </tbody>
       </table>
-      <div className="pagination">
-        <button onClick={() => previousPage()} disabled={!canPreviousPage}>
-          {"<"}
-        </button>{" "}
-        <button onClick={() => nextPage()} disabled={!canNextPage}>
-          {">"}
-        </button>{" "}
-        <span>
-          Page{" "}
-          <strong>
-            {pageIndex + 1} of {pageOptions.length}
-          </strong>{" "}
-        </span>
-      </div>
+      <div className={classes.footer_table_bar}>
+        <div className={classes.pagination}>
+          <div className={classes.nav_paginate}>
+            <button onClick={() => previousPage()} disabled={!canPreviousPage}>
+              {"← prev"}
+            </button>
+            <button onClick={() => nextPage()} disabled={!canNextPage}>
+              {"next →"}
+            </button>
 
-      <br />
-      <div>Showing the results in {rows.length} rows</div>
-      <div>
-        <pre>
-          <code>{JSON.stringify(state.filters, null, 2)}</code>
-        </pre>
+            <span>
+              Page{""}
+              <strong>
+                {pageIndex + 1} of {pageOptions.length}
+              </strong>
+            </span>
+          </div>
+        </div>
+
+        <div className={classes.result_status}>
+          Showing the results in {rows.length} rows
+        </div>
       </div>
     </>
   );

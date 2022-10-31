@@ -1,13 +1,10 @@
 import React from "react";
 
-function Button() {
+function Button(props) {
   return (
-    <div class="col-sm-2">
-      <div class="btn btn-add btn-sm" title="Thêm">
-        <i class="fas fa-plus"></i>
-        Tạo mới truyện tranh
-      </div>
-    </div>
+    <button type="button" className={props.className} onClick={props.onClick}>
+      {props.children}
+    </button>
   );
 }
 
