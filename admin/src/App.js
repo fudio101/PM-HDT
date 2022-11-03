@@ -9,12 +9,13 @@ import UserManagementPage from "./pages/UserManagementPage";
 import NewComicPage from "./pages/NewComicPage";
 import NewChapterPage from "./pages/NewChapterPage";
 import EditComicPage from "./pages/EditComicPage";
+import AuthPage from "./pages/auth/AuthPage";
+import NotFoundPage from "./pages/NotFoundPage";
 
 function App() {
   return (
-    <Layout>
-      <Routes>
-        <Route path="*" element={<DashBoardPage />} />
+    <Routes>
+      <Route element={<Layout />}>
         <Route path="/dashboard" element={<DashBoardPage />} />
         <Route path="/comic-manage" element={<ComicManagementPage />} />
         <Route path="/category-manage" element={<CategoryManagementPage />} />
@@ -22,8 +23,10 @@ function App() {
         <Route path="/new-comic" element={<NewComicPage />} />
         <Route path="/edit-comic" element={<EditComicPage />} />
         <Route path="/new-chapter" element={<NewChapterPage />} />
-      </Routes>
-    </Layout>
+      </Route>
+      <Route path="/admin" element={<AuthPage />} />
+      <Route path="*" element={<NotFoundPage />} />
+    </Routes>
   );
 }
 
