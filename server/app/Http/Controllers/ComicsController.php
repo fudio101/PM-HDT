@@ -18,7 +18,7 @@ class ComicsController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['index', 'showImageEpisode']]);
+        $this->middleware('auth:api', ['except' => ['index', 'showImageEpisode', 'search']]);
     }
 
     /**
@@ -150,6 +150,13 @@ class ComicsController extends Controller
         ], ResponseAlias::HTTP_OK);
     }
 
+    public function search(Request $request)
+    {
+        return response()->json([
+            'data' => Comics::search($request->search)->get()
+        ], ResponseAlias::HTTP_OK);
+    }
+
     /**
      * @param  Comics  $comics
      * @param  int  $episode_number
@@ -160,9 +167,7 @@ class ComicsController extends Controller
         $comicEpisode = $comics->getEpisode($episode_number);
 
         if ($comicEpisode) {
-            return response()->json([
-                'data' => $comicEpisode->episodeImages,
-            ], ResponseAlias::HTTP_OK);
+            return response()->json(['data' => $comicEpisode->episodeImages,], ResponseAlias::HTTP_OK);
         }
 
         return response()->json([

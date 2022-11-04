@@ -31,3 +31,8 @@ To use queue, run:
 ```
 php artisan queue:work
 ```
+
+To update existed records to algolia, run:
+```
+php artisan scout:import "App\Models\{model}"
+```

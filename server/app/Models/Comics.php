@@ -9,20 +9,32 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
+use Laravel\Scout\Searchable;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 
 class Comics extends Model
 {
-    use HasFactory, SoftDeletes, AddUser,HasSlug;
+    use HasFactory, SoftDeletes, AddUser, HasSlug, Searchable;
 
     protected $table = 'comics';
     protected $fillable = ['name', 'user_id', 'author_id', 'description', 'published_date', 'like', 'view', 'status'];
     protected $appends = ['author_name', 'user_name', 'category_names'];
 
 
+    public function searchableAs()
+    {
+        return 'comics_index';
+    }
 
-    public function getSlugOptions() : SlugOptions
+    public function toSearchableArray()
+    {
+        return [
+            'name' => $this->name,
+        ];
+    }
+
+    public function getSlugOptions(): SlugOptions
     {
         return SlugOptions::create()
             ->generateSlugsFrom('name')
