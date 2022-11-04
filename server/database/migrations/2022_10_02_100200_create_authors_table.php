@@ -15,7 +15,7 @@ return new class extends Migration {
         Schema::create('authors', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('image');
+            $table->string('image')->nullable();
             $table->foreignId('user_id')->constrained();
             $table->softDeletes();
             $table->timestamps();
