@@ -8,6 +8,7 @@ use App\Http\Requests\StoreEpisodeImageRequest;
 use App\Http\Requests\UpdateEpisodeImageRequest;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 use Throwable;
 
@@ -46,15 +47,26 @@ class EpisodeImageController extends Controller
             $comicEpisodeId = $request->input(['comic_episode_id']);
 
             // Delete old image of comic episode
-            EpisodeImage::query()->where('comic_episode_id', $comicEpisodeId)->delete();
+            $oldImages = EpisodeImage::query()->where('comic_episode_id', $comicEpisodeId);
+            if (!is_null($oldImages)) {
+                $oldImagesArr = $oldImages->get();
+                foreach ($oldImagesArr as $item) {
+                    $image = $item->image;
+                    Storage::delete('comic-super/'.$image);
+                }
+                $oldImages->delete();
+            }
 
             $comicEpisode = ComicEpisode::query()->find($comicEpisodeId);
             $comic = $comicEpisode->comic;
 
             $images = $request->file('images');
+            $imageOrder = (array) $request->input('imageOrder');
+            $images = $this->sortImages($images, $imageOrder);
             $episodeImages = [];
-            foreach ($images as $key => $image) {
-                $imagePath = $image->storeAs('public/'.$comic->id.'/'.$comicEpisode->id, $key.'.'.$image->extension());
+            foreach ($images as $index => $image) {
+                $imagePath = Storage::putFileAs('comic/'.$comic->slug.'/'.$comicEpisode->id, $image,
+                    $index.'.'.$image->extension());
 
                 $data = array_merge($request->only(['comic_episode_id']), ['image' => $imagePath]);
 
@@ -76,5 +88,24 @@ class EpisodeImageController extends Controller
     public function show(EpisodeImage $episodeImage)
     {
         return \response()->json(['data' => $episodeImage], ResponseAlias::HTTP_OK);
+    }
+
+    /**
+     * @param  array  $images
+     * @param  array  $imageOrder
+     * @return array
+     */
+    private function sortImages(array $images, array $imageOrder)
+    {
+        $newImages = [];
+        foreach ($imageOrder as $value) {
+            foreach ($images as $index => $item) {
+                if ($item->getClientOriginalName() == $value) {
+                    $newImages[] = $item;
+                    unset($images[$index]);
+                }
+            }
+        }
+        return $newImages;
     }
 }

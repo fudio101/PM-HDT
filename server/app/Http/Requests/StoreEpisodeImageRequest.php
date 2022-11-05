@@ -26,6 +26,7 @@ class StoreEpisodeImageRequest extends FormRequest
         return [
             'comic_episode_id' => 'required|exists:comic_episodes,id',
             'images.*' => 'required|image',
+            'imageOrder.*' => 'required|string',
         ];
     }
 }
