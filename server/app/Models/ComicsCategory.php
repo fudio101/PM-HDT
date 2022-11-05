@@ -13,6 +13,11 @@ class ComicsCategory extends Model
     protected $table = "comic_category";
     protected $fillable = ['comic_id', 'category_id'];
 
+    protected $hidden = [
+        'created_at',
+        'updated_at',
+    ];
+
 
     static function getByComic($comic_id)
     {

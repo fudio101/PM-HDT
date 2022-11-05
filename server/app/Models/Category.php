@@ -13,6 +13,12 @@ class Category extends Model
 
     protected $table = 'categories';
     protected $fillable = ['name', 'user_id'];
+    protected $hidden = [
+        'deleted_at',
+        'created_at',
+        'updated_at',
+        'user_id',
+    ];
 
     function comics()
     {

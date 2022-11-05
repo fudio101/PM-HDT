@@ -21,6 +21,13 @@ class Comics extends Model
     protected $fillable = ['name', 'user_id', 'author_id', 'description', 'published_date', 'like', 'view', 'status'];
     protected $appends = ['author_name', 'user_name', 'category_names'];
 
+    protected $hidden = [
+        'deleted_at',
+        'created_at',
+        'updated_at',
+        'user_id',
+    ];
+
 
     public function searchableAs()
     {

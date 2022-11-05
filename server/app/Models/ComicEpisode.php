@@ -19,6 +19,13 @@ class ComicEpisode extends Model
         'views'
     ];
 
+    protected $hidden = [
+        'deleted_at',
+        'created_at',
+        'updated_at',
+        'user_id',
+    ];
+
     public function comic()
     {
         return $this->belongsTo(Comics::class);
