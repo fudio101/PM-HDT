@@ -115,6 +115,7 @@ class AuthorController extends Controller
      */
     public function destroy(Author $author)
     {
+        Storage::delete($author->image);
         $result = $author->delete();
 
         if ($result) {
