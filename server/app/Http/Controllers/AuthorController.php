@@ -7,6 +7,7 @@ use App\Http\Requests\StoreAuthorRequest;
 use App\Http\Requests\UpdateAuthorRequest;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 class AuthorController extends Controller
@@ -51,6 +52,9 @@ class AuthorController extends Controller
     public function store(StoreAuthorRequest $request)
     {
         $author = Author::query()->create($request->only(['name']));
+        $image = $request->file('image');
+        $imagePath = Storage::putFileAs('author', $image, $author->id.'.'.$image->extension());
+        $author->update(['image' => $imagePath]);
 
         return \response()->json(['data' => $author], ResponseAlias::HTTP_CREATED);
     }
@@ -86,9 +90,18 @@ class AuthorController extends Controller
      */
     public function update(UpdateAuthorRequest $request, Author $author)
     {
-        $result = $author->update($request->only(['name']));
+        $name = $request->input('name');
+        $image = $request->file('image');
+        if (!is_null($image)) {
+            Storage::delete($author->image);
+            $imagePath = Storage::putFileAs('author', $image, $author->id.'.'.$image->extension());
+            $result = $author->update(['name' => $name, 'image' => $imagePath]);
+
+        } else {
+            $result = $author->update(['name' => $name]);
+        }
         if ($result) {
-            return \response()->json(['message' => 'Successfully update'], ResponseAlias::HTTP_OK);
+            return \response()->json(['message' => 'Successfully update', 'data' => $author], ResponseAlias::HTTP_OK);
         }
 
         return \response()->json(['message' => 'Fail'], ResponseAlias::HTTP_NOT_FOUND);
