@@ -115,6 +115,10 @@ class AuthorController extends Controller
      */
     public function destroy(Author $author)
     {
+        if ($author->comics()->count() > 0) {
+            return \response()->json(['message' => 'The author has comics that has not been deleted'],
+                ResponseAlias::HTTP_NOT_FOUND);
+        }
         if (Storage::exists($author->image)) {
             Storage::delete($author->image);
         }
