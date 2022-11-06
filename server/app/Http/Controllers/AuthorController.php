@@ -92,7 +92,7 @@ class AuthorController extends Controller
     {
         $name = $request->input('name');
         $image = $request->file('image');
-        if (!is_null($image)) {
+        if (Storage::exists($image)) {
             Storage::delete($author->image);
             $imagePath = Storage::putFileAs('author', $image, $author->id.'.'.$image->extension());
             $result = $author->update(['name' => $name, 'image' => $imagePath]);
@@ -115,7 +115,9 @@ class AuthorController extends Controller
      */
     public function destroy(Author $author)
     {
-        Storage::delete($author->image);
+        if (Storage::exists($author->image)) {
+            Storage::delete($author->image);
+        }
         $result = $author->delete();
 
         if ($result) {

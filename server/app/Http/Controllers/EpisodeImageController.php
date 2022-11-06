@@ -52,7 +52,9 @@ class EpisodeImageController extends Controller
                 $oldImagesArr = $oldImages->get();
                 foreach ($oldImagesArr as $item) {
                     $image = $item->image;
-                    Storage::delete('comic-super/'.$image);
+                    if (Storage::exists($image)) {
+                        Storage::delete($image);
+                    }
                 }
                 $oldImages->delete();
             }
