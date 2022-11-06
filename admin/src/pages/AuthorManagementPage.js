@@ -1,23 +1,39 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 import Button from "../components/UI/Button";
 import TableAuthor from "../components/tables/TableAuthor";
 import AuthorModal from "../components/Modal/AuthorModal";
-import { useDispatch, useSelector } from "react-redux";
 
-import { getAllAuthorInfo } from "../store/actions/authorAction";
+import authorAPI from "../api/authorAPI";
 
 import classes from "./asset/css/StandardMain.module.css";
 
 function AuthorManagementPage() {
-  const dispatch = useDispatch();
-  const { authorInfo } = useSelector((state) => state.author);
+  const [authorList, setAuthorList] = useState([]);
 
   useEffect(() => {
-    dispatch(getAllAuthorInfo());
+    const fetchAuthorList = async () => {
+      try {
+        const response = await authorAPI.getAll();
+        setAuthorList(response.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchAuthorList();
   }, []);
 
-  console.log(authorInfo);
+  useEffect(() => {
+    const fetchAuthor = async (id) => {
+      try {
+        const response = await authorAPI.get(id);
+        console.log(response.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchAuthor(1);
+  }, []);
 
   const columns = React.useMemo(
     () => [
