@@ -4,44 +4,39 @@ import classes from "./TableStyle.module.css";
 
 import { NavLink } from "react-router-dom";
 
-function Table({ columns, data, isComic, setRowSelected }) {
+function TableAuthor({ columns, data, setRowSelected }) {
   const tableBtn = (hooks) => {
     hooks.visibleColumns.push((columns) => [
       ...columns,
+      {
+        Header: "Avatar",
+        accessor: "avt",
+        id: "avt0",
+        Cell: (row) => {
+          return (
+            <div className={classes.img_wrapper}>
+              <img
+                className={classes.img}
+                alt="author avatar"
+                src={row.row.original.avt}
+              ></img>
+            </div>
+          );
+        },
+      },
       {
         Header: "Actions",
         accessor: "Action",
         id: "action0",
         Cell: (row) => {
-          if (isComic) {
-            return (
-              <div>
-                <NavLink
-                  to={"/edit-comic"}
-                  className={classes.edit_btn}
-                  onClick={() => alert(row.row.original.firstname + " clicked")}
-                >
-                  edit
-                </NavLink>
-                <NavLink
-                  to={"/new-chapter"}
-                  className={classes.view_btn}
-                  onClick={() => alert(row.row.original.firstname + " clicked")}
-                >
-                  new
-                </NavLink>
-              </div>
-            );
-          } else {
-            return (
-              <div
-                className={classes.edit_btn}
-                onClick={() => setRowSelected(row.row.original.firstname)}
-              >
-                edit
-              </div>
-            );
-          }
+          return (
+            <div
+              className={classes.edit_btn}
+              onClick={() => setRowSelected(row.row.original.id)}
+            >
+              edit
+            </div>
+          );
         },
       },
     ]);
@@ -51,8 +46,11 @@ function Table({ columns, data, isComic, setRowSelected }) {
     {
       columns: columns,
       data: data,
+      initialState: {
+        hiddenColumns: ["id"],
+      },
     },
-    useGlobalFilter, // useGlobalFilter
+    useGlobalFilter, // useGlobalFilter!
     usePagination,
     tableBtn
   );
@@ -157,4 +155,4 @@ function Table({ columns, data, isComic, setRowSelected }) {
     </>
   );
 }
-export default Table;
+export default TableAuthor;

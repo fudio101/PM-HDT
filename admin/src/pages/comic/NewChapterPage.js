@@ -1,18 +1,18 @@
 import React, { useState } from "react";
 
-import HorizonItem from "../components/comic/comic-sample/HorizonItem";
-import DnDUpload from "../components/comic/new-chapter/DnDUpload";
-import Button from "../components/UI/Button";
+import HorizonItem from "../../components/comic/comic-sample/HorizonItem";
+import DnDUpload from "../../components/comic/new-chapter/DnDUpload";
+import Button from "../../components/UI/Button";
 
-import classes from "./asset/css/NewChapter.module.css";
+import classes from "../asset/css/NewChapter.module.css";
 
 const initVal = {
   name: "Comic Name Here",
-  thumbnail: require("./asset/img/default_2.png"),
+  thumbnail: require("../asset/img/default_2.png"),
   categories: ["cate1", "cate2", "..."],
   desc: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Odio nemo quae in delectus quod atque sunt recusandae accusantium optio. Soluta omnis quod ut quibusdam, reprehenderit ipsam in assumenda magni eaque?",
   author: "Author name",
-  authorAvt: require("./asset/img/author.jpg"),
+  authorAvt: require("../asset/img/author.jpg"),
   uploadTime: "dd/MM/yyy",
 };
 

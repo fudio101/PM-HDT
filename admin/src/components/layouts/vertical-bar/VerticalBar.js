@@ -27,6 +27,9 @@ function VerticalBar() {
         <NavLink to={"user-manage"} className={classes.sidebar_list_item}>
           <span className="material-icons-outlined">settings</span> Users
         </NavLink>
+        <NavLink to={"author-manage"} className={classes.sidebar_list_item}>
+          <span className="material-icons-outlined">settings</span> Author
+        </NavLink>
       </ul>
     </aside>
   );

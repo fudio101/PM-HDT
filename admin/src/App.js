@@ -3,14 +3,15 @@ import { Route, Routes } from "react-router-dom";
 
 import Layout from "./components/layouts/Layout";
 import DashBoardPage from "./pages/DashBoardPage";
-import ComicManagementPage from "./pages/ComicManagementPage";
+import ComicManagementPage from "./pages/comic/ComicManagementPage";
 import CategoryManagementPage from "./pages/CategoryManagementPage";
 import UserManagementPage from "./pages/UserManagementPage";
-import NewComicPage from "./pages/NewComicPage";
-import NewChapterPage from "./pages/NewChapterPage";
-import EditComicPage from "./pages/EditComicPage";
+import NewComicPage from "./pages/comic/NewComicPage";
+import NewChapterPage from "./pages/comic/NewChapterPage";
+import EditComicPage from "./pages/comic/EditComicPage";
 import AuthPage from "./pages/auth/AuthPage";
 import NotFoundPage from "./pages/NotFoundPage";
+import AuthorManagementPage from "./pages/AuthorManagementPage";
 
 function App() {
   return (
@@ -23,8 +24,10 @@ function App() {
         <Route path="/new-comic" element={<NewComicPage />} />
         <Route path="/edit-comic" element={<EditComicPage />} />
         <Route path="/new-chapter" element={<NewChapterPage />} />
+        <Route path="/author-manage" element={<AuthorManagementPage />} />
       </Route>
-      <Route path="/admin" element={<AuthPage />} />
+      <Route path="/login" element={<AuthPage />} />
+      <Route path="/" element={<AuthPage />} />
       <Route path="*" element={<NotFoundPage />} />
     </Routes>
   );
