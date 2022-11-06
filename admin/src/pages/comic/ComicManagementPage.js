@@ -1,8 +1,8 @@
 import React from "react";
 
-import Table from "../components/tables/Table";
+import Table from "../../components/tables/Table";
 
-import classes from "./asset/css/StandardMain.module.css";
+import classes from "../asset/css/StandardMain.module.css";
 import { NavLink } from "react-router-dom";
 
 function ComicManagementPage() {

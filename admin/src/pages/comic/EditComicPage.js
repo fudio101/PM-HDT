@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import Select from "react-select";
 
-import Wrapper from "../components/UI/Wrapper";
+import Wrapper from "../../components/UI/Wrapper";
 
-import Button from "../components/UI/Button";
-import DnDUpload from "../components/comic/new-chapter/DnDUpload";
-import ComicEditForm from "../components/comic/comic-edit/ComicEditForm";
+import Button from "../../components/UI/Button";
+import DnDUpload from "../../components/comic/new-chapter/DnDUpload";
+import ComicEditForm from "../../components/comic/comic-edit/ComicEditForm";
 
-import classes from "./asset/css/NewComicPage.module.css";
+import classes from "../asset/css/NewComicPage.module.css";
 
 const cateOptions = [
   { value: "Cate1", label: "Cate1" },
@@ -21,10 +21,10 @@ const chapterOptions = [
     value: "Chapter1",
     label: "Chapter1",
     photos: [
-      require("./asset/img/green.webp"),
-      require("./asset/img/red.webp"),
-      require("./asset/img/yellow.webp"),
-      require("./asset/img/blue.webp"),
+      require("../asset/img/green.webp"),
+      require("../asset/img/red.webp"),
+      require("../asset/img/yellow.webp"),
+      require("../asset/img/blue.webp"),
     ],
   },
   {
@@ -42,10 +42,10 @@ const chapterOptions = [
     value: "Chapter3",
     label: "Chapter3",
     photos: [
-      require("./asset/img/red.webp"),
-      require("./asset/img/blue.webp"),
-      require("./asset/img/yellow.webp"),
-      require("./asset/img/green.webp"),
+      require("../asset/img/red.webp"),
+      require("../asset/img/blue.webp"),
+      require("../asset/img/yellow.webp"),
+      require("../asset/img/green.webp"),
     ],
   },
 ];
@@ -54,22 +54,22 @@ const authorOptions = [
   {
     value: "Author1",
     label: "Author1",
-    img: require("./asset/img/green.webp"),
+    img: require("../asset/img/green.webp"),
   },
   {
     value: "Author2",
     label: "Author2",
-    img: require("./asset/img/red.webp"),
+    img: require("../asset/img/red.webp"),
   },
   {
     value: "Author3",
     label: "Author3",
-    img: require("./asset/img/yellow.webp"),
+    img: require("../asset/img/yellow.webp"),
   },
   {
     value: "Author4",
     label: "Author4",
-    img: require("./asset/img/blue.webp"),
+    img: require("../asset/img/blue.webp"),
   },
 ];
 
@@ -77,11 +77,11 @@ const authorOptions = [
 
 const initVal = {
   name: "Comic Name Here",
-  thumbnail: require("./asset/img/default_2.png"),
+  thumbnail: require("../asset/img/default_2.png"),
   categories: ["cate1", "cate2", "..."],
   desc: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Odio nemo quae in delectus quod atque sunt recusandae accusantium optio. Soluta omnis quod ut quibusdam, reprehenderit ipsam in assumenda magni eaque?",
   author: "Author name",
-  authorAvt: require("./asset/img/author.jpg"),
+  authorAvt: require("../asset/img/author.jpg"),
   uploadTime: "dd/MM/yyy",
 };
 

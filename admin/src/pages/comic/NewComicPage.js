@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import ComicEditForm from "../components/comic/comic-edit/ComicEditForm";
+import ComicEditForm from "../../components/comic/comic-edit/ComicEditForm";
 
-import Button from "../components/UI/Button";
+import Button from "../../components/UI/Button";
 
 // react-select
 const cateOptions = [
@@ -15,22 +15,22 @@ const authorOptions = [
   {
     value: "Author1",
     label: "Author1",
-    img: require("./asset/img/green.webp"),
+    img: require("../asset/img/green.webp"),
   },
   {
     value: "Author2",
     label: "Author2",
-    img: require("./asset/img/red.webp"),
+    img: require("../asset/img/red.webp"),
   },
   {
     value: "Author3",
     label: "Author3",
-    img: require("./asset/img/yellow.webp"),
+    img: require("../asset/img/yellow.webp"),
   },
   {
     value: "Author4",
     label: "Author4",
-    img: require("./asset/img/blue.webp"),
+    img: require("../asset/img/blue.webp"),
   },
 ];
 
@@ -38,11 +38,11 @@ const authorOptions = [
 
 const initVal = {
   name: "Comic Name Here",
-  thumbnail: require("./asset/img/default_2.png"),
+  thumbnail: require("../asset/img/default_2.png"),
   categories: ["cate1", "cate2", "..."],
   desc: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Odio nemo quae in delectus quod atque sunt recusandae accusantium optio. Soluta omnis quod ut quibusdam, reprehenderit ipsam in assumenda magni eaque?",
   author: "Author name",
-  authorAvt: require("./asset/img/author.jpg"),
+  authorAvt: require("../asset/img/author.jpg"),
   uploadTime: "dd/MM/yyy",
 };
 

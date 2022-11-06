@@ -1,11 +1,11 @@
 // api/axiosClient.js
 import axios from "axios";
 import queryString from "query-string";
-import { parse } from "qs";
+import { parse, stringify } from "qs";
 // Set up default config for http requests here
 
 const axiosClient = axios.create({
-  baseURL: "https://example",
+  baseURL: "https://js-post-api.herokuapp.com/api",
   headers: {
     "content-type": "application/json",
   },

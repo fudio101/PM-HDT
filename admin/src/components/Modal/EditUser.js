@@ -1,5 +1,5 @@
 import React from "react";
-import classes from "./EditUser.module.css";
+import classes from "./asset/css/EditUser.module.css";
 import Select from "react-select";
 
 const accountTypeOptions = [
