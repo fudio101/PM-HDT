@@ -10,6 +10,7 @@ use App\Models\ComicsCategory;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 use Throwable;
 
@@ -131,6 +132,21 @@ class ComicsController extends Controller
      */
     public function destroy(Comics $comic)
     {
+        $episodes = $comic->episodes();
+
+        foreach ($episodes->get() as $episode) {
+            $episodeImages = $episode->episodeImages();
+            foreach ($episodeImages->get() as $episodeImage) {
+                $image = $episodeImage->image;
+                if (Storage::exists($image)) {
+                    Storage::delete($image);
+                }
+            }
+            $episodeImages->delete();
+        }
+
+        $episodes->delete();
+
         $comic->delete();
         return response()->json([
             'message' => 'Delete success comics!'

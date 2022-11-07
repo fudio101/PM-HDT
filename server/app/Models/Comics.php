@@ -103,6 +103,14 @@ class Comics extends Model
      */
     public function getEpisode(int $episode_number)
     {
-        return $this->hasMany(ComicEpisode::class,'comic_id', 'id')->where('episode_number', $episode_number)->first();
+        return $this->hasMany(ComicEpisode::class, 'comic_id', 'id')->where('episode_number', $episode_number)->first();
+    }
+
+    /**
+     * @return HasMany|ComicEpisode
+     */
+    public function episodes()
+    {
+        return $this->hasMany(ComicEpisode::class, 'comic_id', 'id');
     }
 }
