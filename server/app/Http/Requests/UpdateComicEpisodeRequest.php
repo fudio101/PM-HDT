@@ -24,13 +24,20 @@ class UpdateComicEpisodeRequest extends FormRequest
      */
     public function rules()
     {
+        $episodeNumber = $this->input('episode_number');
+        $comicId = $this->input('comic_id');
         return [
             'comic_id' => 'required|integer|exists:comics,id',
             'episode_number' => [
                 'required',
                 'integer',
                 'gt:0',
-                Rule::unique('comic_episodes', 'episode_number')->ignore($this->route('comic_episode')->id),
+                Rule::unique('comic_episodes')->where(function ($query) use ($episodeNumber, $comicId) {
+                    return $query->where([
+                        ["episode_number", "=", $episodeNumber],
+                        ["comic_id", "=", $comicId]
+                    ]);
+                })->ignore($this->route('comic_episode')->id),
             ],
             'published_date' => 'required|date',
         ];
