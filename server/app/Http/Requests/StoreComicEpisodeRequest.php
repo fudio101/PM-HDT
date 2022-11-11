@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreComicEpisodeRequest extends FormRequest
 {
@@ -23,10 +24,22 @@ class StoreComicEpisodeRequest extends FormRequest
      */
     public function rules()
     {
+        $episodeNumber = $this->input('episode_number');
+        $comicId = $this->input('comic_id');
         return [
-            'comic_id'=>'required|integer|exists:comics,id',
-            'episode_number'=>'required|integer|gt:0|unique:comic_episodes,episode_number',
-            'published_date'=>'required|date',
+            'comic_id' => 'required|integer|exists:comics,id',
+            'episode_number' => [
+                'required',
+                'integer',
+                'gt:0',
+                Rule::unique('comic_episodes')->where(function ($query) use ($episodeNumber, $comicId) {
+                    return $query->where([
+                        ["episode_number", "=", $episodeNumber],
+                        ["comic_id", "=", $comicId]
+                    ]);
+                }),
+            ],
+            'published_date' => 'required|date',
         ];
     }
 }
