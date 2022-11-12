@@ -7,6 +7,7 @@ use App\Http\Requests\StoreComicEpisodeRequest;
 use App\Http\Requests\UpdateComicEpisodeRequest;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 class ComicEpisodeController extends Controller
@@ -50,11 +51,37 @@ class ComicEpisodeController extends Controller
      */
     public function store(StoreComicEpisodeRequest $request)
     {
-        $comicEpisode = ComicEpisode::query()->create($request->only([
-            'comic_id', 'episode_number', 'published_date'
-        ]));
+        try {
 
-        return \response()->json(['data' => $comicEpisode], ResponseAlias::HTTP_CREATED);
+            $comicEpisode = ComicEpisode::query()->create($request->only([
+                'comic_id', 'episode_number', 'published_date'
+            ]));
+
+            $comic = $comicEpisode->comic;
+            $comicSlug = $comic->slug;
+
+            // Delete old image of comic episode
+            $oldImages = Storage::allFiles("comics/".$comicSlug);
+            foreach ($oldImages as $item) {
+                $image = $item->image;
+                if (Storage::exists($image)) {
+                    Storage::delete($image);
+                }
+            }
+
+            $images = $request->file('images');
+            $imageOrder = (array) $request->input('imageOrder');
+            $images = $this->sortImages($images, $imageOrder);
+
+            $comicEpisodeId = $comicEpisode->id;
+            foreach ($images as $index => $image) {
+                Storage::putFileAs('comics/'.$comicSlug.'/'.$comicEpisodeId, $image, $index.'.'.$image->extension());
+            }
+
+            return \response()->json(['data' => $comicEpisode], ResponseAlias::HTTP_CREATED);
+        } catch (\Throwable $exception) {
+            return \response()->json(['message' => $exception->getMessage()], ResponseAlias::HTTP_BAD_REQUEST);
+        }
     }
 
     /**
@@ -111,6 +138,25 @@ class ComicEpisodeController extends Controller
         }
 
         return \response()->json(['message' => 'Fail'], ResponseAlias::HTTP_NOT_FOUND);
+    }
+
+    /**
+     * @param  array  $images
+     * @param  array  $imageOrder
+     * @return array
+     */
+    private function sortImages(array $images, array $imageOrder)
+    {
+        $newImages = [];
+        foreach ($imageOrder as $value) {
+            foreach ($images as $index => $item) {
+                if ($item->getClientOriginalName() == $value) {
+                    $newImages[] = $item;
+                    unset($images[$index]);
+                }
+            }
+        }
+        return $newImages;
     }
 
     public function getImages(ComicEpisode $comicEpisode)
