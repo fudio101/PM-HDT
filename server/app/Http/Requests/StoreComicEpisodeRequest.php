@@ -39,6 +39,10 @@ class StoreComicEpisodeRequest extends FormRequest
                     ]);
                 }),
             ],
+//            'images' => 'required|array',
+            'images.*' => 'image',
+            'imageOrder' => 'required|array',
+            'imageOrder.*' => 'string',
             'published_date' => 'required|date',
         ];
     }
