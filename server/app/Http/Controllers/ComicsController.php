@@ -46,7 +46,7 @@ class ComicsController extends Controller
         try {
             $validated = $request->validate([
                 'name' => 'required|max:255',
-                'published_date' => 'required',
+                'published_date' => 'required|date',
                 'author_id' => 'required|exists:authors,id,deleted_at,NULL',
                 'category_id' => 'required|array',
                 'category_id.*' => 'exists:categories,id,deleted_at,NULL',
@@ -97,29 +97,49 @@ class ComicsController extends Controller
     {
         try {
             $validated = $request->validate([
-                'name' => 'required|max:255',
-                'published_date' => 'required',
-                'author_id' => 'required|exists:authors,id,deleted_at,NULL',
-                'category_id' => 'required|array',
+                'name' => 'max:255',
+                'published_date' => 'date',
+                'author_id' => 'exists:authors,id,deleted_at,NULL',
+                'status' => 'integer',
+                'category_id' => 'array',
                 'category_id.*' => 'exists:categories,id,deleted_at,NULL',
             ]);
-            $comic->update($request->only(['name', 'published_date', 'author_id', 'description', 'status']));
-            ComicsCategory::deletes($comic->id);
-            foreach ($request->category_id as $value) {
-                ComicsCategory::create([
-                    'comic_id' => $comic->id,
-                    'category_id' => $value,
-                ]);
-            };
+
+            $oldSlug = $comic->slug;
+
+            $comic->update($validated);
+
+            // update image location
+            $newSlug = $comic->slug;
+            if ($oldSlug !== $newSlug) {
+                $oldFiles = Storage::allFiles("comics/".$oldSlug);
+                foreach ($oldFiles as $oldFile) {
+                    $tmp = explode('/', $oldFile);
+                    $tmp[1] = $newSlug;
+                    $tmp = implode("/", $tmp);
+                    Storage::move($oldFile, $tmp);
+                }
+            }
+
+            // update category list
+            if (!empty($validated['category_id'])) {
+                ComicsCategory::deletes($comic->id);
+                foreach ($validated['category_id'] as $value) {
+                    ComicsCategory::create([
+                        'comic_id' => $comic->id,
+                        'category_id' => $value,
+                    ]);
+                };
+            }
 
             return response()->json([
                 'message' => 'Update success comics!',
-
+                'data' => $comic
             ]);
         } catch (Throwable $err) {
             return response()->json([
                 'message' => $err->getMessage(),
-            ]);
+            ], ResponseAlias::HTTP_BAD_REQUEST);
         }
 
     }
