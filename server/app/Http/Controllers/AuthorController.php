@@ -104,7 +104,7 @@ class AuthorController extends Controller
             return \response()->json(['message' => 'Successfully update', 'data' => $author], ResponseAlias::HTTP_OK);
         }
 
-        return \response()->json(['message' => 'Fail'], ResponseAlias::HTTP_NOT_FOUND);
+        return \response()->json(['message' => 'Fail'], ResponseAlias::HTTP_BAD_REQUEST);
     }
 
     /**
