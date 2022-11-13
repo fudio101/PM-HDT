@@ -154,16 +154,7 @@ class ComicsController extends Controller
     {
         $episodes = $comic->episodes();
 
-        foreach ($episodes->get() as $episode) {
-            $episodeImages = $episode->episodeImages();
-            foreach ($episodeImages->get() as $episodeImage) {
-                $image = $episodeImage->image;
-                if (Storage::exists($image)) {
-                    Storage::delete($image);
-                }
-            }
-            $episodeImages->delete();
-        }
+        Storage::deleteDirectory("comics/".$comic->slug);
 
         $episodes->delete();
 
@@ -195,15 +186,20 @@ class ComicsController extends Controller
 
     /**
      * @param  Comics  $comics
-     * @param  int  $episode_number
+     * @param  $episode_number
      * @return JsonResponse
      */
-    public function showImageEpisode(Comics $comics, int $episode_number)
+    public function showImageEpisode(Comics $comics, $episode_number)
     {
         $comicEpisode = $comics->getEpisode($episode_number);
 
         if ($comicEpisode) {
-            return response()->json(['data' => $comicEpisode->episodeImages,], ResponseAlias::HTTP_OK);
+            $images = Storage::allFiles("comics/".$comics->slug."/".$comicEpisode->episode_number);
+            $imageUrls = [];
+            foreach ($images as $image) {
+                $imageUrls[] = Storage::temporaryUrl($image, now()->addMinutes(30));
+            }
+            return response()->json(['data' => $imageUrls,], ResponseAlias::HTTP_OK);
         }
 
         return response()->json([
