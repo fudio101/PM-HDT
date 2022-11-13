@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Author;
 use App\Models\Category;
 use App\Models\ComicEpisode;
-use App\Models\Comics;
-use App\Models\ComicsCategory;
+use App\Models\Comic;
+use App\Models\ComicCategory;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 use Throwable;
 
-class ComicsController extends Controller
+class ComicController extends Controller
 {
 
     public function __construct()
@@ -30,7 +30,7 @@ class ComicsController extends Controller
     public function index()
     {
         return response()->json([
-            'data' => Comics::all(),
+            'data' => Comic::all(),
         ]);
     }
 
@@ -52,18 +52,18 @@ class ComicsController extends Controller
                 'category_id.*' => 'exists:categories,id,deleted_at,NULL',
 
             ]);
-            $comics = Comics::create($request->only([
+            $comic = Comic::create($request->only([
                 'name', 'published_date', 'author_id', 'description', 'status'
             ]));
             foreach ($request->category_id as $value) {
-                ComicsCategory::create([
-                    'comic_id' => $comics->id,
+                ComicCategory::create([
+                    'comic_id' => $comic->id,
                     'category_id' => $value,
                 ]);
             };
             return response()->json([
                 'message' => 'Add success comics!',
-                'data' => $comics
+                'data' => $comic
             ]);
         } catch (Throwable $err) {
             return response()->json([
@@ -75,10 +75,10 @@ class ComicsController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  Comics  $comic
+     * @param  Comic  $comic
      * @return JsonResponse
      */
-    public function show(Comics $comic)
+    public function show(Comic $comic)
     {
         return response()->json([
             'data' => $comic,
@@ -90,10 +90,10 @@ class ComicsController extends Controller
      * Update the specified resource in storage.
      *
      * @param  Request  $request
-     * @param  Comics  $comic
+     * @param  Comic  $comic
      * @return JsonResponse
      */
-    public function update(Request $request, Comics $comic)
+    public function update(Request $request, Comic $comic)
     {
         try {
             $validated = $request->validate([
@@ -123,9 +123,9 @@ class ComicsController extends Controller
 
             // update category list
             if (!empty($validated['category_id'])) {
-                ComicsCategory::deletes($comic->id);
+                ComicCategory::deletes($comic->id);
                 foreach ($validated['category_id'] as $value) {
-                    ComicsCategory::create([
+                    ComicCategory::create([
                         'comic_id' => $comic->id,
                         'category_id' => $value,
                     ]);
@@ -147,10 +147,10 @@ class ComicsController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  Comics  $comic
+     * @param  Comic  $comic
      * @return JsonResponse
      */
-    public function destroy(Comics $comic)
+    public function destroy(Comic $comic)
     {
         $episodes = $comic->episodes();
 
@@ -180,21 +180,21 @@ class ComicsController extends Controller
     public function search(Request $request)
     {
         return response()->json([
-            'data' => Comics::search($request->search)->get()
+            'data' => Comic::search($request->search)->get()
         ], ResponseAlias::HTTP_OK);
     }
 
     /**
-     * @param  Comics  $comics
+     * @param  Comic  $comic
      * @param  $episode_number
      * @return JsonResponse
      */
-    public function showImageEpisode(Comics $comics, $episode_number)
+    public function showImageEpisode(Comic $comic, $episode_number)
     {
-        $comicEpisode = $comics->getEpisode($episode_number);
+        $comicEpisode = $comic->getEpisode($episode_number);
 
         if ($comicEpisode) {
-            $images = Storage::allFiles("comics/".$comics->slug."/".$comicEpisode->episode_number);
+            $images = Storage::allFiles("comics/".$comic->slug."/".$comicEpisode->episode_number);
             $imageUrls = [];
             foreach ($images as $image) {
                 $imageUrls[] = Storage::temporaryUrl($image, now()->addMinutes(30));

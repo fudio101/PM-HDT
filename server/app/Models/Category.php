@@ -22,7 +22,7 @@ class Category extends Model
 
     function comics()
     {
-        return $this->belongsToMany(Comics::class, 'comic_category', 'category_id', 'comic_id');
+        return $this->belongsToMany(Comic::class, 'comic_category', 'category_id', 'comic_id');
     }
 
 
