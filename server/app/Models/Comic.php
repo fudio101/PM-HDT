@@ -13,7 +13,7 @@ use Laravel\Scout\Searchable;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 
-class Comics extends Model
+class Comic extends Model
 {
     use HasFactory, SoftDeletes, AddUser, HasSlug, Searchable;
 
@@ -68,7 +68,7 @@ class Comics extends Model
         return Attribute::make(
             get: static function ($value, $attributes) {
                 $categoryNames = [];
-                $categories = ComicsCategory::getByComic($attributes['id']);
+                $categories = ComicCategory::getByComic($attributes['id']);
                 foreach ($categories as $category) {
                     $categoryNames[] = Category::find($category->category_id)->name;
                 }
@@ -79,12 +79,12 @@ class Comics extends Model
 
     static function getActive($id)
     {
-        return Comics::where('status', 1)->get();
+        return Comic::where('status', 1)->get();
     }
 
     static function getStop($id)
     {
-        return Comics::where('status', 0)->get();
+        return Comic::where('status', 0)->get();
     }
 
     function author()

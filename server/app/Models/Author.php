@@ -46,6 +46,6 @@ class Author extends Model
 
     function comics()
     {
-        return $this->hasMany(Comics::class, 'author_id', 'id');
+        return $this->hasMany(Comic::class, 'author_id', 'id');
     }
 }
