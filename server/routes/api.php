@@ -3,7 +3,6 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AuthorController;
 use App\Http\Controllers\ComicEpisodeController;
-use App\Http\Controllers\EpisodeImageController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ComicsController;
@@ -41,7 +40,6 @@ Route::apiResource('categories', CategoryController::class);
 Route::apiResource('comics', ComicsController::class);
 Route::get('comics/categories/{category}', [ComicsController::class, 'showCategory']);
 Route::apiResource('comic-episodes', ComicEpisodeController::class);
-Route::get('comic-episodes/images/{comicEpisode}', [ComicEpisodeController::class, 'getImages']);
-Route::apiResource('episode-images', EpisodeImageController::class);
+//Route::get('comic-episodes/images/{comicEpisode}', [ComicEpisodeController::class, 'getImages']);
 Route::get('comics/{comics:slug}/{episode_number}', [ComicsController::class, 'showImageEpisode']);
 Route::get('search/comics', [ComicsController::class, 'search']);

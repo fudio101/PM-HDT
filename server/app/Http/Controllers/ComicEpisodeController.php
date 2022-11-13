@@ -230,11 +230,11 @@ class ComicEpisodeController extends Controller
         }
         return $newImages;
     }
-
-    public function getImages(ComicEpisode $comicEpisode)
-    {
-        $images = $comicEpisode->episodeImages;
-
-        return \response()->json(['data' => $images], ResponseAlias::HTTP_OK);
-    }
+//
+//    public function getImages(ComicEpisode $comicEpisode)
+//    {
+//        $images = $comicEpisode->episodeImages;
+//
+//        return \response()->json(['data' => $images], ResponseAlias::HTTP_OK);
+//    }
 }
