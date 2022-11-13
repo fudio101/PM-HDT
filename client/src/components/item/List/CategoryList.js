@@ -1,12 +1,12 @@
 import React from "react";
 import Slider from "react-slick";
 
-import DocumentItem from "../DocumentItem";
+import ComicItem from "../ComicItem";
 import NextArrow from "../Carousel/NextArrow";
 import PrevArrow from "../Carousel/PrevArrow";
 import classes from "./CategoryList.module.css";
 
-function CategoryList() {
+function CategoryList(props) {
   const setting = {
     infinite: false,
     speed: 500,
@@ -44,18 +44,15 @@ function CategoryList() {
     <div className={classes.container}>
       <div className={classes.homepage_tags}>
         <h1>
-          <i>Category-Name</i>
+          <i>{props.category}</i>
         </h1>
         <div className={classes.clear}></div>
       </div>
       <div className={classes.slider}>
         <Slider {...setting}>
-          <DocumentItem />
-          <DocumentItem />
-          <DocumentItem />
-          <DocumentItem />
-          <DocumentItem />
-          <DocumentItem />
+          {props.comics.map((comic) => {
+            return <ComicItem comic={comic} key={comic.id} />;
+          })}
         </Slider>
       </div>
     </div>

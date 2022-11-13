@@ -9,40 +9,30 @@ const authorAPI = {
   get: (id) => {
     const url = `http://server-pmhdt/api/authors/${id}`;
 
-    return axiosClient.get(url, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("userToken")}`,
-      },
-    });
+    return axiosClient.get(url);
   },
 
   store: (author) => {
     const url = `http://server-pmhdt/api/authors`;
-
-    return axiosClient.post(url, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("userToken")}`,
-      },
+    return axiosClient({
+      url: url,
+      method: "post",
+      data: author,
     });
   },
 
   delete: (id) => {
     const url = `http://server-pmhdt/api/authors/${id}`;
-
-    return axiosClient.delete(url, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("userToken")}`,
-      },
-    });
+    return axiosClient.delete(url);
   },
 
   update: (id, author) => {
-    const url = `http://server-pmhdt/api/authors/${id}`;
+    const url = `http://server-pmhdt/api/authors/${id}?_method=PUT`;
 
-    return axiosClient.put(url, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("userToken")}`,
-      },
+    return axiosClient({
+      url: url,
+      method: "post",
+      data: author,
     });
   },
 };

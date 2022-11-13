@@ -10,8 +10,6 @@ import { useNavigate } from "react-router-dom";
 import LoadingSpinner from "../../components/UI/LoadingSpinner";
 
 import classes from "./AuthForm.module.css";
-import "react-toastify/ReactToastify.min.css";
-
 const AuthForm = () => {
   const { loading, error, userToken, userInfo } = useSelector(
     (state) => state.user

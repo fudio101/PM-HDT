@@ -13,6 +13,8 @@ import AuthPage from "./pages/auth/AuthPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import AuthorManagementPage from "./pages/AuthorManagementPage";
 
+import "react-toastify/ReactToastify.min.css";
+
 function App() {
   return (
     <Routes>
