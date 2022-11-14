@@ -2,7 +2,6 @@ import React from "react";
 
 function PrevArrow(props) {
   const { className, style, onClick } = props;
-  console.log(props);
   return (
     <div
       className={className}

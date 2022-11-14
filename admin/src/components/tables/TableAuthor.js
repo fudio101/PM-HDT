@@ -10,15 +10,15 @@ function TableAuthor({ columns, data, setRowSelected }) {
       ...columns,
       {
         Header: "Avatar",
-        accessor: "avt",
-        id: "avt0",
+        accessor: "image_url",
+        id: "avt",
         Cell: (row) => {
           return (
             <div className={classes.img_wrapper}>
               <img
                 className={classes.img}
                 alt="author avatar"
-                src={row.row.original.avt}
+                src={row.row.original.image_url}
               ></img>
             </div>
           );
@@ -32,7 +32,13 @@ function TableAuthor({ columns, data, setRowSelected }) {
           return (
             <div
               className={classes.edit_btn}
-              onClick={() => setRowSelected(row.row.original.id)}
+              onClick={() =>
+                setRowSelected({
+                  id: row.row.original.id,
+                  name: row.row.original.name,
+                  image_url: row.row.original.image_url,
+                })
+              }
             >
               edit
             </div>
@@ -45,7 +51,7 @@ function TableAuthor({ columns, data, setRowSelected }) {
   const tableInstance = useTable(
     {
       columns: columns,
-      data: data,
+      data,
       initialState: {
         hiddenColumns: ["id"],
       },
