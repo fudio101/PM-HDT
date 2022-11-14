@@ -44,7 +44,7 @@ function CategoryList(props) {
     <div className={classes.container}>
       <div className={classes.homepage_tags}>
         <h1>
-          <i>{props.category}</i>
+          <i className={classes.category_tag}>{props.category}</i>
         </h1>
         <div className={classes.clear}></div>
       </div>

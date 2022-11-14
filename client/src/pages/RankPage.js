@@ -47,7 +47,7 @@ function RankPage() {
   return (
     <div className={classes.container}>
       <div className={classes.tag_name}>
-        <h1>Popular</h1>
+        <h1 className={classes.tag_title}>Popular</h1>
       </div>
 
       {COMIC_ITEM_DATA.map((comic) => {

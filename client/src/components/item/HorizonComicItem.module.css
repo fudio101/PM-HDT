@@ -10,7 +10,7 @@ img {
 }
 
 .container {
-  max-width: 1030px;
+  max-width: 90%;
   margin: 0 auto;
   padding: 0 15px;
 }
@@ -18,6 +18,23 @@ img {
 .tag_name {
   font-style: italic;
   padding-bottom: 2rem;
+}
+
+.tag_title::before {
+  content: "";
+  padding: 5px;
+  margin: 0 10px 0 0;
+  width: 3px;
+  height: 26px;
+  background: linear-gradient(
+    180deg,
+    var(--heading_custom_border_color_1, rgb(19, 159, 252)),
+    var(--heading_custom_border_color_2, #305685)
+  );
+  border-radius: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 0;
 }
 
 .post_category {

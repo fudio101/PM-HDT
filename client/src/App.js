@@ -14,18 +14,19 @@ import "slick-carousel/slick/slick-theme.css";
 
 function App() {
   return (
-    <Layout>
-      <Routes>
+    <Routes>
+      <Route element={<Layout />}>
         <Route path="/comic" element={<ComicIntroPage />} />
-        <Route path="/chapter" element={<ComicViewPage />} />
         <Route path="/" element={<HomePage />} />
         <Route path="/home" element={<HomePage />} />
         <Route path="*" element={<HomePage />} />
         <Route path="/cate/*" element={<SearchPage />} />
         <Route path="/categories" element={<CategoryPage />} />
         <Route path="/popular" element={<RankPage />} />
-      </Routes>
-    </Layout>
+        <Route path="/lastest" element={<RankPage />} />
+      </Route>
+      <Route path="/chapter" element={<ComicViewPage />} />
+    </Routes>
   );
 }
 

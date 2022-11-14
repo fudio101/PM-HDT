@@ -1,0 +1,9 @@
+.container {
+  background-color: rgb(44, 44, 44);
+}
+
+.container img {
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
