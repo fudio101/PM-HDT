@@ -20,7 +20,6 @@ class UserController extends Controller
     public function __construct()
     {
         $this->middleware('auth:api');
-        $this->authorizeResource(User::class, 'user');
     }
 
     /**
@@ -110,7 +109,7 @@ class UserController extends Controller
         $result = $user->update($data);
 
         if ($result) {
-            return \response()->json(['message' => 'Successfully update'], ResponseAlias::HTTP_OK);
+            return \response()->json(['message' => 'Successfully update', 'data' => $user], ResponseAlias::HTTP_OK);
         }
 
         return \response()->json(['message' => 'Fail'], ResponseAlias::HTTP_NOT_FOUND);
