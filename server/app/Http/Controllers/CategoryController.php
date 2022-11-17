@@ -79,11 +79,12 @@ class CategoryController extends Controller
     {
         try {
             $validated = $request->validate([
-                'name' => 'required|unique:categories|max:255',
+                'name' => 'unique:categories|max:255',
             ]);
             $category->update($validated);
             return response()->json([
                 'message' => 'Update successful category!',
+                'data' => $category
             ], ResponseAlias::HTTP_OK);
 
         } catch (Throwable $err) {
