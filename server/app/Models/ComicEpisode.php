@@ -28,11 +28,6 @@ class ComicEpisode extends Model
 
     public function comic()
     {
-        return $this->belongsTo(Comics::class);
-    }
-
-    public function episodeImages()
-    {
-        return $this->hasMany(EpisodeImage::class);
+        return $this->belongsTo(Comic::class);
     }
 }

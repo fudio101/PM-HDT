@@ -7,6 +7,7 @@ use App\Http\Requests\StoreComicEpisodeRequest;
 use App\Http\Requests\UpdateComicEpisodeRequest;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 class ComicEpisodeController extends Controller
@@ -50,11 +51,37 @@ class ComicEpisodeController extends Controller
      */
     public function store(StoreComicEpisodeRequest $request)
     {
-        $comicEpisode = ComicEpisode::query()->create($request->only([
-            'comic_id', 'episode_number', 'published_date'
-        ]));
+        try {
 
-        return \response()->json(['data' => $comicEpisode], ResponseAlias::HTTP_CREATED);
+            $comicEpisode = ComicEpisode::query()->create($request->only([
+                'comic_id', 'episode_number', 'published_date'
+            ]));
+
+            $comic = $comicEpisode->comic;
+            $comicSlug = $comic->slug;
+
+            // Delete old image of comic episode
+            $oldImages = Storage::allFiles("comics/".$comicSlug);
+            foreach ($oldImages as $item) {
+                $image = $item->image;
+                if (Storage::exists($image)) {
+                    Storage::delete($image);
+                }
+            }
+
+            $images = $request->file('images');
+            $imageOrder = (array) $request->input('imageOrder');
+            $images = $this->sortImages($images, $imageOrder);
+
+            $comicEpisodeId = $comicEpisode->id;
+            foreach ($images as $index => $image) {
+                Storage::putFileAs('comics/'.$comicSlug.'/'.$comicEpisodeId, $image, $index.'.'.$image->extension());
+            }
+
+            return \response()->json(['data' => $comicEpisode], ResponseAlias::HTTP_CREATED);
+        } catch (\Throwable $exception) {
+            return \response()->json(['message' => $exception->getMessage()], ResponseAlias::HTTP_BAD_REQUEST);
+        }
     }
 
     /**
@@ -88,12 +115,84 @@ class ComicEpisodeController extends Controller
      */
     public function update(UpdateComicEpisodeRequest $request, ComicEpisode $comicEpisode)
     {
-        $result = $comicEpisode->update($request->only(['comic_id', 'episode_number', 'published_date']));
-        if ($result) {
-            return \response()->json(['message' => 'Successfully update'], ResponseAlias::HTTP_OK);
-        }
+        try {
+            $oldEpisodeNumber = $comicEpisode->episode_number;
 
-        return \response()->json(['message' => 'Fail'], ResponseAlias::HTTP_NOT_FOUND);
+            $result = $comicEpisode->update($request->only(['episode_number', 'published_date']));
+
+            $newEpisodeNumber = $comicEpisode->episode_number;
+            //update episode folder
+            if ($oldEpisodeNumber != $newEpisodeNumber) {
+                $oldFiles = Storage::allFiles("comics/".$comicEpisode->comic->slug."/".$oldEpisodeNumber);
+                foreach ($oldFiles as $oldFile) {
+                    $tmp = explode('/', $oldFile);
+                    $tmp[2] = $newEpisodeNumber;
+                    $tmp = implode("/", $tmp);
+                    Storage::move($oldFile, $tmp);
+                }
+            }
+
+            $comic = $comicEpisode->comic;
+            $comicSlug = $comic->slug;
+
+            $images = $request->file('images');
+            $imageOrder = (array) $request->input('imageOrder');
+
+            if ($images && $imageOrder) {
+                // Delete old image of comic episode
+                $oldImages = Storage::allFiles("comics/".$comicSlug."/".$newEpisodeNumber);
+                foreach ($oldImages as $image) {
+                    if (Storage::exists($image)) {
+                        Storage::delete($image);
+                    }
+                }
+
+                $images = $this->sortImages($images, $imageOrder);
+
+                // put new file to folder
+                foreach ($images as $index => $image) {
+                    Storage::putFileAs('comics/'.$comicSlug.'/'.$newEpisodeNumber, $image,
+                        $index.'.'.$image->extension());
+                }
+            } elseif (!$images && $imageOrder) {
+
+                // move file to temp folder
+                $oldImages = Storage::allFiles("comics/".$comicSlug."/".$newEpisodeNumber);
+                foreach ($oldImages as $image) {
+                    if (Storage::exists($image)) {
+                        $tmp = explode('/', $image);
+                        array_splice($tmp, 3, 0, "tmp");
+                        $tmp = implode("/", $tmp);
+                        Storage::move($image, $tmp);
+                    }
+                }
+
+                // move file from tmp folder back with new order
+                $dir = "comics/".$comicSlug."/".$newEpisodeNumber;
+                foreach ($imageOrder as $index => $name) {
+                    $extension = explode(".", $name)[1];
+                    $tmpDir = $dir."/tmp/".$name;
+                    $newDir = $dir."/".$index.".".$extension;
+                    Storage::move($tmpDir, $newDir);
+                }
+
+                //delete tmp folder
+                Storage::deleteDirectory($dir."/tmp");
+
+            }
+
+            if ($result) {
+                return \response()->json([
+                    'message' => 'Successfully update',
+                    'data' => $comicEpisode
+                ],
+                    ResponseAlias::HTTP_OK);
+            }
+
+            return \response()->json(['message' => 'Fail'], ResponseAlias::HTTP_BAD_REQUEST);
+        } catch (\Throwable $exception) {
+            return \response()->json(['message' => $exception->getMessage()], ResponseAlias::HTTP_BAD_REQUEST);
+        }
     }
 
     /**
@@ -113,10 +212,29 @@ class ComicEpisodeController extends Controller
         return \response()->json(['message' => 'Fail'], ResponseAlias::HTTP_NOT_FOUND);
     }
 
-    public function getImages(ComicEpisode $comicEpisode)
+    /**
+     * @param  array  $images
+     * @param  array  $imageOrder
+     * @return array
+     */
+    private function sortImages(array $images, array $imageOrder)
     {
-        $images = $comicEpisode->episodeImages;
-
-        return \response()->json(['data' => $images], ResponseAlias::HTTP_OK);
+        $newImages = [];
+        foreach ($imageOrder as $value) {
+            foreach ($images as $index => $item) {
+                if ($item->getClientOriginalName() == $value) {
+                    $newImages[] = $item;
+                    unset($images[$index]);
+                }
+            }
+        }
+        return $newImages;
     }
+//
+//    public function getImages(ComicEpisode $comicEpisode)
+//    {
+//        $images = $comicEpisode->episodeImages;
+//
+//        return \response()->json(['data' => $images], ResponseAlias::HTTP_OK);
+//    }
 }

@@ -24,7 +24,7 @@ class UpdateAuthorRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|string',
+            'name' => 'string',
             'image' => 'image',
         ];
     }
