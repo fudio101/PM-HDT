@@ -46,21 +46,29 @@ class ComicController extends Controller
         try {
             $validated = $request->validate([
                 'name' => 'required|max:255',
+                'image' => 'required|image',
                 'published_date' => 'required|date',
                 'author_id' => 'required|exists:authors,id,deleted_at,NULL',
                 'category_id' => 'required|array',
                 'category_id.*' => 'exists:categories,id,deleted_at,NULL',
 
             ]);
+
             $comic = Comic::create($request->only([
                 'name', 'published_date', 'author_id', 'description', 'status'
             ]));
+
             foreach ($request->category_id as $value) {
                 ComicCategory::create([
                     'comic_id' => $comic->id,
                     'category_id' => $value,
                 ]);
             };
+
+            // save image
+            $image = $request->file('image');
+            Storage::putFileAs('comics', $image, $comic->slug.'.'.$image->extension());
+
             return response()->json([
                 'message' => 'Add success comics!',
                 'data' => $comic
@@ -98,6 +106,7 @@ class ComicController extends Controller
         try {
             $validated = $request->validate([
                 'name' => 'max:255',
+                'image' => 'image',
                 'published_date' => 'date',
                 'author_id' => 'exists:authors,id,deleted_at,NULL',
                 'status' => 'integer',
@@ -107,11 +116,20 @@ class ComicController extends Controller
 
             $oldSlug = $comic->slug;
 
-            $comic->update($validated);
+            $comic->update($request->only(['name', 'published_date', 'author_id', 'status']));
 
             // update image location
             $newSlug = $comic->slug;
             if ($oldSlug !== $newSlug) {
+                // comic image
+                if ($oldImage = $comic->image) {
+                    $tmp = explode('/', $oldImage);
+                    $tmp[1] = $newSlug;
+                    $tmp = implode("/", $tmp);
+                    Storage::move($oldImage, $tmp);
+                }
+
+                // episode image
                 $oldFiles = Storage::allFiles("comics/".$oldSlug);
                 foreach ($oldFiles as $oldFile) {
                     $tmp = explode('/', $oldFile);
@@ -130,6 +148,15 @@ class ComicController extends Controller
                         'category_id' => $value,
                     ]);
                 };
+            }
+
+            // save image
+            $image = $request->file('image');
+            if ($image) {
+                if ($oldImage = $comic->image) {
+                    Storage::delete($oldImage);
+                }
+                Storage::putFileAs('comics', $image, $newSlug.'.'.$image->extension());
             }
 
             return response()->json([
