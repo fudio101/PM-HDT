@@ -3,11 +3,13 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Storage;
 use Laravel\Sanctum\HasApiTokens;
 use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
 use PHPOpenSourceSaver\JWTAuth\Http\Middleware\RefreshToken;
@@ -28,6 +30,10 @@ class User extends Authenticatable implements JWTSubject
         'role_id',
     ];
 
+    protected $appends = [
+        'image_url',
+    ];
+
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -41,16 +47,34 @@ class User extends Authenticatable implements JWTSubject
 //        'remember_token',
     ];
 
-//    /**
-//     * The attributes that should be cast.
-//     *
-//     * @var array<string, string>
-//     */
-//    protected $casts = [
-//        'email_verified_at' => 'datetime',
-//    ];
+    public function image(): Attribute
+    {
+        return Attribute::make(
+            get: static fn(
+                $value,
+                $attributes
+            ) => empty($image = preg_grep("/^users\/{$attributes['id']}\./", Storage::files('users/'))) ?
+                null :
+                array_shift($image)
 
-    public function role(){
+        );
+    }
+
+    public function imageUrl(): Attribute
+    {
+        return Attribute::make(
+            get: static fn(
+                $value,
+                $attributes
+            ) => empty($image = preg_grep("/^users\/{$attributes['id']}\./", Storage::files('users/'))) ?
+                null :
+                Storage::temporaryUrl(array_shift($image), now()->addMinutes(30))
+
+        );
+    }
+
+    public function role()
+    {
         return $this->belongsTo(Role::class);
     }
 
