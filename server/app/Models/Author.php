@@ -33,13 +33,28 @@ class Author extends Model
         'user_id',
     ];
 
+    public function image(): Attribute
+    {
+        return Attribute::make(
+            get: static fn(
+                $value,
+                $attributes
+            ) => empty($image = preg_grep("/^authors\/{$attributes['id']}\./", Storage::files('authors/'))) ?
+                null :
+                array_shift($image)
+
+        );
+    }
+
     public function imageUrl(): Attribute
     {
         return Attribute::make(
             get: static fn(
                 $value,
                 $attributes
-            ) => empty($attributes['image']) ? null : Storage::temporaryUrl($attributes['image'], now()->addMinutes(30))
+            ) => empty($image = preg_grep("/^authors\/{$attributes['id']}\./", Storage::files('authors/'))) ?
+                null :
+                Storage::temporaryUrl(array_shift($image), now()->addMinutes(30))
 
         );
     }
