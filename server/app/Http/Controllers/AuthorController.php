@@ -52,9 +52,10 @@ class AuthorController extends Controller
     public function store(StoreAuthorRequest $request)
     {
         $author = Author::query()->create($request->only(['name']));
+
+        // save image
         $image = $request->file('image');
-        $imagePath = Storage::putFileAs('author', $image, $author->id.'.'.$image->extension());
-        $author->update(['image' => $imagePath]);
+        Storage::putFileAs('authors', $image, $author->id.'.'.$image->extension());
 
         return \response()->json(['data' => $author], ResponseAlias::HTTP_CREATED);
     }
@@ -90,16 +91,16 @@ class AuthorController extends Controller
      */
     public function update(UpdateAuthorRequest $request, Author $author)
     {
-        $name = $request->input('name');
+        $data = $request->only('name');
         $image = $request->file('image');
-        if (Storage::exists($image)) {
-            Storage::delete($author->image);
-            $imagePath = Storage::putFileAs('author', $image, $author->id.'.'.$image->extension());
-            $result = $author->update(['name' => $name, 'image' => $imagePath]);
-
-        } else {
-            $result = $author->update(['name' => $name]);
+        if ($image) {
+            if ($oldImage = $author->image) {
+                Storage::delete($oldImage);
+            }
+            Storage::putFileAs('authors', $image, $author->id.'.'.$image->extension());
         }
+
+        $result = $author->update($data);
         if ($result) {
             return \response()->json(['message' => 'Successfully update', 'data' => $author], ResponseAlias::HTTP_OK);
         }
