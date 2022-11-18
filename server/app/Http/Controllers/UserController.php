@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateUserRequest;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 class UserController extends Controller
@@ -60,6 +61,11 @@ class UserController extends Controller
 
         $data['password'] = Hash::make($data['password']);
         $user = User::query()->create($data);
+
+        // save image
+        $image = $request->file('image');
+        Storage::putFileAs('users', $image, $user->id.'.'.$image->extension());
+
         return \response()->json(['data' => $user], ResponseAlias::HTTP_OK);
     }
 
@@ -96,7 +102,6 @@ class UserController extends Controller
     {
         $data = $request->only([
             'name',
-            'email',
             'password',
             'role_id'
         ]);
@@ -107,6 +112,15 @@ class UserController extends Controller
             $data['password'] = Hash::make($data['password']);
         }
         $result = $user->update($data);
+
+        // save image
+        $image = $request->file('image');
+        if ($image) {
+            if ($oldImage = $user->image) {
+                Storage::delete($oldImage);
+            }
+            Storage::putFileAs('users', $image, $user->id.'.'.$image->extension());
+        }
 
         if ($result) {
             return \response()->json(['message' => 'Successfully update', 'data' => $user], ResponseAlias::HTTP_OK);

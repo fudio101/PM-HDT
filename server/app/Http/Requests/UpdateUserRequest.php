@@ -26,7 +26,8 @@ class UpdateUserRequest extends FormRequest
     {
         return [
             'name' => 'string',
-            'email' => 'email|unique:users,email,'.$this->user->id,
+            'image' => 'image',
+//            'email' => 'email|unique:users,email,'.$this->user->id,
             'password' => [
                 'confirmed',
                 Password::min(8)->mixedCase()
