@@ -24,7 +24,7 @@ class Comic extends Model
     protected $appends = [
 //        'author_name',
         'user_name',
-        'category_names',
+//        'category_names',
         'image_url'
     ];
 
@@ -96,19 +96,19 @@ class Comic extends Model
         );
     }
 
-    public function categoryNames(): Attribute
-    {
-        return Attribute::make(
-            get: static function ($value, $attributes) {
-                $categoryNames = [];
-                $categories = ComicCategory::getByComic($attributes['id']);
-                foreach ($categories as $category) {
-                    $categoryNames[] = Category::find($category->category_id)->name;
-                }
-                return $categoryNames;
-            }
-        );
-    }
+//    public function categoryNames(): Attribute
+//    {
+//        return Attribute::make(
+//            get: static function ($value, $attributes) {
+//                $categoryNames = [];
+//                $categories = ComicCategory::getByComic($attributes['id']);
+//                foreach ($categories as $category) {
+//                    $categoryNames[] = Category::find($category->category_id)->name;
+//                }
+//                return $categoryNames;
+//            }
+//        );
+//    }
 
     static function getActive($id)
     {
@@ -128,7 +128,7 @@ class Comic extends Model
         return $this->hasOne(Author::class, 'id', 'author_id');
     }
 
-    function category()
+    function categories()
     {
         return $this->belongsToMany(Category::class, 'comic_category', 'comic_id', 'category_id');
     }
@@ -156,6 +156,8 @@ class Comic extends Model
         $data = parent::toArray();
 
         $data['author'] = $this->author;
+
+        $data['categories'] = $this->categories;
 
         return $data;
 
