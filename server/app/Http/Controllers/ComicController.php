@@ -206,8 +206,9 @@ class ComicController extends Controller
 
     public function search(Request $request)
     {
+        $data = Comic::search($request->search)->get();
         return response()->json([
-            'data' => Comic::search($request->search)->get()
+            'data' => $data
         ], ResponseAlias::HTTP_OK);
     }
 
