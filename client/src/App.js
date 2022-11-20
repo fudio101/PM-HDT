@@ -13,21 +13,22 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
 function App() {
-  return (
-    <Routes>
-      <Route element={<Layout />}>
-        <Route path="/comic" element={<ComicIntroPage />} />
-        <Route path="/" element={<HomePage />} />
-        <Route path="/home" element={<HomePage />} />
-        <Route path="*" element={<HomePage />} />
-        <Route path="/cate/*" element={<SearchPage />} />
-        <Route path="/categories" element={<CategoryPage />} />
-        <Route path="/popular" element={<RankPage />} />
-        <Route path="/lastest" element={<RankPage />} />
-      </Route>
-      <Route path="/chapter" element={<ComicViewPage />} />
-    </Routes>
-  );
+    return (
+        <Routes>
+            <Route element={<Layout />}>
+                <Route path="/comic" element={<ComicIntroPage />} />
+                <Route index element={<HomePage />} />
+                <Route path="/home" element={<HomePage />} />
+                <Route path="*" element={<HomePage />} />
+                <Route path="/search/:searchKey" element={<SearchPage />} />
+                <Route path="/cate/*" element={<SearchPage />} />
+                <Route path="/categories" element={<CategoryPage />} />
+                <Route path="/popular" element={<RankPage />} />
+                <Route path="/lastest" element={<RankPage />} />
+            </Route>
+            <Route path="/chapter" element={<ComicViewPage />} />
+        </Routes>
+    );
 }
 
 export default App;

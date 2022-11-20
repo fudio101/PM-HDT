@@ -8,7 +8,7 @@ const axiosClient = axios.create({
     //     Authorization: `Bearer ${localStorage.getItem("userToken")}`,
     // },
     // paramsSerializer: (params) => queryString.stringify(params),
-    baseURL: 'http://server-pmhdt/api',
+    baseURL: process.env.REACT_APP_BASE_BACKEND_URL,
 });
 
 // Thêm một bộ đón chặn request
