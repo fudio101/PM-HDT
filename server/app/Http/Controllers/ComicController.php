@@ -19,7 +19,7 @@ class ComicController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['index', 'showImageEpisode', 'search']]);
+        $this->middleware('auth:api', ['except' => ['index', 'showImageEpisode', 'search', 'getComic']]);
     }
 
     /**
@@ -206,10 +206,19 @@ class ComicController extends Controller
 
     public function search(Request $request)
     {
-        $data = Comic::search($request->search)->get();
+        $data = Comic::search($request->search)->get()->makeHidden('episodes');
         return response()->json([
             'data' => $data
         ], ResponseAlias::HTTP_OK);
+    }
+
+    /**
+     * @param  Comic  $comic
+     * @return JsonResponse
+     */
+    public function getComic(Comic $comic): JsonResponse
+    {
+        return \response()->json(['data' => $comic]);
     }
 
     /**

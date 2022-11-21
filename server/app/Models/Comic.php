@@ -25,7 +25,8 @@ class Comic extends Model
 //        'author_name',
         'user_name',
 //        'category_names',
-        'image_url'
+        'image_url',
+        'num_of_episodes',
     ];
 
     protected $hidden = [
@@ -33,6 +34,12 @@ class Comic extends Model
         'created_at',
         'updated_at',
         'user_id',
+    ];
+
+    protected $with = [
+        'author',
+        'categories',
+        'episodes',
     ];
 
 
@@ -110,6 +117,11 @@ class Comic extends Model
 //        );
 //    }
 
+    public function getNumOfEpisodesAttribute()
+    {
+        return $this->episodes->count();
+    }
+
     static function getActive($id)
     {
         return Comic::where('status', 1)->get();
@@ -149,17 +161,5 @@ class Comic extends Model
     public function episodes()
     {
         return $this->hasMany(ComicEpisode::class, 'comic_id', 'id');
-    }
-
-    public function toArray()
-    {
-        $data = parent::toArray();
-
-        $data['author'] = $this->author;
-
-        $data['categories'] = $this->categories;
-
-        return $data;
-
     }
 }
