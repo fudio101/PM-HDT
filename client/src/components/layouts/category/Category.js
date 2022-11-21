@@ -1,47 +1,51 @@
-import React, { useState } from "react";
-
+import React, { useState, useEffect } from "react";
+import categoryApi from "../../../api/categoryApi";
 import CategoryItem from "./CategoryItem";
-
 import classes from "./Category.module.css";
 
-const DUMMY_CATEGORIES = [
-  { name: "Economy", url: "cate/ecomomy" },
-  { name: "Chemistry", url: "cate/chemistry" },
-  { name: "History", url: "cate/history" },
-  { name: "Geography", url: "cate/geography" },
-  { name: "Computer Science", url: "cate/cs" },
-  { name: "Biology", url: "cate/biology" },
-  { name: "Language", url: "cate/language" },
-  { name: "Maths", url: "cate/maths" },
-  { name: "Economy", url: "cate/ecomomy" },
-  { name: "Chemistry", url: "cate/chemistry" },
-  { name: "History", url: "cate/history" },
-  { name: "Geography", url: "cate/geography" },
-  { name: "Computer Science", url: "cate/cs" },
-  { name: "Biology", url: "cate/biology" },
-  { name: "Language", url: "cate/language" },
-  { name: "Maths", url: "cate/maths" },
-];
-
 function Category(props) {
-  const [visibleCate, setVisibleCate] = useState(false);
-  return (
-    <div
-      onMouseEnter={() => setVisibleCate(true)}
-      onMouseLeave={() => setVisibleCate(false)}
-      className={`${classes.cateWrap} ${
-        visibleCate || props.hidden ? "" : classes.hideCate
-      } `}
-    >
-      <div className={classes.category}>
-        <ul>
-          {DUMMY_CATEGORIES.map((item, index) => {
-            return <CategoryItem item={item} key={index} />;
-          })}
-        </ul>
-      </div>
-    </div>
-  );
+    const [visibleCate, setVisibleCate] = useState(false);
+    const [categories, setCategories] = useState([]);
+    const [categoryItems, setCategoryItems] = useState();
+
+    useEffect(() => {
+        const getData = async () => {
+            try {
+                const { data } = await categoryApi.index();
+                setCategories(data.data);
+            } catch (e) {
+                console.log(e);
+            }
+        };
+
+        getData();
+    }, []);
+
+    useEffect(() => {
+        setCategoryItems(
+            categories.length > 0 ? (
+                <ul>
+                    {categories.map((item, index) => {
+                        return <CategoryItem item={item} key={item.id} />;
+                    })}
+                </ul>
+            ) : (
+                ""
+            )
+        );
+    }, [categories]);
+
+    return (
+        <div
+            onMouseEnter={() => setVisibleCate(true)}
+            onMouseLeave={() => setVisibleCate(false)}
+            className={`${classes.cateWrap} ${
+                visibleCate || props.hidden ? "" : classes.hideCate
+            } `}
+        >
+            <div className={classes.category}>{categoryItems}</div>
+        </div>
+    );
 }
 
 export default Category;
