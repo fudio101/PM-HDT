@@ -21,19 +21,19 @@ function Category(props) {
         getData();
     }, []);
 
-    useEffect(() => {
-        setCategoryItems(
-            categories.length > 0 ? (
-                <ul>
-                    {categories.map((item, index) => {
-                        return <CategoryItem item={item} key={item.id} />;
-                    })}
-                </ul>
-            ) : (
-                ""
-            )
-        );
-    }, [categories]);
+    // useEffect(() => {
+    //     setCategoryItems(
+    //         categories.length > 0 ? (
+    //             <ul>
+    //                 {categories.map((item, index) => {
+    //                     return <CategoryItem item={item} key={item.id} />;
+    //                 })}
+    //             </ul>
+    //         ) : (
+    //             ""
+    //         )
+    //     );
+    // }, [categories]);
 
     return (
         <div
@@ -43,7 +43,17 @@ function Category(props) {
                 visibleCate || props.hidden ? "" : classes.hideCate
             } `}
         >
-            <div className={classes.category}>{categoryItems}</div>
+            <div className={classes.category}>
+                {categories.length > 0 ? (
+                    <ul>
+                        {categories.map((item, index) => {
+                            return <CategoryItem item={item} key={item.id} />;
+                        })}
+                    </ul>
+                ) : (
+                    ""
+                )}
+            </div>
         </div>
     );
 }

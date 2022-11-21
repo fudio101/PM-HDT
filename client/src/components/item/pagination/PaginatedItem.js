@@ -20,6 +20,10 @@ function PaginatedItems({ itemsPerPage, data }) {
     const [itemOffset, setItemOffset] = useState(0);
 
     useEffect(() => {
+        setItemOffset(0);
+    }, [items]);
+
+    useEffect(() => {
         // Fetch items from another resources.
         const endOffset = itemOffset + itemsPerPage;
 
@@ -28,6 +32,7 @@ function PaginatedItems({ itemsPerPage, data }) {
         setPageCount(Math.ceil(items.length / itemsPerPage));
     }, [itemOffset, itemsPerPage, items]);
     // Invoke when user click to request another page.
+
     const handlePageClick = (event) => {
         const newOffset = (event.selected * itemsPerPage) % items.length;
         // console.log(
