@@ -38,6 +38,7 @@
 }
 .story_list_bl01 td ul li {
     float: left;
+    cursor: pointer;
 }
 .story_list_bl01 td ul li {
     display: inline-block;

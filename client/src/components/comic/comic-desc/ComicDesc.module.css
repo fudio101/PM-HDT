@@ -1,257 +1,261 @@
 .container {
-  max-width: 100%;
-  min-width: 90%;
-  margin: 0 auto;
-  padding: 0 15px;
-  width: 90%;
+    max-width: 100%;
+    min-width: 90%;
+    margin: 0 auto;
+    padding: 0 15px;
+    width: 90%;
 }
 
 .book_info {
-  display: grid;
-  grid-template-columns: 36% 64%;
-  column-gap: 1rem;
-  height: auto;
-  border-bottom: 2px solid rgb(2, 99, 202);
+    display: grid;
+    grid-template-columns: 36% 64%;
+    column-gap: 1rem;
+    height: auto;
+    border-bottom: 2px solid rgb(2, 99, 202);
+    padding-bottom: 24px;
 }
 
 .book_info .book_avatar {
-  margin: auto;
-  height: 28rem;
+    margin: auto;
+    height: 28rem;
 }
 
 .book_info .book_avatar img {
-  border-radius: 5px;
-  max-width: 100%;
-  max-height: 100%;
-  min-width: 22rem;
-  min-height: 26rem;
+    border-radius: 5px;
+    max-width: 100%;
+    max-height: 100%;
+    min-width: 22rem;
+    min-height: 26rem;
 }
 
 .book_other h1 {
-  padding-left: 10px;
+    padding-left: 10px;
 }
 
 .book_other .list_info {
-  padding: 1rem 0;
-  margin: 0;
+    padding: 1rem 0;
+    margin: 0;
 }
 
 .book_other .list_info li {
-  list-style: none;
-  display: flex;
-  padding: 4px 14px;
+    list-style: none;
+    display: flex;
+    padding: 4px 14px;
 }
 
 .book_other .info_title {
-  width: 10rem;
+    width: 10rem;
 }
 
 .cates_list {
-  display: flex;
-  list-style: none;
-  text-decoration: none;
-  justify-content: left;
+    display: flex;
+    list-style: none;
+    text-decoration: none;
+    justify-content: left;
 }
 
 .cates_list li {
-  cursor: pointer;
-  display: inline-block;
-  border: 1px solid #f18121;
-  color: #f18121;
-  padding: 4px 14px;
-  border-radius: 4px;
-  margin-right: 10px;
+    cursor: pointer;
+    display: inline-block;
+    border: 1px solid #f18121;
+    color: #f18121;
+    padding: 4px 14px;
+    border-radius: 4px;
+    margin-right: 10px;
 }
 
 .cates_list li:hover {
-  background: #f18121;
-  color: #fff;
-  list-style: none;
+    background: #f18121;
+    color: #fff;
+    list-style: none;
 }
 
 .story_detail_menu ul {
-  display: flex;
-  list-style: none;
-  padding: 1rem 0;
+    display: flex;
+    list-style: none;
+    padding: 1rem 0;
 }
 
 .story_detail_menu li {
-  width: 7rem;
-  text-align: center;
-  padding: 12px 6px;
-  margin: 0 2rem 0 0;
-  border-radius: 4px;
-  cursor: pointer;
-  font-weight: bold;
+    width: 7rem;
+    text-align: center;
+    padding: 12px 6px;
+    margin: 0 2rem 0 0;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
 }
 
 .story_detail_menu .li01 {
-  border: 2px solid #8bc34a;
+    border: 2px solid #8bc34a;
 }
 
 .story_detail_menu .li01:hover {
-  background: #8bc34a;
-  transition: 0.4s;
-  color: white;
+    background: #8bc34a;
+    transition: 0.4s;
+    color: white;
 }
 
 .story_detail_menu .li02 {
-  border: 2px solid #209cee;
+    border: 2px solid #209cee;
 }
 .story_detail_menu .li02:hover {
-  background-color: #209cee;
-  transition: 0.4s;
-  color: white;
+    background-color: #209cee;
+    transition: 0.4s;
+    color: white;
 }
 
 .story_detail_menu .li03 {
-  border: 2px solid #bd10e0;
+    border: 2px solid #bd10e0;
 }
 .story_detail_menu .li03:hover {
-  background: #bd10e0;
-  transition: 0.4s;
-  color: white;
+    background: #bd10e0;
+    transition: 0.4s;
+    color: white;
 }
 
 .story_detail_menu .li04 {
-  border: 2px solid #ff3860;
+    border: 2px solid #ff3860;
 }
 
 .story_detail_menu .li04:hover {
-  background-color: #ff3860;
-  transition: 0.4s;
-  color: white;
+    background-color: #ff3860;
+    transition: 0.4s;
+    color: white;
 }
 
 .desc_section {
-  width: 80%;
-  margin: 2rem 0;
+    width: 80%;
+    margin: 2rem 0;
 }
 
 .sticky_table {
-  overflow: scroll;
-  height: 20rem;
-  border: 1px solid #f0f4f8;
-  overflow-x: hidden;
+    overflow: scroll;
+    height: 20rem;
+    border: 1px solid #f0f4f8;
+    overflow-x: hidden;
 }
 
 .chapter_table {
-  margin-top: 2rem;
+    margin-top: 2rem;
 }
 
 table {
-  width: 100%;
+    width: 100%;
 }
 table th,
 table td {
-  padding: 15px 30px;
-  text-align: left;
-  vertical-align: middle;
-  white-space: nowrap;
+    padding: 15px 30px;
+    text-align: left;
+    vertical-align: middle;
+    white-space: nowrap;
 }
 table th {
-  color: #364d67;
-  font-weight: 600;
-  background-color: #f1f7fd;
+    color: #364d67;
+    font-weight: 600;
+    background-color: #f1f7fd;
 }
-table tr {
+/* table tr {
   cursor: pointer;
-}
+} */
 
 @media only screen and (max-width: 600px) {
-  .container {
-    max-width: 100%;
-    min-width: 90%;
-    margin: 0 auto;
-    padding: 0 15px;
-    width: 90%;
-  }
+    .container {
+        max-width: 100%;
+        min-width: 90%;
+        margin: 0 auto;
+        padding: 0 15px;
+        width: 90%;
+    }
 
-  .book_info {
-    display: block;
-    height: auto;
-    border-bottom: 2px solid rgb(2, 99, 202);
-  }
+    .book_info {
+        display: block;
+        height: auto;
+        border-bottom: 2px solid rgb(2, 99, 202);
+        padding-bottom: 24px;
+    }
 
-  .book_info .book_avatar {
-    margin: auto;
-    height: 28rem;
-  }
+    .book_info .book_avatar {
+        margin: auto;
+        height: 28rem;
+    }
 
-  .book_info .book_avatar img {
-    border-radius: 5px;
-    max-width: 100%;
-    max-height: 100%;
-    min-width: 22rem;
-    min-height: 26rem;
-  }
+    .book_info .book_avatar img {
+        border-radius: 5px;
+        max-width: 100%;
+        max-height: 100%;
+        min-width: 22rem;
+        min-height: 26rem;
+    }
 
-  .book_other h1 {
-    text-align: center;
-    margin-top: 2rem;
-  }
+    .book_other h1 {
+        text-align: center;
+        margin-top: 2rem;
+    }
 }
 /* Small devices (portrait tablets and large phones, 600px and up) */
 @media only screen and (min-width: 600px) {
-  .container {
-    max-width: 100%;
-    min-width: 90%;
-    margin: 0 auto;
-    padding: 0 15px;
-    width: 90%;
-  }
+    .container {
+        max-width: 100%;
+        min-width: 90%;
+        margin: 0 auto;
+        padding: 0 15px;
+        width: 90%;
+    }
 
-  .book_info {
-    display: block;
-    height: auto;
-    border-bottom: 2px solid rgb(2, 99, 202);
-  }
+    .book_info {
+        display: block;
+        height: auto;
+        border-bottom: 2px solid rgb(2, 99, 202);
+        padding-bottom: 24px;
+    }
 
-  .book_info .book_avatar {
-    display: flex;
-    justify-content: center;
-    margin: auto;
-    height: 28rem;
-  }
+    .book_info .book_avatar {
+        display: flex;
+        justify-content: center;
+        margin: auto;
+        height: 28rem;
+    }
 
-  .book_info .book_avatar img {
-    border-radius: 5px;
-    max-width: 100%;
-    max-height: 100%;
-    min-width: 22rem;
-    min-height: 26rem;
-  }
+    .book_info .book_avatar img {
+        border-radius: 5px;
+        max-width: 100%;
+        max-height: 100%;
+        min-width: 22rem;
+        min-height: 26rem;
+    }
 
-  .book_other {
-    display: flex;
-    justify-content: center;
-  }
-  .book_other h1 {
-    text-align: center;
-    margin-top: 2rem;
-  }
+    .book_other {
+        display: flex;
+        justify-content: center;
+    }
+    .book_other h1 {
+        text-align: center;
+        margin-top: 2rem;
+    }
 }
 
 /* Large devices (laptops/desktops, 992px and up) */
 @media only screen and (min-width: 992px) {
-  .book_info {
-    display: grid;
-    grid-template-columns: 40% auto;
-    column-gap: 1rem;
-    height: auto;
-    border-bottom: 2px solid rgb(2, 99, 202);
-  }
+    .book_info {
+        display: grid;
+        grid-template-columns: 40% auto;
+        column-gap: 1rem;
+        height: auto;
+        border-bottom: 2px solid rgb(2, 99, 202);
+        padding-bottom: 24px;
+    }
 
-  .book_info .book_avatar img {
-    border-radius: 5px;
-    max-width: 100%;
-    max-height: 100%;
-    min-width: 11em;
-    min-height: 26rem;
-  }
+    .book_info .book_avatar img {
+        border-radius: 5px;
+        max-width: 100%;
+        max-height: 100%;
+        min-width: 11em;
+        min-height: 26rem;
+    }
 
-  .book_other h1 {
-    text-align: left;
-    margin-top: 2rem;
-  }
+    .book_other h1 {
+        text-align: left;
+        margin-top: 2rem;
+    }
 }

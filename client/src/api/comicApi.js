@@ -7,6 +7,7 @@ const comicApi = {
                 search: keywork,
             },
         }),
+    getComic: (slug) => axiosClient.get(`/comics/${slug}`),
 };
 
 export default comicApi;

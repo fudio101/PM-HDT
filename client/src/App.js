@@ -16,7 +16,7 @@ function App() {
     return (
         <Routes>
             <Route element={<Layout />}>
-                <Route path="/comic" element={<ComicIntroPage />} />
+                <Route path="/comic/:comicSlug" element={<ComicIntroPage />} />
                 <Route index element={<HomePage />} />
                 <Route path="/home" element={<HomePage />} />
                 <Route path="*" element={<HomePage />} />

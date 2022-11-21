@@ -20,7 +20,7 @@ function ComicItem(props) {
                         </div>
                     );
                 })}
-                <NavLink to={"/comic"}>
+                <NavLink to={`/comic/${props.comic.slug}`}>
                     <div className={classes.post_title}>{props.comic.name}</div>
                 </NavLink>
                 <p className={classes.post_desc}>{props.comic.description}</p>

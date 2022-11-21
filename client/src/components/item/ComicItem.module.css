@@ -39,7 +39,7 @@ body {
 
 .post_item {
     margin-right: 20px;
-    cursor: pointer;
+    /* cursor: pointer; */
 }
 .post_media {
     margin-bottom: 10px;
