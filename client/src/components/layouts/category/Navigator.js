@@ -66,7 +66,6 @@ function Navigator(props) {
           </ul>
         </nav>
       </div>
-
       <Category hidden={visibleCate} />
     </>
   );

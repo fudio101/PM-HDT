@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import ComicEditForm from "../../components/comic/comic-edit/ComicEditForm";
 
+import comicAPI from "../../api/comicAPI";
+
 import Button from "../../components/UI/Button";
 
 // react-select

@@ -1,28 +1,47 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 import Table from "../../components/tables/Table";
 
 import classes from "../asset/css/StandardMain.module.css";
 import { NavLink } from "react-router-dom";
 
+import comicAPI from "../../api/comicAPI";
+
 function ComicManagementPage() {
+  const [comicList, setComicList] = useState([]);
+  // get all comics
+  const fetchComicList = async () => {
+    try {
+      const response = await comicAPI.getAll();
+      setComicList(response.data);
+      console.log(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchComicList();
+  }, []);
+
   const columns = React.useMemo(
     () => [
       {
-        Header: "First Name",
-        accessor: "firstname",
+        Header: "slug",
+        accessor: "slug",
       },
       {
-        Header: "Last Name",
-        accessor: "lastName",
+        Header: "Name",
+        accessor: "name",
+      },
+
+      {
+        Header: "Like",
+        accessor: "likes",
       },
       {
-        Header: "Age",
-        accessor: "age",
-      },
-      {
-        Header: "City",
-        accessor: "city",
+        Header: "Author",
+        accessor: "author_name",
       },
       {
         Header: "Status",
@@ -32,81 +51,6 @@ function ComicManagementPage() {
     []
   );
 
-  const data = React.useMemo(
-    () => [
-      {
-        firstname: "firstname1",
-        lastName: "hau1",
-        age: 10,
-        city: "...",
-        status: "...",
-      },
-      {
-        firstname: "firstname10",
-        lastName: "hau2",
-        age: 11,
-        city: "...",
-        status: "...",
-      },
-      {
-        firstname: "firstname9",
-        lastName: "hau3",
-        age: 10,
-        city: "...",
-        status: "...",
-      },
-      {
-        firstname: "firstname8",
-        lastName: "hau4",
-        age: 11,
-        city: "...",
-        status: "...",
-      },
-      {
-        firstname: "firstname7",
-        lastName: "hau5",
-        age: 10,
-        city: "...",
-        status: "...",
-      },
-      {
-        firstname: "firstname6",
-        lastName: "hau6",
-        age: 11,
-        city: "...",
-        status: "...",
-      },
-      {
-        firstname: "firstname5",
-        lastName: "hau7",
-        age: 10,
-        city: "...",
-        status: "...",
-      },
-      {
-        firstname: "firstname4",
-        lastName: "hau8",
-        age: 11,
-        city: "...",
-        status: "...",
-      },
-      {
-        firstname: "firstname3",
-        lastName: "hau9",
-        age: 10,
-        city: "...",
-        status: "...",
-      },
-      {
-        firstname: "firstname2",
-        lastName: "hau10",
-        age: 11,
-        city: "...",
-        status: "...",
-      },
-    ],
-    []
-  );
   return (
     <>
       <div className={classes.main_title}>
@@ -123,7 +67,7 @@ function ComicManagementPage() {
                 </NavLink>
               </div>
             </div>
-            <Table columns={columns} data={data} isComic={true}></Table>
+            <Table columns={columns} data={comicList} isComic={true}></Table>
           </div>
         </div>
       </div>

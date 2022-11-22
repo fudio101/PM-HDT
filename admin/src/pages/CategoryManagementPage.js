@@ -1,7 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { ToastContainer, toast } from "react-toastify";
 
 import Table from "../components/tables/Table";
 import Button from "../components/UI/Button";
+
+import { useDispatch, useSelector } from "react-redux";
+import { getAllCate, newCate, delCate } from "../store/actions/categoryAction";
 
 import classes from "./asset/css/StandardMain.module.css";
 
@@ -9,104 +13,28 @@ function CategoryManagementPage() {
   const columns = React.useMemo(
     () => [
       {
-        Header: "First Name",
-        accessor: "firstname",
+        Header: "id",
+        accessor: "id",
       },
       {
-        Header: "Last Name",
-        accessor: "lastName",
-      },
-      {
-        Header: "Age",
-        accessor: "age",
-      },
-      {
-        Header: "City",
-        accessor: "city",
-      },
-      {
-        Header: "Status",
-        accessor: "status",
+        Header: "Category",
+        accessor: "name",
       },
     ],
     []
   );
 
-  const data = React.useMemo(
-    () => [
-      {
-        firstname: "firstname1",
-        lastName: "hau1",
-        age: 10,
-        city: "...",
-        status: "...",
-      },
-      {
-        firstname: "firstname10",
-        lastName: "hau2",
-        age: 11,
-        city: "...",
-        status: "...",
-      },
-      {
-        firstname: "firstname9",
-        lastName: "hau3",
-        age: 10,
-        city: "...",
-        status: "...",
-      },
-      {
-        firstname: "firstname8",
-        lastName: "hau4",
-        age: 11,
-        city: "...",
-        status: "...",
-      },
-      {
-        firstname: "firstname7",
-        lastName: "hau5",
-        age: 10,
-        city: "...",
-        status: "...",
-      },
-      {
-        firstname: "firstname6",
-        lastName: "hau6",
-        age: 11,
-        city: "...",
-        status: "...",
-      },
-      {
-        firstname: "firstname5",
-        lastName: "hau7",
-        age: 10,
-        city: "...",
-        status: "...",
-      },
-      {
-        firstname: "firstname4",
-        lastName: "hau8",
-        age: 11,
-        city: "...",
-        status: "...",
-      },
-      {
-        firstname: "firstname3",
-        lastName: "hau9",
-        age: 10,
-        city: "...",
-        status: "...",
-      },
-      {
-        firstname: "firstname2",
-        lastName: "hau10",
-        age: 11,
-        city: "...",
-        status: "...",
-      },
-    ],
-    []
-  );
+  const { category, error, success } = useSelector((state) => state.category);
+  const dispatch = useDispatch();
+
+  const fetchCateList = () => {
+    dispatch(getAllCate());
+  };
+
+  useEffect(() => {
+    fetchCateList();
+  }, []);
+
   return (
     <>
       <div className={classes.main_title}>
@@ -126,7 +54,7 @@ function CategoryManagementPage() {
                 </Button>
               </div>
             </div>
-            <Table columns={columns} data={data}></Table>
+            <Table columns={columns} data={category}></Table>
           </div>
         </div>
       </div>

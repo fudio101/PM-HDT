@@ -19,14 +19,14 @@ function Table({ columns, data, isComic, setRowSelected }) {
                 <NavLink
                   to={"/edit-comic"}
                   className={classes.edit_btn}
-                  onClick={() => alert(row.row.original.firstname + " clicked")}
+                  onClick={() => alert(row.row.original.id + " clicked")}
                 >
                   edit
                 </NavLink>
                 <NavLink
                   to={"/new-chapter"}
                   className={classes.view_btn}
-                  onClick={() => alert(row.row.original.firstname + " clicked")}
+                  onClick={() => alert(row.row.original.id + " clicked")}
                 >
                   new
                 </NavLink>
@@ -51,6 +51,9 @@ function Table({ columns, data, isComic, setRowSelected }) {
     {
       columns: columns,
       data: data,
+      initialState: {
+        hiddenColumns: ["id"],
+      },
     },
     useGlobalFilter, // useGlobalFilter
     usePagination,

@@ -14,8 +14,6 @@ function LineChart() {
     dt.setDate(dt.getDate() + 1);
   }
 
-  console.log(arr);
-
   const data = React.useMemo(
     () => [
       {

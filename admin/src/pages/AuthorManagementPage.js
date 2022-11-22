@@ -5,86 +5,85 @@ import TableAuthor from "../components/tables/TableAuthor";
 import AuthorModal from "../components/Modal/AuthorModal";
 import { ToastContainer, toast } from "react-toastify";
 
+import { useDispatch, useSelector } from "react-redux";
+import {
+  getAllAuthor,
+  newAuthor,
+  delAuthor,
+} from "../store/actions/authorAction";
+
 import authorAPI from "../api/authorAPI";
 
 import classes from "./asset/css/StandardMain.module.css";
 
 function AuthorManagementPage() {
-  const [authorData, setAuthorData] = useState({});
-  const [authorList, setAuthorList] = useState([]);
+  const { error, author, success } = useSelector((state) => state.author);
+
+  const [authorData, setAuthorData] = useState();
+  // const [authorList, setAuthorList] = useState([]);
 
   const [isNew, setNew] = React.useState(false);
   const [rowSelected, setRowSelected] = React.useState("");
 
+  const dispath = useDispatch();
+
   // get all authors
-  const fetchAuthorList = async () => {
-    try {
-      const response = await authorAPI.getAll();
-      setAuthorList(response.data);
-      console.log(response.data);
-    } catch (error) {
-      console.log(error);
-    }
+  const fetchAuthorList = () => {
+    setTimeout(() => {
+      dispath(getAllAuthor());
+    }, 200);
   };
 
   useEffect(() => {
     fetchAuthorList();
   }, []);
 
-  // get specify author
-
   useEffect(() => {
-    const fetchAuthor = async (id) => {
-      try {
-        const response = await authorAPI.get(id);
-        console.log(response.data);
-      } catch (error) {
-        console.log("id1", error);
-        toast(error, {
-          type: "error",
-        });
-      }
-    };
-    fetchAuthor(1);
-  }, []);
+    toast(error, {
+      type: "error",
+    });
+  }, [error]);
 
   // add new author
   const newAuthorHandler = async (e) => {
     e.preventDefault();
-    const formData = new FormData();
-    formData.append("name", authorData.name);
-    formData.append("image", authorData.img);
     try {
-      await authorAPI.store(formData);
-      toast("New Author Added", {
-        type: "success",
-      });
-    } catch (error) {
-      console.log(error.response.data.message);
-      toast(error.response.data.message, {
-        type: "error",
-      });
-    }
+      const formData = new FormData();
+      formData.append("name", authorData.name);
+      formData.append("image", authorData.img);
+      dispath(newAuthor({ author: formData }));
+      if (success === true) {
+        toast("New Author Added", {
+          type: "success",
+        });
+      }
+    } catch (error) {}
+
     fetchAuthorList();
+
     closeHandler();
-    // console.log("author", authorData);
   };
 
   // Delete An author
 
   const deleteHandler = async (e) => {
     e.preventDefault();
-
-    try {
-      await authorAPI.delete(rowSelected.id);
+    dispath(delAuthor(rowSelected.id));
+    if (success === true) {
       toast("Author Has Been Deleted", {
         type: "success",
       });
-    } catch (error) {
-      toast(error.response.data.message, {
-        type: "error",
-      });
     }
+    // try {
+    //   await authorAPI.delete(rowSelected.id);
+    //   toast("Author Has Been Deleted", {
+    //     type: "success",
+    //   });
+    // } catch (error) {
+    //   toast(error.response.data.message, {
+    //     type: "error",
+    //   });
+    // }
 
     fetchAuthorList();
     closeHandler();
@@ -168,7 +167,7 @@ function AuthorManagementPage() {
             </div>
             <TableAuthor
               columns={columns}
-              data={authorList}
+              data={author}
               setRowSelected={setRowSelected}
             ></TableAuthor>
           </div>

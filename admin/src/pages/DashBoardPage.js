@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import StatisticCard from "../components/layouts/statistic/StatisticCard";
 import BarChart from "../components/charts/BarChart";
@@ -6,7 +6,7 @@ import BarChart from "../components/charts/BarChart";
 import classes from "./asset/css/StandardMain.module.css";
 import LineChart from "../components/charts/LineChart";
 
-function DashBoardPage() {
+const DashBoardPage = () => {
   return (
     <>
       <div className={classes.main_title}>
@@ -28,6 +28,6 @@ function DashBoardPage() {
       </>
     </>
   );
-}
+};
 
 export default DashBoardPage;

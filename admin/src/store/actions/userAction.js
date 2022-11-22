@@ -37,7 +37,6 @@ export const getUserInfo = createAsyncThunk(
   async (arg, { getState, rejectWithValue }) => {
     try {
       const { user } = getState();
-
       const config = {
         headers: {
           Authorization: `Bearer ${user.userToken}`,
