@@ -1,28 +1,39 @@
-import React, { useEffect } from "react";
-import { useSelector } from "react-redux";
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+    categoryFilterChange,
+    nationFilterChange,
+    statusFilterChange,
+} from "../../../redux/reducers/filtersSlice";
 import { categoryListSelector } from "../../../redux/selectors";
 
 import classes from "./FilterSearch.module.css";
 
 function FilterSearch(props) {
+    const [category, setCategory] = useState("0");
+    const [status, setStatus] = useState(-1);
+    const [nation, setNation] = useState(0);
     const categories = [
         { id: 0, name: "Tất cả" },
         ...useSelector(categoryListSelector),
     ];
+    const dispatch = useDispatch();
 
-    const {
-        category,
-        setCategory,
-        status,
-        setStatus,
-        nation,
-        setNation,
-        filter,
-    } = props;
+    const categoryChangeHandle = (e) => {
+        let value = e.target.value;
+        setCategory(value);
+        dispatch(categoryFilterChange(value));
+    };
 
-    useEffect(() => {
-        filter(category, status, nation);
-    }, [category, status, nation, filter]);
+    const statusChangeHandle = (value) => {
+        setStatus(value);
+        dispatch(statusFilterChange(value));
+    };
+
+    const nationChangeHandle = (value) => {
+        setNation(value);
+        dispatch(nationFilterChange(value));
+    };
 
     return (
         <div className={`${classes.story_list_bl01} ${classes.box}`}>
@@ -39,9 +50,7 @@ function FilterSearch(props) {
                                 <select
                                     className={classes.cate_options}
                                     value={category}
-                                    onChange={(e) =>
-                                        setCategory(e.target.value)
-                                    }
+                                    onChange={categoryChangeHandle}
                                 >
                                     {categories.map((item) => {
                                         return (
@@ -67,7 +76,7 @@ function FilterSearch(props) {
                         <td>
                             <ul className={classes.choose}>
                                 <li
-                                    onClick={() => setStatus(-1)}
+                                    onClick={() => statusChangeHandle(-1)}
                                     className={
                                         status === -1 ? classes.active : ""
                                     }
@@ -75,7 +84,7 @@ function FilterSearch(props) {
                                     Tất cả
                                 </li>
                                 <li
-                                    onClick={() => setStatus(0)}
+                                    onClick={() => statusChangeHandle(0)}
                                     className={
                                         status === 0 ? classes.active : ""
                                     }
@@ -83,7 +92,7 @@ function FilterSearch(props) {
                                     Đang tiến hành
                                 </li>
                                 <li
-                                    onClick={() => setStatus(1)}
+                                    onClick={() => statusChangeHandle(1)}
                                     className={
                                         status === 1 ? classes.active : ""
                                     }
@@ -102,7 +111,7 @@ function FilterSearch(props) {
                         <td>
                             <ul className={classes.choose}>
                                 <li
-                                    onClick={() => setNation(0)}
+                                    onClick={() => nationChangeHandle(0)}
                                     className={
                                         nation === 0 ? classes.active : ""
                                     }
@@ -110,7 +119,7 @@ function FilterSearch(props) {
                                     Tất cả
                                 </li>
                                 <li
-                                    onClick={() => setNation(1)}
+                                    onClick={() => nationChangeHandle(1)}
                                     className={
                                         nation === 1 ? classes.active : ""
                                     }
@@ -118,7 +127,7 @@ function FilterSearch(props) {
                                     Nhật Bản
                                 </li>
                                 <li
-                                    onClick={() => setNation(2)}
+                                    onClick={() => nationChangeHandle(2)}
                                     className={
                                         nation === 2 ? classes.active : ""
                                     }
@@ -126,7 +135,7 @@ function FilterSearch(props) {
                                     Hàn Quốc
                                 </li>
                                 <li
-                                    onClick={() => setNation(3)}
+                                    onClick={() => nationChangeHandle(3)}
                                     className={
                                         nation === 3 ? classes.active : ""
                                     }

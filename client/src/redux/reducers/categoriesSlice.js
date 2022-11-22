@@ -7,11 +7,6 @@ const categoriesSlice = createSlice({
         status: "idle",
         data: [],
     },
-    reducers: {
-        index: (state, action) => {
-            state.test = action.payload;
-        },
-    },
     extraReducers: (builder) => {
         builder
             .addCase(getCategoryList.pending, (state, action) => {
