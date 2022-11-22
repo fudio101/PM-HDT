@@ -1,11 +1,18 @@
 import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import categoryApi from "../../../api/categoryApi";
+import { categoryListSelector } from "../../../redux/selectors";
 
 import classes from "./FilterSearch.module.css";
 // import OptionFilterItem from "./OptionFilterItem";
 
 function FilterSearch(props) {
-    const [categories, setCategories] = useState([]);
+    // const [categories, setCategories] = useState([]);
+
+    const categories = [
+        { id: 0, name: "Tất cả" },
+        ...useSelector(categoryListSelector),
+    ];
 
     const {
         category,
@@ -17,19 +24,19 @@ function FilterSearch(props) {
         filter,
     } = props;
 
-    useEffect(() => {
-        const getData = async () => {
-            try {
-                const { data } = await categoryApi.index();
-                const data_ = [{ id: 0, name: "Tất cả" }, ...data.data];
-                setCategories(data_);
-            } catch (e) {
-                console.log(e);
-            }
-        };
+    // useEffect(() => {
+    //     const getData = async () => {
+    //         try {
+    //             const { data } = await categoryApi.index();
+    //             const data_ = [{ id: 0, name: "Tất cả" }, ...data.data];
+    //             setCategories(data_);
+    //         } catch (e) {
+    //             console.log(e);
+    //         }
+    //     };
 
-        getData();
-    }, []);
+    //     getData();
+    // }, []);
 
     useEffect(() => {
         filter(category, status, nation);

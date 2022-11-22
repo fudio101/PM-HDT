@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
 
 import Layout from "./components/layouts/Layout";
@@ -11,8 +11,16 @@ import RankPage from "./pages/RankPage";
 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { useDispatch } from "react-redux";
+import { getCategoryList } from "./redux/reducers/categoriesSlice";
 
 function App() {
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(getCategoryList());
+    }, []);
+
     return (
         <Routes>
             <Route element={<Layout />}>
