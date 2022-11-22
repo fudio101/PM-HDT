@@ -16,7 +16,7 @@ function Header({ isVisible }) {
                 !isVisible ? classes.hidden_header : ""
             }`}
         >
-            <img className={classes.logo} src={logo} />
+            <img className={classes.logo} src={logo} alt="Logo" />
             <nav className={classes.nav}>
                 <ul>
                     <li>

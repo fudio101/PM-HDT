@@ -1,14 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
-import categoryApi from "../../../api/categoryApi";
 import { categoryListSelector } from "../../../redux/selectors";
 
 import classes from "./FilterSearch.module.css";
-// import OptionFilterItem from "./OptionFilterItem";
 
 function FilterSearch(props) {
-    // const [categories, setCategories] = useState([]);
-
     const categories = [
         { id: 0, name: "Tất cả" },
         ...useSelector(categoryListSelector),
@@ -24,31 +20,9 @@ function FilterSearch(props) {
         filter,
     } = props;
 
-    // useEffect(() => {
-    //     const getData = async () => {
-    //         try {
-    //             const { data } = await categoryApi.index();
-    //             const data_ = [{ id: 0, name: "Tất cả" }, ...data.data];
-    //             setCategories(data_);
-    //         } catch (e) {
-    //             console.log(e);
-    //         }
-    //     };
-
-    //     getData();
-    // }, []);
-
     useEffect(() => {
         filter(category, status, nation);
-    }, [category]);
-
-    useEffect(() => {
-        filter(category, status, nation);
-    }, [status]);
-
-    useEffect(() => {
-        filter(category, status, nation);
-    }, [nation]);
+    }, [category, status, nation, filter]);
 
     return (
         <div className={`${classes.story_list_bl01} ${classes.box}`}>

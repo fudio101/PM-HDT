@@ -8,18 +8,18 @@ import CategoryPage from "./pages/CategoryPage";
 import ComicIntroPage from "./pages/ComicIntroPage";
 import ComicViewPage from "./pages/ComicViewPage";
 import RankPage from "./pages/RankPage";
+import { useDispatch } from "react-redux";
+import { getCategoryList } from "./redux/reducers/categoriesSlice";
 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { useDispatch } from "react-redux";
-import { getCategoryList } from "./redux/reducers/categoriesSlice";
 
 function App() {
     const dispatch = useDispatch();
 
     useEffect(() => {
         dispatch(getCategoryList());
-    }, []);
+    }, [dispatch]);
 
     return (
         <Routes>

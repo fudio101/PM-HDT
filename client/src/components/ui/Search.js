@@ -13,7 +13,10 @@ function Search() {
     };
 
     const keyDownHandle = function (e) {
-        if (e.key === "Enter") navigate(`/search/${searchKey}`);
+        if (e.key === "Enter") {
+            setSearchKey("");
+            navigate(`/search/${searchKey}`);
+        }
     };
 
     return (

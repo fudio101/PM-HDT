@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import comicApi from "../api/comicApi";
 import ComicItem from "../components/item/ComicItem";
@@ -14,7 +13,6 @@ function SearchPage() {
     const [category, setCategory] = useState("0");
     const [status, setStatus] = useState(-1);
     const [nation, setNation] = useState(0);
-    const dispatch = useDispatch();
 
     const items = [];
 
