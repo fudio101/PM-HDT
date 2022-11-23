@@ -90,17 +90,17 @@ function HomePage() {
     <>
       {/* slider */}
       <div className={`${classes.container} `}>
-        <div className={classes.slider}>
+        {/* <div className={classes.slider}>
           <Slider {...setting}>
             {SLIDER_DATA.map((item) => {
               return <SlideBar item={item} key={item.id} />;
             })}
           </Slider>
-        </div>
+        </div> */}
         {/* comic items */}
         <div className={classes.post_list}>
           {COMIC_ITEM_DATA.map((comic) => {
-            return <ComicItem comic={comic} key={comic.id} />;
+            return <ComicItem comic={comic} key={comic.slug} />;
           })}
         </div>
       </div>

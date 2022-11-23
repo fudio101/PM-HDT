@@ -39,10 +39,7 @@ body {
 
 .post_item {
   margin-right: 20px;
-  box-shadow: rgb(0 0 0 / 5%) 0px 1px 3px, rgb(0 0 0 / 5%) 0px 10px 15px -5px,
-    rgb(0 0 0 / 4%) 0px 7px 7px -5px;
-  border: 1px solid rgb(222, 226, 230);
-  border-radius: 10px;
+  /* cursor: pointer; */
 }
 .post_media {
   margin-bottom: 10px;
@@ -67,11 +64,12 @@ body {
   margin-bottom: 10px;
   position: relative;
   border-radius: 10px;
-  margin: 0 2px;
+  margin: 2px;
 }
 .post_category:after {
   content: "";
   position: absolute;
+
   top: 0;
   left: 0;
   width: 100%;

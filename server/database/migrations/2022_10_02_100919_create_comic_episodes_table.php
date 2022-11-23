@@ -15,8 +15,8 @@ return new class extends Migration {
         Schema::create('comic_episodes', function (Blueprint $table) {
             $table->id();
             $table->foreignId('comic_id')->constrained();
-            $table->unsignedInteger('episode_number');
-            $table->date('published_date');
+            $table->float('episode_number');
+//            $table->date('published_date');
             $table->unsignedBigInteger('likes')->default(0);
             $table->unsignedBigInteger('views')->default(0);
             $table->foreignId('user_id')->constrained();

@@ -30,7 +30,7 @@ class StoreComicEpisodeRequest extends FormRequest
             'comic_id' => 'required|integer|exists:comics,id',
             'episode_number' => [
                 'required',
-                'integer',
+                'numeric',
                 'gt:0',
                 Rule::unique('comic_episodes')->where(function ($query) use ($episodeNumber, $comicId) {
                     return $query->where([
@@ -43,7 +43,7 @@ class StoreComicEpisodeRequest extends FormRequest
             'images.*' => 'image',
             'imageOrder' => 'required|array',
             'imageOrder.*' => 'string',
-            'published_date' => 'required|date',
+//            'published_date' => 'required|date',
         ];
     }
 }

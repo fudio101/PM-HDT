@@ -1,8 +1,12 @@
 import React from "react";
 
+// import Button from "../../ui/Button";
+
 import Search from "../../ui/Search";
 
 import classes from "./Header.module.css";
+
+import logo from "./logo.png";
 
 function Header({ isVisible }) {
   console.log(isVisible);
@@ -10,7 +14,7 @@ function Header({ isVisible }) {
     <header
       className={`${classes.header} ${!isVisible ? classes.hidden_header : ""}`}
     >
-      <div className={classes.logo}>LOGO</div>
+      <img className={classes.logo} src={logo} alt="Logo" />
       <nav className={classes.nav}>
         <ul>
           <li>
