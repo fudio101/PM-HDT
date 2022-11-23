@@ -54,20 +54,19 @@ class ComicEpisodeController extends Controller
         try {
 
             $comicEpisode = ComicEpisode::query()->create($request->only([
-                'comic_id', 'episode_number', 'published_date'
+                'comic_id', 'episode_number'
             ]));
 
             $comic = $comicEpisode->comic;
             $comicSlug = $comic->slug;
 
             // Delete old image of comic episode
-            $oldImages = Storage::allFiles("comics/".$comicSlug);
-            foreach ($oldImages as $item) {
-                $image = $item->image;
-                if (Storage::exists($image)) {
-                    Storage::delete($image);
-                }
-            }
+//            $oldImages = Storage::allFiles("comics/".$comicSlug."/".$comicEpisode->episode_number);
+//            foreach ($oldImages as $image) {
+//                if (Storage::exists($image)) {
+//                    Storage::delete($image);
+//                }
+//            }
 
             $images = $request->file('images');
             $imageOrder = (array) $request->input('imageOrder');
@@ -92,7 +91,7 @@ class ComicEpisodeController extends Controller
      */
     public function show(ComicEpisode $comicEpisode)
     {
-        return \response()->json(['data' => $comicEpisode], ResponseAlias::HTTP_OK);
+        return \response()->json(['data' => $comicEpisode->append('image_urls')], ResponseAlias::HTTP_OK);
     }
 
     /**
@@ -118,11 +117,11 @@ class ComicEpisodeController extends Controller
         try {
             $oldEpisodeNumber = $comicEpisode->episode_number;
 
-            $result = $comicEpisode->update($request->only(['episode_number', 'published_date']));
+            $result = $comicEpisode->update($request->only(['episode_number']));
 
             $newEpisodeNumber = $comicEpisode->episode_number;
             //update episode folder
-            if ($oldEpisodeNumber != $newEpisodeNumber) {
+            if ($oldEpisodeNumber !== $newEpisodeNumber) {
                 $oldFiles = Storage::allFiles("comics/".$comicEpisode->comic->slug."/".$oldEpisodeNumber);
                 foreach ($oldFiles as $oldFile) {
                     $tmp = explode('/', $oldFile);

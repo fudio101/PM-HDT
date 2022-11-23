@@ -7,7 +7,9 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Scout\Searchable;
@@ -20,13 +22,28 @@ class Comic extends Model
 
     protected $table = 'comics';
     protected $fillable = ['name', 'user_id', 'author_id', 'description', 'published_date', 'like', 'view', 'status'];
-    protected $appends = ['author_name', 'user_name', 'category_names', 'image_url'];
+    protected $appends = [
+//        'author_name',
+        'user_name',
+//        'category_names',
+        'image_url',
+        'num_of_episodes',
+//        'updated_time',
+//        'updated_time_diff_on_days',
+    ];
 
     protected $hidden = [
         'deleted_at',
         'created_at',
         'updated_at',
         'user_id',
+        'episodes',
+    ];
+
+    protected $with = [
+        'author',
+        'categories',
+//        'episodes',
     ];
 
 
@@ -75,13 +92,13 @@ class Comic extends Model
         );
     }
 
-    public function authorName(): Attribute
-    {
-        return Attribute::make(
-            get: static fn($value, $attributes) => Author::find($attributes['author_id'])->name
-
-        );
-    }
+//    public function authorName(): Attribute
+//    {
+//        return Attribute::make(
+//            get: static fn($value, $attributes) => Author::find($attributes['author_id'])->name
+//
+//        );
+//    }
 
     public function userName(): Attribute
     {
@@ -90,36 +107,66 @@ class Comic extends Model
         );
     }
 
-    public function categoryNames(): Attribute
+//    public function categoryNames(): Attribute
+//    {
+//        return Attribute::make(
+//            get: static function ($value, $attributes) {
+//                $categoryNames = [];
+//                $categories = ComicCategory::getByComic($attributes['id']);
+//                foreach ($categories as $category) {
+//                    $categoryNames[] = Category::find($category->category_id)->name;
+//                }
+//                return $categoryNames;
+//            }
+//        );
+//    }
+
+    public function getNumOfEpisodesAttribute()
     {
-        return Attribute::make(
-            get: static function ($value, $attributes) {
-                $categoryNames = [];
-                $categories = ComicCategory::getByComic($attributes['id']);
-                foreach ($categories as $category) {
-                    $categoryNames[] = Category::find($category->category_id)->name;
-                }
-                return $categoryNames;
-            }
-        );
+        return $this->episodes->count();
+    }
+
+    public function getUpdatedTimeDiffOnDaysAttribute(){
+        return Carbon::createFromTimestamp($this->updated_time)->diffInDays(now());
+    }
+
+    public function getUpdatedTimeAttribute()
+    {
+        $data = $this->episodes->sortByDesc('created_at')->first();
+        if ($data) {
+            return Carbon::make($data->created_at)->getTimestamp();
+        }
+
+        return Carbon::make($this->created_at)->getTimestamp();
     }
 
     static function getActive($id)
     {
-        return Comic::where('status', 1)->get();
+        return Comic::where('status', 0)->get();
     }
 
     static function getStop($id)
     {
-        return Comic::where('status', 0)->get();
+        return Comic::where('status', 1)->get();
     }
 
-    function author()
+    /**
+     * @return HasOne
+     */
+    function author(): HasOne
     {
         return $this->hasOne(Author::class, 'id', 'author_id');
     }
 
-    function category()
+    /**
+     * @return HasMany|ComicEpisode
+     */
+    public function episodes()
+    {
+        return $this->hasMany(ComicEpisode::class, 'comic_id', 'id');
+    }
+
+    function categories()
     {
         return $this->belongsToMany(Category::class, 'comic_category', 'comic_id', 'category_id');
     }
@@ -132,13 +179,5 @@ class Comic extends Model
     {
         return $this->hasMany(ComicEpisode::class, 'comic_id', 'id')->where('episode_number', "=",
             $episode_number)->first();
-    }
-
-    /**
-     * @return HasMany|ComicEpisode
-     */
-    public function episodes()
-    {
-        return $this->hasMany(ComicEpisode::class, 'comic_id', 'id');
     }
 }
