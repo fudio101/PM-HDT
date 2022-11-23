@@ -10,6 +10,7 @@ use App\Models\ComicCategory;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 use Throwable;
@@ -19,7 +20,8 @@ class ComicController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['index', 'showImageEpisode', 'search', 'getComic']]);
+        $this->middleware('auth:api',
+            ['except' => ['index', 'showImageEpisode', 'search', 'getComic', 'getJustUpdatedComics']]);
     }
 
     /**
@@ -243,6 +245,38 @@ class ComicController extends Controller
         return response()->json([
             'message' => "Comic episode can't be found",
         ], ResponseAlias::HTTP_BAD_REQUEST);
+    }
+
+    /**
+     * @return JsonResponse
+     */
+    public function getJustUpdatedComics(Request $request)
+    {
+        $input = $request->validate(['number' => 'integer']);
+        $number = $input['number'] ?? 20;
+
+        $comics = Comic::all()->where('updated_time_diff_on_days', '<=', 3)->take($number);
+
+        $comics->sortByDesc('updated_time');
+
+        $data = [];
+
+        foreach ($comics as $comic) {
+            if ($comic->updated_time_diff_on_days > 0) {
+                $comic->updated_time_diff = $comic->updated_time_diff_on_days.' ngày';
+            } else {
+                $t = Carbon::createFromTimestamp($comic->updated_time)->diffInHours(now());
+                if ($t > 0) {
+                    $comic->updated_time_diff = $t.' Giờ Trước';
+                } else {
+                    $t = Carbon::createFromTimestamp($comic->updated_time)->diffInMinutes(now());
+                    $comic->updated_time_diff = $t.' Phút Trước';
+                }
+            }
+            $data[] = $comic;
+        }
+
+        return response()->json(['data' => $data], ResponseAlias::HTTP_OK);
     }
 
 }

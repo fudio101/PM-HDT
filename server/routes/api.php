@@ -44,3 +44,4 @@ Route::apiResource('comic-episodes', ComicEpisodeController::class);
 Route::get('comics/{comic:slug}', [ComicController::class, 'getComic']);
 Route::get('comics/{comic:slug}/{episode_number}', [ComicController::class, 'showImageEpisode']);
 Route::get('search/comics', [ComicController::class, 'search']);
+Route::get('get-just-updated-comics', [ComicController::class, 'getJustUpdatedComics']);

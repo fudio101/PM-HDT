@@ -29,7 +29,7 @@ class UpdateComicEpisodeRequest extends FormRequest
         return [
 //            'comic_id' => 'integer|exists:comics,id',
             'episode_number' => [
-                'integer',
+                'numeric',
                 'gt:0',
                 Rule::unique('comic_episodes')->where(function ($query) use ($episodeNumber, $comicId) {
                     return $query->where([
