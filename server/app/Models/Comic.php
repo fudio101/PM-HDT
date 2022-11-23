@@ -23,9 +23,9 @@ class Comic extends Model
     protected $table = 'comics';
     protected $fillable = ['name', 'user_id', 'author_id', 'description', 'published_date', 'like', 'view', 'status'];
     protected $appends = [
-//        'author_name',
+        'author_name',
         'user_name',
-//        'category_names',
+        'category_names',
         'image_url',
         'num_of_episodes',
 //        'updated_time',
@@ -41,8 +41,8 @@ class Comic extends Model
     ];
 
     protected $with = [
-        'author',
-        'categories',
+//        'author',
+//        'categories',
 //        'episodes',
     ];
 
@@ -92,13 +92,10 @@ class Comic extends Model
         );
     }
 
-//    public function authorName(): Attribute
-//    {
-//        return Attribute::make(
-//            get: static fn($value, $attributes) => Author::find($attributes['author_id'])->name
-//
-//        );
-//    }
+    public function getAuthorNameAttribute()
+    {
+        return $this->author->name;
+    }
 
     public function userName(): Attribute
     {
@@ -107,19 +104,10 @@ class Comic extends Model
         );
     }
 
-//    public function categoryNames(): Attribute
-//    {
-//        return Attribute::make(
-//            get: static function ($value, $attributes) {
-//                $categoryNames = [];
-//                $categories = ComicCategory::getByComic($attributes['id']);
-//                foreach ($categories as $category) {
-//                    $categoryNames[] = Category::find($category->category_id)->name;
-//                }
-//                return $categoryNames;
-//            }
-//        );
-//    }
+    public function getCategoryNamesAttribute()
+    {
+        return $this->categories->pluck('name');
+    }
 
     public function getNumOfEpisodesAttribute()
     {

@@ -18,7 +18,6 @@ class Author extends Model
 
     protected $fillable = [
         'name',
-        'image'
     ];
 
     protected $appends = [
