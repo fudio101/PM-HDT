@@ -34,12 +34,13 @@ class Comic extends Model
         'created_at',
         'updated_at',
         'user_id',
+        'episodes',
     ];
 
     protected $with = [
         'author',
         'categories',
-        'episodes',
+//        'episodes',
     ];
 
 
@@ -124,12 +125,12 @@ class Comic extends Model
 
     static function getActive($id)
     {
-        return Comic::where('status', 1)->get();
+        return Comic::where('status', 0)->get();
     }
 
     static function getStop($id)
     {
-        return Comic::where('status', 0)->get();
+        return Comic::where('status', 1)->get();
     }
 
     /**
@@ -138,6 +139,14 @@ class Comic extends Model
     function author(): HasOne
     {
         return $this->hasOne(Author::class, 'id', 'author_id');
+    }
+
+    /**
+     * @return HasMany|ComicEpisode
+     */
+    public function episodes()
+    {
+        return $this->hasMany(ComicEpisode::class, 'comic_id', 'id');
     }
 
     function categories()
@@ -153,13 +162,5 @@ class Comic extends Model
     {
         return $this->hasMany(ComicEpisode::class, 'comic_id', 'id')->where('episode_number', "=",
             $episode_number)->first();
-    }
-
-    /**
-     * @return HasMany|ComicEpisode
-     */
-    public function episodes()
-    {
-        return $this->hasMany(ComicEpisode::class, 'comic_id', 'id');
     }
 }

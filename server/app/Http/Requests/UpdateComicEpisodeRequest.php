@@ -41,7 +41,7 @@ class UpdateComicEpisodeRequest extends FormRequest
             'images.*' => 'image',
             'imageOrder' => 'array',
             'imageOrder.*' => 'string',
-            'published_date' => 'date',
+//            'published_date' => 'date',
         ];
     }
 }

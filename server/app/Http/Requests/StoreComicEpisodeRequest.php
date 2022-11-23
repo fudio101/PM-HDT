@@ -43,7 +43,7 @@ class StoreComicEpisodeRequest extends FormRequest
             'images.*' => 'image',
             'imageOrder' => 'required|array',
             'imageOrder.*' => 'string',
-            'published_date' => 'required|date',
+//            'published_date' => 'required|date',
         ];
     }
 }

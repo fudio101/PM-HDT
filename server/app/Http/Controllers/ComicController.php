@@ -206,7 +206,7 @@ class ComicController extends Controller
 
     public function search(Request $request)
     {
-        $data = Comic::search($request->search)->get()->makeHidden('episodes');
+        $data = Comic::search($request->search)->get();//->makeHidden('episodes');
         return response()->json([
             'data' => $data
         ], ResponseAlias::HTTP_OK);
@@ -218,6 +218,7 @@ class ComicController extends Controller
      */
     public function getComic(Comic $comic): JsonResponse
     {
+//        $comic;
         return \response()->json(['data' => $comic]);
     }
 
@@ -231,12 +232,12 @@ class ComicController extends Controller
         $comicEpisode = $comic->getEpisode($episode_number);
 
         if ($comicEpisode) {
-            $images = Storage::allFiles("comics/".$comic->slug."/".$comicEpisode->episode_number);
-            $imageUrls = [];
-            foreach ($images as $image) {
-                $imageUrls[] = Storage::temporaryUrl($image, now()->addMinutes(30));
-            }
-            return response()->json(['data' => $imageUrls,], ResponseAlias::HTTP_OK);
+//            $images = Storage::allFiles("comics/".$comic->slug."/".$comicEpisode->episode_number);
+//            $imageUrls = [];
+//            foreach ($images as $image) {
+//                $imageUrls[] = Storage::temporaryUrl($image, now()->addMinutes(30));
+//            }
+            return response()->json(['data' => $comicEpisode->append('image_urls'),], ResponseAlias::HTTP_OK);
         }
 
         return response()->json([
