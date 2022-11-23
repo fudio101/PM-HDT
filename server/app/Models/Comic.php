@@ -28,8 +28,8 @@ class Comic extends Model
 //        'category_names',
         'image_url',
         'num_of_episodes',
-        'updated_time',
-        'updated_time_diff_on_days',
+//        'updated_time',
+//        'updated_time_diff_on_days',
     ];
 
     protected $hidden = [
