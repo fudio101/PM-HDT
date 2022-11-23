@@ -222,3 +222,12 @@ th {
   display: flex;
   justify-content: center;
 }
+
+.thumbnail__img {
+  display: flex;
+  justify-content: center;
+}
+
+.thumbnail__img img {
+  width: 10rem;
+}

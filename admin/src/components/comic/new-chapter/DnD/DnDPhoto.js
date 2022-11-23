@@ -13,7 +13,7 @@ export const DnDPhoto = forwardRef(
     };
 
     return (
-      <img src={url} alt="img" ref={ref} style={inlineStyles} {...props} />
+      <img src={url[0]} alt="img" ref={ref} style={inlineStyles} {...props} />
     );
   }
 );

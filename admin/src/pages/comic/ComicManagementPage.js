@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import Table from "../../components/tables/Table";
+import ComicTable from "../../components/tables/ComicsTable";
 
 import classes from "../asset/css/StandardMain.module.css";
 import { NavLink } from "react-router-dom";
@@ -31,6 +31,10 @@ function ComicManagementPage() {
         accessor: "slug",
       },
       {
+        Header: "id",
+        accessor: "id",
+      },
+      {
         Header: "Name",
         accessor: "name",
       },
@@ -44,8 +48,8 @@ function ComicManagementPage() {
         accessor: "author_name",
       },
       {
-        Header: "Status",
-        accessor: "status",
+        Header: "UserName",
+        accessor: "user_name",
       },
     ],
     []
@@ -63,11 +67,15 @@ function ComicManagementPage() {
             <div className={`${classes.row} ${classes.element_button}`}>
               <div className={classes.col_sm_2}>
                 <NavLink to={"/new-comic"} className={classes.add_btn}>
-                  Add
+                  New
                 </NavLink>
               </div>
             </div>
-            <Table columns={columns} data={comicList} isComic={true}></Table>
+            <ComicTable
+              columns={columns}
+              data={comicList}
+              isComic={true}
+            ></ComicTable>
           </div>
         </div>
       </div>

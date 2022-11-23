@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Select from "react-select";
 
 import Wrapper from "../../UI/Wrapper";
@@ -9,15 +9,20 @@ import classes from "../../../pages/asset/css/NewComicPage.module.css";
 function ComicEditForm(props) {
   const [inputData, setInputData] = useState(props.initVal);
 
+  useEffect(() => {
+    props.setData(inputData);
+  }, [inputData]);
+
   const authorInputHandler = (e) => {
+    // console.log(e);
     setInputData((prev) => {
       return {
         ...prev,
-        author: e.value,
-        authorAvt: e.img,
+        author_name: e.value,
+        author_avt: e.author_avt,
+        authorID: e.id,
       };
     });
-    props.setData(inputData);
   };
 
   const formInputHandler = (e) => {
@@ -28,35 +33,42 @@ function ComicEditForm(props) {
         [name]: value,
       };
     });
-    props.setData(inputData);
+    // props.setData(inputData);
   };
 
   const cateInputHandler = (arr) => {
     // const cateArr = inputData.categories;
     const cateArr = [];
+    const cateArrID = [];
+
     arr.forEach((cate) => {
-      cateArr.push(cate.value);
+      cateArrID.push(cate.id);
+      cateArr.push(cate.label);
     });
 
     setInputData((prev) => {
       return {
         ...prev,
-        categories: cateArr,
+        category_id: cateArrID,
+        category_names: cateArr,
       };
     });
-    props.setData(inputData);
+
+    // props.setData(inputData);
   };
 
   const inputIMGHandler = (e) => {
     const { value, name } = e.target;
     const img = URL.createObjectURL(e.target.files[0]);
+
     setInputData((prev) => {
       return {
         ...prev,
         [name]: img,
+        image: e.target.files[0],
       };
     });
-    props.setData(inputData);
+    // props.setData(inputData);
   };
 
   return (
@@ -76,6 +88,7 @@ function ComicEditForm(props) {
                   closeMenuOnSelect={true}
                   options={props.authorOptions}
                   onChange={authorInputHandler}
+                  defaultValue={props.authorOptions[0]}
                 />
               </div>
             </div>
@@ -94,7 +107,7 @@ function ComicEditForm(props) {
               <div>
                 <label>Thumbnail</label>
                 <input
-                  name="thumbnail"
+                  name="image_url"
                   type={"file"}
                   onChange={inputIMGHandler}
                 ></input>
@@ -105,7 +118,7 @@ function ComicEditForm(props) {
                   <Select
                     placeholder={"Select Categories..."}
                     closeMenuOnSelect={false}
-                    defaultValue={[props.cateOptions[0]]}
+                    // defaultValue={[props.cateOptions[0]]}
                     isMulti
                     options={props.cateOptions}
                     onChange={cateInputHandler}
@@ -115,7 +128,7 @@ function ComicEditForm(props) {
               <div>
                 <label>Desciption</label>
                 <textarea
-                  name="desc"
+                  name="description"
                   placeholder="Desciption Here"
                   onChange={formInputHandler}
                 ></textarea>

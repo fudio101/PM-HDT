@@ -62,16 +62,33 @@ function DnDUpload(props) {
     });
   };
 
-  const addImgHandler = async (event) => {
-    // console.log(event.target.files[0]);
+  const addImgHandler = (event) => {
+    items.splice(0, items.length);
+
     setSelectedImage(event.target.files[0]);
-    await items.push(URL.createObjectURL(event.target.files[0]));
+    // // await items.push(URL.createObjectURL(event.target.files[0]));
+    // const imgs = event.target.files;
+    // for (const file of imgs) {
+    //   items.push(URL.createObjectURL(file));
+    //   // console.log(file);
+    // }
+    const imgs = event.target.files;
+    let i = 0;
+    for (const file of imgs) {
+      items.push([]);
+      items[i].push(URL.createObjectURL(file));
+      items[i].push(file);
+      i += 1;
+    }
+
+    // console.log("inside", items);
   };
 
+  console.log(items);
   return (
     <>
       <div>
-        <input type="file" name="myImage" onChange={addImgHandler} />
+        <input type="file" multiple name="myImage" onChange={addImgHandler} />
       </div>
       <DndContext
         sensors={sensors}

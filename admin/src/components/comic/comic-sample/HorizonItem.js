@@ -1,5 +1,7 @@
 import React from "react";
 
+import LoadingSpinner from "../../UI/LoadingSpinner";
+
 import classes from "./HorizonItem.module.css";
 
 function HorizonItem(props) {
@@ -7,14 +9,18 @@ function HorizonItem(props) {
     <>
       <div className={classes.post_feature}>
         <div className={`${classes.post_eature_media}  ${classes.post_media}`}>
-          <img
-            className={classes.post_feature_image}
-            src={props.postData.thumbnail}
-          />
+          {props.postData.image_url ? (
+            <img
+              className={classes.post_feature_image}
+              src={props.postData.image_url}
+            />
+          ) : (
+            <LoadingSpinner />
+          )}
         </div>
         <div className={classes.post_feature_info}>
           <div>
-            {props.postData.categories.map((item, index) => {
+            {props.postData.category_names.map((item, index) => {
               return (
                 <div className={classes.post_category} key={index}>
                   {item}
@@ -29,10 +35,10 @@ function HorizonItem(props) {
               {props.postData.name}
             </div>
           </h2>
-          <p className={classes.post_desc}>{props.postData.desc}</p>
+          <p className={classes.post_desc}>{props.postData.description}</p>
           <div className={classes.post_author}>
             <img
-              src={props.postData.authorAvt}
+              src={props.postData.author_avt}
               className={classes.post_author_image}
             />
             <div className={classes.post_author_info}>
@@ -40,7 +46,7 @@ function HorizonItem(props) {
                 {props.postData.author}
               </h4>
               <div className={classes.post_author_time}>
-                {props.postData.uploadTime}
+                {props.postData.published_date}
               </div>
             </div>
           </div>
