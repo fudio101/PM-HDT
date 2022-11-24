@@ -28,7 +28,7 @@ class ComicEpisode extends Model
         'comic'
     ];
 
-//    protected $appends=['imageUrls'];
+   protected $appends=['imageUrls'];
 
     public function getImageUrlsAttribute(){
         $images=Storage::allFiles("comics/{$this->comic->slug}/{$this->episode_number}");

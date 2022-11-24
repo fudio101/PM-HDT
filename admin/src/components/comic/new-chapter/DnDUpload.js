@@ -81,10 +81,11 @@ function DnDUpload(props) {
       i += 1;
     }
 
+    // console.log(imgs);
+
     // console.log("inside", items);
   };
 
-  console.log(items);
   return (
     <>
       <div>

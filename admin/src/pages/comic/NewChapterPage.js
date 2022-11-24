@@ -46,13 +46,22 @@ function NewChapterPage() {
   const uploadEPHandler = () => {
     // const photoArr = [];
     const formData = new FormData();
+
+    const imageOrder = [];
+
     returnPts.forEach((photo) => {
-      formData.append("imageOrder[]", photo[1].name);
+      imageOrder.push(photo[1].name);
       formData.append("images[]", photo[1]);
+      // formData.append("images[]");
+      // formData.append("imageOrder[]", photo[1].name);
     });
-    // formData.append("images", photoArr);
+
+    // returnPts.forEach((photo) => {
+    //   // formData.append("images[]", photo[1]);
+    // });
+    formData.append("imageOrder[]", imageOrder);
     formData.append("comic_id", id);
-    formData.append("episode_number", 10);
+    formData.append("episode_number", 24);
     dispatch(newChapter({ photos: formData }));
   };
 
@@ -66,6 +75,13 @@ function NewChapterPage() {
       <DnDUpload photos={photoArr} setReturnPts={setReturnPts} />
 
       <Button onClick={uploadEPHandler}>return</Button>
+      {/* <Button
+        onClick={() => {
+          console.log(returnPts);
+        }}
+      >
+        return
+      </Button> */}
     </div>
   );
 }
