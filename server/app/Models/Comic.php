@@ -114,7 +114,31 @@ class Comic extends Model
         return $this->episodes->count();
     }
 
-    public function getUpdatedTimeDiffOnDaysAttribute(){
+    public function getUpdatedTimeDiffAttribute()
+    {
+        if ($this->updated_time_diff_on_days > 7) {
+            return null;
+        }
+
+        if ($this->updated_time_diff_on_days > 0) {
+            return $this->updated_time_diff_on_days.' ngày';
+        }
+
+        $t = Carbon::createFromTimestamp($this->updated_time)->diffInHours(now());
+        if ($t > 0) {
+            return $t.' Giờ Trước';
+        }
+
+        $t = Carbon::createFromTimestamp($this->updated_time)->diffInMinutes(now());
+        if ($t > 0) {
+            return $t.' Phút Trước';
+        }
+
+        return 'Vừa Xong';
+    }
+
+    public function getUpdatedTimeDiffOnDaysAttribute()
+    {
         return Carbon::createFromTimestamp($this->updated_time)->diffInDays(now());
     }
 
