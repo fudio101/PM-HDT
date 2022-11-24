@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\ClientComicResource;
 use App\Models\Author;
 use App\Models\Category;
 use App\Models\ComicEpisode;
@@ -208,7 +209,7 @@ class ComicController extends Controller
 
     public function search(Request $request)
     {
-        $data = Comic::search($request->search)->get();//->makeHidden('episodes');
+        $data = ClientComicResource::collection(Comic::search($request->search)->get());//->makeHidden('episodes');
         return response()->json([
             'data' => $data
         ], ResponseAlias::HTTP_OK);
@@ -220,8 +221,8 @@ class ComicController extends Controller
      */
     public function getComic(Comic $comic): JsonResponse
     {
-//        $comic;
-        return \response()->json(['data' => $comic]);
+        $data = new ClientComicResource($comic);
+        return \response()->json(['data' => $data]);
     }
 
     /**
@@ -234,11 +235,6 @@ class ComicController extends Controller
         $comicEpisode = $comic->getEpisode($episode_number);
 
         if ($comicEpisode) {
-//            $images = Storage::allFiles("comics/".$comic->slug."/".$comicEpisode->episode_number);
-//            $imageUrls = [];
-//            foreach ($images as $image) {
-//                $imageUrls[] = Storage::temporaryUrl($image, now()->addMinutes(30));
-//            }
             return response()->json(['data' => $comicEpisode->append('image_urls'),], ResponseAlias::HTTP_OK);
         }
 
@@ -259,22 +255,7 @@ class ComicController extends Controller
 
         $comics->sortByDesc('updated_time');
 
-        $data = [];
-
-        foreach ($comics as $comic) {
-            if ($comic->updated_time_diff_on_days > 0) {
-                $comic->updated_time_diff = $comic->updated_time_diff_on_days.' ngày';
-            } else {
-                $t = Carbon::createFromTimestamp($comic->updated_time)->diffInHours(now());
-                if ($t > 0) {
-                    $comic->updated_time_diff = $t.' Giờ Trước';
-                } else {
-                    $t = Carbon::createFromTimestamp($comic->updated_time)->diffInMinutes(now());
-                    $comic->updated_time_diff = $t.' Phút Trước';
-                }
-            }
-            $data[] = $comic;
-        }
+        $data = ClientComicResource::collection($comics);
 
         return response()->json(['data' => $data], ResponseAlias::HTTP_OK);
     }

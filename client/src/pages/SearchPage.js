@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import ComicItem from "../components/item/ComicItem";
-
 import FilterSearch from "../components/item/Filter/FilterSearch";
 import PaginatedItems from "../components/item/pagination/PaginatedItem";
 import { searchComics } from "../redux/reducers/filtersSlice";
