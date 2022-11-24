@@ -71,9 +71,9 @@ class ComicEpisodeController extends Controller
 
             $images = $this->sortImages($images, $imageOrder);
 
-            $comicEpisodeId = $comicEpisode->id;
+            $comicEpisodeNumber = $comicEpisode->episode_number;
             foreach ($images as $index => $image) {
-                Storage::putFileAs('comics/'.$comicSlug.'/'.$comicEpisodeId, $image, $index.'.'.$image->extension());
+                Storage::putFileAs('comics/'.$comicSlug.'/'.$comicEpisodeNumber, $image, $index.'.'.$image->extension());
             }
 
             return \response()->json(['data' => $comicEpisode], ResponseAlias::HTTP_CREATED);
