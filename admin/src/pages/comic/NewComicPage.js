@@ -126,7 +126,7 @@ function NewComicPage() {
   }, [category, author]);
 
   // console.log("cate", cateColection);
-  // console.log("author", author);
+  console.log("author", author);
 
   const [data, setData] = useState(initVal);
   const navigate = useNavigate();
