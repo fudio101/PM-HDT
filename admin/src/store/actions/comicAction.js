@@ -95,3 +95,21 @@ export const newComic = createAsyncThunk(
     }
   }
 );
+
+export const newChapter = createAsyncThunk(
+  "comic/newChapter",
+  async (payload, { rejectWithValue }) => {
+    try {
+      const { photos } = payload;
+
+      const res = await comicAPI.newChapter(photos);
+      return res.data;
+    } catch (error) {
+      if (error.response && error.response.data.message) {
+        return rejectWithValue(error.response.data.message);
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  }
+);

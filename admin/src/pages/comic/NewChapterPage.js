@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import moment from "moment";
 
 import { useDispatch, useSelector } from "react-redux";
-import { getComic } from "../../store/actions/comicAction";
+import { getComic, newChapter } from "../../store/actions/comicAction";
 
 import HorizonItem from "../../components/comic/comic-sample/HorizonItem";
 import DnDUpload from "../../components/comic/new-chapter/DnDUpload";
@@ -43,7 +43,18 @@ function NewChapterPage() {
     }));
   }, [comic]);
 
-  console.log(comicData);
+  const uploadEPHandler = () => {
+    // const photoArr = [];
+    const formData = new FormData();
+    returnPts.forEach((photo) => {
+      formData.append("imageOrder[]", photo[1].name);
+      formData.append("images[]", photo[1]);
+    });
+    // formData.append("images", photoArr);
+    formData.append("comic_id", id);
+    formData.append("episode_number", 10);
+    dispatch(newChapter({ photos: formData }));
+  };
 
   return (
     <div>
@@ -54,13 +65,7 @@ function NewChapterPage() {
 
       <DnDUpload photos={photoArr} setReturnPts={setReturnPts} />
 
-      <Button
-        onClick={() => {
-          console.log(returnPts);
-        }}
-      >
-        return
-      </Button>
+      <Button onClick={uploadEPHandler}>return</Button>
     </div>
   );
 }

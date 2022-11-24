@@ -34,6 +34,15 @@ const comicAPI = {
       data: comic,
     });
   },
+
+  newChapter: (photos) => {
+    const url = `http://server-pmhdt/api/comic-episodes`;
+    return axiosClient({
+      url: url,
+      method: "post",
+      data: photos,
+    });
+  },
 };
 
 export default comicAPI;

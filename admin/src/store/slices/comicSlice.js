@@ -5,6 +5,7 @@ import {
   delComic,
   newComic,
   getComic,
+  newChapter,
 } from "../actions/comicAction";
 
 const initialState = {
@@ -90,6 +91,21 @@ const comicSlice = createSlice({
     },
     [delComic.rejected]: (state, { payload }) => {
       return { loading: false, error: payload };
+    },
+
+    //add comic ep
+
+    [newChapter.pending]: (state) => {
+      state.loading = true;
+    },
+    [newChapter.fulfilled]: (state, { payload }) => {
+      state.loading = false;
+      state.success = true;
+      // state.comic = state.comic.push(payload);
+    },
+    [newChapter.rejected]: (state, { payload }) => {
+      state.loading = false;
+      state.error = payload;
     },
   },
 });
