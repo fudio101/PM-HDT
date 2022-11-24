@@ -61,15 +61,14 @@ class ComicEpisodeController extends Controller
             $comicSlug = $comic->slug;
 
             // Delete old image of comic episode
-//            $oldImages = Storage::allFiles("comics/".$comicSlug."/".$comicEpisode->episode_number);
-//            foreach ($oldImages as $image) {
-//                if (Storage::exists($image)) {
-//                    Storage::delete($image);
-//                }
-//            }
+            $oldImages = Storage::allFiles("comics/".$comicSlug."/".$comicEpisode->episode_number);
+            foreach ($oldImages as $image) {
+                Storage::delete($image);
+            }
 
             $images = $request->file('images');
             $imageOrder = (array) $request->input('imageOrder');
+
             $images = $this->sortImages($images, $imageOrder);
 
             $comicEpisodeId = $comicEpisode->id;
