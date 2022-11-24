@@ -2,16 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\ClientComicInforResource;
 use App\Http\Resources\ClientComicResource;
-use App\Models\Author;
 use App\Models\Category;
-use App\Models\ComicEpisode;
 use App\Models\Comic;
 use App\Models\ComicCategory;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 use Throwable;
@@ -51,6 +48,7 @@ class ComicController extends Controller
                 'name' => 'required|max:255',
                 'image' => 'required|image',
                 'published_date' => 'required|date',
+                'description' => 'string',
                 'author_id' => 'required|exists:authors,id,deleted_at,NULL',
                 'category_id' => 'required|array',
                 'category_id.*' => 'exists:categories,id,deleted_at,NULL',
@@ -58,7 +56,7 @@ class ComicController extends Controller
             ]);
 
             $comic = Comic::create($request->only([
-                'name', 'published_date', 'author_id', 'description', 'status'
+                'name', 'published_date', 'author_id', 'description', 'status', 'description'
             ]));
 
             foreach ($request->category_id as $value) {
@@ -111,6 +109,7 @@ class ComicController extends Controller
                 'name' => 'max:255',
                 'image' => 'image',
                 'published_date' => 'date',
+                'description' => 'string',
                 'author_id' => 'exists:authors,id,deleted_at,NULL',
                 'status' => 'integer',
                 'category_id' => 'array',
@@ -119,7 +118,7 @@ class ComicController extends Controller
 
             $oldSlug = $comic->slug;
 
-            $comic->update($request->only(['name', 'published_date', 'author_id', 'status']));
+            $comic->update($request->only(['name', 'published_date', 'author_id', 'status', 'description']));
 
             // update image location
             $newSlug = $comic->slug;
@@ -221,7 +220,7 @@ class ComicController extends Controller
      */
     public function getComic(Comic $comic): JsonResponse
     {
-        $data = new ClientComicResource($comic);
+        $data = new ClientComicInforResource($comic);
         return \response()->json(['data' => $data]);
     }
 
