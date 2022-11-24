@@ -5,6 +5,7 @@ export const filterCategorySelector = (state) => state.filters.values.category;
 export const filterStatusSelector = (state) => state.filters.values.status;
 export const filterNationSelector = (state) => state.filters.values.nation;
 export const filterDataSelector = (state) => state.filters.data;
+export const latestComicsSelector = (state) => state.latestComics.data;
 
 export const filterResultSelector = createSelector(
     filterDataSelector,

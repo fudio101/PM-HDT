@@ -8,7 +8,12 @@ const comicApi = {
             },
         }),
     getComic: (slug) => axiosClient.get(`/${slug}`),
-    getNewComic: () => axiosClient.get("get-just-updated-comics"),
+    getNewComic: (number) =>
+        axiosClient.get("get-just-updated-comics", {
+            params: {
+                number: number,
+            },
+        }),
 };
 
 export default comicApi;
