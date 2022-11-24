@@ -23,9 +23,9 @@ class Comic extends Model
     protected $table = 'comics';
     protected $fillable = ['name', 'user_id', 'author_id', 'description', 'published_date', 'like', 'view', 'status'];
     protected $appends = [
-        'author_name',
+//        'author_name',
         'user_name',
-        'category_names',
+//        'category_names',
         'image_url',
         'num_of_episodes',
 //        'updated_time',
