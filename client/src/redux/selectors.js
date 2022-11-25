@@ -5,9 +5,9 @@ export const categoryListSelector = (state) => state.categories.data;
 export const latestComicsSelector = (state) => state.latestComics.data;
 
 const searchFilterCategorySelector = (state) =>
-    state.searchComics.values.category;
-const searchFilterStatusSelector = (state) => state.searchComics.values.status;
-const searchFilterNationSelector = (state) => state.searchComics.values.nation;
+    state.searchComics.filters.category;
+const searchFilterStatusSelector = (state) => state.searchComics.filters.status;
+const searchFilterNationSelector = (state) => state.searchComics.filters.nation;
 const searchFilterDataSelector = (state) => state.searchComics.data;
 export const searchFilterResultSelector = createSelector(
     searchFilterDataSelector,

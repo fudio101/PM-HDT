@@ -4,7 +4,7 @@ import comicApi from "../../api/comicApi";
 const searchComicsSlice = createSlice({
     name: "search",
     initialState: {
-        values: {
+        filters: {
             category: 0,
             status: -1,
             nation: 0,
@@ -14,13 +14,13 @@ const searchComicsSlice = createSlice({
     },
     reducers: {
         seachFilterCategoryChange: (state, action) => {
-            state.values.category = parseInt(action.payload);
+            state.filters.category = parseInt(action.payload);
         },
         seachFilterStatusChange: (state, action) => {
-            state.values.status = action.payload;
+            state.filters.status = action.payload;
         },
         seachFilterNationChange: (state, action) => {
-            state.values.nation = action.payload;
+            state.filters.nation = action.payload;
         },
         // setData: (state, action) => {
         //     state.data = action.payload;
