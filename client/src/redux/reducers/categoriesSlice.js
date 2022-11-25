@@ -11,6 +11,7 @@ const categoriesSlice = createSlice({
         builder
             .addCase(getCategoryList.pending, (state, action) => {
                 state.status = "loading";
+                state.data = [];
             })
             .addCase(getCategoryList.fulfilled, (state, action) => {
                 state.status = "idle";

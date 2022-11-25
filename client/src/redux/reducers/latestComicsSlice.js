@@ -27,6 +27,7 @@ const latestComicsSlice = createSlice({
         builder
             .addCase(getLatestComics.pending, (state, action) => {
                 state.status = "loading";
+                state.data = [];
             })
             .addCase(getLatestComics.fulfilled, (state, action) => {
                 state.status = "idle";

@@ -27,6 +27,7 @@ const searchComicsSlice = createSlice({
         builder
             .addCase(searchComics.pending, (state, action) => {
                 state.status = "pending";
+                state.data = [];
             })
             .addCase(searchComics.fulfilled, (state, action) => {
                 state.status = "idle";

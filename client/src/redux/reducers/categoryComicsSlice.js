@@ -23,6 +23,7 @@ const categoryComicsSlice = createSlice({
         builder
             .addCase(getCategoryComics.pending, (state, action) => {
                 state.status = "loading";
+                state.data = [];
             })
             .addCase(getCategoryComics.fulfilled, (state, action) => {
                 state.status = "idle";
