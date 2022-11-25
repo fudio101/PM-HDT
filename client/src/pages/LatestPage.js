@@ -1,21 +1,20 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
 import ComicItem from "../components/item/ComicItem";
-import SearchFilter from "../components/item/Filters/SearchFilter";
+import FilterSearch from "../components/item/Filters/FilterSearch";
 import PaginatedItems from "../components/item/pagination/PaginatedItem";
-import { searchComics } from "../redux/reducers/searchComicsSlice";
-import { searchFilterResultSelector } from "../redux/selectors";
+import { filterResultSelector } from "../redux/selectors";
 
 function SearchPage() {
-    const { searchKey } = useParams();
     const dispatch = useDispatch();
-    let comicsFilter = useSelector(searchFilterResultSelector);
+    let comicsFilter = useSelector(filterResultSelector);
     const items = [];
 
+    const latestComics = useSelector(latestComicsSelector);
+
     useEffect(() => {
-        dispatch(searchComics(searchKey));
-    }, [dispatch, searchKey]);
+        dispatch(getLatestComics(100));
+    }, [dispatch]);
 
     comicsFilter.forEach((comic) => {
         return items.push(<ComicItem comic={comic} key={comic.slug} />);
@@ -23,7 +22,7 @@ function SearchPage() {
 
     return (
         <>
-            <SearchFilter />
+            <FilterSearch />
             {comicsFilter.length > 0 ? (
                 <PaginatedItems data={items} itemsPerPage={12} />
             ) : (

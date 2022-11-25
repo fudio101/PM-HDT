@@ -1,15 +1,15 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
-    categoryFilterChange,
-    nationFilterChange,
-    statusFilterChange,
-} from "../../../redux/reducers/filtersSlice";
+    seachFilterCategoryChange,
+    seachFilterNationChange,
+    seachFilterStatusChange,
+} from "../../../redux/reducers/searchComicsSlice";
 import { categoryListSelector } from "../../../redux/selectors";
 
-import classes from "./FilterSearch.module.css";
+import classes from "./Filter.module.css";
 
-function FilterSearch(props) {
+function SearchFilter(props) {
     const [category, setCategory] = useState("0");
     const [status, setStatus] = useState(-1);
     const [nation, setNation] = useState(0);
@@ -22,17 +22,17 @@ function FilterSearch(props) {
     const categoryChangeHandle = (e) => {
         let value = e.target.value;
         setCategory(value);
-        dispatch(categoryFilterChange(value));
+        dispatch(seachFilterCategoryChange(value));
     };
 
     const statusChangeHandle = (value) => {
         setStatus(value);
-        dispatch(statusFilterChange(value));
+        dispatch(seachFilterStatusChange(value));
     };
 
     const nationChangeHandle = (value) => {
         setNation(value);
-        dispatch(nationFilterChange(value));
+        dispatch(seachFilterNationChange(value));
     };
 
     return (
@@ -151,4 +151,4 @@ function FilterSearch(props) {
     );
 }
 
-export default FilterSearch;
+export default SearchFilter;

@@ -1,8 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import comicApi from "../../api/comicApi";
 
-const filtersSlice = createSlice({
-    name: "filters",
+const searchComicsSlice = createSlice({
+    name: "search",
     initialState: {
         values: {
             category: 0,
@@ -13,18 +13,18 @@ const filtersSlice = createSlice({
         status: "idle",
     },
     reducers: {
-        categoryFilterChange: (state, action) => {
+        seachFilterCategoryChange: (state, action) => {
             state.values.category = parseInt(action.payload);
         },
-        statusFilterChange: (state, action) => {
+        seachFilterStatusChange: (state, action) => {
             state.values.status = action.payload;
         },
-        nationFilterChange: (state, action) => {
+        seachFilterNationChange: (state, action) => {
             state.values.nation = action.payload;
         },
-        setData: (state, action) => {
-            state.data = action.payload;
-        },
+        // setData: (state, action) => {
+        //     state.data = action.payload;
+        // },
     },
     extraReducers: (builder) => {
         builder
@@ -46,13 +46,13 @@ export const searchComics = createAsyncThunk(
     }
 );
 
-const { actions } = filtersSlice;
+const { actions } = searchComicsSlice;
 
 export const {
-    categoryFilterChange,
-    statusFilterChange,
-    nationFilterChange,
-    setData,
+    seachFilterCategoryChange,
+    seachFilterStatusChange,
+    seachFilterNationChange,
+    // setData,
 } = actions;
 
-export default filtersSlice;
+export default searchComicsSlice;
