@@ -21,7 +21,11 @@ class ComicController extends Controller
     public function __construct()
     {
         $this->middleware('auth:api',
-            ['except' => ['index', 'showImageEpisode', 'search', 'getComic', 'getJustUpdatedComics']]);
+            [
+                'except' => [
+                    'index', 'showImageEpisode', 'search', 'getComic', 'getJustUpdatedComics', 'getComicsByCategory'
+                ]
+            ]);
     }
 
     /**
@@ -263,4 +267,10 @@ class ComicController extends Controller
         return response()->json(['data' => $data], ResponseAlias::HTTP_OK);
     }
 
+    public function getComicsByCategory(Category $category)
+    {
+        $comics = $category->comics;
+        $data = ClientComicResource::collection($comics);
+        return response()->json(['data' => $data], ResponseAlias::HTTP_OK);
+    }
 }
