@@ -5,12 +5,12 @@ import ComicItem from "../components/item/ComicItem";
 import SearchFilter from "../components/item/Filters/SearchFilter";
 import PaginatedItems from "../components/item/pagination/PaginatedItem";
 import { searchComics } from "../redux/reducers/searchComicsSlice";
-import { searchFilterResultSelector } from "../redux/selectors";
+import { latestComicsFilterResultSelector } from "../redux/selectors";
 
 function SearchPage() {
     const { searchKey } = useParams();
     const dispatch = useDispatch();
-    let comicsFilter = useSelector(searchFilterResultSelector);
+    let comicsFilter = useSelector(latestComicsFilterResultSelector);
     const items = [];
 
     useEffect(() => {

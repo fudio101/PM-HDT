@@ -4,8 +4,24 @@ import comicApi from "../../api/comicApi";
 const latestComicsSlice = createSlice({
     name: "latestComics",
     initialState: {
-        status: "idle",
+        filters: {
+            category: 0,
+            status: -1,
+            nation: 0,
+        },
         data: [],
+        status: "idle",
+    },
+    reducers: {
+        latestComicsFilterCategoryChange: (state, action) => {
+            state.filters.category = parseInt(action.payload);
+        },
+        latestComicsFilterStatusChange: (state, action) => {
+            state.filters.status = action.payload;
+        },
+        latestComicsFilterNationChange: (state, action) => {
+            state.filters.nation = action.payload;
+        },
     },
     extraReducers: (builder) => {
         builder
@@ -26,5 +42,13 @@ export const getLatestComics = createAsyncThunk(
         return res.data;
     }
 );
+
+const { actions } = latestComicsSlice;
+
+export const {
+    latestComicsFilterCategoryChange,
+    latestComicsFilterStatusChange,
+    latestComicsFilterNationChange,
+} = actions;
 
 export default latestComicsSlice;

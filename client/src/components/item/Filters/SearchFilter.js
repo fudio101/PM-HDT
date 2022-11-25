@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
-    seachFilterCategoryChange,
-    seachFilterNationChange,
-    seachFilterStatusChange,
+    searchComicsFilterCategoryChange,
+    searchComicsFilterNationChange,
+    searchComicsFilterStatusChange,
 } from "../../../redux/reducers/searchComicsSlice";
 import { categoryListSelector } from "../../../redux/selectors";
 
@@ -22,17 +22,17 @@ function SearchFilter(props) {
     const categoryChangeHandle = (e) => {
         let value = e.target.value;
         setCategory(value);
-        dispatch(seachFilterCategoryChange(value));
+        dispatch(searchComicsFilterCategoryChange(value));
     };
 
     const statusChangeHandle = (value) => {
         setStatus(value);
-        dispatch(seachFilterStatusChange(value));
+        dispatch(searchComicsFilterStatusChange(value));
     };
 
     const nationChangeHandle = (value) => {
         setNation(value);
-        dispatch(seachFilterNationChange(value));
+        dispatch(searchComicsFilterNationChange(value));
     };
 
     return (
