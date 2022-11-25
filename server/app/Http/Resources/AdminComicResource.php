@@ -18,10 +18,10 @@ class AdminComicResource extends JsonResource
     public function toArray($request)
     {
         $data = parent::toArray($request);
-        
+
         return array_merge($data, [
             'author' => $this->author,
-            'episodes' => $this->eppisodes,
+            'episodes' => $this->episodes,
         ]);
     }
 }
