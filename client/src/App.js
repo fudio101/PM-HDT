@@ -14,6 +14,7 @@ import { getCategoryList } from "./redux/reducers/categoriesSlice";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import LatestComicsPage from "./pages/LatestComicsPage";
+import CategoryComicsPage from "./pages/CategoryComicsPage";
 
 function App() {
     const dispatch = useDispatch();
@@ -35,6 +36,10 @@ function App() {
                 />
                 <Route path="/cate/*" element={<SearchComicsPage />} />
                 <Route path="/categories" element={<CategoryPage />} />
+                <Route
+                    path="/category/:categoryId"
+                    element={<CategoryComicsPage />}
+                />
                 <Route path="/popular" element={<RankPage />} />
                 <Route path="/lastest" element={<LatestComicsPage />} />
             </Route>

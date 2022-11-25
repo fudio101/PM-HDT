@@ -49,3 +49,19 @@ export const latestComicsFilterResultSelector = createSelector(
         });
     }
 );
+
+const categoryComicsFilterDataSelector = (state) => state.categoryComics.data;
+const categoryComicsFilterStatusSelector = (state) =>
+    state.categoryComics.filters.status;
+const categoryComicsFilterNationSelector = (state) =>
+    state.categoryComics.filters.nation;
+export const categoryComicsFilterResultSelector = createSelector(
+    categoryComicsFilterDataSelector,
+    categoryComicsFilterStatusSelector,
+    categoryComicsFilterNationSelector,
+    (data, status, nation) => {
+        return data.filter((comic, index) => {
+            return status === -1 || comic.status === status;
+        });
+    }
+);
