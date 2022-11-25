@@ -9,12 +9,26 @@
       href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+
+
     <link rel="stylesheet" href="./styles.css" />
     <title>Document</title>
   </head>
   <body>
     <div class="container">
+      <div class="story_detail_menu">
+        <ul>
+
+              <li class="li02">
+                <i class="fas fa-angle-left" style="color: white ; background-color: #8fc7ec;"></i> Chap trước
+              </li>
+      
+              <li class="li03">
+                Chap sau <i class="fas fa-angle-right"  style="color: white ; background-color: #999699;"></i>
+              </li>
+        </ul>
+       </div>
       <article class="comic">
         <div id="0" class="panel">
           <img src="https://storage.anhvip.xyz/image_comics/7245/665487/img_021_1665810232.jpg?data=3q" alt=""  >
@@ -35,5 +49,46 @@
           <img src="https://storage.anhvip.xyz/image_comics/7245/665487/img_021_1665810232.jpg?data=3q" alt="" >
         </div>
       </article>
-    <div>  
+     
+      <div class="chapter_control">
+      <div class="story_detail_menu">
+        <ul>
+              <li class="li01">
+                <i class="fas fa-home" style="background-color:  #36376b;"></i> Trang chủ
+              </li>
+              <li class="li02">
+                <i class="fas fa-angle-left" style="color: white ; background-color: #8fc7ec;"></i> Chap trước
+              </li>
+      
+              <li class="li03">
+                Chap sau <i class="fas fa-angle-right"  style="color: white ; background-color: #999699;"></i>
+              </li>
+              <li class="li04">
+                <i class="fas fa-heart" style="background-color: #e75353;"></i> Theo dõi
+              </li>
+        </ul>
+       </div>
+      </div>
+      <!-- import icon font awesome -->
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" />
+<!-- Import thư viện JQuery -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+// kéo xuống khoảng cách 500px thì xuất hiện nút Top-up
+var offset = 500;
+// thời gian di trượt 0.75s ( 1000 = 1s )
+var duration = 750;
+$(function(){
+$(window).scroll(function () {
+if ($(this).scrollTop() > offset)
+$('#top-up').fadeIn(duration);else
+$('#top-up').fadeOut(duration);
+});
+$('#top-up').click(function () {
+$('body,html').animate({scrollTop: 0}, duration);
+});
+});
+</script>
+<div title="Về đầu trang" id="top-up">
+<i class="fas fa-arrow-circle-up"></i></div>
  </body>

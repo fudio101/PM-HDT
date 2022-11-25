@@ -3,8 +3,8 @@ import Slider from "react-slick";
 import { useDispatch, useSelector } from "react-redux";
 import ComicItem from "../components/item/ComicItem";
 import SlideBar from "../components/item/Carousel/SlideBar";
-import NextArrow from "../components/item/Carousel/NextArrow";
-import PrevArrow from "../components/item/Carousel/PrevArrow";
+// import NextArrow from "../components/item/Carousel/NextArrow";
+// import PrevArrow from "../components/item/Carousel/PrevArrow";
 
 import classes from "./asset/css/HomePage.module.css";
 import { getLatestComics } from "../redux/reducers/latestComicsSlice";
@@ -13,12 +13,13 @@ import { latestComicsSelector } from "../redux/selectors";
 // slider setting
 const setting = {
     dots: true,
+    arrows: false,
     infinite: true,
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
-    nextArrow: <NextArrow />,
-    prevArrow: <PrevArrow />,
+    // nextArrow: <NextArrow />,
+    // prevArrow: <PrevArrow />,
 };
 
 function HomePage() {
