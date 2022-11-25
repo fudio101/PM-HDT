@@ -25,9 +25,9 @@ body {
 }
 
 @media screen and (max-width: 1023px) {
-  .container {
+  /* .container {
     padding: 0 16rem;
-  }
+  } */
   .post_list {
     grid-template-columns: auto;
     grid-gap: 3rem;

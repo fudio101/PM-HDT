@@ -6,7 +6,7 @@ use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ClientComicResource extends JsonResource
+class ClientComicInforResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -20,6 +20,8 @@ class ClientComicResource extends JsonResource
         return [
             'name' => $this->name,
             'slug' => $this->slug,
+            'like' => $this->like,
+            'num_of_episodes' => $this->num_of_episodes,
             'description' => $this->description,
             'published_date' => $this->published_date,
             'status' => $this->status,
@@ -27,6 +29,7 @@ class ClientComicResource extends JsonResource
             'image_url' => $this->image_url,
             'author' => $this->author,
             'categories' => $this->categories,
+            'episodes' => ComicEpisodeListResource::collection($this->episodes->sortByDesc('created_at')),
         ];
     }
 }

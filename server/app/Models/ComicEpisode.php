@@ -15,7 +15,7 @@ class ComicEpisode extends Model
     protected $fillable = [
         'comic_id',
         'episode_number',
-        'published_date',
+//        'published_date',
         'likes',
         'views'
     ];

@@ -1,4 +1,5 @@
 import React from "react";
+import { NavLink } from "react-router-dom";
 
 import classes from "../ComicItem.module.css";
 
@@ -23,11 +24,18 @@ function SlideBar(props) {
                     );
                 })}
                 <h2>
-                    <div
+                    {/* <div
                         className={`${classes.post_feature_title} ${classes.post_title}`}
                     >
                         {props.item.name}
-                    </div>
+                    </div> */}
+                    <NavLink to={`/comic/${props.item.slug}`}>
+                        <div
+                            className={`${classes.post_feature_title} ${classes.post_title}`}
+                        >
+                            {props.item.name}
+                        </div>
+                    </NavLink>
                 </h2>
                 <p className={classes.post_desc}>{props.item.description}</p>
                 <div className={classes.post_author}>

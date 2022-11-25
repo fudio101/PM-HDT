@@ -19,13 +19,17 @@ function ComicTitle({ info }) {
                             </li>
                             <li>
                                 <h3 className={classes.info_title}>Likes </h3>
-                                <p>{info?.likes}</p>
+                                <p>{info?.likes ? info?.likes : 0}</p>
                             </li>
                             <li>
                                 <h3 className={classes.info_title}>
                                     Episodes{" "}
                                 </h3>
-                                <p>{info?.num_of_episodes}</p>
+                                <p>
+                                    {info?.num_of_episodes
+                                        ? info?.num_of_episodes
+                                        : 0}
+                                </p>
                             </li>
 
                             <li>
