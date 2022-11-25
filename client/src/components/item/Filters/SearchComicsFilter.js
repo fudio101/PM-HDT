@@ -9,7 +9,7 @@ import { categoryListSelector } from "../../../redux/selectors";
 
 import classes from "./Filter.module.css";
 
-function SearchFilter(props) {
+function SearchComicsFilter(props) {
     const [category, setCategory] = useState("0");
     const [status, setStatus] = useState(-1);
     const [nation, setNation] = useState(0);
@@ -151,4 +151,4 @@ function SearchFilter(props) {
     );
 }
 
-export default SearchFilter;
+export default SearchComicsFilter;

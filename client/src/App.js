@@ -3,7 +3,7 @@ import { Route, Routes } from "react-router-dom";
 
 import Layout from "./components/layouts/Layout";
 import HomePage from "./pages/HomePage";
-import SearchPage from "./pages/SearchPage";
+import SearchComicsPage from "./pages/SearchComicsPage";
 import CategoryPage from "./pages/CategoryPage";
 import ComicIntroPage from "./pages/ComicIntroPage";
 import ComicViewPage from "./pages/ComicViewPage";
@@ -28,8 +28,11 @@ function App() {
                 <Route index element={<HomePage />} />
                 <Route path="/home" element={<HomePage />} />
                 <Route path="*" element={<HomePage />} />
-                <Route path="/search/:searchKey" element={<SearchPage />} />
-                <Route path="/cate/*" element={<SearchPage />} />
+                <Route
+                    path="/search/:searchKey"
+                    element={<SearchComicsPage />}
+                />
+                <Route path="/cate/*" element={<SearchComicsPage />} />
                 <Route path="/categories" element={<CategoryPage />} />
                 <Route path="/popular" element={<RankPage />} />
                 <Route path="/lastest" element={<RankPage />} />
