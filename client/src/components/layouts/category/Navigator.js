@@ -47,7 +47,7 @@ function Navigator(props) {
                             </NavLink>
                         </li>
 
-                        <li>
+                        {/* <li>
                             <NavLink
                                 className={(navLink) =>
                                     navLink.isActive ? classes.active : ""
@@ -56,7 +56,7 @@ function Navigator(props) {
                             >
                                 Popular
                             </NavLink>
-                        </li>
+                        </li> */}
 
                         <li>
                             <div
