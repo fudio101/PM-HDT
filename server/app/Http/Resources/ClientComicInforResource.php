@@ -29,7 +29,7 @@ class ClientComicInforResource extends JsonResource
             'image_url' => $this->image_url,
             'author' => $this->author,
             'categories' => $this->categories,
-            'episodes' => ClientComicEpisodeListResource::collection($this->episodes->sortByDesc('created_at')),
+            'episodes' => ComicEpisodeListResource::collection($this->episodes->sortByDesc('created_at')),
         ];
     }
 }
