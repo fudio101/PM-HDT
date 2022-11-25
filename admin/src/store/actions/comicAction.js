@@ -106,6 +106,7 @@ export const newChapter = createAsyncThunk(
       return res.data;
     } catch (error) {
       if (error.response && error.response.data.message) {
+        console.log(error.response.data.message);
         return rejectWithValue(error.response.data.message);
       } else {
         return rejectWithValue(error.message);

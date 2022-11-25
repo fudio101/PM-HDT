@@ -24,7 +24,7 @@ function App() {
         <Route path="/category-manage" element={<CategoryManagementPage />} />
         <Route path="/user-manage" element={<UserManagementPage />} />
         <Route path="/new-comic" element={<NewComicPage />} />
-        <Route path="/edit-comic" element={<EditComicPage />} />
+        <Route path="/edit-comic/:id" element={<EditComicPage />} />
         <Route path="/new-chapter/:id" element={<NewChapterPage />} />
         <Route path="/author-manage" element={<AuthorManagementPage />} />
       </Route>

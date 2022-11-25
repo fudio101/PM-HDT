@@ -18,7 +18,14 @@ const initialState = {
 const comicSlice = createSlice({
   name: "comic",
   initialState,
-  reducers: {},
+  reducers: {
+    refresh(state) {
+      state.success = false;
+      state.error = null;
+      state.comic = [];
+      state.loading = false;
+    },
+  },
   extraReducers: {
     //get comic
 
@@ -104,10 +111,13 @@ const comicSlice = createSlice({
       // state.comic = state.comic.push(payload);
     },
     [newChapter.rejected]: (state, { payload }) => {
-      state.loading = false;
-      state.error = payload;
+      return {
+        loading: false,
+        error: payload,
+      };
     },
   },
 });
 
+export const comicReducerAction = comicSlice.actions;
 export default comicSlice.reducer;

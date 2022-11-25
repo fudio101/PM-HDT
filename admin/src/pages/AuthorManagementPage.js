@@ -35,8 +35,9 @@ function AuthorManagementPage() {
   };
 
   useEffect(() => {
-    fetchAuthorList();
-  }, []);
+    // fetchAuthorList();
+    dispath(getAllAuthor());
+  }, [dispath]);
 
   useEffect(() => {
     toast(error, {

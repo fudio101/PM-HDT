@@ -11,78 +11,6 @@ import { newComic } from "../../store/actions/comicAction";
 import Button from "../../components/UI/Button";
 import { ToastContainer, toast } from "react-toastify";
 
-// const cateOptions = [
-//   {
-//     id: 1,
-//     name: "Cate1",
-//     get label() {
-//       return this.name;
-//     },
-//     get value() {
-//       return this.name;
-//     },
-//   },
-//   {
-//     id: 1,
-//     name: "Cate2",
-
-//     get label() {
-//       return this.name;
-//     },
-//     get value() {
-//       return this.name;
-//     },
-//   },
-//   {
-//     id: 1,
-//     name: "Cate3",
-//     get label() {
-//       return this.name;
-//     },
-//     get value() {
-//       return this.name;
-//     },
-//   },
-// ];
-
-// const authorOptions = [
-//   {
-//     id: 1,
-//     name: "author1",
-//     author_avt: require("../asset/img/green.webp"),
-//     get value() {
-//       return this.name;
-//     },
-//     get label() {
-//       return this.name;
-//     },
-//   },
-//   {
-//     id: 2,
-//     name: "author2",
-//     author_avt: require("../asset/img/red.webp"),
-//     get value() {
-//       return this.name;
-//     },
-//     get label() {
-//       return this.name;
-//     },
-//   },
-//   {
-//     id: 3,
-//     name: "author3",
-//     author_avt: require("../asset/img/yellow.webp"),
-//     get value() {
-//       return this.name;
-//     },
-//     get label() {
-//       return this.name;
-//     },
-//   },
-// ];
-
-// react-select
-
 const initVal = {
   name: "Comic Name Here",
   image_url: require("../asset/img/default_2.png"),
@@ -100,14 +28,14 @@ function NewComicPage() {
   const [authorColection, setAuthorCollection] = useState([]);
   const [cateColection, setCateCollection] = useState([]);
 
-  const dispath = useDispatch();
+  const dispatch = useDispatch();
   const { category } = useSelector((state) => state.category);
   const { author } = useSelector((state) => state.author);
   const { success } = useSelector((state) => state.comic);
 
   useEffect(() => {
-    dispath(getAllAuthor());
-    dispath(getAllCate());
+    dispatch(getAllAuthor());
+    dispatch(getAllCate());
   }, []);
 
   useEffect(() => {
@@ -126,7 +54,7 @@ function NewComicPage() {
   }, [category, author]);
 
   // console.log("cate", cateColection);
-  console.log("author", author);
+  // console.log("author", author);
 
   const [data, setData] = useState(initVal);
   const navigate = useNavigate();
@@ -141,13 +69,13 @@ function NewComicPage() {
     data.category_id.forEach((id) => {
       formData.append("category_id[]", id);
     });
-    dispath(newComic({ comic: formData }));
+    dispatch(newComic({ comic: formData }));
     if (success) {
       toast("New Document Added", {
         type: "success",
       });
       setTimeout(() => {
-        navigate("/doc-manage");
+        navigate("/comic-manage");
       }, 1500);
     }
 

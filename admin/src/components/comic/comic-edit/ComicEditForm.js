@@ -13,6 +13,12 @@ function ComicEditForm(props) {
     props.setData(inputData);
   }, [inputData]);
 
+  useEffect(() => {
+    setInputData(props.initVal);
+  }, [props.initVal]);
+
+  // console.log(inputData);
+
   const authorInputHandler = (e) => {
     // console.log(e);
     setInputData((prev) => {

@@ -3,79 +3,97 @@ import moment from "moment";
 
 import { useDispatch, useSelector } from "react-redux";
 import { getComic, newChapter } from "../../store/actions/comicAction";
+import { useNavigate } from "react-router-dom";
 
 import HorizonItem from "../../components/comic/comic-sample/HorizonItem";
 import DnDUpload from "../../components/comic/new-chapter/DnDUpload";
 import Button from "../../components/UI/Button";
 
 import classes from "../asset/css/NewChapter.module.css";
+import { ToastContainer, toast } from "react-toastify";
 import { useParams } from "react-router-dom";
+import { comicReducerAction } from "../../store/slices/comicSlice";
 
 const initVal = {
-    name: "Comic Name Here",
-    image_url: require("../asset/img/Loading....png"),
-    category_names: ["cate1", "cate2", "..."],
-    category_id: [],
-    description:
-        "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Odio nemo quae in delectus quod atque sunt recusandae accusantium optio. Soluta omnis quod ut quibusdam, reprehenderit ipsam in assumenda magni eaque?",
-    author_name: "Author name",
-    authorID: "",
-    author_avt: require("../asset/img/author.jpg"),
-    published_date: moment().format("YYYY-MM-DD"),
+  name: "Comic Name Here",
+  image_url: require("../asset/img/Loading....png"),
+  category_names: ["cate1", "cate2", "..."],
+  category_id: [],
+  description:
+    "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Odio nemo quae in delectus quod atque sunt recusandae accusantium optio. Soluta omnis quod ut quibusdam, reprehenderit ipsam in assumenda magni eaque?",
+  author_name: "Author name",
+  authorID: "",
+  author_avt: require("../asset/img/author.jpg"),
+  published_date: moment().format("YYYY-MM-DD"),
 };
 
 function NewChapterPage() {
-    const dispatch = useDispatch();
-    const { comic, success } = useSelector((state) => state.comic);
-    const { id } = useParams();
-    const [returnPts, setReturnPts] = useState([]); // return (data) edit chapter values
-    const [photoArr, setPhotosArr] = useState([]);
-    const [comicData, setComicData] = useState(initVal);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { comic, error } = useSelector((state) => state.comic);
+  const { id } = useParams();
+  const [returnPts, setReturnPts] = useState([]); // return (data) edit chapter values
+  const [photoArr, setPhotosArr] = useState([]);
+  const [comicData, setComicData] = useState(initVal);
 
-    useEffect(() => {
-        dispatch(getComic(id));
-    }, []);
+  useEffect(() => {
+    dispatch(getComic(id));
+  }, []);
 
-    useEffect(() => {
-        setComicData((prev) => ({
-            ...prev,
-            ...comic,
-        }));
-    }, [comic]);
+  useEffect(() => {
+    setComicData((prev) => ({
+      ...prev,
+      ...comic,
+    }));
+  }, [comic]);
 
-    const uploadEPHandler = () => {
-        // const photoArr = [];
-        const formData = new FormData();
+  useEffect(() => {
+    toast(error, {
+      type: "error",
+    });
+  }, [error]);
 
-        returnPts.forEach((photo) => {
-            formData.append("images[]", photo[1]);
-            formData.append("imageOrder[]", photo[1].name);
-        });
+  const uploadEPHandler = (e) => {
+    e.preventDefault();
+    const formData = new FormData();
 
-        formData.append("comic_id", id);
-        formData.append("episode_number", 21262);
-        dispatch(newChapter({ photos: formData }));
-    };
+    returnPts.forEach((photo) => {
+      formData.append("images[]", photo[1]);
+      formData.append("imageOrder[]", photo[1].name);
+    });
 
-    return (
-        <div>
-            <div className={classes.main_title}>
-                <p className={classes.font_weight_bold}>NEW CHAPTER</p>
-            </div>
-            <HorizonItem postData={comicData} />
+    formData.append("comic_id", id);
+    formData.append("episode_number", 2126);
+    dispatch(newChapter({ photos: formData }));
 
-            <DnDUpload photos={photoArr} setReturnPts={setReturnPts} />
+    // if (error) {
+    //   toast(error, {
+    //     type: "error",
+    //   });
+    // } else {
+    //   toast("New Comic Episode Added", {
+    //     type: "success",
+    //   });
+    //   setTimeout(() => {
+    //     dispatch(comicReducerAction.refresh());
+    //     navigate("/comic-manage");
+    //   }, 1500);
+    // }
+  };
 
-            <Button onClick={uploadEPHandler}>return</Button>
-            {/* <Button
-                onClick={() => {
-                    console.log(returnPts);
-                }}
-            >
-                return1
-            </Button> */}
-        </div>
-    );
+  return (
+    <div>
+      <div className={classes.main_title}>
+        <p className={classes.font_weight_bold}>NEW CHAPTER</p>
+      </div>
+      <HorizonItem postData={comicData} />
+
+      <DnDUpload photos={photoArr} setReturnPts={setReturnPts} />
+
+      <Button onClick={uploadEPHandler}>return</Button>
+      <ToastContainer position="bottom-right" newestOnTop />
+    </div>
+  );
 }
 
 export default NewChapterPage;
