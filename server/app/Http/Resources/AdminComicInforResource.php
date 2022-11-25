@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use JsonSerializable as JsonSerializableAlias;
 
-class AdminComicResource extends JsonResource
+class AdminComicInforResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -22,6 +22,7 @@ class AdminComicResource extends JsonResource
         return array_merge($data, [
             'categories' => $this->categories,
             'author' => $this->author,
+            'episodes' => ComicEpisodeListResource::collection($this->episodes->sortByDesc('created_at')),
         ]);
     }
 }

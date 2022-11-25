@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\AdminComicInforResource;
 use App\Http\Resources\AdminComicResource;
 use App\Http\Resources\ClientComicInforResource;
 use App\Http\Resources\ClientComicResource;
@@ -30,8 +31,9 @@ class ComicController extends Controller
      */
     public function index()
     {
+        $data = AdminComicResource::collection(Comic::all());
         return response()->json([
-            'data' => Comic::all(),
+            'data' => $data,
         ]);
     }
 
@@ -90,7 +92,7 @@ class ComicController extends Controller
      */
     public function show(Comic $comic)
     {
-        $data = new AdminComicResource($comic);
+        $data = new AdminComicInforResource($comic);
         return response()->json([
             'data' => $data,
         ]);
