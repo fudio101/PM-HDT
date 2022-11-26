@@ -242,7 +242,7 @@ class ComicController extends Controller
         $comicEpisode = $comic->getEpisode($episode_number);
 
         if ($comicEpisode) {
-            return response()->json(['data' => $comicEpisode->append('image_urls'),], ResponseAlias::HTTP_OK);
+            return response()->json(['data' => $comicEpisode], ResponseAlias::HTTP_OK);
         }
 
         return response()->json([
