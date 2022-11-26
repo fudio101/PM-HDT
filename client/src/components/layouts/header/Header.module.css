@@ -12,8 +12,11 @@
     display: none;
 }
 
+.logo_box {
+    height: 100%;
+}
+
 .logo {
-    font-size: 2rem;
     color: white;
     height: 100%;
 }
