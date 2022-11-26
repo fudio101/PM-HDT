@@ -30,6 +30,7 @@ class Comic extends Model
         'num_of_episodes',
 //        'updated_time',
 //        'updated_time_diff_on_days',
+        'country_name',
     ];
 
     protected $hidden = [
@@ -103,7 +104,12 @@ class Comic extends Model
             get: static fn($value, $attributes) => User::find($attributes['user_id'])->name
         );
     }
-
+    public function counrtyName(): Attribute
+    {
+        return Attribute::make(
+            get: static fn($value, $attributes) => Country::find($attributes['country_id'])->name
+        );
+    }
     public function getCategoryNamesAttribute()
     {
         return $this->categories->pluck('name');
