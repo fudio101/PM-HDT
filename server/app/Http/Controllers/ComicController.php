@@ -121,6 +121,7 @@ class ComicController extends Controller
             ]);
 
             $oldSlug = $comic->slug;
+            $oldImage = $comic->image;
 
             $comic->update($request->only(['name', 'published_date', 'author_id', 'status', 'description']));
 
@@ -128,9 +129,11 @@ class ComicController extends Controller
             $newSlug = $comic->slug;
             if ($oldSlug !== $newSlug) {
                 // comic image
-                if ($oldImage = $comic->image) {
+                if ($oldImage) {
                     $tmp = explode('/', $oldImage);
-                    $tmp[1] = $newSlug;
+                    $tmp1 = explode('.', $tmp[1]);
+                    $tmp1[0] = $newSlug;
+                    $tmp[1] = implode('.', $tmp1);
                     $tmp = implode("/", $tmp);
                     Storage::move($oldImage, $tmp);
                 }
@@ -159,9 +162,6 @@ class ComicController extends Controller
             // save image
             $image = $request->file('image');
             if ($image) {
-                if ($oldImage = $comic->image) {
-                    Storage::delete($oldImage);
-                }
                 Storage::putFileAs('comics', $image, $newSlug.'.'.$image->extension());
             }
 

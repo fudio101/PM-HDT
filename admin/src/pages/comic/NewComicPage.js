@@ -14,13 +14,24 @@ import { ToastContainer, toast } from "react-toastify";
 const initVal = {
   name: "Comic Name Here",
   image_url: require("../asset/img/default_2.png"),
-  category_names: ["cate1", "cate2", "..."],
+  categories: [
+    {
+      id: 1,
+      name: "Category 1",
+    },
+    {
+      id: 2,
+      name: "...",
+    },
+  ],
   category_id: [],
   description:
     "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Odio nemo quae in delectus quod atque sunt recusandae accusantium optio. Soluta omnis quod ut quibusdam, reprehenderit ipsam in assumenda magni eaque?",
-  author_name: "Author name",
-  authorID: "",
-  author_avt: require("../asset/img/author.jpg"),
+  author: {
+    id: 1,
+    name: "Author name",
+    image_url: require("../asset/img/author.jpg"),
+  },
   published_date: moment().format("YYYY-MM-DD"),
 };
 
@@ -65,9 +76,10 @@ function NewComicPage() {
     formData.append("published_date", data.published_date);
     formData.append("status", 0);
     formData.append("image", data.image);
-    formData.append("author_id", data.authorID);
-    data.category_id.forEach((id) => {
-      formData.append("category_id[]", id);
+    formData.append("author_id", data.author.id);
+    formData.append("description", data.description);
+    data.categories.forEach((cate) => {
+      formData.append("category_id[]", cate.id);
     });
     dispatch(newComic({ comic: formData }));
     if (success) {

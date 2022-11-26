@@ -26,21 +26,12 @@ const comicAPI = {
   },
 
   update: (id, comic) => {
-    const url = `http://server-pmhdt/api/comics/${id}`;
+    const url = `http://server-pmhdt/api/comics/${id}?_method=PUT`;
 
-    return axiosClient({
-      url: url,
-      method: "put",
-      data: comic,
-    });
-  },
-
-  newChapter: (photos) => {
-    const url = `http://server-pmhdt/api/comic-episodes`;
     return axiosClient({
       url: url,
       method: "post",
-      data: photos,
+      data: comic,
     });
   },
 };

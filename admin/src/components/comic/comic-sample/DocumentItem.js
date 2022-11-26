@@ -14,10 +14,10 @@ function DocumentItem(props) {
       </div>
       <div className={classes.post_info}>
         <div>
-          {props.postData.category_names.map((item, index) => {
+          {props.postData.categories.map((item) => {
             return (
-              <div className={classes.post_category} key={index}>
-                {item}
+              <div className={classes.post_category} key={item.id}>
+                {item.name}
               </div>
             );
           })}
@@ -27,16 +27,18 @@ function DocumentItem(props) {
             {props.postData.name}
           </div>
         </NavLink>
-        <div className={classes.post_desc}>{props.postData.description}</div>
+        <div className={classes.post_desc}>
+          {props.postData.description ? props.postData.description : ""}
+        </div>
         <div className={classes.post_author}>
           <img
-            src={props.postData.author_avt}
+            src={props.postData.author.image_url}
             alt=""
             className={classes.post_author_image}
           />
           <div className={classes.post_author_info}>
             <h4 className={classes.post_author_name}>
-              {props.postData.author_name}
+              {props.postData.author.name}
             </h4>
             <time className={classes.post_author_time}>
               {props.postData.published_date}
