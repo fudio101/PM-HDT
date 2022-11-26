@@ -27,7 +27,7 @@ function ComicIntroPage() {
     return (
         <div className={classes.container}>
             <ComicTitle info={comic} />
-            <ComicChapters chapters={comic?.episodes} />
+            <ComicChapters chapters={comic?.episodes} comicSlug={comic?.slug} />
         </div>
     );
 }

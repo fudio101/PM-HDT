@@ -6,7 +6,7 @@ import HomePage from "./pages/HomePage";
 import SearchComicsPage from "./pages/SearchComicsPage";
 import CategoryPage from "./pages/CategoryPage";
 import ComicIntroPage from "./pages/ComicIntroPage";
-import ComicViewPage from "./pages/ComicViewPage";
+import ChapterPage from "./pages/ChapterPage";
 import RankPage from "./pages/RankPage";
 import { useDispatch } from "react-redux";
 import { getCategoryList } from "./redux/reducers/categoriesSlice";
@@ -42,8 +42,11 @@ function App() {
                 />
                 <Route path="/popular" element={<RankPage />} />
                 <Route path="/lastest" element={<LatestComicsPage />} />
+                <Route
+                    path="/chapter/:comicSlug/:chapter"
+                    element={<ChapterPage />}
+                />
             </Route>
-            <Route path="/chapter" element={<ComicViewPage />} />
         </Routes>
     );
 }

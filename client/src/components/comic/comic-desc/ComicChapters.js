@@ -4,7 +4,7 @@ import { NavLink } from "react-router-dom";
 
 import classes from "./ComicDesc.module.css";
 
-function ComicChapters({ chapters }) {
+function ComicChapters({ chapters, comicSlug }) {
     return (
         <div className={classes.chapter_table}>
             <h3>Episode List</h3>
@@ -24,7 +24,7 @@ function ComicChapters({ chapters }) {
                                     <td>
                                         <NavLink
                                             className={classes.chapter_no}
-                                            to={"/chapter"}
+                                            to={`/chapter/${comicSlug}/${chapter.episode_number}`}
                                         >
                                             Episode {chapter.episode_number}
                                         </NavLink>
