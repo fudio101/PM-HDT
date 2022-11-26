@@ -21,7 +21,7 @@ class Comic extends Model
     use HasFactory, SoftDeletes, AddUser, HasSlug, Searchable;
 
     protected $table = 'comics';
-    protected $fillable = ['name', 'user_id', 'author_id', 'description', 'published_date', 'like', 'view', 'status'];
+    protected $fillable = ['name', 'user_id', 'author_id', 'description', 'published_date', 'like', 'view', 'status','country_id'];
     protected $appends = [
 //        'author_name',
         'user_name',
@@ -104,16 +104,21 @@ class Comic extends Model
             get: static fn($value, $attributes) => User::find($attributes['user_id'])->name
         );
     }
-    public function counrtyName(): Attribute
+    public function getCategoryNamesAttribute()
+    {
+        return $this->categories->pluck('name');
+    }
+    public function countryName(): Attribute
     {
         return Attribute::make(
             get: static fn($value, $attributes) => Country::find($attributes['country_id'])->name
         );
     }
-    public function getCategoryNamesAttribute()
+    public function getCountryNamesAttribute()
     {
-        return $this->categories->pluck('name');
+        return $this->countries->pluck('name');
     }
+
 
     public function getNumOfEpisodesAttribute()
     {

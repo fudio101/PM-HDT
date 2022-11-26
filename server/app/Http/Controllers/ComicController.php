@@ -55,11 +55,13 @@ class ComicController extends Controller
                 'author_id' => 'required|exists:authors,id,deleted_at,NULL',
                 'category_id' => 'required|array',
                 'category_id.*' => 'exists:categories,id,deleted_at,NULL',
+                'country_id' => 'required|exists:countries,id',
+
 
             ]);
 
             $comic = Comic::create($request->only([
-                'name', 'published_date', 'author_id', 'description', 'status', 'description'
+                'name', 'published_date', 'author_id', 'description', 'status','country_id',
             ]));
 
             foreach ($request->category_id as $value) {
