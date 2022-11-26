@@ -30,7 +30,7 @@ class Comic extends Model
         'num_of_episodes',
 //        'updated_time',
 //        'updated_time_diff_on_days',
-        'country_name',
+  //      'country_name',
     ];
 
     protected $hidden = [
@@ -39,6 +39,7 @@ class Comic extends Model
         'updated_at',
         'user_id',
         'episodes',
+        'country_id',
     ];
 
     protected $with = [
@@ -180,7 +181,10 @@ class Comic extends Model
     {
         return $this->hasOne(Author::class, 'id', 'author_id');
     }
-
+    function country(): HasOne
+    {
+        return $this->hasOne(Country::class, 'id', 'country_id');
+    }
     /**
      * @return HasMany|ComicEpisode
      */

@@ -22,6 +22,7 @@ class AdminComicResource extends JsonResource
         return array_merge($data, [
             'categories' => $this->categories,
             'author' => $this->author,
+            'country' => $this->country,
         ]);
     }
 }
