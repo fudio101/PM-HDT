@@ -32,24 +32,22 @@ function HomePage() {
     }, [dispatch]);
 
     return (
-        <>
+        <div className={`${classes.container} `}>
             {/* slider */}
-            <div className={`${classes.container} `}>
-                <div className={classes.slider}>
-                    <Slider {...setting}>
-                        {latestComics.map((item) => {
-                            return <SlideBar item={item} key={item.slug} />;
-                        })}
-                    </Slider>
-                </div>
-                {/* comic items */}
-                <div className={classes.post_list}>
-                    {latestComics.map((comic) => {
-                        return <ComicItem comic={comic} key={comic.slug} />;
+            <div className={classes.slider}>
+                <Slider {...setting}>
+                    {latestComics.map((item) => {
+                        return <SlideBar item={item} key={item.slug} />;
                     })}
-                </div>
+                </Slider>
             </div>
-        </>
+            {/* comic items */}
+            <div className={classes.post_list}>
+                {latestComics.map((comic) => {
+                    return <ComicItem comic={comic} key={comic.slug} />;
+                })}
+            </div>
+        </div>
     );
 }
 

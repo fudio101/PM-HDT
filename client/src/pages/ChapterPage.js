@@ -83,8 +83,6 @@ function ChapterPage() {
                 ))}
             </div>
 
-            <TopUpButton />
-
             <div className={classes.navbar_bottom}>
                 <Link to={"/"}>
                     <IconContext.Provider value={{ className: classes.active }}>
