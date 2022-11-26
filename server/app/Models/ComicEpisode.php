@@ -39,6 +39,10 @@ class ComicEpisode extends Model
         return $imageUrls;
     }
 
+    public function getListOfEpisodeNumberAttribute(){
+        return $this->comic->episodes->pluck('episode_number');
+    }
+
     public function comic()
     {
         return $this->belongsTo(Comic::class);
