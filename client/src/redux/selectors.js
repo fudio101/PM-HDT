@@ -65,3 +65,5 @@ export const categoryComicsFilterResultSelector = createSelector(
         });
     }
 );
+
+export const chapterImagesSelector = (state) => state.chapter.data?.image_urls;

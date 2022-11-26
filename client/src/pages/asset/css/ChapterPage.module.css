@@ -1,6 +1,9 @@
-/* .container {
-    background-color: rgb(44, 44, 44);
-} */
+.container {
+    background-color: #333;
+    margin: -7rem -111.11% -9rem;
+    padding: 9rem 0 3rem;
+    min-height: 73vh;
+}
 
 .container img {
     margin-left: auto;
@@ -9,10 +12,9 @@
 }
 
 .comic_image {
-    display: flex;
-    flex-wrap: wrap;
-    font-family: "Comic Sans", cursive;
-    padding: 1vmin;
+    width: 100%;
+    max-width: 880px;
+    object-fit: contain;
 }
 
 .navbar_top ul {
