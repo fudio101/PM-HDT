@@ -24,22 +24,32 @@
 }
 
 .navbar_top li {
-    width: 15rem;
+    width: 9rem;
     text-align: center;
-    padding: 1rem 2px;
+    padding: 0.5rem 2px;
     margin: 10px 10px;
     border-radius: 3px;
-    cursor: pointer;
     color: white;
     display: flex;
     justify-content: center;
     align-items: flex-end;
     font-weight: 700;
+    background-color: #bbbbbb;
+}
+
+.navbar_top .active {
+    cursor: pointer;
     background-color: #36376b;
 }
 
-.navbar_top li:hover {
+.navbar_top .active:hover {
     background-color: #595ba3;
+}
+
+.navbar_top .active a {
+    display: flex;
+    align-items: flex-end;
+    color: white;
 }
 
 .navbar_top li svg {
@@ -56,7 +66,7 @@
     background-color: #242526;
     box-shadow: 5px 5px 16px -4px #8e8e8e;
     padding: 12px 0;
-    color: #fff;
+    color: #bbbbbb;
 
     display: flex;
     list-style: none;
@@ -66,9 +76,13 @@
 .navbar_bottom svg {
     font-size: 40px;
     margin: 0 6px;
+}
+
+.navbar_bottom .active {
+    color: #fff;
     cursor: pointer;
 }
 
-.navbar_bottom svg:hover {
+.navbar_bottom .active:hover {
     color: #80adff;
 }
