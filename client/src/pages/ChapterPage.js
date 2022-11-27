@@ -7,7 +7,6 @@ import {
     BsFillArrowLeftCircleFill,
     BsFillArrowRightCircleFill,
 } from "react-icons/bs";
-import TopUpButton from "../components/ui/TopUpButton";
 import { useDispatch, useSelector } from "react-redux";
 import { getChapter } from "../redux/reducers/chapterSlice";
 import {

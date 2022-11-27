@@ -4,6 +4,7 @@ import comicApi from "../../api/comicApi";
 const searchComicsSlice = createSlice({
     name: "searchComics",
     initialState: {
+        searchKey: "",
         filters: {
             category: 0,
             status: -1,
@@ -27,20 +28,28 @@ const searchComicsSlice = createSlice({
         builder
             .addCase(searchComics.pending, (state, action) => {
                 state.status = "pending";
-                state.data = [];
+                // state.data = [];
             })
             .addCase(searchComics.fulfilled, (state, action) => {
                 state.status = "idle";
-                state.data = action.payload;
+                state.data = action.payload.data;
+                state.searchKey = action.payload.searchKey;
             });
     },
 });
 
 export const searchComics = createAsyncThunk(
     "filters/search",
-    async (searchKey, thunkApi) => {
-        const { data } = await comicApi.search(searchKey);
-        return data.data;
+    async (searchKey, { getState }) => {
+        let state = getState();
+        let oldSearchKey = state.searchComics.searchKey;
+
+        if (searchKey !== oldSearchKey) {
+            const { data } = await comicApi.search(searchKey);
+            return { searchKey: searchKey, data: data.data };
+        }
+
+        return { searchKey: searchKey, data: state.searchComics.data };
     }
 );
 

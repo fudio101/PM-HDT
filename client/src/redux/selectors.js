@@ -17,7 +17,7 @@ export const searchComicsFilterResultSelector = createSelector(
     searchComicsFilterStatusSelector,
     searchComicsFilterNationSelector,
     (data, category, status, nation) => {
-        return data.filter((comic, index) => {
+        return data?.filter((comic, index) => {
             return (
                 (category === 0 ||
                     comic.categories.some((cate) => cate.id === category)) &&
@@ -40,7 +40,7 @@ export const latestComicsFilterResultSelector = createSelector(
     latestComicsFilterStatusSelector,
     latestComicsFilterNationSelector,
     (data, category, status, nation) => {
-        return data.filter((comic, index) => {
+        return data?.filter((comic, index) => {
             return (
                 (category === 0 ||
                     comic.categories.some((cate) => cate.id === category)) &&
@@ -60,7 +60,7 @@ export const categoryComicsFilterResultSelector = createSelector(
     categoryComicsFilterStatusSelector,
     categoryComicsFilterNationSelector,
     (data, status, nation) => {
-        return data.filter((comic, index) => {
+        return data?.filter((comic, index) => {
             return status === -1 || comic.status === status;
         });
     }
