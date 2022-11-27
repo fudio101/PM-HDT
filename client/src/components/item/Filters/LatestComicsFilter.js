@@ -1,15 +1,15 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
-    categoryFilterChange,
-    nationFilterChange,
-    statusFilterChange,
-} from "../../../redux/reducers/filtersSlice";
+    latestComicsFilterCategoryChange,
+    latestComicsFilterNationChange,
+    latestComicsFilterStatusChange,
+} from "../../../redux/reducers/latestComicsSlice";
 import { categoryListSelector } from "../../../redux/selectors";
 
-import classes from "./FilterSearch.module.css";
+import classes from "./Filter.module.css";
 
-function FilterSearch(props) {
+function LatestComicsFilter(props) {
     const [category, setCategory] = useState("0");
     const [status, setStatus] = useState(-1);
     const [nation, setNation] = useState(0);
@@ -22,17 +22,17 @@ function FilterSearch(props) {
     const categoryChangeHandle = (e) => {
         let value = e.target.value;
         setCategory(value);
-        dispatch(categoryFilterChange(value));
+        dispatch(latestComicsFilterCategoryChange(value));
     };
 
     const statusChangeHandle = (value) => {
         setStatus(value);
-        dispatch(statusFilterChange(value));
+        dispatch(latestComicsFilterStatusChange(value));
     };
 
     const nationChangeHandle = (value) => {
         setNation(value);
-        dispatch(nationFilterChange(value));
+        dispatch(latestComicsFilterNationChange(value));
     };
 
     return (
@@ -151,4 +151,4 @@ function FilterSearch(props) {
     );
 }
 
-export default FilterSearch;
+export default LatestComicsFilter;

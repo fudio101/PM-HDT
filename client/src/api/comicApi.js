@@ -14,6 +14,8 @@ const comicApi = {
                 number: number,
             },
         }),
+    getComicByCategory: (categoryId) =>
+        axiosClient.get(`get-comics-by-category/${categoryId}`),
 };
 
 export default comicApi;

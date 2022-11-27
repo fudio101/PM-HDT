@@ -4,7 +4,7 @@ import classes from "./Category.module.css";
 import { useSelector } from "react-redux";
 import { categoryListSelector } from "../../../redux/selectors";
 
-function Category(props) {
+function Categories(props) {
     const [visibleCate, setVisibleCate] = useState(false);
 
     const categories = useSelector(categoryListSelector);
@@ -32,4 +32,4 @@ function Category(props) {
     );
 }
 
-export default Category;
+export default Categories;

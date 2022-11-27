@@ -6,7 +6,9 @@ import { NavLink } from "react-router-dom";
 function CategoryItem(props) {
     return (
         <li>
-            <NavLink to={props.item.id}>{props.item.name}</NavLink>
+            <NavLink to={"/category/" + props.item.id}>
+                {props.item.name}
+            </NavLink>
         </li>
     );
 }

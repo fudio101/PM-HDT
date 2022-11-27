@@ -6,6 +6,7 @@ use App\Http\Resources\AdminComicInforResource;
 use App\Http\Resources\AdminComicResource;
 use App\Http\Resources\ClientComicInforResource;
 use App\Http\Resources\ClientComicResource;
+use App\Http\Resources\ClientEpidoseImagesResource;
 use App\Models\Category;
 use App\Models\Comic;
 use App\Models\ComicCategory;
@@ -22,7 +23,11 @@ class ComicController extends Controller
     public function __construct()
     {
         $this->middleware('auth:api',
-            ['except' => ['index', 'showImageEpisode', 'search', 'getComic', 'getJustUpdatedComics']]);
+            [
+                'except' => [
+                    'index', 'showEpisodeImages', 'search', 'getComic', 'getJustUpdatedComics', 'getComicsByCategory'
+                ]
+            ]);
     }
 
     /**
@@ -238,12 +243,13 @@ class ComicController extends Controller
      * @param  $episode_number
      * @return JsonResponse
      */
-    public function showImageEpisode(Comic $comic, $episode_number)
+    public function showEpisodeImages(Comic $comic, $episode_number)
     {
         $comicEpisode = $comic->getEpisode($episode_number);
 
         if ($comicEpisode) {
-            return response()->json(['data' => $comicEpisode->append('image_urls'),], ResponseAlias::HTTP_OK);
+            $data = new ClientEpidoseImagesResource($comicEpisode);
+            return response()->json(['data' => $data], ResponseAlias::HTTP_OK);
         }
 
         return response()->json([
@@ -268,4 +274,10 @@ class ComicController extends Controller
         return response()->json(['data' => $data], ResponseAlias::HTTP_OK);
     }
 
+    public function getComicsByCategory(Category $category)
+    {
+        $comics = $category->comics;
+        $data = ClientComicResource::collection($comics);
+        return response()->json(['data' => $data], ResponseAlias::HTTP_OK);
+    }
 }
