@@ -27,13 +27,13 @@ function CategoryManagementPage() {
   const { category, error, success } = useSelector((state) => state.category);
   const dispatch = useDispatch();
 
-  const fetchCateList = () => {
-    dispatch(getAllCate());
-  };
+  // const fetchCateList = () => {
+  //   dispatch(getAllCate());
+  // };
 
   useEffect(() => {
-    fetchCateList();
-  }, []);
+    dispatch(getAllCate());
+  }, [dispatch]);
 
   return (
     <>

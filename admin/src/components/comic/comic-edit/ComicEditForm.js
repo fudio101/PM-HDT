@@ -13,16 +13,27 @@ function ComicEditForm(props) {
     props.setData(inputData);
   }, [inputData]);
 
+  useEffect(() => {
+    // console.log(props.initVal);
+    setInputData(props.initVal);
+  }, [props.initVal]);
+
+  // console.log(inputData);
+
   const authorInputHandler = (e) => {
     // console.log(e);
-    setInputData((prev) => {
-      return {
-        ...prev,
-        author_name: e.value,
-        author_avt: e.author_avt,
-        authorID: e.id,
-      };
-    });
+    setInputData((prev) => ({
+      ...prev,
+      author: {
+        name: e.value,
+        image_url: e.author_avt,
+        id: e.id,
+      },
+
+      // author_name: e.value,
+      // author_avt: e.author_avt,
+      // authorID: e.id,
+    }));
   };
 
   const formInputHandler = (e) => {
@@ -46,11 +57,12 @@ function ComicEditForm(props) {
       cateArr.push(cate.label);
     });
 
+    console.log(arr);
+
     setInputData((prev) => {
       return {
         ...prev,
-        category_id: cateArrID,
-        category_names: cateArr,
+        categories: [...arr],
       };
     });
 
@@ -75,7 +87,7 @@ function ComicEditForm(props) {
     <Wrapper>
       <div className={classes.new_comic}>
         <div className={classes.preview_section}>
-          <div>Preview</div>
+          <h5>Preview</h5>
           <DocumentItem postData={inputData} />
         </div>
         <div className={classes.input_section}>

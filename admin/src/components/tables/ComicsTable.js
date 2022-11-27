@@ -43,9 +43,8 @@ function ComicTable({ columns, data, setRowSelected }) {
           return (
             <div>
               <NavLink
-                to={"/edit-comic"}
+                to={`/edit-comic/${row.row.original.id}`}
                 className={classes.edit_btn}
-                onClick={() => alert(row.row.original.id + " clicked")}
               >
                 edit
               </NavLink>

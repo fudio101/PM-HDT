@@ -1,31 +1,11 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import comicAPI from "../../api/comicAPI";
+import comicEpAPI from "../../api/comicEpAPI";
 
-//THUNK
-
-export const getAllComic = createAsyncThunk(
-  "comic/getAllComic",
-  async (arg, { rejectWithValue }) => {
-    try {
-      const res = await comicAPI.getAll();
-      return res.data;
-    } catch (error) {
-      if (error.response && error.response.data.message) {
-        return rejectWithValue(error.response.data.message);
-      } else {
-        return rejectWithValue(error.message);
-      }
-    }
-  }
-);
-
-// get specify comic
-
-export const getComic = createAsyncThunk(
-  "comic/getComic",
+export const getComicEpByID = createAsyncThunk(
+  "comic/getComicEpByID",
   async (id, { rejectWithValue }) => {
     try {
-      const res = await comicAPI.get(id);
+      const res = await comicEpAPI.getComicEp(id);
       return res.data;
     } catch (error) {
       if (error.response && error.response.data.message) {
@@ -37,54 +17,52 @@ export const getComic = createAsyncThunk(
   }
 );
 
-// delete comic
+//new chapter
+export const newChapter = createAsyncThunk(
+  "comic/newChapter",
+  async (payload, { rejectWithValue }) => {
+    try {
+      const { photos } = payload;
 
-export const delComic = createAsyncThunk(
-  "comic/deleteComic",
+      const res = await comicEpAPI.newChapter(photos);
+      return res.data;
+    } catch (error) {
+      if (error.response && error.response.data.message) {
+        console.log(error.response.data.message);
+        return rejectWithValue(error.response.data.message);
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  }
+);
+
+//update
+
+export const updateComicEP = createAsyncThunk(
+  "comic/updateComicEP",
+  async (payload, { rejectWithValue }) => {
+    const { id, photos } = payload;
+    try {
+      const res = await comicEpAPI.updateComicEP(id, photos);
+      return res.data;
+    } catch (error) {
+      if (error.response && error.response.data.message) {
+        return rejectWithValue(error.response.data.message);
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  }
+);
+
+// delete comic episode
+
+export const deleteComicEP = createAsyncThunk(
+  "comic/deleteComicEP",
   async (id, { rejectWithValue }) => {
     try {
-      const res = await comicAPI.delete(id);
-      return res.data;
-    } catch (error) {
-      if (error.response && error.response.data.message) {
-        return rejectWithValue(error.response.data.message);
-      } else {
-        return rejectWithValue(error.message);
-      }
-    }
-  }
-);
-
-//
-
-// update comic
-
-export const update = createAsyncThunk(
-  "comic/updateComic",
-  async (payload, { rejectWithValue }) => {
-    const { id, comic } = payload;
-    try {
-      const res = await comicAPI.update(id, comic);
-      return res.data;
-    } catch (error) {
-      if (error.response && error.response.data.message) {
-        return rejectWithValue(error.response.data.message);
-      } else {
-        return rejectWithValue(error.message);
-      }
-    }
-  }
-);
-
-// new comic
-
-export const newComic = createAsyncThunk(
-  "comic/newComic",
-  async (payload, { rejectWithValue }) => {
-    try {
-      const { comic } = payload;
-
-      const res = await comicAPI.store(comic);
+      const res = await comicEpAPI.deleteComiCEP(id);
       return res.data;
     } catch (error) {
       if (error.response && error.response.data.message) {

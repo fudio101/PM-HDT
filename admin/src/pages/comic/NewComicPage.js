@@ -11,88 +11,27 @@ import { newComic } from "../../store/actions/comicAction";
 import Button from "../../components/UI/Button";
 import { ToastContainer, toast } from "react-toastify";
 
-// const cateOptions = [
-//   {
-//     id: 1,
-//     name: "Cate1",
-//     get label() {
-//       return this.name;
-//     },
-//     get value() {
-//       return this.name;
-//     },
-//   },
-//   {
-//     id: 1,
-//     name: "Cate2",
-
-//     get label() {
-//       return this.name;
-//     },
-//     get value() {
-//       return this.name;
-//     },
-//   },
-//   {
-//     id: 1,
-//     name: "Cate3",
-//     get label() {
-//       return this.name;
-//     },
-//     get value() {
-//       return this.name;
-//     },
-//   },
-// ];
-
-// const authorOptions = [
-//   {
-//     id: 1,
-//     name: "author1",
-//     author_avt: require("../asset/img/green.webp"),
-//     get value() {
-//       return this.name;
-//     },
-//     get label() {
-//       return this.name;
-//     },
-//   },
-//   {
-//     id: 2,
-//     name: "author2",
-//     author_avt: require("../asset/img/red.webp"),
-//     get value() {
-//       return this.name;
-//     },
-//     get label() {
-//       return this.name;
-//     },
-//   },
-//   {
-//     id: 3,
-//     name: "author3",
-//     author_avt: require("../asset/img/yellow.webp"),
-//     get value() {
-//       return this.name;
-//     },
-//     get label() {
-//       return this.name;
-//     },
-//   },
-// ];
-
-// react-select
-
 const initVal = {
   name: "Comic Name Here",
   image_url: require("../asset/img/default_2.png"),
-  category_names: ["cate1", "cate2", "..."],
+  categories: [
+    {
+      id: 1,
+      name: "Category 1",
+    },
+    {
+      id: 2,
+      name: "...",
+    },
+  ],
   category_id: [],
   description:
     "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Odio nemo quae in delectus quod atque sunt recusandae accusantium optio. Soluta omnis quod ut quibusdam, reprehenderit ipsam in assumenda magni eaque?",
-  author_name: "Author name",
-  authorID: "",
-  author_avt: require("../asset/img/author.jpg"),
+  author: {
+    id: 1,
+    name: "Author name",
+    image_url: require("../asset/img/author.jpg"),
+  },
   published_date: moment().format("YYYY-MM-DD"),
 };
 
@@ -100,14 +39,14 @@ function NewComicPage() {
   const [authorColection, setAuthorCollection] = useState([]);
   const [cateColection, setCateCollection] = useState([]);
 
-  const dispath = useDispatch();
+  const dispatch = useDispatch();
   const { category } = useSelector((state) => state.category);
   const { author } = useSelector((state) => state.author);
   const { success } = useSelector((state) => state.comic);
 
   useEffect(() => {
-    dispath(getAllAuthor());
-    dispath(getAllCate());
+    dispatch(getAllAuthor());
+    dispatch(getAllCate());
   }, []);
 
   useEffect(() => {
@@ -126,7 +65,7 @@ function NewComicPage() {
   }, [category, author]);
 
   // console.log("cate", cateColection);
-  console.log("author", author);
+  // console.log("author", author);
 
   const [data, setData] = useState(initVal);
   const navigate = useNavigate();
@@ -137,17 +76,18 @@ function NewComicPage() {
     formData.append("published_date", data.published_date);
     formData.append("status", 0);
     formData.append("image", data.image);
-    formData.append("author_id", data.authorID);
-    data.category_id.forEach((id) => {
-      formData.append("category_id[]", id);
+    formData.append("author_id", data.author.id);
+    formData.append("description", data.description);
+    data.categories.forEach((cate) => {
+      formData.append("category_id[]", cate.id);
     });
-    dispath(newComic({ comic: formData }));
+    dispatch(newComic({ comic: formData }));
     if (success) {
       toast("New Document Added", {
         type: "success",
       });
       setTimeout(() => {
-        navigate("/doc-manage");
+        navigate("/comic-manage");
       }, 1500);
     }
 
