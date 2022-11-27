@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Country;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Database\Seeder;
@@ -32,6 +33,18 @@ class DatabaseSeeder extends Seeder
             'email' => 'thenguyen1024@gmail.com',
             'password' => Hash::make('Ng01637202484'),
             'role_id' => 1,
+        ]);
+
+        Country::factory()->create([
+            'name' => 'Nhật Bản'
+        ]);
+
+        Country::factory()->create([
+            'name' => 'Hàn Quốc'
+        ]);
+
+        Country::factory()->create([
+            'name' => 'Trung Quốc'
         ]);
     }
 }

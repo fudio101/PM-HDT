@@ -2,13 +2,13 @@
 
 namespace Database\Factories;
 
-use App\Models\Role;
+use App\Models\Country;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends Factory<Role>
+ * @extends Factory<Country>
  */
-class RoleFactory extends Factory
+class CountryFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -18,7 +18,7 @@ class RoleFactory extends Factory
     public function definition()
     {
         return [
-            'name' => fake()->name(),
+            //
         ];
     }
 }
