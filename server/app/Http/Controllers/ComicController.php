@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 use Throwable;
+use function response;
 
 class ComicController extends Controller
 {
@@ -55,13 +56,12 @@ class ComicController extends Controller
                 'author_id' => 'required|exists:authors,id,deleted_at,NULL',
                 'category_id' => 'required|array',
                 'category_id.*' => 'exists:categories,id,deleted_at,NULL',
-                'country_id' => 'required|exists:countries,id',
-
-
+                'country_id' => 'exists:countries,id',
+                'status' => 'integer',
             ]);
 
             $comic = Comic::create($request->only([
-                'name', 'published_date', 'author_id', 'description', 'status','country_id',
+                'name', 'published_date', 'author_id', 'description', 'status', 'country_id',
             ]));
 
             foreach ($request->category_id as $value) {
@@ -69,7 +69,7 @@ class ComicController extends Controller
                     'comic_id' => $comic->id,
                     'category_id' => $value,
                 ]);
-            };
+            }
 
             // save image
             $image = $request->file('image');
@@ -117,6 +117,7 @@ class ComicController extends Controller
                 'published_date' => 'date',
                 'description' => 'string',
                 'author_id' => 'exists:authors,id,deleted_at,NULL',
+                'country_id' => 'exists:countries,id',
                 'status' => 'integer',
                 'category_id' => 'array',
                 'category_id.*' => 'exists:categories,id,deleted_at,NULL',
@@ -125,7 +126,9 @@ class ComicController extends Controller
             $oldSlug = $comic->slug;
             $oldImage = $comic->image;
 
-            $comic->update($request->only(['name', 'published_date', 'author_id', 'status', 'description']));
+            $comic->update($request->only([
+                'name', 'published_date', 'author_id', 'status', 'description', 'country_id'
+            ]));
 
             // update image location
             $newSlug = $comic->slug;
@@ -158,7 +161,7 @@ class ComicController extends Controller
                         'comic_id' => $comic->id,
                         'category_id' => $value,
                     ]);
-                };
+                }
             }
 
             // save image
@@ -227,7 +230,7 @@ class ComicController extends Controller
     public function getComic(Comic $comic): JsonResponse
     {
         $data = new ClientComicInforResource($comic);
-        return \response()->json(['data' => $data]);
+        return response()->json(['data' => $data]);
     }
 
     /**
