@@ -86,3 +86,75 @@
 .navbar_bottom .active:hover {
     color: #80adff;
 }
+
+.navbar_bottom button.active {
+    color: rgb(0, 0, 0);
+    min-width: 90px;
+    height: 40px;
+    padding-left: 16px;
+    padding-right: 16px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.navbar_bottom button.active:hover {
+    color: rgb(0, 0, 0);
+    background-color: #bbbbbb;
+}
+
+.model_content_header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.model_content_header input {
+    width: 82%;
+    margin: 0;
+    border: 1px solid #ccc;
+    height: 38px;
+    border-radius: 5px;
+    padding: 0 15px;
+    font-size: 15px;
+    color: #354052;
+}
+
+.model_content_header svg {
+    font-size: 36px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.model_content_list {
+    height: calc(100vh - 200px);
+    overflow: hidden;
+    overflow-y: auto;
+    padding: 10px 0px;
+}
+
+.model_content_list li {
+    list-style: none;
+    border: solid 1px #ddd;
+    padding: 5px 3px;
+    margin: 5px 0;
+    text-align: center;
+}
+
+.model_content_list li a {
+    color: black;
+    display: inline-block;
+    width: 100%;
+}
+
+.model_content_list li a:focus,
+.model_content_list li a:visited {
+    color: silver;
+}
+
+.model_content_list li.active {
+    border: solid 1px #ff9b9b;
+}
+
+.model_content_list li.active a {
+    color: #ff9b9b;
+}

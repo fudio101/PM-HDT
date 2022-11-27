@@ -69,3 +69,7 @@ export const categoryComicsFilterResultSelector = createSelector(
 export const chapterImagesSelector = (state) => state.chapter.data?.image_urls;
 export const previousChapterSelector = (state) => state.chapter.previousChapter;
 export const nextChapterSelector = (state) => state.chapter.nextChapter;
+export const chapterListSelector = (state) =>
+    state.chapter.data?.list_of_episode_number
+        ? [...state.chapter.data?.list_of_episode_number].reverse()
+        : undefined;

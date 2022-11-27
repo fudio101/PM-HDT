@@ -19,8 +19,8 @@ function ComicChapters({ chapters, comicSlug }) {
                     </thead>
                     <tbody>
                         {chapters ? (
-                            chapters.map((chapter) => (
-                                <tr key={chapter.id}>
+                            chapters.map((chapter, index) => (
+                                <tr key={index}>
                                     <td>
                                         <NavLink
                                             className={classes.chapter_no}
