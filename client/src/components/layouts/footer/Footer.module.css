@@ -1,35 +1,35 @@
 .footer {
-  width: 100%;
-  padding: 3rem 3rem 2rem 3rem;
-  background-color: #495c83;
+    width: 100%;
+    padding: 3rem 3rem 2rem 3rem;
+    background-color: #495c83;
 }
 
 .footer__nav {
-  list-style: none;
-  display: flex;
-  justify-content: center;
-  margin-bottom: 2rem;
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2rem;
 }
 
 .footer__item {
-  margin-right: 4rem;
+    margin-right: 4rem;
 }
 
 .footer__link {
-  color: #eee;
-  text-decoration: none;
+    color: #eee;
+    text-decoration: none;
 }
 
 .footer__logo {
-  display: block;
-  text-align: center;
-  margin: 0 auto;
-  color: white;
-  font-size: large;
+    display: block;
+    text-align: center;
+    margin: 0 auto;
+    color: white;
+    font-size: large;
 }
 
 .footer__copyright {
-  margin-top: 2rem;
-  color: #aaa;
-  text-align: center;
+    margin-top: 2rem;
+    color: #aaa;
+    text-align: center;
 }
