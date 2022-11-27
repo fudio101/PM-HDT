@@ -2,6 +2,8 @@ import { createSelector } from "@reduxjs/toolkit";
 
 export const categoryListSelector = (state) => state.categories.data;
 
+export const countryListSelector = (state) => state.countries.data;
+
 export const latestComicsSelector = (state) => state.latestComics.data;
 
 const searchComicsFilterDataSelector = (state) => state.searchComics.data;
@@ -9,22 +11,21 @@ const searchComicsFilterCategorySelector = (state) =>
     state.searchComics.filters.category;
 const searchComicsFilterStatusSelector = (state) =>
     state.searchComics.filters.status;
-const searchComicsFilterNationSelector = (state) =>
-    state.searchComics.filters.nation;
+const searchComicsFilterCountrySelector = (state) =>
+    state.searchComics.filters.country;
 export const searchComicsFilterResultSelector = createSelector(
     searchComicsFilterDataSelector,
     searchComicsFilterCategorySelector,
     searchComicsFilterStatusSelector,
-    searchComicsFilterNationSelector,
-    (data, category, status, nation) => {
-        return data?.filter((comic, index) => {
-            return (
+    searchComicsFilterCountrySelector,
+    (data, category, status, country) =>
+        data?.filter(
+            (comic, index) =>
                 (category === 0 ||
                     comic.categories.some((cate) => cate.id === category)) &&
-                (status === -1 || comic.status === status)
-            );
-        });
-    }
+                (status === -1 || comic.status === status) &&
+                (country === 0 || comic.country.id === country)
+        )
 );
 
 const latestComicsFilterDataSelector = (state) => state.latestComics.data;
@@ -32,38 +33,38 @@ const latestComicsFilterCategorySelector = (state) =>
     state.latestComics.filters.category;
 const latestComicsFilterStatusSelector = (state) =>
     state.latestComics.filters.status;
-const latestComicsFilterNationSelector = (state) =>
-    state.latestComics.filters.nation;
+const latestComicsFilterCountrySelector = (state) =>
+    state.latestComics.filters.country;
 export const latestComicsFilterResultSelector = createSelector(
     latestComicsFilterDataSelector,
     latestComicsFilterCategorySelector,
     latestComicsFilterStatusSelector,
-    latestComicsFilterNationSelector,
-    (data, category, status, nation) => {
-        return data?.filter((comic, index) => {
-            return (
+    latestComicsFilterCountrySelector,
+    (data, category, status, country) =>
+        data?.filter(
+            (comic, index) =>
                 (category === 0 ||
                     comic.categories.some((cate) => cate.id === category)) &&
-                (status === -1 || comic.status === status)
-            );
-        });
-    }
+                (status === -1 || comic.status === status) &&
+                (country === 0 || comic.country.id === country)
+        )
 );
 
 const categoryComicsFilterDataSelector = (state) => state.categoryComics.data;
 const categoryComicsFilterStatusSelector = (state) =>
     state.categoryComics.filters.status;
-const categoryComicsFilterNationSelector = (state) =>
-    state.categoryComics.filters.nation;
+const categoryComicsFilterCountrySelector = (state) =>
+    state.categoryComics.filters.country;
 export const categoryComicsFilterResultSelector = createSelector(
     categoryComicsFilterDataSelector,
     categoryComicsFilterStatusSelector,
-    categoryComicsFilterNationSelector,
-    (data, status, nation) => {
-        return data?.filter((comic, index) => {
-            return status === -1 || comic.status === status;
-        });
-    }
+    categoryComicsFilterCountrySelector,
+    (data, status, country) =>
+        data?.filter(
+            (comic, index) =>
+                (status === -1 || comic.status === status) &&
+                (country === 0 || comic.country.id === country)
+        )
 );
 
 export const chapterImagesSelector = (state) => state.chapter.data?.image_urls;

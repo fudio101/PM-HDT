@@ -8,7 +8,7 @@ const searchComicsSlice = createSlice({
         filters: {
             category: 0,
             status: -1,
-            nation: 0,
+            country: 0,
         },
         data: [],
         status: "idle",
@@ -20,8 +20,8 @@ const searchComicsSlice = createSlice({
         searchComicsFilterStatusChange: (state, action) => {
             state.filters.status = action.payload;
         },
-        searchComicsFilterNationChange: (state, action) => {
-            state.filters.nation = action.payload;
+        searchComicsFilterCountryChange: (state, action) => {
+            state.filters.country = action.payload;
         },
     },
     extraReducers: (builder) => {
@@ -58,7 +58,7 @@ const { actions } = searchComicsSlice;
 export const {
     searchComicsFilterCategoryChange,
     searchComicsFilterStatusChange,
-    searchComicsFilterNationChange,
+    searchComicsFilterCountryChange: searchComicsFilterNationChange,
 } = actions;
 
 export default searchComicsSlice;

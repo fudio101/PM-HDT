@@ -6,7 +6,7 @@ const categoryComicsSlice = createSlice({
     initialState: {
         filters: {
             status: -1,
-            nation: 0,
+            country: 0,
         },
         data: [],
         status: "idle",
@@ -15,8 +15,8 @@ const categoryComicsSlice = createSlice({
         categoryComicsFilterStatusChange: (state, action) => {
             state.filters.status = action.payload;
         },
-        categoryComicsFilterNationChange: (state, action) => {
-            state.filters.nation = action.payload;
+        categoryComicsFilterCountryChange: (state, action) => {
+            state.filters.country = action.payload;
         },
     },
     extraReducers: (builder) => {
@@ -44,7 +44,7 @@ const { actions } = categoryComicsSlice;
 
 export const {
     categoryComicsFilterStatusChange,
-    categoryComicsFilterNationChange,
+    categoryComicsFilterCountryChange: categoryComicsFilterNationChange,
 } = actions;
 
 export default categoryComicsSlice;

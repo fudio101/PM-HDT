@@ -15,12 +15,14 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import LatestComicsPage from "./pages/LatestComicsPage";
 import CategoryComicsPage from "./pages/CategoryComicsPage";
+import { getCountryList } from "./redux/reducers/countriesSlice";
 
 function App() {
     const dispatch = useDispatch();
 
     useEffect(() => {
         dispatch(getCategoryList());
+        dispatch(getCountryList());
     }, [dispatch]);
 
     return (

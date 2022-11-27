@@ -5,18 +5,22 @@ import {
     latestComicsFilterNationChange,
     latestComicsFilterStatusChange,
 } from "../../../redux/reducers/latestComicsSlice";
-import { categoryListSelector } from "../../../redux/selectors";
+import {
+    categoryListSelector,
+    countryListSelector,
+} from "../../../redux/selectors";
 
 import classes from "./Filter.module.css";
 
 function LatestComicsFilter(props) {
     const [category, setCategory] = useState("0");
     const [status, setStatus] = useState(-1);
-    const [nation, setNation] = useState(0);
+    const [country, setCountry] = useState(0);
     const categories = [
         { id: 0, name: "Tất cả" },
         ...useSelector(categoryListSelector),
     ];
+    const countries = useSelector(countryListSelector);
     const dispatch = useDispatch();
 
     const categoryChangeHandle = (e) => {
@@ -31,7 +35,7 @@ function LatestComicsFilter(props) {
     };
 
     const nationChangeHandle = (value) => {
-        setNation(value);
+        setCountry(value);
         dispatch(latestComicsFilterNationChange(value));
     };
 
@@ -113,35 +117,26 @@ function LatestComicsFilter(props) {
                                 <li
                                     onClick={() => nationChangeHandle(0)}
                                     className={
-                                        nation === 0 ? classes.active : ""
+                                        country === 0 ? classes.active : ""
                                     }
                                 >
                                     Tất cả
                                 </li>
-                                <li
-                                    onClick={() => nationChangeHandle(1)}
-                                    className={
-                                        nation === 1 ? classes.active : ""
-                                    }
-                                >
-                                    Nhật Bản
-                                </li>
-                                <li
-                                    onClick={() => nationChangeHandle(2)}
-                                    className={
-                                        nation === 2 ? classes.active : ""
-                                    }
-                                >
-                                    Hàn Quốc
-                                </li>
-                                <li
-                                    onClick={() => nationChangeHandle(3)}
-                                    className={
-                                        nation === 3 ? classes.active : ""
-                                    }
-                                >
-                                    Trung Quốc
-                                </li>
+                                {countries.map((element) => (
+                                    <li
+                                        onClick={() =>
+                                            nationChangeHandle(element.id)
+                                        }
+                                        className={
+                                            country === element.id
+                                                ? classes.active
+                                                : ""
+                                        }
+                                        key={element.id}
+                                    >
+                                        {element.name}
+                                    </li>
+                                ))}
                             </ul>
                         </td>
                     </tr>

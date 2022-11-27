@@ -7,7 +7,7 @@ const latestComicsSlice = createSlice({
         filters: {
             category: 0,
             status: -1,
-            nation: 0,
+            country: 0,
         },
         data: [],
         status: "idle",
@@ -19,8 +19,8 @@ const latestComicsSlice = createSlice({
         latestComicsFilterStatusChange: (state, action) => {
             state.filters.status = action.payload;
         },
-        latestComicsFilterNationChange: (state, action) => {
-            state.filters.nation = action.payload;
+        latestComicsFilterCountryChange: (state, action) => {
+            state.filters.country = action.payload;
         },
     },
     extraReducers: (builder) => {
@@ -49,7 +49,7 @@ const { actions } = latestComicsSlice;
 export const {
     latestComicsFilterCategoryChange,
     latestComicsFilterStatusChange,
-    latestComicsFilterNationChange,
+    latestComicsFilterCountryChange: latestComicsFilterNationChange,
 } = actions;
 
 export default latestComicsSlice;

@@ -1,31 +1,31 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import globalApi from "../../api/globalApi";
 
-const categoriesSlice = createSlice({
-    name: "categories",
+const countriesSlice = createSlice({
+    name: "countries",
     initialState: {
         status: "idle",
         data: [],
     },
     extraReducers: (builder) => {
         builder
-            .addCase(getCategoryList.pending, (state, action) => {
+            .addCase(getCountryList.pending, (state, action) => {
                 state.status = "loading";
                 state.data = [];
             })
-            .addCase(getCategoryList.fulfilled, (state, action) => {
+            .addCase(getCountryList.fulfilled, (state, action) => {
                 state.status = "idle";
                 state.data = action.payload.data;
             });
     },
 });
 
-export const getCategoryList = createAsyncThunk(
-    "categories/getList",
+export const getCountryList = createAsyncThunk(
+    "countries/getList",
     async () => {
-        const res = await globalApi.categoryList();
+        const res = await globalApi.countryList();
         return res.data;
     }
 );
 
-export default categoriesSlice;
+export default countriesSlice;
