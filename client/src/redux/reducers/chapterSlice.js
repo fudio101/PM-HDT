@@ -6,7 +6,9 @@ const chapterSlice = createSlice({
     initialState: {
         previousChapter: undefined,
         nextChapter: undefined,
-        data: {},
+        data: {
+            list_of_episode_number: [],
+        },
         status: "idle",
     },
     extraReducers: (builder) => {

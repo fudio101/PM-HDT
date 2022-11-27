@@ -72,4 +72,4 @@ export const nextChapterSelector = (state) => state.chapter.nextChapter;
 export const chapterListSelector = (state) =>
     state.chapter.data?.list_of_episode_number
         ? [...state.chapter.data?.list_of_episode_number].reverse()
-        : undefined;
+        : [];
