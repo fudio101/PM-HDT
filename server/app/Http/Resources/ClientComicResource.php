@@ -2,7 +2,6 @@
 
 namespace App\Http\Resources;
 
-use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -26,6 +25,7 @@ class ClientComicResource extends JsonResource
             'updated_time_diff' => $this->updated_time_diff,
             'image_url' => $this->image_url,
             'author' => $this->author,
+            'country' => $this->country,
             'categories' => $this->categories,
         ];
     }

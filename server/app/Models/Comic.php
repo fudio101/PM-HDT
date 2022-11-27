@@ -21,7 +21,9 @@ class Comic extends Model
     use HasFactory, SoftDeletes, AddUser, HasSlug, Searchable;
 
     protected $table = 'comics';
-    protected $fillable = ['name', 'user_id', 'author_id', 'description', 'published_date', 'like', 'view', 'status','country_id'];
+    protected $fillable = [
+        'name', 'user_id', 'author_id', 'description', 'published_date', 'like', 'view', 'status', 'country_id'
+    ];
     protected $appends = [
 //        'author_name',
         'user_name',
@@ -30,7 +32,7 @@ class Comic extends Model
         'num_of_episodes',
 //        'updated_time',
 //        'updated_time_diff_on_days',
-  //      'country_name',
+//      'country_name',
     ];
 
     protected $hidden = [
@@ -40,6 +42,7 @@ class Comic extends Model
         'user_id',
         'episodes',
         'country_id',
+        'author_id',
     ];
 
     protected $with = [
@@ -105,16 +108,19 @@ class Comic extends Model
             get: static fn($value, $attributes) => User::find($attributes['user_id'])->name
         );
     }
+
     public function getCategoryNamesAttribute()
     {
         return $this->categories->pluck('name');
     }
+
     public function countryName(): Attribute
     {
         return Attribute::make(
             get: static fn($value, $attributes) => Country::find($attributes['country_id'])->name
         );
     }
+
     public function getCountryNamesAttribute()
     {
         return $this->countries->pluck('name');
@@ -181,10 +187,12 @@ class Comic extends Model
     {
         return $this->hasOne(Author::class, 'id', 'author_id');
     }
+
     function country(): HasOne
     {
         return $this->hasOne(Country::class, 'id', 'country_id');
     }
+
     /**
      * @return HasMany|ComicEpisode
      */

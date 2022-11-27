@@ -22,6 +22,7 @@ class AdminComicInforResource extends JsonResource
         return array_merge($data, [
             'categories' => $this->categories,
             'author' => $this->author,
+            'country' => $this->country,
             'episodes' => AdminComicEpisodeListResource::collection($this->episodes->sortByDesc('created_at')),
         ]);
     }
