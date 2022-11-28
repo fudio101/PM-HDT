@@ -27,6 +27,12 @@ function ComicIntroPage() {
     return (
         <div className={classes.container}>
             <ComicTitle info={comic} />
+            <hr
+                style={{
+                    marginTop: "2rem",
+                    marginBottom: "2rem",
+                }}
+            />
             <ComicChapters chapters={comic?.episodes} comicSlug={comic?.slug} />
         </div>
     );
