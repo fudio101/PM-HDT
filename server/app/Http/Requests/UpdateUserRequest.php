@@ -26,13 +26,13 @@ class UpdateUserRequest extends FormRequest
     {
         return [
             'name' => 'string',
-            'image' => 'image',
+//            'image' => 'image',
 //            'email' => 'email|unique:users,email,'.$this->user->id,
             'password' => [
                 'confirmed',
                 Password::min(8)->mixedCase()
             ],
-            'role_id' => 'exist:roles,id|integer',
+            'role_id' => 'exists:roles,id|integer',
         ];
     }
 }

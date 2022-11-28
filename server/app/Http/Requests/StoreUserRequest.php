@@ -26,13 +26,14 @@ class StoreUserRequest extends FormRequest
     {
         return [
             'name' => 'required|string',
-            'image' => 'required|image',
+//            'image' => 'image',
             'email' => 'required|email|unique:users',
             'password' => [
-                'required|confirmed',
+                'required',
+                'confirmed',
                 Password::min(8)->mixedCase()
             ],
-            'role_id' => 'required|exist:roles,id|integer',
+            'role_id' => 'required|exists:roles,id|integer',
         ];
     }
 }

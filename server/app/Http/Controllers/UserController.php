@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
+use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
@@ -64,7 +64,9 @@ class UserController extends Controller
 
         // save image
         $image = $request->file('image');
-        Storage::putFileAs('users', $image, $user->id.'.'.$image->extension());
+        if ($image) {
+            Storage::putFileAs('users', $image, $user->id.'.'.$image->extension());
+        }
 
         return \response()->json(['data' => $user], ResponseAlias::HTTP_OK);
     }
