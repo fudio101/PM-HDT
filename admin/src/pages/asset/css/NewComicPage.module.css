@@ -16,10 +16,10 @@
   display: block;
 }
 
-.author_section {
-  padding: 1.5rem;
+/* .author_section {
+  padding: 0 1.5rem;
   border-bottom: 2px solid rgb(88, 88, 88);
-}
+} */
 
 .author_name_input {
   width: 100%;
@@ -36,7 +36,12 @@
 }
 
 .comic_section {
-  padding: 1.5rem;
+  padding: 1rem;
+}
+
+.comic_section label {
+  font-weight: bold;
+  margin-top: 4px;
 }
 
 .cate_choose li {

@@ -83,29 +83,36 @@ function ComicEditForm(props) {
     // props.setData(inputData);
   };
 
+  const countryHandler = (e) => {
+    setInputData((prev) => {
+      return {
+        ...prev,
+        country: e.id,
+      };
+    });
+  };
+
   return (
     <Wrapper>
       <div className={classes.new_comic}>
         <div className={classes.preview_section}>
-          <h5>Preview</h5>
           <DocumentItem postData={inputData} />
         </div>
         <div className={classes.input_section}>
           <form className={classes.comic_form_info}>
-            <div className={classes.author_section}>
-              <h1>Author</h1>
-              <div>
-                <Select
-                  placeholder={"Select Author..."}
-                  closeMenuOnSelect={true}
-                  options={props.authorOptions}
-                  onChange={authorInputHandler}
-                  defaultValue={props.authorOptions[0]}
-                />
-              </div>
-            </div>
             <div className={classes.comic_section}>
-              <h1>Comic</h1>
+              <div className={classes.author_section}>
+                <label>Author</label>
+                <div>
+                  <Select
+                    placeholder={"Select Author..."}
+                    closeMenuOnSelect={true}
+                    options={props.authorOptions}
+                    onChange={authorInputHandler}
+                    defaultValue={props.authorOptions[0]}
+                  />
+                </div>
+              </div>
               <div>
                 <label>Name</label>
                 <input
@@ -134,6 +141,18 @@ function ComicEditForm(props) {
                     isMulti
                     options={props.cateOptions}
                     onChange={cateInputHandler}
+                  />
+                </div>
+              </div>
+              <div>
+                <label>Country</label>
+                <div className={classes.cate_choose}>
+                  <Select
+                    placeholder={"Select Country..."}
+                    closeMenuOnSelect={false}
+                    // defaultValue={[props.countryOptions[0]]}
+                    options={props.countryOptions}
+                    onChange={countryHandler}
                   />
                 </div>
               </div>

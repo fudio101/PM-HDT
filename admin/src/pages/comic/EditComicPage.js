@@ -11,7 +11,12 @@ import ComicEditForm from "../../components/comic/comic-edit/ComicEditForm";
 import classes from "../asset/css/NewComicPage.module.css";
 
 import { useDispatch, useSelector } from "react-redux";
-import { getComic, update, delComic } from "../../store/actions/comicAction";
+import {
+  getComic,
+  update,
+  delComic,
+  getAllCountry,
+} from "../../store/actions/comicAction";
 import {
   getComicEpByID,
   deleteComicEP,
@@ -56,6 +61,17 @@ const initVal = {
       name: "Category 2",
     },
   ],
+
+  countries: [
+    {
+      id: 1,
+      name: "Category 1",
+    },
+    {
+      id: 2,
+      name: "...",
+    },
+  ],
   // category_id: [],
   description:
     "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Odio nemo quae in delectus quod atque sunt recusandae accusantium optio. Soluta omnis quod ut quibusdam, reprehenderit ipsam in assumenda magni eaque?",
@@ -95,11 +111,24 @@ function EditComicPage() {
 
   const [authorColection, setAuthorCollection] = useState([]);
   const [cateColection, setCateCollection] = useState([]);
+  const [countries, setCountriesCollection] = useState([]);
+
+  const fetchAllCountry = async () => {
+    const result = unwrapResult(await dispatch(getAllCountry()));
+    setCountriesCollection(
+      result.map((country) => ({
+        ...country,
+        label: country.name,
+        value: country.name,
+      }))
+    );
+  };
 
   useEffect(() => {
     dispatch(getAllAuthor());
     dispatch(getAllCate());
     dispatch(getComic(id));
+    fetchAllCountry();
   }, []);
 
   useEffect(() => {
@@ -202,6 +231,7 @@ function EditComicPage() {
       formData.append("image", data.image);
       formData.append("author_id", data.author.id);
       formData.append("description", data.description);
+      formData.append("country_id", data.country);
       data.categories.forEach((cate) => {
         formData.append("category_id[]", cate.id);
       });
@@ -258,6 +288,7 @@ function EditComicPage() {
             initVal={comicData}
             authorOptions={authorColection}
             cateOptions={cateColection}
+            countryOptions={countries}
           />
           <Button onClick={updateComicHandler}>Update</Button>
           <Button onClick={deleteComicHandler}>Delete</Button>

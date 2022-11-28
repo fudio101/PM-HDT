@@ -10,11 +10,13 @@ import {
   getAllAuthor,
   newAuthor,
   delAuthor,
+  update,
 } from "../store/actions/authorAction";
 
 import authorAPI from "../api/authorAPI";
 
 import classes from "./asset/css/StandardMain.module.css";
+import { unwrapResult } from "@reduxjs/toolkit";
 
 function AuthorManagementPage() {
   const { error, author, success } = useSelector((state) => state.author);
@@ -53,15 +55,17 @@ function AuthorManagementPage() {
       formData.append("name", authorData.name);
       formData.append("image", authorData.img);
       dispath(newAuthor({ author: formData }));
-      if (success === true) {
-        toast("New Author Added", {
-          type: "success",
-        });
-      }
-    } catch (error) {}
+
+      toast("New Author Added", {
+        type: "success",
+      });
+    } catch (error) {
+      toast(error, {
+        type: "error",
+      });
+    }
 
     fetchAuthorList();
-
     closeHandler();
   };
 
@@ -69,10 +73,16 @@ function AuthorManagementPage() {
 
   const deleteHandler = async (e) => {
     e.preventDefault();
-    dispath(delAuthor(rowSelected.id));
-    if (success === true) {
-      toast("Author Has Been Deleted", {
-        type: "success",
+    try {
+      unwrapResult(await dispath(delAuthor(rowSelected.id)));
+      if (success === true) {
+        toast("Author Has Been Deleted", {
+          type: "success",
+        });
+      }
+    } catch (error) {
+      toast(error, {
+        type: "error",
       });
     }
     // try {
@@ -92,17 +102,22 @@ function AuthorManagementPage() {
 
   //update an author
 
-  const updateAuthor = async (id, author) => {
+  const updateAuthor = async (e) => {
     try {
-      await authorAPI.update(id, author);
+      const formData = new FormData();
+      formData.append("name", authorData.name);
+      formData.append("image", authorData.img);
+      console.log(rowSelected.id);
+      unwrapResult(
+        dispath(await update({ id: rowSelected.id, author: formData }))
+      );
       toast("Author Updated", {
         type: "success",
       });
     } catch (error) {
-      // toast(error, {
-      //   type: "error",
-      // });
-      console.log(error);
+      toast(error, {
+        type: "error",
+      });
     }
   };
 

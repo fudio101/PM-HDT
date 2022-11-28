@@ -1,5 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { userLogin, getUserInfo } from "../actions/userAction";
+import {
+  userLogin,
+  getUserInfo,
+  getAllUsers,
+  deleteUser,
+  updateUser,
+  newUser,
+} from "../actions/userAction";
 
 const userToken = localStorage.getItem("userToken")
   ? localStorage.getItem("userToken")
@@ -42,6 +49,64 @@ const userSlice = createSlice({
     },
     [getUserInfo.rejected]: (state, { payload }) => {
       state.loading = false;
+    },
+
+    // get All user
+    [getAllUsers.pending]: (state) => {
+      state.loading = true;
+    },
+    [getAllUsers.fulfilled]: (state, { payload }) => {
+      return {
+        loading: false,
+        users: payload,
+        success: true,
+      };
+    },
+    [getAllUsers.rejected]: (state, { payload }) => {
+      return { loading: false, error: payload };
+    },
+
+    // new user
+    [newUser.pending]: (state) => {
+      state.loading = true;
+    },
+    [newUser.fulfilled]: (state, { payload }) => {
+      return {
+        loading: false,
+        success: true,
+      };
+    },
+    [newUser.rejected]: (state, { payload }) => {
+      return { loading: false, error: payload };
+    },
+
+    // update user
+    [updateUser.pending]: (state) => {
+      state.loading = true;
+    },
+    [updateUser.fulfilled]: (state, { payload }) => {
+      return {
+        loading: false,
+        success: true,
+      };
+    },
+    [updateUser.rejected]: (state, { payload }) => {
+      return { loading: false, error: payload };
+    },
+
+    // delete user
+    [deleteUser.pending]: (state) => {
+      state.loading = true;
+    },
+    [deleteUser.fulfilled]: (state, { payload }) => {
+      return {
+        loading: false,
+        success: true,
+        error: payload,
+      };
+    },
+    [deleteUser.rejected]: (state, { payload }) => {
+      return { loading: false, error: payload };
     },
   },
 });

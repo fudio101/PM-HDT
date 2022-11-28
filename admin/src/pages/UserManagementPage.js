@@ -1,8 +1,20 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 import Button from "../components/UI/Button";
 import Table from "../components/tables/Table";
 import EditUser from "../components/Modal/EditUser";
+import Usertable from "../components/tables/UserTabe";
+
+import { ToastContainer, toast } from "react-toastify";
+
+import { useDispatch } from "react-redux";
+import {
+  getAllUsers,
+  newUser,
+  updateUser,
+  deleteUser,
+} from "../store/actions/userAction";
+import { unwrapResult } from "@reduxjs/toolkit";
 
 import classes from "./asset/css/StandardMain.module.css";
 
@@ -10,121 +22,35 @@ function UserManagementPage() {
   const columns = React.useMemo(
     () => [
       {
-        Header: "First Name",
-        accessor: "firstname",
+        Header: "ID",
+        accessor: "id",
       },
       {
-        Header: "Last Name",
-        accessor: "lastName",
+        Header: "Name",
+        accessor: "name",
       },
       {
-        Header: "Age",
-        accessor: "age",
-      },
-      {
-        Header: "City",
-        accessor: "city",
-      },
-      {
-        Header: "Status",
-        accessor: "status",
+        Header: "Email",
+        accessor: "email",
       },
     ],
     []
   );
 
-  const data = React.useMemo(
-    () => [
-      {
-        firstname: "firstname1",
-        lastName: "hau1",
-        age: 10,
-        city: "...",
-        status: "...",
-      },
-      {
-        firstname: "firstname10",
-        lastName: "hau2",
-        age: 11,
-        city: "...",
-        status: "...",
-      },
-      {
-        firstname: "firstname9",
-        lastName: "hau3",
-        age: 10,
-        city: "...",
-        status: "...",
-      },
-      {
-        firstname: "firstname8",
-        lastName: "hau4",
-        age: 11,
-        city: "...",
-        status: "...",
-      },
-      {
-        firstname: "firstname7",
-        lastName: "hau5",
-        age: 10,
-        city: "...",
-        status: "...",
-      },
-      {
-        firstname: "firstname6",
-        lastName: "hau6",
-        age: 11,
-        city: "...",
-        status: "...",
-      },
-      {
-        firstname: "firstname5",
-        lastName: "hau7",
-        age: 10,
-        city: "...",
-        status: "...",
-      },
-      {
-        firstname: "firstname4",
-        lastName: "hau8",
-        age: 11,
-        city: "...",
-        status: "...",
-      },
-      {
-        firstname: "firstname3",
-        lastName: "hau9",
-        age: 10,
-        city: "...",
-        status: "...",
-      },
-      {
-        firstname: "firstname2",
-        lastName: "hau10",
-        age: 11,
-        city: "...",
-        status: "...",
-      },
-      {
-        firstname: "firstname3",
-        lastName: "hau9",
-        age: 10,
-        city: "...",
-        status: "...",
-      },
-      {
-        firstname: "firstname2",
-        lastName: "hau10",
-        age: 11,
-        city: "...",
-        status: "...",
-      },
-    ],
-    []
-  );
-
+  const dispatch = useDispatch();
   const [state, setState] = React.useState(true);
   const [rowSelected, setRowSelected] = React.useState("");
+  const [users, setUsers] = useState([]);
+  const [isNewAction, setIsNewAction] = useState(false);
+  const [inputData, setInputData] = useState({ role_id: 1 });
+
+  const fetchAllUsers = async () => {
+    setUsers(unwrapResult(await dispatch(getAllUsers())));
+  };
+
+  useEffect(() => {
+    fetchAllUsers();
+  }, []);
 
   useEffect(() => {
     setState(!state);
@@ -132,13 +58,77 @@ function UserManagementPage() {
 
   const closeHandler = () => {
     setRowSelected("");
-    alert("firstname`s row selected " + rowSelected);
+    setIsNewAction(false);
+  };
+
+  //new
+  const newUserHandler = async (e) => {
+    e.preventDefault();
+    try {
+      // for (let [key, value] of Object.entries(inputData)) {
+      //   console.log(`${key}: ${value}`);
+      //   formData.append(key, value);
+      // }
+      // console.log(inputData);
+      unwrapResult(await dispatch(newUser(inputData)));
+      toast("User Account Created Successfully", {
+        type: "success",
+      });
+      setRowSelected("");
+      fetchAllUsers();
+    } catch (error) {
+      toast(error, {
+        type: "error",
+      });
+    }
+  };
+  //update
+
+  const updateUserHandler = async (e) => {
+    e.preventDefault();
+
+    try {
+      for (let [key, value] of Object.entries(inputData)) {
+        if (value == null || value == "") {
+          console.log(key);
+          delete Object.entries(inputData).key;
+        }
+      }
+      unwrapResult(
+        await dispatch(updateUser({ id: rowSelected.id, user: inputData }))
+      );
+      toast("User Account Update Successfully", {
+        type: "success",
+      });
+      setRowSelected("");
+      fetchAllUsers();
+    } catch (error) {
+      toast(error, {
+        type: "error",
+      });
+    }
+  };
+
+  //delete
+  const deleteUserHandler = async (e) => {
+    try {
+      unwrapResult(await dispatch(deleteUser(rowSelected.id)));
+      toast("User Account Deleted Successfully", {
+        type: "success",
+      });
+      setRowSelected("");
+      fetchAllUsers();
+    } catch (error) {
+      toast(error, {
+        type: "error",
+      });
+    }
   };
 
   return (
     <>
       <div className={classes.main_title}>
-        <p className={classes.font_weight_bold}>COMIC MANAGEMENT</p>
+        <p className={classes.font_weight_bold}>USER MANAGEMENT</p>
       </div>
 
       <div className={classes.col_md_12}>
@@ -148,22 +138,36 @@ function UserManagementPage() {
               <div className={classes.col_sm_2}>
                 <Button
                   className={classes.add_btn}
-                  onClick={() => alert("add btn effected")}
+                  onClick={() => {
+                    setRowSelected(!rowSelected);
+                    setIsNewAction(true);
+                  }}
                 >
                   Add
                 </Button>
               </div>
             </div>
-            <Table
+            <Usertable
               columns={columns}
-              data={data}
-              navi={null}
+              data={users}
               setRowSelected={setRowSelected}
-            ></Table>
+              userSelectedData={rowSelected}
+            ></Usertable>
           </div>
         </div>
       </div>
-      {rowSelected && <EditUser onClose={closeHandler} />}
+      {rowSelected && (
+        <EditUser
+          isNew={isNewAction}
+          userSelectedData={rowSelected}
+          onClose={closeHandler}
+          onConfirm={newUserHandler}
+          onDelete={deleteUserHandler}
+          onUpdate={updateUserHandler}
+          setInputData={setInputData}
+        />
+      )}
+      <ToastContainer position="bottom-right" newestOnTop />
     </>
   );
 }

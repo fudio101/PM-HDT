@@ -23,7 +23,12 @@ function AuthorModal(props) {
       };
     });
     setAvatar(URL.createObjectURL(e.target.files[0]));
-    props.setAuthorData(authorInfo);
+    props.setAuthorData((prev) => {
+      return {
+        ...prev,
+        img: e.target.files[0],
+      };
+    });
   };
 
   return (

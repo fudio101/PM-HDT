@@ -4,54 +4,51 @@ import classes from "./TableStyle.module.css";
 
 import { NavLink } from "react-router-dom";
 
-function Table({ columns, data, isComic, setRowSelected }) {
+function Usertable({ columns, data, setRowSelected }) {
   const tableBtn = (hooks) => {
     hooks.visibleColumns.push((columns) => [
       ...columns,
+      {
+        Header: "Avatar",
+        accessor: "avatar",
+        id: "avatar",
+        Cell: (row) => {
+          return (
+            <div className={classes.img_wrapper}>
+              <img
+                className={classes.img}
+                alt="user avt"
+                src={row.row.original.image_url}
+              ></img>
+            </div>
+          );
+        },
+      },
       {
         Header: "Actions",
         accessor: "Action",
         id: "action0",
         Cell: (row) => {
-          if (isComic) {
-            return (
-              <div>
-                <NavLink
-                  to={"/edit-comic"}
-                  className={classes.edit_btn}
-                  onClick={() => alert(row.row.original.id + " clicked")}
-                >
-                  edit
-                </NavLink>
-                <NavLink
-                  to={"/new-chapter"}
-                  className={classes.view_btn}
-                  onClick={() => alert(row.row.original.id + " clicked")}
-                >
-                  new
-                </NavLink>
-              </div>
-            );
-          } else {
-            return (
-              <NavLink
-                className={classes.edit_btn}
-                onClick={() =>
-                  setRowSelected({
-                    id: row.row.original.id,
-                    name: row.row.original.name,
-                  })
-                }
-              >
-                edit
-              </NavLink>
-            );
-          }
+          return (
+            <NavLink
+              className={classes.view_btn}
+              onClick={(e) => {
+                // e.preventDefault();
+                setRowSelected({
+                  id: row.row.original.id,
+                  name: row.row.original.name,
+                  avt: row.row.original.avt,
+                  email: row.row.original.email,
+                });
+              }}
+            >
+              view
+            </NavLink>
+          );
         },
       },
     ]);
   };
-
   const tableInstance = useTable(
     {
       columns: columns,
@@ -60,7 +57,7 @@ function Table({ columns, data, isComic, setRowSelected }) {
         hiddenColumns: ["id"],
       },
     },
-    useGlobalFilter, // useGlobalFilter
+    useGlobalFilter, // useGlobalFilter!
     usePagination,
     tableBtn
   );
@@ -165,4 +162,4 @@ function Table({ columns, data, isComic, setRowSelected }) {
     </>
   );
 }
-export default Table;
+export default Usertable;

@@ -6,15 +6,26 @@ import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllAuthor } from "../../store/actions/authorAction";
 import { getAllCate } from "../../store/actions/categoryAction";
-import { newComic } from "../../store/actions/comicAction";
+import { newComic, getAllCountry } from "../../store/actions/comicAction";
 
 import Button from "../../components/UI/Button";
 import { ToastContainer, toast } from "react-toastify";
+import { unwrapResult } from "@reduxjs/toolkit";
 
 const initVal = {
   name: "Comic Name Here",
   image_url: require("../asset/img/default_2.png"),
   categories: [
+    {
+      id: 1,
+      name: "Category 1",
+    },
+    {
+      id: 2,
+      name: "...",
+    },
+  ],
+  countries: [
     {
       id: 1,
       name: "Category 1",
@@ -38,15 +49,28 @@ const initVal = {
 function NewComicPage() {
   const [authorColection, setAuthorCollection] = useState([]);
   const [cateColection, setCateCollection] = useState([]);
+  const [countries, setCountriesCollection] = useState([]);
 
   const dispatch = useDispatch();
   const { category } = useSelector((state) => state.category);
   const { author } = useSelector((state) => state.author);
-  const { success } = useSelector((state) => state.comic);
+  // const { success } = useSelector((state) => state.comic);
+
+  const fetchAllCountry = async () => {
+    const result = unwrapResult(await dispatch(getAllCountry()));
+    setCountriesCollection(
+      result.map((country) => ({
+        ...country,
+        label: country.name,
+        value: country.name,
+      }))
+    );
+  };
 
   useEffect(() => {
     dispatch(getAllAuthor());
     dispatch(getAllCate());
+    fetchAllCountry();
   }, []);
 
   useEffect(() => {
@@ -62,6 +86,14 @@ function NewComicPage() {
         author_avt: authors.image_url,
       }))
     );
+
+    // setCountriesCollection(
+    //   countries.map((country) => ({
+    //     ...countries,
+    //     label: country.name,
+    //     value: country.name,
+    //   }))
+    // );
   }, [category, author]);
 
   // console.log("cate", cateColection);
@@ -70,25 +102,31 @@ function NewComicPage() {
   const [data, setData] = useState(initVal);
   const navigate = useNavigate();
 
-  const uploadComicHandler = () => {
-    const formData = new FormData();
-    formData.append("name", data.name);
-    formData.append("published_date", data.published_date);
-    formData.append("status", 0);
-    formData.append("image", data.image);
-    formData.append("author_id", data.author.id);
-    formData.append("description", data.description);
-    data.categories.forEach((cate) => {
-      formData.append("category_id[]", cate.id);
-    });
-    dispatch(newComic({ comic: formData }));
-    if (success) {
+  const uploadComicHandler = async () => {
+    try {
+      const formData = new FormData();
+      formData.append("name", data.name);
+      formData.append("published_date", data.published_date);
+      formData.append("status", 0);
+      formData.append("image", data.image);
+      formData.append("author_id", data.author.id);
+      formData.append("description", data.description);
+      formData.append("country_id", data.country);
+      data.categories.forEach((cate) => {
+        formData.append("category_id[]", cate.id);
+      });
+      unwrapResult(await dispatch(newComic({ comic: formData })));
+
       toast("New Document Added", {
         type: "success",
       });
       setTimeout(() => {
         navigate("/comic-manage");
       }, 1500);
+    } catch (error) {
+      toast(error, {
+        type: "error",
+      });
     }
 
     console.log(data);
@@ -101,6 +139,7 @@ function NewComicPage() {
         initVal={initVal}
         cateOptions={cateColection}
         authorOptions={authorColection}
+        countryOptions={countries}
       />
 
       <Button onClick={uploadComicHandler}>CLick...</Button>

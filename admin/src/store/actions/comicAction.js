@@ -1,5 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import comicAPI from "../../api/comicAPI";
+import countryAPI from "../../api/countryAPI";
 
 //THUNK
 
@@ -85,6 +86,22 @@ export const newComic = createAsyncThunk(
       const { comic } = payload;
 
       const res = await comicAPI.store(comic);
+      return res.data;
+    } catch (error) {
+      if (error.response && error.response.data.message) {
+        return rejectWithValue(error.response.data.message);
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  }
+);
+
+export const getAllCountry = createAsyncThunk(
+  "comic/getAllCountry",
+  async (arg, { rejectWithValue }) => {
+    try {
+      const res = await countryAPI.getAll();
       return res.data;
     } catch (error) {
       if (error.response && error.response.data.message) {

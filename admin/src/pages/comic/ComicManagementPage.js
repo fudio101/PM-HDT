@@ -48,8 +48,8 @@ function ComicManagementPage() {
       },
 
       {
-        Header: "Like",
-        accessor: "likes",
+        Header: "Country",
+        accessor: "country.name",
       },
       {
         Header: "Author",

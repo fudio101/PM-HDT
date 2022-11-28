@@ -1,54 +1,92 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import classes from "./asset/css/EditUser.module.css";
 import Select from "react-select";
+import { useForm } from "react-hook-form";
 
 const accountTypeOptions = [
-  { value: "admin", label: "Admin" },
-  { value: "admin1", label: "admin1" },
+  { value: "Agent", label: "Agent", id: 2 },
+  { value: "Admin", label: "Admin", id: 1 },
 ];
 
 function EditUser(props) {
-  const accountInputHandler = () => {};
+  const { register, handleSubmit } = useForm();
+
+  const accountInputHandler = (e) => {
+    props.setInputData((prev) => ({
+      ...prev,
+      role: e.id,
+    }));
+  };
+
+  const onSubmit = (data) => {
+    props.setInputData((prev) => ({
+      ...prev,
+      ...data,
+    }));
+  };
 
   return (
     <>
       <div className={classes.backdrop} onClick={props.onClose}></div>
       <div className={`${classes.modal} ${classes.fade} `}>
         <header className={classes.header}>
-          <h2>Edit User</h2>
+          <h2>{props.isNew ? "New User" : "User Detail"}</h2>
         </header>
-        <div className={classes.content}>
-          <div>
-            <label>Account</label>
-            <Select
-              closeMenuOnSelect={true}
-              defaultValue={[accountTypeOptions[0]]}
-              options={accountTypeOptions}
-              onChange={accountInputHandler}
-            />
+        <form onChange={handleSubmit(onSubmit)}>
+          <div className={classes.content}>
+            <div>
+              <label>Roles</label>
+              <Select
+                closeMenuOnSelect={true}
+                defaultValue={[
+                  accountTypeOptions[props.userSelectedData.role_id - 1],
+                ]}
+                options={accountTypeOptions}
+                onChange={accountInputHandler}
+              />
+            </div>
+            <div>
+              <label>Email </label>
+              <input
+                type="email"
+                {...register("email")}
+                defaultValue={props.userSelectedData.email}
+              ></input>
+            </div>
+            <div>
+              <label>Name</label>
+              <input
+                type="text"
+                {...register("name")}
+                defaultValue={props.userSelectedData.name}
+              ></input>
+            </div>
+            <div>
+              <label>Password</label>
+              <input type="Password" required {...register("password")}></input>
+            </div>
+            <div>
+              <label>Password</label>
+              <input
+                type="Password"
+                required
+                {...register("password_confirmation")}
+              ></input>
+            </div>
           </div>
-          <div>
-            <label>Email </label>
-            <input type="email"></input>
-          </div>
-          <div>
-            <label>Password</label>
-            <input type="Password" required></input>
-          </div>
-          <div>
-            <label>Username</label>
-            <input type="text"></input>
-          </div>
-          <div>
-            <label>Address</label>
-            <input type="text"></input>
-          </div>
-        </div>
-        <footer className={classes.actions}>
-          <button onClick={props.onConfirm}>Update</button>
-          <button onClick={props.onDelete}>Delete</button>
-          <button onClick={props.onClose}>Cancel</button>
-        </footer>
+          <footer className={classes.actions}>
+            <button onClick={props.onUpdate} hidden={props.isNew}>
+              Update
+            </button>
+            <button onClick={props.onDelete} hidden={props.isNew}>
+              Delete
+            </button>
+            <button onClick={props.onConfirm} hidden={!props.isNew}>
+              Confirm
+            </button>
+            <button onClick={props.onClose}>Cancel</button>
+          </footer>
+        </form>
       </div>
     </>
   );

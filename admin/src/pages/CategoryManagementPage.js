@@ -1,11 +1,17 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 
 import Table from "../components/tables/Table";
 import Button from "../components/UI/Button";
-
+import CategoryModal from "../components/Modal/CategoryModal";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllCate, newCate, delCate } from "../store/actions/categoryAction";
+import {
+  getAllCate,
+  newCate,
+  delCate,
+  update,
+} from "../store/actions/categoryAction";
+import { unwrapResult } from "@reduxjs/toolkit";
 
 import classes from "./asset/css/StandardMain.module.css";
 
@@ -24,16 +30,80 @@ function CategoryManagementPage() {
     []
   );
 
-  const { category, error, success } = useSelector((state) => state.category);
   const dispatch = useDispatch();
+  const [isNew, setNew] = React.useState(false);
+  const [rowSelected, setRowSelected] = React.useState("");
+  const [cateData, setCateData] = useState({ name: "not set" });
+  const [categories, setCategories] = useState([]);
 
-  // const fetchCateList = () => {
-  //   dispatch(getAllCate());
-  // };
+  const fetchCategoryList = async () => {
+    setCategories(unwrapResult(await dispatch(getAllCate())));
+  };
+
+  //close modal
+  const closeHandler = () => {
+    setRowSelected(false);
+    setNew(false);
+  };
 
   useEffect(() => {
-    dispatch(getAllCate());
-  }, [dispatch]);
+    fetchCategoryList();
+  }, []);
+
+  const newCateHandler = async (e) => {
+    try {
+      e.preventDefault();
+      const action = await dispatch(newCate({ name: cateData.name }));
+      unwrapResult(action);
+      toast("Category Added Successfully", {
+        type: "success",
+      });
+    } catch (error) {
+      toast(error, {
+        type: "error",
+      });
+    }
+    fetchCategoryList();
+    closeHandler();
+  };
+
+  const deleteHandler = async (e) => {
+    e.preventDefault();
+    try {
+      const action = await dispatch(delCate(rowSelected.id));
+      unwrapResult(action);
+      toast("Category Deleted Successfully", {
+        type: "success",
+      });
+    } catch (error) {
+      toast(error, {
+        type: "error",
+      });
+    }
+
+    fetchCategoryList();
+    closeHandler();
+  };
+  const updateHandler = async (e) => {
+    e.preventDefault();
+
+    try {
+      const action = await dispatch(
+        update({ category: { name: cateData.name }, id: rowSelected.id })
+      );
+      unwrapResult(action);
+      toast("Category Updated Successfully", {
+        type: "success",
+      });
+    } catch (error) {
+      toast(error, {
+        type: "error",
+      });
+    }
+
+    fetchCategoryList();
+    closeHandler();
+  };
 
   return (
     <>
@@ -48,16 +118,35 @@ function CategoryManagementPage() {
               <div className={classes.col_sm_2}>
                 <Button
                   className={classes.add_btn}
-                  onClick={() => alert("add btn effected")}
+                  onClick={() => {
+                    setRowSelected(true);
+                    setNew(true);
+                  }}
                 >
                   Add
                 </Button>
               </div>
             </div>
-            <Table columns={columns} data={category}></Table>
+            <Table
+              columns={columns}
+              data={categories}
+              setRowSelected={setRowSelected}
+            ></Table>
           </div>
         </div>
       </div>
+      {rowSelected && (
+        <CategoryModal
+          onClose={closeHandler}
+          isNew={isNew}
+          onConfirm={newCateHandler}
+          onDelete={deleteHandler}
+          onUpdate={updateHandler}
+          setCateData={setCateData}
+          editData={rowSelected}
+        />
+      )}
+      <ToastContainer position="bottom-right" newestOnTop />
     </>
   );
 }

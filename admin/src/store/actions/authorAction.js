@@ -61,8 +61,11 @@ export const delAuthor = createAsyncThunk(
 
 export const update = createAsyncThunk(
   "author/updateAuthor",
-  async ({ id, author }, { rejectWithValue }) => {
+  async (payload, { rejectWithValue }) => {
     try {
+      console.log(payload);
+      const { id, author } = payload;
+      // console.log(id, author);
       const res = await authorAPI.update(id, author);
       return res.data;
     } catch (error) {

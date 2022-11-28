@@ -79,10 +79,8 @@ export const update = createAsyncThunk(
 
 export const newCate = createAsyncThunk(
   "category/newCate",
-  async (payload, { rejectWithValue }) => {
+  async (category, { rejectWithValue }) => {
     try {
-      const { category } = payload;
-
       const res = await categoryAPI.store(category);
       return res.data;
     } catch (error) {
