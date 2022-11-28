@@ -36,7 +36,7 @@ function HomePage() {
             {/* slider */}
             <div className={classes.slider}>
                 <Slider {...setting}>
-                    {latestComics.map((item) => {
+                    {latestComics.slice(0, 5).map((item) => {
                         return <SlideBar item={item} key={item.slug} />;
                     })}
                 </Slider>
