@@ -15,8 +15,18 @@ function ComicTitle({ info }) {
                         <h1>{info?.name}</h1>
                         <ul className={classes.list_info}>
                             <li>
-                                <h3 className={classes.info_title}>Author </h3>
+                                <h3 className={classes.info_title}>Tác Giả </h3>
                                 <p>{info?.author?.name}</p>
+                            </li>
+
+                            <li>
+                                <h3 className={classes.info_title}>Quốc Gia</h3>
+                                <p>{info?.country?.name}</p>
+                            </li>
+
+                            <li>
+                                <h3 className={classes.info_title}>Xuất bản</h3>
+                                <p>{info?.published_date}</p>
                             </li>
 
                             <li>
@@ -26,7 +36,7 @@ function ComicTitle({ info }) {
 
                             <li>
                                 <h3 className={classes.info_title}>
-                                    Episodes{" "}
+                                    Số Chương
                                 </h3>
                                 <p>
                                     {info?.num_of_episodes
@@ -36,9 +46,7 @@ function ComicTitle({ info }) {
                             </li>
 
                             <li>
-                                <h3 className={classes.info_title}>
-                                    Categories{" "}
-                                </h3>
+                                <h3 className={classes.info_title}>Danh Mục</h3>
                                 <ul className={classes.cates_list}>
                                     {info?.categories.map((cate, index) => {
                                         return (
