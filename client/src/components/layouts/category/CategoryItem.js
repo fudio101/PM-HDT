@@ -3,12 +3,10 @@ import { NavLink } from "react-router-dom";
 
 //import classes from "./CategoryItem.module.css";
 
-function CategoryItem(props) {
+function CategoryItem({ item }) {
     return (
         <li>
-            <NavLink to={"/category/" + props.item.id}>
-                {props.item.name}
-            </NavLink>
+            <NavLink to={"/category/" + item.id}>{item.name}</NavLink>
         </li>
     );
 }

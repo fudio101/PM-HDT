@@ -74,3 +74,36 @@ export const chapterListSelector = (state) =>
     state.chapter.data?.list_of_episode_number
         ? [...state.chapter.data?.list_of_episode_number].reverse()
         : [];
+
+const categoriesSliceStatusSelector = (state) => state.categories.status;
+const categoryComicsSliceStatusSelector = (state) =>
+    state.categoryComics.status;
+const chapterSliceStatusSelector = (state) => state.chapter.status;
+const countriesSliceStatusSelector = (state) => state.countries.status;
+const latestComicsSliceStatusSelector = (state) => state.latestComics.status;
+const searchComicsSliceStatusSelector = (state) => state.searchComics.status;
+
+export const isLoadingSelector = createSelector(
+    categoriesSliceStatusSelector,
+    categoryComicsSliceStatusSelector,
+    chapterSliceStatusSelector,
+    countriesSliceStatusSelector,
+    latestComicsSliceStatusSelector,
+    searchComicsSliceStatusSelector,
+    (
+        categories,
+        categoryComics,
+        chapter,
+        countries,
+        latestComics,
+        searchComics
+    ) =>
+        [
+            categories,
+            categoryComics,
+            chapter,
+            countries,
+            latestComics,
+            searchComics,
+        ].includes("loading")
+);

@@ -8,6 +8,7 @@ import Footer from "./footer/Footer";
 
 import { Outlet } from "react-router-dom";
 import TopUpButton from "../ui/TopUpButton";
+import Loading from "./loading/Loading";
 
 function Layout(props) {
     const scroll = useRef(null);
@@ -33,6 +34,7 @@ function Layout(props) {
             <div className={classes.main}>
                 <Outlet />
                 <TopUpButton />
+                <Loading />
             </div>
             <div ref={scroll}></div>
             <Footer />

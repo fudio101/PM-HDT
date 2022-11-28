@@ -18,7 +18,6 @@ const chapterSlice = createSlice({
                 state.data = {};
             })
             .addCase(getChapter.fulfilled, (state, action) => {
-                state.status = "idle";
                 state.data = action.payload.data;
 
                 if (state.data && state.data.list_of_episode_number) {
@@ -41,6 +40,8 @@ const chapterSlice = createSlice({
                         state.nextChapter = undefined;
                     }
                 }
+
+                state.status = "idle";
             });
     },
 });

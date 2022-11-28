@@ -27,7 +27,7 @@ const searchComicsSlice = createSlice({
     extraReducers: (builder) => {
         builder
             .addCase(searchComics.pending, (state, action) => {
-                state.status = "pending";
+                state.status = "loading";
                 // state.data = [];
             })
             .addCase(searchComics.fulfilled, (state, action) => {
