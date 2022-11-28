@@ -16,6 +16,7 @@ import latestComicsSlice from "./reducers/latestComicsSlice";
 import categoryComicsSlice from "./reducers/categoryComicsSlice";
 import chapterSlice from "./reducers/chapterSlice";
 import countriesSlice from "./reducers/countriesSlice";
+import readComicListSlice from "./reducers/readComicList";
 
 const rootReducer = combineReducers({
     categories: categoriesSlice.reducer,
@@ -24,12 +25,13 @@ const rootReducer = combineReducers({
     latestComics: latestComicsSlice.reducer,
     categoryComics: categoryComicsSlice.reducer,
     chapter: chapterSlice.reducer,
+    readComicList: readComicListSlice.reducer,
 });
 
 const persistConfig = {
-    key: "root",
+    key: "comicClient",
     storage,
-    whitelist: [],
+    whitelist: ["readComicList"],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

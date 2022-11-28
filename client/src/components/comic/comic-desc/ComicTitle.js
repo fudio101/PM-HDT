@@ -1,9 +1,13 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { readComicSelector } from "../../../redux/selectors";
 
 import classes from "./ComicDesc.module.css";
 
 function ComicTitle({ info }) {
+    const readComic = useSelector(readComicSelector(info?.slug)) ?? 0;
+    const firstChapter = info?.episodes?.at(-1)?.episode_number;
     return (
         <>
             <div className={classes.book_info}>
@@ -68,13 +72,19 @@ function ComicTitle({ info }) {
 
             <div className={classes.story_detail_menu}>
                 <ul>
-                    <li className={classes.li01}>Đọc từ đầu</li>
+                    {readComic > 0 ? (
+                        <Link to={`chapter/${info?.slug}/${readComic}`}>
+                            <li className={classes.li02}>Đọc tiếp</li>
+                        </Link>
+                    ) : (
+                        <Link to={`chapter/${info?.slug}/${firstChapter}`}>
+                            <li className={classes.li01}>Đọc từ đầu</li>
+                        </Link>
+                    )}
 
                     {/* <li className={classes.li02}>Theo dõi</li> */}
 
                     {/* <li className={classes.li03}>Thích</li> */}
-
-                    <li className={classes.li04}>Đọc tiếp</li>
                 </ul>
             </div>
 
