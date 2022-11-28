@@ -73,11 +73,13 @@ function ComicTitle({ info }) {
             <div className={classes.story_detail_menu}>
                 <ul>
                     {readComic > 0 ? (
-                        <Link to={`chapter/${info?.slug}/${readComic}`}>
+                        <Link to={`../../chapter/${info?.slug}/${readComic}`}>
                             <li className={classes.li02}>Đọc tiếp</li>
                         </Link>
                     ) : (
-                        <Link to={`chapter/${info?.slug}/${firstChapter}`}>
+                        <Link
+                            to={`../../chapter/${info?.slug}/${firstChapter}`}
+                        >
                             <li className={classes.li01}>Đọc từ đầu</li>
                         </Link>
                     )}
