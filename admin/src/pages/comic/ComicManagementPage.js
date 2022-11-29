@@ -18,7 +18,7 @@ function ComicManagementPage() {
     try {
       const response = await comicAPI.getAll();
       setComicList(response.data);
-      console.log(response.data);
+      // console.log(response.data);
     } catch (error) {
       console.log(error);
     }

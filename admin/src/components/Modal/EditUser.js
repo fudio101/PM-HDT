@@ -45,14 +45,18 @@ function EditUser(props) {
                 onChange={accountInputHandler}
               />
             </div>
-            <div>
-              <label>Email </label>
-              <input
-                type="email"
-                {...register("email")}
-                defaultValue={props.userSelectedData.email}
-              ></input>
-            </div>
+            {props.isNew ? (
+              <div>
+                <label>Email </label>
+                <input
+                  type="email"
+                  {...register("email")}
+                  defaultValue={props.userSelectedData.email}
+                ></input>
+              </div>
+            ) : (
+              ""
+            )}
             <div>
               <label>Name</label>
               <input

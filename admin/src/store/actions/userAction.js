@@ -35,18 +35,27 @@ export const userLogin = createAsyncThunk(
 
 export const getUserInfo = createAsyncThunk(
   "user/info",
-  async (arg, { getState, rejectWithValue }) => {
+  async (arg, { rejectWithValue }) => {
     try {
-      const { user } = getState();
-      const config = {
-        headers: {
-          Authorization: `Bearer ${user.userToken}`,
-        },
-      };
-      const { data } = await axios.get(
-        `http://server-pmhdt/api/auth/me`,
-        config
-      );
+      const res = await userAPI.me();
+      return res;
+    } catch (error) {
+      if (error.response && error.response.data.message) {
+        return rejectWithValue(error.response.data.message);
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  }
+);
+
+//userLogout
+
+export const logout = createAsyncThunk(
+  "user/logout",
+  async (arg, { rejectWithValue }) => {
+    try {
+      const { data } = await userAPI.logout();
       return data;
     } catch (error) {
       if (error.response && error.response.data.message) {

@@ -10,16 +10,24 @@ function BarChart() {
         label: "Series 1",
         data: [
           {
-            primary: "Darknhantam",
+            primary: "30 Ngày",
             secondary: 100,
           },
           {
-            primary: "Darknhantam2",
+            primary: "Naruto Full Màu",
             secondary: 180,
           },
           {
-            primary: "Darknhantam3",
-            secondary: 120,
+            primary: "Ta Là Tà Đế",
+            secondary: 90,
+          },
+          {
+            primary: "Vua Thăng Cấp",
+            secondary: 150,
+          },
+          {
+            primary: "Home Room",
+            secondary: 60,
           },
         ],
       },

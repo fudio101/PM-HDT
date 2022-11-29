@@ -82,16 +82,14 @@ function UserManagementPage() {
       });
     }
   };
-  //update
 
+  //update
   const updateUserHandler = async (e) => {
     e.preventDefault();
-
     try {
       for (let [key, value] of Object.entries(inputData)) {
-        if (value == null || value == "") {
-          console.log(key);
-          delete Object.entries(inputData).key;
+        if (value === null || value === "" || key === "email") {
+          delete inputData[`${key}`];
         }
       }
       unwrapResult(

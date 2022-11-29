@@ -93,7 +93,7 @@ function ComicEditForm(props) {
   };
 
   return (
-    <Wrapper>
+    <div>
       <div className={classes.new_comic}>
         <div className={classes.preview_section}>
           <DocumentItem postData={inputData} />
@@ -129,6 +129,7 @@ function ComicEditForm(props) {
                   name="image_url"
                   type={"file"}
                   onChange={inputIMGHandler}
+                  className={classes.upload__thumbnail}
                 ></input>
               </div>
               <div>
@@ -168,7 +169,7 @@ function ComicEditForm(props) {
           </form>
         </div>
       </div>
-    </Wrapper>
+    </div>
   );
 }
 

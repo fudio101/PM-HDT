@@ -116,22 +116,27 @@ function NewChapterPage() {
         <p className={classes.font_weight_bold}>NEW CHAPTER</p>
       </div>
       <HorizonItem postData={comicData} />
-      <div className={classes.chapter_select}>
-        <label>Episode:</label>
-        <input
-          type="number"
-          id="points"
-          name="points"
-          min={1}
-          defaultValue={defaultEpNum}
-          onChange={(e) => {
-            setEpisode(e.target.value);
-          }}
-        />
+      <div className={classes.action__wrapper}>
+        <div className={classes.chapter_select}>
+          <label>Episode:</label>
+          <input
+            type="number"
+            id="points"
+            name="points"
+            min={1}
+            defaultValue={defaultEpNum}
+            onChange={(e) => {
+              setEpisode(e.target.value);
+            }}
+          />
+          <Button className={classes.btn__done} onClick={uploadEPHandler}>
+            Done
+          </Button>
+        </div>
+        <div className={classes.btn__wrapper__done}></div>
+        <DnDUpload photos={photoArr} setReturnPts={setReturnPts} />
       </div>
-      <DnDUpload photos={photoArr} setReturnPts={setReturnPts} />
 
-      <Button onClick={uploadEPHandler}>Done!</Button>
       <ToastContainer position="bottom-right" newestOnTop />
     </div>
   );

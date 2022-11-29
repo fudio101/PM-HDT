@@ -28,6 +28,16 @@ const userAPI = {
       data: user,
     });
   },
+
+  logout: () => {
+    const url = `http://server-pmhdt/api/auth/logout`;
+    return axiosClient.post(url);
+  },
+
+  me: () => {
+    const url = `http://server-pmhdt/api/auth/me`;
+    return axiosClient.get(url);
+  },
 };
 
 export default userAPI;

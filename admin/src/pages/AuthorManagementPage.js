@@ -30,14 +30,13 @@ function AuthorManagementPage() {
   const dispath = useDispatch();
 
   // get all authors
-  const fetchAuthorList = () => {
+  const fetchAuthorList = async () => {
     setTimeout(() => {
-      dispath(getAllAuthor());
+      unwrapResult(dispath(getAllAuthor()));
     }, 200);
   };
 
   useEffect(() => {
-    // fetchAuthorList();
     dispath(getAllAuthor());
   }, [dispath]);
 
@@ -102,12 +101,37 @@ function AuthorManagementPage() {
 
   //update an author
 
-  const updateAuthor = async (e) => {
+  // const updateAuthor = async (e) => {
+  //   try {
+  //     const formData = new FormData();
+  //     formData.append("name", authorData.name);
+  //     formData.append("image", authorData.img);
+  //     console.log(rowSelected.id);
+  //     unwrapResult(
+  //       dispath(await update({ id: rowSelected.id, author: formData }))
+  //     );
+  //     toast("Author Updated", {
+  //       type: "success",
+  //     });
+  //   } catch (error) {
+  //     toast(error, {
+  //       type: "error",
+  //     });
+  //   }
+  // };
+
+  const updateHandler = async (e) => {
+    e.preventDefault();
     try {
       const formData = new FormData();
       formData.append("name", authorData.name);
       formData.append("image", authorData.img);
-      console.log(rowSelected.id);
+      for (const pair of formData.entries()) {
+        console.log(`${pair[0]}, ${pair[1]}`);
+        if (pair[1] === "undefined" || pair[1] === "null") {
+          formData.delete(pair[0]);
+        }
+      }
       unwrapResult(
         dispath(await update({ id: rowSelected.id, author: formData }))
       );
@@ -119,23 +143,7 @@ function AuthorManagementPage() {
         type: "error",
       });
     }
-  };
 
-  const updateHandler = (e) => {
-    e.preventDefault();
-    // console.log("autorData", authorData);
-    // console.log("rowSelected", rowSelected);
-    const formData = new FormData();
-    formData.append(
-      "name",
-      authorData.name ? authorData.name : rowSelected.name
-    );
-    formData.append(
-      "image",
-      authorData.img ? authorData.img : rowSelected.image_url
-    );
-
-    updateAuthor(rowSelected.id, formData);
     fetchAuthorList();
     closeHandler();
   };
