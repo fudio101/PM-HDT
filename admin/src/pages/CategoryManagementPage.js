@@ -55,6 +55,7 @@ function CategoryManagementPage() {
       e.preventDefault();
       const action = await dispatch(newCate({ name: cateData.name }));
       unwrapResult(action);
+
       toast("Category Added Successfully", {
         type: "success",
       });

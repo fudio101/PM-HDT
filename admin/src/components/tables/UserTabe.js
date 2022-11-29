@@ -8,22 +8,22 @@ function Usertable({ columns, data, setRowSelected }) {
   const tableBtn = (hooks) => {
     hooks.visibleColumns.push((columns) => [
       ...columns,
-      {
-        Header: "Avatar",
-        accessor: "avatar",
-        id: "avatar",
-        Cell: (row) => {
-          return (
-            <div className={classes.img_wrapper}>
-              <img
-                className={classes.img}
-                alt="user avt"
-                src={row.row.original.image_url}
-              ></img>
-            </div>
-          );
-        },
-      },
+      // {
+      //   Header: "Avatar",
+      //   accessor: "avatar",
+      //   id: "avatar",
+      //   Cell: (row) => {
+      //     return (
+      //       <div className={classes.img_wrapper}>
+      //         <img
+      //           className={classes.img}
+      //           alt="user avt"
+      //           src={row.row.original.image_url}
+      //         ></img>
+      //       </div>
+      //     );
+      //   },
+      // },
       {
         Header: "Actions",
         accessor: "Action",

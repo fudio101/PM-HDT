@@ -73,3 +73,57 @@ textarea {
   height: 4px;
   border-bottom: 1px solid gray;
 }
+
+.upload__thumbnail::-webkit-file-upload-button {
+  background: rgb(32, 119, 249);
+  color: rgb(255, 255, 255);
+  font-weight: bold;
+  padding: 0.4em;
+  border-radius: 10px;
+  border: none;
+}
+
+.btn_wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.btn_wrapper btn {
+  margin: 0 10rem;
+}
+
+.Update_btn {
+  padding: 0.6rem 1.2rem;
+  background-color: #06db46;
+  border: 2px solid #06db46;
+  border-radius: 6px;
+  color: white;
+  font-weight: bold;
+  margin: 0 2rem 0 1rem;
+}
+
+.Update_btn:hover {
+  background-color: #ffffff;
+  border: 2px solid #06db46;
+  color: #06db46;
+  transition: 0.5s;
+}
+
+.Delete_btn {
+  padding: 0.6rem 1.2rem;
+  background-color: #ff4d01;
+  border: 2px solid #ff4d01;
+  border-radius: 6px;
+  color: white;
+  font-weight: bold;
+  margin: 0 1.5rem;
+}
+
+.Delete_btn:hover {
+  background-color: #ffffff;
+  border: 2px solid #ff4d01;
+  color: #ff4d01;
+  transition: 0.5s;
+}

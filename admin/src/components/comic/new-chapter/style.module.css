@@ -22,3 +22,19 @@
   padding: 10px;
   text-align: -webkit-center;
 }
+
+.upload__imgs::-webkit-file-upload-button {
+  margin-top: 1rem;
+  background: rgb(32, 119, 249);
+  color: rgb(255, 255, 255);
+  font-weight: bold;
+  padding: 0.4em;
+  border-radius: 10px;
+  border: none;
+}
+
+.input__files__wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}

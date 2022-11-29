@@ -12,6 +12,8 @@ import Button from "../../components/UI/Button";
 import { ToastContainer, toast } from "react-toastify";
 import { unwrapResult } from "@reduxjs/toolkit";
 
+import classes from "../asset/css/StandardMain.module.css";
+
 const initVal = {
   name: "Comic Name Here",
   image_url: require("../asset/img/default_2.png"),
@@ -115,6 +117,7 @@ function NewComicPage() {
       data.categories.forEach((cate) => {
         formData.append("category_id[]", cate.id);
       });
+      console.log(data);
       unwrapResult(await dispatch(newComic({ comic: formData })));
 
       toast("New Document Added", {
@@ -124,12 +127,11 @@ function NewComicPage() {
         navigate("/comic-manage");
       }, 1500);
     } catch (error) {
+      console.log(error);
       toast(error, {
         type: "error",
       });
     }
-
-    console.log(data);
   };
 
   return (
@@ -142,7 +144,11 @@ function NewComicPage() {
         countryOptions={countries}
       />
 
-      <Button onClick={uploadComicHandler}>CLick...</Button>
+      <div className={classes.btn_wrapper}>
+        <Button className={classes.create__btn} onClick={uploadComicHandler}>
+          Create
+        </Button>
+      </div>
       <ToastContainer position="bottom-right" newestOnTop />
     </>
   );

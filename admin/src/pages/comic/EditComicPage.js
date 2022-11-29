@@ -290,8 +290,14 @@ function EditComicPage() {
             cateOptions={cateColection}
             countryOptions={countries}
           />
-          <Button onClick={updateComicHandler}>Update</Button>
-          <Button onClick={deleteComicHandler}>Delete</Button>
+          <div className={classes.btn_wrapper}>
+            <Button className={classes.Update_btn} onClick={updateComicHandler}>
+              Update
+            </Button>
+            <Button className={classes.Delete_btn} onClick={deleteComicHandler}>
+              Delete
+            </Button>
+          </div>
         </Wrapper>
 
         <div className={classes.devide_section}></div>
@@ -308,8 +314,20 @@ function EditComicPage() {
           <div>
             <DnDUpload photos={photoArr} setReturnPts={setReturnPts} />
           </div>
-          <Button onClick={updateComicEpHandler}>Update</Button>
-          <Button onClick={deleteEpisodeHandler}>Delete</Button>
+          <div className={classes.btn_wrapper}>
+            <Button
+              className={classes.Update_btn}
+              onClick={updateComicEpHandler}
+            >
+              Update
+            </Button>
+            <Button
+              className={classes.Delete_btn}
+              onClick={deleteEpisodeHandler}
+            >
+              Delete
+            </Button>
+          </div>
         </Wrapper>
       </Wrapper>
       <ToastContainer position="bottom-right" newestOnTop />

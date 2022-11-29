@@ -30,3 +30,30 @@ input[type="number"]::-webkit-outer-spin-button {
   border: 1px solid rgb(212, 212, 212);
   padding: 10px 0 10px 10px;
 }
+
+.action__wrapper {
+  padding: 0 1rem;
+  display: inline;
+}
+
+.btn__done {
+  padding: 0.5rem 1rem;
+  background-color: #06db46;
+  border: 2px solid #06db46;
+  border-radius: 6px;
+  color: white;
+  font-weight: bold;
+  font-size: 15px;
+  margin-left: 6rem;
+}
+
+.btn__done:hover {
+  background-color: #ffffff;
+  border: 2px solid #06db46;
+  color: #06db46;
+  transition: 0.5s;
+}
+
+.btn__wrapper__done {
+  display: inline;
+}

@@ -13,17 +13,26 @@ const DashBoardPage = () => {
         <p className={classes.font_weight_bold}>DASHBOARD</p>
       </div>
       <div className={classes.info_cards}>
-        <StatisticCard title={"likes"} value={14212} />
-        <StatisticCard title={"likes"} value={14212} />
-        <StatisticCard title={"likes"} value={14212} />
-        <StatisticCard title={"likes"} value={14212} />
+        <StatisticCard title={"Comic"} value={210} />
+        <StatisticCard title={"User"} value={10} />
+        <StatisticCard title={"Likes"} value={14212} />
+        <StatisticCard title={"Views"} value={14212} />
       </div>
       <>
-        <div>
-          <BarChart />
-        </div>
-        <div>
-          <LineChart />
+        <div className={classes.charts}>
+          <div className={classes.charts_card}>
+            <p className={classes.chart_title}>Top 5 Comic</p>
+            <div id="bar-chart">
+              <BarChart />
+            </div>
+          </div>
+
+          <div className={classes.charts_card}>
+            <p className={classes.chart_title}>User View</p>
+            <div id="area_chart">
+              <LineChart />
+            </div>
+          </div>
         </div>
       </>
     </>

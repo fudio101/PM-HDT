@@ -82,8 +82,14 @@ function DnDUpload(props) {
   };
   return (
     <>
-      <div>
-        <input type="file" multiple name="myImage" onChange={addImgHandler} />
+      <div className={classes.input__files__wrapper}>
+        <input
+          type="file"
+          multiple
+          name="myImage"
+          className={classes.upload__imgs}
+          onChange={addImgHandler}
+        />
       </div>
       <DndContext
         sensors={sensors}

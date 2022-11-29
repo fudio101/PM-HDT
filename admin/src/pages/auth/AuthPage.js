@@ -2,18 +2,20 @@ import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { ToastContainer, toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
-import { userLogin, getUserInfo } from "../../store/actions/userAction";
+import { userLogin } from "../../store/actions/userAction";
 import { useNavigate } from "react-router-dom";
 
 // import LoginForm from "./forms/LoginForm";
 // import SignUpForm from "./forms/SignUpForm";
-import LoadingSpinner from "../../components/UI/LoadingSpinner";
+// import LoadingSpinner from "../../components/UI/LoadingSpinner";
 
 import classes from "./AuthForm.module.css";
+import { unwrapResult } from "@reduxjs/toolkit";
 const AuthForm = () => {
   const { loading, error, userToken, userInfo } = useSelector(
     (state) => state.user
   );
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -26,7 +28,7 @@ const AuthForm = () => {
   };
 
   useEffect(() => {
-    if (userToken && Object.keys(userInfo).length !== 0) {
+    if (userToken) {
       toast("Welcome Back!", {
         type: "success",
       });
@@ -36,13 +38,7 @@ const AuthForm = () => {
       }, 3000);
     }
     // navigate("/dashboard");
-  }, [userToken, userInfo, navigate]);
-
-  useEffect(() => {
-    if (userToken) {
-      dispatch(getUserInfo());
-    }
-  }, [userToken, dispatch]);
+  }, [userToken, navigate]);
 
   useEffect(() => {
     toast(error, {
@@ -50,8 +46,8 @@ const AuthForm = () => {
     });
   }, [error]);
 
-  const submitForm = (data) => {
-    dispatch(userLogin(data));
+  const submitForm = async (data) => {
+    unwrapResult(await dispatch(userLogin(data)));
   };
 
   return (
