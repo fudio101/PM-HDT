@@ -5,17 +5,21 @@ import ComicTitle from "../components/comic/comic-desc/ComicTitle";
 import classes from "../components/comic/comic-desc/ComicDesc.module.css";
 import { useParams } from "react-router-dom";
 import comicApi from "../api/comicApi";
+import Loading from "../components/layouts/loading/Loading";
 
 function ComicIntroPage() {
     const { comicSlug } = useParams();
     const [comic, setComic] = useState();
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         const getData = async () => {
             try {
+                setIsLoading(true);
                 const { data } = await comicApi.getComic(comicSlug);
 
                 setComic(data?.data);
+                setIsLoading(false);
             } catch (e) {
                 console.log("getComic", e);
             }
@@ -34,6 +38,7 @@ function ComicIntroPage() {
                 }}
             />
             <ComicChapters chapters={comic?.episodes} comicSlug={comic?.slug} />
+            <Loading isLoading_={isLoading} />
         </div>
     );
 }

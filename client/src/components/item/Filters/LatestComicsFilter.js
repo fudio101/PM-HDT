@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
     latestComicsFilterCategoryChange,
-    latestComicsFilterNationChange,
+    latestComicsFilterCountryChange,
     latestComicsFilterStatusChange,
 } from "../../../redux/reducers/latestComicsSlice";
 import {
@@ -36,7 +36,7 @@ function LatestComicsFilter(props) {
 
     const nationChangeHandle = (value) => {
         setCountry(value);
-        dispatch(latestComicsFilterNationChange(value));
+        dispatch(latestComicsFilterCountryChange(value));
     };
 
     return (

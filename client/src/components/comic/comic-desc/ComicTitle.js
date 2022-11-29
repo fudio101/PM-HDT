@@ -1,9 +1,13 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { readComicSelector } from "../../../redux/selectors";
 
 import classes from "./ComicDesc.module.css";
 
 function ComicTitle({ info }) {
+    const readComic = useSelector(readComicSelector(info?.slug)) ?? 0;
+    const firstChapter = info?.episodes?.at(-1)?.episode_number;
     return (
         <>
             <div className={classes.book_info}>
@@ -15,8 +19,18 @@ function ComicTitle({ info }) {
                         <h1>{info?.name}</h1>
                         <ul className={classes.list_info}>
                             <li>
-                                <h3 className={classes.info_title}>Author </h3>
+                                <h3 className={classes.info_title}>Tác Giả </h3>
                                 <p>{info?.author?.name}</p>
+                            </li>
+
+                            <li>
+                                <h3 className={classes.info_title}>Quốc Gia</h3>
+                                <p>{info?.country?.name}</p>
+                            </li>
+
+                            <li>
+                                <h3 className={classes.info_title}>Xuất bản</h3>
+                                <p>{info?.published_date}</p>
                             </li>
 
                             <li>
@@ -26,7 +40,7 @@ function ComicTitle({ info }) {
 
                             <li>
                                 <h3 className={classes.info_title}>
-                                    Episodes{" "}
+                                    Số Chương
                                 </h3>
                                 <p>
                                     {info?.num_of_episodes
@@ -36,9 +50,7 @@ function ComicTitle({ info }) {
                             </li>
 
                             <li>
-                                <h3 className={classes.info_title}>
-                                    Categories{" "}
-                                </h3>
+                                <h3 className={classes.info_title}>Danh Mục</h3>
                                 <ul className={classes.cates_list}>
                                     {info?.categories.map((cate, index) => {
                                         return (
@@ -60,13 +72,21 @@ function ComicTitle({ info }) {
 
             <div className={classes.story_detail_menu}>
                 <ul>
-                    <li className={classes.li01}>Đọc từ đầu</li>
+                    {readComic > 0 ? (
+                        <Link to={`../../chapter/${info?.slug}/${readComic}`}>
+                            <li className={classes.li02}>Đọc tiếp</li>
+                        </Link>
+                    ) : (
+                        <Link
+                            to={`../../chapter/${info?.slug}/${firstChapter}`}
+                        >
+                            <li className={classes.li01}>Đọc từ đầu</li>
+                        </Link>
+                    )}
 
                     {/* <li className={classes.li02}>Theo dõi</li> */}
 
                     {/* <li className={classes.li03}>Thích</li> */}
-
-                    <li className={classes.li04}>Đọc tiếp</li>
                 </ul>
             </div>
 

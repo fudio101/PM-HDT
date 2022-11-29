@@ -21,11 +21,16 @@
 }
 
 .footer__logo {
-    display: block;
     text-align: center;
     margin: 0 auto;
     color: white;
     font-size: large;
+    display: flex;
+    justify-content: center;
+}
+
+.footer__logo img {
+    height: 72px;
 }
 
 .footer__copyright {

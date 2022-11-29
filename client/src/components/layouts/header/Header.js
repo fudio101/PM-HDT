@@ -7,7 +7,7 @@ import Search from "../../ui/Search";
 
 import classes from "./Header.module.css";
 
-import logo from "./logo.png";
+import logo from "../logo.png";
 
 function Header({ isVisible }) {
     console.log(isVisible);

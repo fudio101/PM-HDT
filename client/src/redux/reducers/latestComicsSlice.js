@@ -49,7 +49,7 @@ const { actions } = latestComicsSlice;
 export const {
     latestComicsFilterCategoryChange,
     latestComicsFilterStatusChange,
-    latestComicsFilterCountryChange: latestComicsFilterNationChange,
+    latestComicsFilterCountryChange,
 } = actions;
 
 export default latestComicsSlice;

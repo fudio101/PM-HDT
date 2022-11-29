@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { isLoadingSelector } from "../../../redux/selectors";
 import classes from "./Loading.module.css";
 
-function Loading(props) {
+function Loading({ isLoading_ }) {
     const [isLoading, setIsLoading] = useState(true);
     const temp = useSelector(isLoadingSelector);
 
@@ -15,7 +15,7 @@ function Loading(props) {
     return (
         <div
             className={`${classes.container} ${
-                isLoading ? classes.active : ""
+                isLoading || isLoading_ ? classes.active : ""
             }`}
         >
             <Bars

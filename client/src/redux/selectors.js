@@ -107,3 +107,6 @@ export const isLoadingSelector = createSelector(
             searchComics,
         ].includes("loading")
 );
+
+export const readComicSelector = (comicSlug) => (state) =>
+    state.readComicList.data.find((item) => item.slug === comicSlug)?.chapter;

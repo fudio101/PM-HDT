@@ -16,7 +16,7 @@ function Layout(props) {
         threshold: 1,
     });
 
-    console.log(inView);
+    // console.log(inView);
 
     return (
         <Fragment>

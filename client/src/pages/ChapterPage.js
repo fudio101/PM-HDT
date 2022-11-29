@@ -17,6 +17,7 @@ import {
     previousChapterSelector,
 } from "../redux/selectors";
 import ReactModal from "react-modal";
+import { addReadComic } from "../redux/reducers/readComicList";
 
 const customStyles = {
     overlay: {
@@ -46,6 +47,15 @@ function ChapterPage() {
     let previousChapter = useSelector(previousChapterSelector);
     let nextChapter = useSelector(nextChapterSelector);
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(
+            addReadComic({
+                slug: comicSlug,
+                chapter: chapter,
+            })
+        );
+    }, [dispatch, comicSlug, chapter]);
 
     useEffect(() => {
         dispatch(
