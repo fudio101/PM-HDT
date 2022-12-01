@@ -10,6 +10,7 @@ use App\Http\Resources\ClientEpidoseImagesResource;
 use App\Models\Category;
 use App\Models\Comic;
 use App\Models\ComicCategory;
+use App\Models\ComicEpisodeView;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -248,9 +249,11 @@ class ComicController extends Controller
         $comicEpisode = $comic->getEpisode($episode_number);
 
         if ($comicEpisode) {
+            ComicEpisodeView::createViewLog($comicEpisode);
             $data = new ClientEpidoseImagesResource($comicEpisode);
             return response()->json(['data' => $data], ResponseAlias::HTTP_OK);
         }
+
 
         return response()->json([
             'message' => "Comic episode can't be found",

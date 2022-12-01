@@ -2,11 +2,11 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AuthorController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ComicController;
 use App\Http\Controllers\ComicEpisodeController;
 use App\Http\Controllers\CountryController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\ComicController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -44,7 +44,8 @@ Route::get('comics/categories/{category}', [ComicController::class, 'showCategor
 Route::apiResource('comic-episodes', ComicEpisodeController::class);
 //Route::get('comic-episodes/images/{comicEpisode}', [ComicEpisodeController::class, 'getImages']);
 Route::get('get-comic/{comic:slug}', [ComicController::class, 'getComic']);
-Route::get('get-episode/{comic:slug}/{episode_number}', [ComicController::class, 'showEpisodeImages']);
+Route::middleware('session')->get('get-episode/{comic:slug}/{episode_number}',
+    [ComicController::class, 'showEpisodeImages']);
 Route::get('search', [ComicController::class, 'search']);
 Route::get('get-just-updated-comics', [ComicController::class, 'getJustUpdatedComics']);
 Route::get('get-comics-by-category/{category}', [ComicController::class, 'getComicsByCategory']);
