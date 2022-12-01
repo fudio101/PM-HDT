@@ -2,11 +2,11 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AuthorController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ComicController;
 use App\Http\Controllers\ComicEpisodeController;
 use App\Http\Controllers\CountryController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\ComicController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 

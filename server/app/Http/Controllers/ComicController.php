@@ -61,7 +61,7 @@ class ComicController extends Controller
                 'author_id' => 'required|exists:authors,id,deleted_at,NULL',
                 'category_id' => 'required|array',
                 'category_id.*' => 'exists:categories,id,deleted_at,NULL',
-                'country_id' => 'exists:countries,id',
+                'country_id' => 'required|exists:countries,id',
                 'status' => 'integer',
             ]);
 
