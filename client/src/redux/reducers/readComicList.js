@@ -12,8 +12,6 @@ const readComicListSlice = createSlice({
                 (item) => item.slug === action.payload.slug
             );
 
-            console.log("SE", index);
-
             if (index >= 0) {
                 if (state.data[index].chapter < action.payload.chapter) {
                     state.data[index].chapter = action.payload.chapter;
