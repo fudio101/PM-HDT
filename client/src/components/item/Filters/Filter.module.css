@@ -9,7 +9,8 @@
 }
 
 .cate_options {
-    height: 2rem;
+    height: 36px;
+    min-width: 60px;
     width: auto;
 }
 

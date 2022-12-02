@@ -13,6 +13,8 @@ const searchComicsFilterStatusSelector = (state) =>
     state.searchComics.filters.status;
 const searchComicsFilterCountrySelector = (state) =>
     state.searchComics.filters.country;
+export const searchComicsFilterItemsPerPageSelector = (state) =>
+    state.searchComics.filters.itemsPerPage;
 export const searchComicsFilterResultSelector = createSelector(
     searchComicsFilterDataSelector,
     searchComicsFilterCategorySelector,
@@ -35,6 +37,9 @@ const latestComicsFilterStatusSelector = (state) =>
     state.latestComics.filters.status;
 const latestComicsFilterCountrySelector = (state) =>
     state.latestComics.filters.country;
+export const latestComicsFilterItemsPerPageSelector = (state) =>
+    state.latestComics.filters.itemsPerPage;
+
 export const latestComicsFilterResultSelector = createSelector(
     latestComicsFilterDataSelector,
     latestComicsFilterCategorySelector,
@@ -55,6 +60,8 @@ const categoryComicsFilterStatusSelector = (state) =>
     state.categoryComics.filters.status;
 const categoryComicsFilterCountrySelector = (state) =>
     state.categoryComics.filters.country;
+export const categoryComicsFilterItemsPerPageSelector = (state) =>
+    state.categoryComics.filters.itemsPerPage;
 export const categoryComicsFilterResultSelector = createSelector(
     categoryComicsFilterDataSelector,
     categoryComicsFilterStatusSelector,

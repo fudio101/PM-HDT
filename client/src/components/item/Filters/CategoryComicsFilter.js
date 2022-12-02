@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
-    categoryComicsFilterNationChange,
+    categoryComicsFilterCountryChange,
+    categoryComicsFilterItemsPerPageChange,
     categoryComicsFilterStatusChange,
 } from "../../../redux/reducers/categoryComicsSlice";
 import { countryListSelector } from "../../../redux/selectors";
@@ -11,7 +12,7 @@ function CategoryComicsFilter(props) {
     const [status, setStatus] = useState(-1);
     const [country, setCountry] = useState(0);
     const countries = useSelector(countryListSelector);
-
+    const [itemsPerPage, setItemsPerPage] = useState(12);
     const dispatch = useDispatch();
 
     const statusChangeHandle = (value) => {
@@ -21,7 +22,13 @@ function CategoryComicsFilter(props) {
 
     const nationChangeHandle = (value) => {
         setCountry(value);
-        dispatch(categoryComicsFilterNationChange(value));
+        dispatch(categoryComicsFilterCountryChange(value));
+    };
+
+    const itemsPerPageChangeHandle = (e) => {
+        let value = e.target.value;
+        setItemsPerPage(value);
+        dispatch(categoryComicsFilterItemsPerPageChange(value));
     };
 
     return (
@@ -93,6 +100,27 @@ function CategoryComicsFilter(props) {
                                     </li>
                                 ))}
                             </ul>
+                        </td>
+                    </tr>
+                </tbody>
+                <tbody>
+                    <tr>
+                        <th>Hiển thị</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div className={classes.choose}>
+                                <select
+                                    className={classes.cate_options}
+                                    value={itemsPerPage}
+                                    onChange={itemsPerPageChangeHandle}
+                                >
+                                    <option value={12}>12</option>
+                                    <option value={24}>24</option>
+                                    <option value={48}>48</option>
+                                    <option value={-1}>All</option>
+                                </select>
+                            </div>
                         </td>
                     </tr>
                 </tbody>

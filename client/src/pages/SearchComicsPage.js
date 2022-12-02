@@ -5,12 +5,18 @@ import ComicItem from "../components/item/ComicItem";
 import SearchComicsFilter from "../components/item/Filters/SearchComicsFilter";
 import PaginatedItems from "../components/item/pagination/PaginatedItem";
 import { searchComics } from "../redux/reducers/searchComicsSlice";
-import { searchComicsFilterResultSelector } from "../redux/selectors";
+import {
+    searchComicsFilterItemsPerPageSelector,
+    searchComicsFilterResultSelector,
+} from "../redux/selectors";
 
 function SearchComicsPage() {
     const { searchKey } = useParams();
     const dispatch = useDispatch();
     let comicsFilter = useSelector(searchComicsFilterResultSelector);
+    let itemsPerPage = parseInt(
+        useSelector(searchComicsFilterItemsPerPageSelector)
+    );
     const items = [];
 
     useEffect(() => {
@@ -25,7 +31,7 @@ function SearchComicsPage() {
         <>
             <SearchComicsFilter />
             {comicsFilter.length > 0 ? (
-                <PaginatedItems data={items} itemsPerPage={12} />
+                <PaginatedItems data={items} itemsPerPage={itemsPerPage} />
             ) : (
                 <div>Không tìm thấy kết quả</div>
             )}

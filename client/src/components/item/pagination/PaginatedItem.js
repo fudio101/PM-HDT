@@ -24,12 +24,18 @@ function PaginatedItems({ itemsPerPage, data }) {
     }, [items]);
 
     useEffect(() => {
-        // Fetch items from another resources.
-        const endOffset = itemOffset + itemsPerPage;
+        if (itemsPerPage === -1) {
+            setCurrentItems(items);
+            setPageCount(1);
+        } else {
+            // Fetch items from another resources.
+            const endOffset = itemOffset + itemsPerPage;
 
-        // console.log(`Loading items from ${itemOffset} to ${endOffset}`);
-        setCurrentItems(items.slice(itemOffset, endOffset));
-        setPageCount(Math.ceil(items.length / itemsPerPage));
+            // console.log(`Loading items from ${itemOffset} to ${endOffset}`);
+            setCurrentItems(items.slice(itemOffset, endOffset));
+            setPageCount(Math.ceil(items.length / itemsPerPage));
+            console.log(2);
+        }
     }, [itemOffset, itemsPerPage, items]);
     // Invoke when user click to request another page.
 
