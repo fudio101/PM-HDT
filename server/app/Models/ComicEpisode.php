@@ -28,18 +28,35 @@ class ComicEpisode extends Model
         'comic'
     ];
 
-   protected $appends=['image_urls'];
+    protected $appends = ['image_urls'];
 
-    public function getImageUrlsAttribute(){
-        $images=Storage::allFiles("comics/{$this->comic->slug}/{$this->episode_number}");
-        $imageUrls=[];
-        foreach ($images as $image){
-            $imageUrls[]=Storage::temporaryUrl($image,now()->addMinutes(30));
+    public function getImageUrlsAttribute()
+    {
+        $images = Storage::allFiles("comics/{$this->comic->slug}/{$this->episode_number}");
+        $imageUrls = [];
+        foreach ($images as $image) {
+            $imageUrls[] = Storage::temporaryUrl($image, now()->addMinutes(30));
         }
         return $imageUrls;
     }
 
-    public function getListOfEpisodeNumberAttribute(){
+    public function getCooldownAttribute()
+    {
+        $imageUrls = $this->image_urls;
+
+        $godWidth = config("constants.god_width");
+        $totalHeight = 0;
+        
+        foreach ($imageUrls as $imageUrl) {
+            [$width, $height, $type, $attr] = getimagesize($imageUrl);
+            $totalHeight += $height * ($width / $godWidth);
+        }
+
+        return round($totalHeight * config("constants.god_number"));
+    }
+
+    public function getListOfEpisodeNumberAttribute()
+    {
         return $this->comic->episodes->pluck('episode_number');
     }
 

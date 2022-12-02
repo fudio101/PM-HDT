@@ -26,7 +26,13 @@ class ComicController extends Controller
         $this->middleware('auth:api',
             [
                 'except' => [
-                    'index', 'showEpisodeImages', 'search', 'getComic', 'getJustUpdatedComics', 'getComicsByCategory'
+                    'index',
+                    'showEpisodeImages',
+                    'search',
+                    'getComic',
+                    'getJustUpdatedComics',
+                    'getComicsByCategory',
+                    'acceptEpisodeView'
                 ]
             ]);
     }
@@ -249,14 +255,38 @@ class ComicController extends Controller
         $comicEpisode = $comic->getEpisode($episode_number);
 
         if ($comicEpisode) {
-            ComicEpisodeView::createViewLog($comicEpisode);
+            $comicEpisodeViewId = ComicEpisodeView::createViewLog($comicEpisode);
             $data = new ClientEpidoseImagesResource($comicEpisode);
-            return response()->json(['data' => $data], ResponseAlias::HTTP_OK);
+            return response()->json([
+                'data' => $data,
+                'view' => [
+                    'cooldown' => $comicEpisode->cooldown,
+                    'id' => $comicEpisodeViewId
+                ]
+            ],
+                ResponseAlias::HTTP_OK);
         }
 
 
         return response()->json([
             'message' => "Comic episode can't be found",
+        ], ResponseAlias::HTTP_BAD_REQUEST);
+    }
+
+    public function acceptEpisodeView(Comic $comic, $episode_number, Request $request)
+    {
+        $validate = $request->validate([
+            'view_id' => 'required|exists:comic_episode_views,id',
+        ]);
+
+        $comicEpisode = $comic->getEpisode($episode_number);
+
+        if (ComicEpisodeView::accepotViewLog($comicEpisode, $validate["view_id"])) {
+            return response()->json(['message' => "Accept view successfully",], ResponseAlias::HTTP_OK);
+        }
+
+        return response()->json([
+            'message' => "Can't accept view",
         ], ResponseAlias::HTTP_BAD_REQUEST);
     }
 
