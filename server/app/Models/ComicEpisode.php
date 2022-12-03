@@ -25,7 +25,8 @@ class ComicEpisode extends Model
         'created_at',
         'updated_at',
         'user_id',
-        'comic'
+        'comic',
+        'cooldown'
     ];
 
     protected $appends = ['image_urls'];
@@ -40,19 +41,26 @@ class ComicEpisode extends Model
         return $imageUrls;
     }
 
-    public function getCooldownAttribute()
+    public function getCooldownAttribute($value)
     {
+        if ($value !== 0) {
+            return $value;
+        }
         $imageUrls = $this->image_urls;
 
         $godWidth = config("constants.god_width");
         $totalHeight = 0;
-        
+
         foreach ($imageUrls as $imageUrl) {
             [$width, $height, $type, $attr] = getimagesize($imageUrl);
             $totalHeight += $height * ($width / $godWidth);
         }
 
-        return round($totalHeight * config("constants.god_number"));
+        $result = (int) round($totalHeight * config("constants.god_number"));
+
+        $this->setAttribute('cooldown', $result)->save();
+
+        return $result;
     }
 
     public function getListOfEpisodeNumberAttribute()
