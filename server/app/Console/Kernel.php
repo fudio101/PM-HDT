@@ -28,6 +28,7 @@ class Kernel extends ConsoleKernel
         $schedule->call(function () {
             $startTime = Carbon::make(now())->subHour()->microsecond(0)->second(0)->minute(0);
             $endTime = Carbon::make(now())->microsecond(0)->second(0)->minute(0)->subMicroseconds();
+
             $hourViews = ComicEpisodeView::query()
                 ->where('created_at', '>=', $startTime)
                 ->where('created_at', '<=', $endTime)
@@ -35,6 +36,7 @@ class Kernel extends ConsoleKernel
                 ->groupBy('comic_episode_id', 'ip')
                 ->select('comic_episode_id', DB::raw('count(*) as total'))
                 ->get();
+
             foreach ($hourViews as $hourView) {
                 $comicEpisodeViewByHour = new ComicEpisodeViewByHour();
                 $comicEpisodeViewByHour->comic_episode_id = $hourView->comic_episode_id;
@@ -47,42 +49,53 @@ class Kernel extends ConsoleKernel
         $schedule->call(function () {
             $startTime = Carbon::make(now())->subDay()->microsecond(0)->second(0)->minute(0)->hour(0);
             $endTime = Carbon::make(now())->microsecond(0)->second(0)->minute(0)->hour(0)->subMicroseconds();
-            $dayViews = ComicEpisodeViewByHour::query()
+
+            $dayViews_ = ComicEpisodeViewByHour::query()
                 ->where('created_at', '>=', $startTime)
                 ->where('created_at', '<=', $endTime)
                 ->groupBy('comic_episode_id')
-                ->select('comic_episode_id', DB::raw('sum(views) as total'))
-                ->get();
+                ->select('comic_episode_id', DB::raw('sum(views) as total'));
+
+            $dayViews = $dayViews_->get();
+
             foreach ($dayViews as $dayView) {
                 $comicEpisodeViewByDay = new ComicEpisodeViewByDay();
                 $comicEpisodeViewByDay->comic_episode_id = $dayView->comic_episode_id;
                 $comicEpisodeViewByDay->views = $dayView->total;
                 $comicEpisodeViewByDay->save();
             }
+
+            $dayViews_->delete();
         })->name("import-daily-views")->daily();
 
         // Import view count to monthly table
         $schedule->call(function () {
             $startTime = Carbon::make(now())->subMonth()->microsecond(0)->second(0)->minute(0)->hour(0)->day(1);
             $endTime = Carbon::make(now())->microsecond(0)->second(0)->minute(0)->hour(0)->day(1)->subMicroseconds();
-            $monthViews = ComicEpisodeViewByDay::query()
+
+            $monthViews_ = ComicEpisodeViewByDay::query()
                 ->where('created_at', '>=', $startTime)
                 ->where('created_at', '<=', $endTime)
                 ->groupBy('comic_episode_id')
-                ->select('comic_episode_id', DB::raw('sum(views) as total'))
-                ->get();
+                ->select('comic_episode_id', DB::raw('sum(views) as total'));
+
+            $monthViews = $monthViews_->get();
+
             foreach ($monthViews as $monthView) {
                 $comicEpisodeViewByMonth = new ComicEpisodeViewByMonth();
                 $comicEpisodeViewByMonth->comic_episode_id = $monthView->comic_episode_id;
                 $comicEpisodeViewByMonth->views = $monthView->total;
                 $comicEpisodeViewByMonth->save();
             }
+
+            $monthViews_->delete();
         })->name("import-monthly-views")->monthly();
 
         // Delete unaccepted records 2 time per day
         $schedule->call(function () {
             $startTime = Carbon::make(now())->subHours(7)->microsecond(0)->second(0)->minute(0);
             $endTime = Carbon::make(now())->microsecond(0)->second(0)->minute(0)->subHour();
+
             ComicEpisodeView::query()
                 ->where('created_at', '>=', $startTime)
                 ->where('created_at', '<=', $endTime)
@@ -94,6 +107,7 @@ class Kernel extends ConsoleKernel
         $schedule->call(function () {
             $startTime = Carbon::make(now())->subWeek()->microsecond(0)->second(0)->minute(0)->hour(0)->subHour();
             $endTime = Carbon::make(now())->microsecond(0)->second(0)->minute(0)->hour(0)->subHour();
+            
             ComicEpisodeView::query()
                 ->where('created_at', '>=', $startTime)
                 ->where('created_at', '<=', $endTime)
