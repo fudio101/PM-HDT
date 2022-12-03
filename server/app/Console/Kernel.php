@@ -41,7 +41,7 @@ class Kernel extends ConsoleKernel
                 $comicEpisodeViewByHour->views = $hourView->total;
                 $comicEpisodeViewByHour->save();
             }
-        })->hourly();
+        })->name("import-hourly-views")->hourly();
 
         // Import view count to daily table
         $schedule->call(function () {
@@ -59,7 +59,7 @@ class Kernel extends ConsoleKernel
                 $comicEpisodeViewByDay->views = $dayView->total;
                 $comicEpisodeViewByDay->save();
             }
-        })->daily();
+        })->name("import-daily-views")->daily();
 
         // Import view count to monthly table
         $schedule->call(function () {
@@ -77,7 +77,7 @@ class Kernel extends ConsoleKernel
                 $comicEpisodeViewByMonth->views = $monthView->total;
                 $comicEpisodeViewByMonth->save();
             }
-        })->monthly();
+        })->name("import-monthly-views")->monthly();
 
         // Delete unaccepted records 2 time per day
         $schedule->call(function () {
@@ -88,7 +88,7 @@ class Kernel extends ConsoleKernel
                 ->where('created_at', '<=', $endTime)
                 ->where('accepted', '=', 0)
                 ->delete();
-        })->twiceDaily(0, 12);
+        })->name("delete-unaccepted-views")->twiceDaily(0, 12);
 
         // Delete view records weekly
         $schedule->call(function () {
@@ -98,7 +98,7 @@ class Kernel extends ConsoleKernel
                 ->where('created_at', '>=', $startTime)
                 ->where('created_at', '<=', $endTime)
                 ->delete();
-        })->weekly();
+        })->name("delete-old-views")->weekly();
     }
 
     /**
