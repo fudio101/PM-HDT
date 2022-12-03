@@ -16,6 +16,7 @@ return new class extends Migration {
             $table->id();
             $table->foreignId('comic_id')->constrained();
             $table->float('episode_number');
+            $table->integer('cooldown')->default(0);
 //            $table->date('published_date');
             $table->unsignedBigInteger('likes')->default(0);
             $table->unsignedBigInteger('views')->default(0);
