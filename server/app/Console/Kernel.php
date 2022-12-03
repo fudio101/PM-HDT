@@ -5,6 +5,7 @@ namespace App\Console;
 use App\Models\ComicEpisodeView;
 use App\Models\ComicEpisodeViewByDay;
 use App\Models\ComicEpisodeViewByHour;
+use App\Models\ComicEpisodeViewByMonth;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use Illuminate\Support\Carbon;
@@ -23,6 +24,7 @@ class Kernel extends ConsoleKernel
         // $schedule->command('inspire')->hourly();
         $schedule->command('auth:clear-resets')->everyFourHours();
 
+        // Import view count to hourly table
         $schedule->call(function () {
             $startTime = Carbon::make(now())->subHour()->microsecond(0)->second(0)->minute(0);
             $endTime = Carbon::make(now())->microsecond(0)->second(0)->minute(0)->subMicroseconds();
@@ -39,8 +41,9 @@ class Kernel extends ConsoleKernel
                 $comicEpisodeViewByHour->views = $hourView->total;
                 $comicEpisodeViewByHour->save();
             }
-        })->hourlyAt(0);
+        })->hourly();
 
+        // Import view count to daily table
         $schedule->call(function () {
             $startTime = Carbon::make(now())->subDay()->microsecond(0)->second(0)->minute(0)->hour(0);
             $endTime = Carbon::make(now())->microsecond(0)->second(0)->minute(0)->hour(0)->subMicroseconds();
@@ -56,7 +59,46 @@ class Kernel extends ConsoleKernel
                 $comicEpisodeViewByDay->views = $dayView->total;
                 $comicEpisodeViewByDay->save();
             }
-        })->dailyAt("00:00");
+        })->daily();
+
+        // Import view count to monthly table
+        $schedule->call(function () {
+            $startTime = Carbon::make(now())->subMonth()->microsecond(0)->second(0)->minute(0)->hour(0)->day(1);
+            $endTime = Carbon::make(now())->microsecond(0)->second(0)->minute(0)->hour(0)->day(1)->subMicroseconds();
+            $monthViews = ComicEpisodeViewByDay::query()
+                ->where('created_at', '>=', $startTime)
+                ->where('created_at', '<=', $endTime)
+                ->groupBy('comic_episode_id')
+                ->select('comic_episode_id', DB::raw('sum(views) as total'))
+                ->get();
+            foreach ($monthViews as $monthView) {
+                $comicEpisodeViewByMonth = new ComicEpisodeViewByMonth();
+                $comicEpisodeViewByMonth->comic_episode_id = $monthView->comic_episode_id;
+                $comicEpisodeViewByMonth->views = $monthView->total;
+                $comicEpisodeViewByMonth->save();
+            }
+        })->monthly();
+
+        // Delete unaccepted records 2 time per day
+        $schedule->call(function () {
+            $startTime = Carbon::make(now())->subHours(7)->microsecond(0)->second(0)->minute(0);
+            $endTime = Carbon::make(now())->microsecond(0)->second(0)->minute(0)->subHour();
+            ComicEpisodeView::query()
+                ->where('created_at', '>=', $startTime)
+                ->where('created_at', '<=', $endTime)
+                ->where('accepted', '=', 0)
+                ->delete();
+        })->twiceDaily(0, 12);
+
+        // Delete view records weekly
+        $schedule->call(function () {
+            $startTime = Carbon::make(now())->subWeek()->microsecond(0)->second(0)->minute(0)->hour(0)->subHour();
+            $endTime = Carbon::make(now())->microsecond(0)->second(0)->minute(0)->hour(0)->subHour();
+            ComicEpisodeView::query()
+                ->where('created_at', '>=', $startTime)
+                ->where('created_at', '<=', $endTime)
+                ->delete();
+        })->weekly();
     }
 
     /**
