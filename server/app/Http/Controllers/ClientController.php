@@ -143,4 +143,14 @@ class ClientController extends Controller
 
         return response()->json(['data' => $data], ResponseAlias::HTTP_OK);
     }
+
+    public function getViewStatistics(): JsonResponse
+    {
+
+        $comics = Comic::getComicViewStatistics();
+
+        $data = ClientComicResource::collection($comics);
+
+        return response()->json(['data' => $data], ResponseAlias::HTTP_OK);
+    }
 }

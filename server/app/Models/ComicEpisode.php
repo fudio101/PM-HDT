@@ -6,6 +6,7 @@ use App\Http\Traits\AddUser;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
 
 class ComicEpisode extends Model
@@ -26,7 +27,8 @@ class ComicEpisode extends Model
         'updated_at',
         'user_id',
         'comic',
-        'cooldown'
+        'cooldown',
+        'views'
     ];
 
     protected $appends = ['image_urls'];
@@ -66,6 +68,30 @@ class ComicEpisode extends Model
     public function getListOfEpisodeNumberAttribute()
     {
         return $this->comic->episodes->pluck('episode_number');
+    }
+
+    public function getViewsAttribute()
+    {
+        $episodeId = $this->id;
+
+        $monthlyViews = ComicEpisodeViewByMonth::query()
+            ->where('comic_episode_views_by_month.comic_episode_id', '=', $episodeId)
+            ->sum('comic_episode_views_by_month.views');
+
+        $earlyMonth = Carbon::now()->floorMonth();
+
+        $dailyViews = ComicEpisodeViewByDay::query()
+            ->where('comic_episode_views_by_day.comic_episode_id', '=', $episodeId)
+            ->where('comic_episode_views_by_day.created_at', '>=', $earlyMonth)
+            ->sum('comic_episode_views_by_day.views');
+
+        $earlyDay = Carbon::now()->floorDay();
+
+        $todayViews = ComicEpisodeViewByHour::query()
+            ->where('comic_episode_views_by_hour.comic_episode_id', '=', $episodeId)
+            ->where('comic_episode_views_by_hour.created_at', '>=', $earlyDay)
+            ->sum('comic_episode_views_by_hour.views');
+        return $monthlyViews + $dailyViews + $todayViews;
     }
 
     public function comic()

@@ -53,3 +53,4 @@ Route::get('get-just-updated-comics', [ClientController::class, 'getJustUpdatedC
 Route::get('get-comics-by-category/{category}', [ClientController::class, 'getComicsByCategory']);
 Route::get('get-view-statistics-by-day', [ClientController::class, 'getViewStatisticsByDay']);
 Route::get('get-view-statistics-by-month', [ClientController::class, 'getViewStatisticsByMonth']);
+Route::get('get-view-statistics', [ClientController::class, 'getViewStatistics']);

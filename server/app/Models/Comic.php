@@ -43,6 +43,7 @@ class Comic extends Model
         'episodes',
         'country_id',
         'author_id',
+        'views',
     ];
 
     protected $with = [
@@ -168,6 +169,11 @@ class Comic extends Model
         }
 
         return Carbon::make($this->created_at)->getTimestamp();
+    }
+
+    public function getViewsAttribute()
+    {
+        return $this->episodes->sum('views');
     }
 
     static function getActive($id)
@@ -320,5 +326,13 @@ class Comic extends Model
             ->orderByDesc(DB::raw('sum(comic_episode_views_by_day.views)'));
 
         return $comics->get();
+    }
+
+    /**
+     * @return Collection
+     */
+    public static function getComicViewStatistics(): Collection
+    {
+        return self::all()->sortByDesc('views');
     }
 }
