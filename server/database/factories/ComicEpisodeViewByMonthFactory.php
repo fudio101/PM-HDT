@@ -15,10 +15,10 @@ class ComicEpisodeViewByMonthFactory extends Factory
      *
      * @return array<string, mixed>
      */
-    public function definition()
+    public function definition(): array
     {
         return [
-            //
+            'views' => $this->faker->numberBetween(1, 1000)
         ];
     }
 }
