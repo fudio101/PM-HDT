@@ -228,15 +228,19 @@ class Comic extends Model
      * Get comics by day with view count desc
      *
      * @param  string  $day
+     * @param  int  $limit
      * @return array|Collection|null
      */
-    public static function getComicViewStatisticsByDay(string $day): array|Collection|null
+    public static function getComicViewStatisticsByDay(string $day, int $limit = -1): array|Collection|null
     {
         $time = Carbon::make($day)->floorDay();
         $now = Carbon::make(now())->floorDay();
 
         if ($time->gt($now)) {
-            return self::all();
+            if ($limit <= 0) {
+                return self::all();
+            }
+            return self::all()->slice(0, $limit);
         }
 
         if ($now->gt($time)) {
@@ -253,7 +257,8 @@ class Comic extends Model
                         ->where('comic_episode_views_by_day.created_at', '<=', $endTime);
                 })
                 ->groupBy(['comic_episodes.comic_id', 'comics.id'])
-                ->orderByDesc(DB::raw('sum(comic_episode_views_by_day.views)'));
+                ->orderByDesc(DB::raw('sum(comic_episode_views_by_day.views)'))
+                ->limit($limit);
 
             return $comics->get();
         }
@@ -271,7 +276,8 @@ class Comic extends Model
                     ->where('comic_episode_views_by_hour.created_at', '<=', $endTime);
             })
             ->groupBy(['comic_episodes.comic_id', 'comics.id'])
-            ->orderByDesc(DB::raw('sum(comic_episode_views_by_hour.views)'));
+            ->orderByDesc(DB::raw('sum(comic_episode_views_by_hour.views)'))
+            ->limit($limit);
 
         return $comics->get();
     }
@@ -280,15 +286,19 @@ class Comic extends Model
      * Get comics by month with view count desc
      *
      * @param  string  $month
+     * @param  int  $limit
      * @return array|Collection|null
      */
-    public static function getComicViewStatisticsByMonth(string $month): array|Collection|null
+    public static function getComicViewStatisticsByMonth(string $month, int $limit = -1): array|Collection|null
     {
         $time = Carbon::make($month)->floorMonth();
         $now = Carbon::make(now())->floorMonth();
 
         if ($time->gt($now)) {
-            return self::all();
+            if ($limit <= 0) {
+                return self::all();
+            }
+            return self::all()->slice(0, $limit);
         }
 
         if ($now->gt($time)) {
@@ -305,7 +315,8 @@ class Comic extends Model
                         ->where('comic_episode_views_by_month.created_at', '<=', $endTime);
                 })
                 ->groupBy(['comic_episodes.comic_id', 'comics.id'])
-                ->orderByDesc(DB::raw('sum(comic_episode_views_by_month.views)'));
+                ->orderByDesc(DB::raw('sum(comic_episode_views_by_month.views)'))
+                ->limit($limit);
 
             return $comics->get();
         }
@@ -323,16 +334,22 @@ class Comic extends Model
                     ->where('comic_episode_views_by_day.created_at', '<=', $endTime);
             })
             ->groupBy(['comic_episodes.comic_id', 'comics.id'])
-            ->orderByDesc(DB::raw('sum(comic_episode_views_by_day.views)'));
+            ->orderByDesc(DB::raw('sum(comic_episode_views_by_day.views)'))
+            ->limit($limit);
 
         return $comics->get();
     }
 
     /**
+     * @param  int  $limit
      * @return Collection
      */
-    public static function getComicViewStatistics(): Collection
+    public static function getComicViewStatistics(int $limit = -1): Collection
     {
-        return self::all()->sortByDesc('views');
+        if ($limit <= 0) {
+            return self::all()->sortByDesc('views');
+        }
+
+        return self::all()->sortByDesc('views')->slice(0, $limit);
     }
 }

@@ -117,12 +117,14 @@ class ClientController extends Controller
     public function getViewStatisticsByDay(Request $request): JsonResponse
     {
         $validate = $request->validate([
-            'day' => 'required|date_format:Y-m-d'
+            'day' => 'required|date_format:Y-m-d',
+            'limit' => 'integer'
         ]);
 
         $day = $validate['day'];
+        $limit = $validate['limit'] ?? -1;
 
-        $comics = Comic::getComicViewStatisticsByDay($day);
+        $comics = Comic::getComicViewStatisticsByDay($day, $limit);
 
         $data = ClientComicResource::collection($comics);
 
@@ -132,22 +134,29 @@ class ClientController extends Controller
     public function getViewStatisticsByMonth(Request $request): JsonResponse
     {
         $validate = $request->validate([
-            'month' => 'required|date_format:Y-m'
+            'month' => 'required|date_format:Y-m',
+            'limit' => 'integer'
         ]);
 
-        $day = $validate['month'];
+        $month = $validate['month'];
+        $limit = $validate['limit'] ?? -1;
 
-        $comics = Comic::getComicViewStatisticsByMonth($day);
+        $comics = Comic::getComicViewStatisticsByMonth($month, $limit);
 
         $data = ClientComicResource::collection($comics);
 
         return response()->json(['data' => $data], ResponseAlias::HTTP_OK);
     }
 
-    public function getViewStatistics(): JsonResponse
+    public function getViewStatistics(Request $request): JsonResponse
     {
+        $validate = $request->validate([
+            'limit' => 'integer'
+        ]);
 
-        $comics = Comic::getComicViewStatistics();
+        $limit = $validate['limit'] ?? -1;
+
+        $comics = Comic::getComicViewStatistics($limit);
 
         $data = ClientComicResource::collection($comics);
 
