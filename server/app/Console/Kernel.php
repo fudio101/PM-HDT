@@ -26,8 +26,8 @@ class Kernel extends ConsoleKernel
 
         // Import view count to hourly table
         $schedule->call(function () {
-            $startTime = Carbon::make(now())->subHour()->microsecond(0)->second(0)->minute(0);
-            $endTime = Carbon::make(now())->microsecond(0)->second(0)->minute(0)->subMicroseconds();
+            $startTime = Carbon::make(now())->floorHour()->subHour();
+            $endTime = Carbon::make(now())->floorHour()->subMicroseconds();
 
             $hourViews = ComicEpisodeView::query()
                 ->where('created_at', '>=', $startTime)
@@ -47,8 +47,8 @@ class Kernel extends ConsoleKernel
 
         // Import view count to daily table
         $schedule->call(function () {
-            $startTime = Carbon::make(now())->subDay()->microsecond(0)->second(0)->minute(0)->hour(0);
-            $endTime = Carbon::make(now())->microsecond(0)->second(0)->minute(0)->hour(0)->subMicroseconds();
+            $startTime = Carbon::make(now())->floorDay()->subDay();
+            $endTime = Carbon::make(now())->floorDay()->subMicroseconds();
 
             $dayViews_ = ComicEpisodeViewByHour::query()
                 ->where('created_at', '>=', $startTime)
@@ -70,8 +70,8 @@ class Kernel extends ConsoleKernel
 
         // Import view count to monthly table
         $schedule->call(function () {
-            $startTime = Carbon::make(now())->subMonth()->microsecond(0)->second(0)->minute(0)->hour(0)->day(1);
-            $endTime = Carbon::make(now())->microsecond(0)->second(0)->minute(0)->hour(0)->day(1)->subMicroseconds();
+            $startTime = Carbon::make(now())->floorMonth()->subMonth();
+            $endTime = Carbon::make(now())->floorMonth()->subMicroseconds();
 
             $monthViews_ = ComicEpisodeViewByDay::query()
                 ->where('created_at', '>=', $startTime)
@@ -93,8 +93,8 @@ class Kernel extends ConsoleKernel
 
         // Delete unaccepted records 2 time per day
         $schedule->call(function () {
-            $startTime = Carbon::make(now())->subHours(7)->microsecond(0)->second(0)->minute(0);
-            $endTime = Carbon::make(now())->microsecond(0)->second(0)->minute(0)->subHour();
+            $startTime = Carbon::make(now())->floorHour()->subHours(7);
+            $endTime = Carbon::make(now())->floorHour()->subHour();
 
             ComicEpisodeView::query()
                 ->where('created_at', '>=', $startTime)
@@ -105,8 +105,8 @@ class Kernel extends ConsoleKernel
 
         // Delete view records weekly
         $schedule->call(function () {
-            $startTime = Carbon::make(now())->subWeek()->microsecond(0)->second(0)->minute(0)->hour(0)->subHour();
-            $endTime = Carbon::make(now())->microsecond(0)->second(0)->minute(0)->hour(0)->subHour();
+            $startTime = Carbon::make(now())->floorWeek()->subWeek()->subHour();
+            $endTime = Carbon::make(now())->floorWeek()->subHour();
 
             ComicEpisodeView::query()
                 ->where('created_at', '>=', $startTime)
