@@ -8,6 +8,7 @@ use App\Http\Resources\ClientEpidoseImagesResource;
 use App\Models\Category;
 use App\Models\Comic;
 use App\Models\ComicEpisodeView;
+use App\Models\ComicEpisodeViewByMonth;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
@@ -159,6 +160,21 @@ class ClientController extends Controller
         $comics = Comic::getComicViewStatistics($limit);
 
         $data = ClientComicResource::collection($comics);
+
+        return response()->json(['data' => $data], ResponseAlias::HTTP_OK);
+    }
+
+    public function getTotalViewsByMonth(Request $request)
+    {
+        $validate = $request->validate([
+            'month' => 'required|date_format:Y-m',
+            'month1' => 'required|date_format:Y-m',
+        ]);
+
+        $month = $validate['month'];
+        $month1 = $validate['month1'];
+
+        $data = ComicEpisodeViewByMonth::getTotalComicViewsByMonth($month, $month1);
 
         return response()->json(['data' => $data], ResponseAlias::HTTP_OK);
     }

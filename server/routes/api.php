@@ -54,3 +54,4 @@ Route::get('get-comics-by-category/{category}', [ClientController::class, 'getCo
 Route::get('get-view-statistics-by-day', [ClientController::class, 'getViewStatisticsByDay']);
 Route::get('get-view-statistics-by-month', [ClientController::class, 'getViewStatisticsByMonth']);
 Route::get('get-view-statistics', [ClientController::class, 'getViewStatistics']);
+Route::get('get-total-views-by-month', [ClientController::class, 'getTotalViewsByMonth']);
