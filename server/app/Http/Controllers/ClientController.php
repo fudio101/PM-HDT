@@ -8,6 +8,7 @@ use App\Http\Resources\ClientEpidoseImagesResource;
 use App\Models\Category;
 use App\Models\Comic;
 use App\Models\ComicEpisodeView;
+use App\Models\ComicEpisodeViewByDay;
 use App\Models\ComicEpisodeViewByMonth;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -164,7 +165,7 @@ class ClientController extends Controller
         return response()->json(['data' => $data], ResponseAlias::HTTP_OK);
     }
 
-    public function getTotalViewsByMonth(Request $request)
+    public function getTotalViewsByMonths(Request $request): JsonResponse
     {
         $validate = $request->validate([
             'month' => 'required|date_format:Y-m',
@@ -174,7 +175,22 @@ class ClientController extends Controller
         $month = $validate['month'];
         $month1 = $validate['month1'];
 
-        $data = ComicEpisodeViewByMonth::getTotalComicViewsByMonth($month, $month1);
+        $data = ComicEpisodeViewByMonth::getTotalComicViewsByMonths($month, $month1);
+
+        return response()->json(['data' => $data], ResponseAlias::HTTP_OK);
+    }
+
+    public function getTotalViewsByDays(Request $request): JsonResponse
+    {
+        $validate = $request->validate([
+            'day' => 'required|date_format:Y-m-d',
+            'day1' => 'required|date_format:Y-m-d',
+        ]);
+
+        $day = $validate['day'];
+        $day1 = $validate['day1'];
+
+        $data = ComicEpisodeViewByDay::getTotalComicViewsByDays($day, $day1);
 
         return response()->json(['data' => $data], ResponseAlias::HTTP_OK);
     }

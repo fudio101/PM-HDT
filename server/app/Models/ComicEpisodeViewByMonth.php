@@ -21,7 +21,7 @@ class ComicEpisodeViewByMonth extends Model
      * @param  string  $month1
      * @return Builder[]|Collection
      */
-    public static function getTotalComicViewsByMonth(string $month, string $month1): Collection|array
+    public static function getTotalComicViewsByMonths(string $month, string $month1): Collection|array
     {
         $month_ = Carbon::make($month)->floorMonth()->addMonth();
         $month1_ = Carbon::make($month1)->floorMonth()->addMonth();

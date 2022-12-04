@@ -21,7 +21,7 @@ class ComicEpisodeViewByDay extends Model
      * @param  string  $day1
      * @return Builder[]|Collection
      */
-    public static function getTotalComicViewsByDay(string $day, string $day1): Collection|array
+    public static function getTotalComicViewsByDays(string $day, string $day1): Collection|array
     {
         $day_ = Carbon::make($day)->floorDay()->addDay();
         $day1_ = Carbon::make($day1)->floorDay()->addDay();
