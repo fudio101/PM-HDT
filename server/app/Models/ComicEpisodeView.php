@@ -44,7 +44,7 @@ class ComicEpisodeView extends Model
     public static function accepotViewLog(ComicEpisode $comicEpisode, int $viewId): bool
     {
         $view = self::query()->find($viewId);
-        if ($view && request()->getClientIp() === $view->ip) {
+        if ($view && request()->getClientIp() === $view->ip && $view->comic_episode_id === $comicEpisode->id) {
             if ($view->accepted) {
                 return true;
             }

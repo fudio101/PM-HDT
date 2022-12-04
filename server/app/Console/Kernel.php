@@ -88,7 +88,7 @@ class Kernel extends ConsoleKernel
                 $comicEpisodeViewByMonth->save();
             }
 
-            $monthViews_->delete();
+//            $monthViews_->delete();
         })->name("import-monthly-views")->monthly();
 
         // Delete unaccepted records 2 time per day
@@ -107,7 +107,7 @@ class Kernel extends ConsoleKernel
         $schedule->call(function () {
             $startTime = Carbon::make(now())->subWeek()->microsecond(0)->second(0)->minute(0)->hour(0)->subHour();
             $endTime = Carbon::make(now())->microsecond(0)->second(0)->minute(0)->hour(0)->subHour();
-            
+
             ComicEpisodeView::query()
                 ->where('created_at', '>=', $startTime)
                 ->where('created_at', '<=', $endTime)
