@@ -93,11 +93,11 @@ class Kernel extends ConsoleKernel
 
         // Delete unaccepted records 2 time per day
         $schedule->call(function () {
-            $startTime = Carbon::make(now())->floorHour()->subHours(7);
+//            $startTime = Carbon::make(now())->floorHour()->subHours(7);
             $endTime = Carbon::make(now())->floorHour()->subHour();
 
             ComicEpisodeView::query()
-                ->where('created_at', '>=', $startTime)
+//                ->where('created_at', '>=', $startTime)
                 ->where('created_at', '<=', $endTime)
                 ->where('accepted', '=', 0)
                 ->delete();
@@ -105,11 +105,11 @@ class Kernel extends ConsoleKernel
 
         // Delete view records weekly
         $schedule->call(function () {
-            $startTime = Carbon::make(now())->floorWeek()->subWeek()->subHour();
+//            $startTime = Carbon::make(now())->floorWeek()->subWeek()->subHour();
             $endTime = Carbon::make(now())->floorWeek()->subHour();
 
             ComicEpisodeView::query()
-                ->where('created_at', '>=', $startTime)
+//                ->where('created_at', '>=', $startTime)
                 ->where('created_at', '<=', $endTime)
                 ->delete();
         })->name("delete-old-views")->weekly();
