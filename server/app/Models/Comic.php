@@ -258,16 +258,16 @@ class Comic extends Model
                 })
                 ->groupBy(['comic_episodes.comic_id', 'comics.id'])
                 ->orderByDesc(DB::raw('sum(comic_episode_views_by_day.views)'))
-                ->limit($limit);
+                ->limit($limit)->get();
 
-            return $comics->get();
+            return $comics;
         }
 
         $startTime = Carbon::make($day)->floorDay()->addHour();
         $endTime = Carbon::make($day)->floorDay()->addHour()->addDay()->subMicrosecond();
 
         $comics = self::query()
-            ->select(['comics.*'])
+            ->select(['comics.*', DB::raw('sum(comic_episode_views_by_hour.views) as aaa')])
             ->leftJoin('comic_episodes', 'comic_episodes.comic_id', '=', 'comics.id')
             ->whereNull('comic_episodes.deleted_at')
             ->leftJoin('comic_episode_views_by_hour', function ($join) use ($startTime, $endTime) {
@@ -277,9 +277,9 @@ class Comic extends Model
             })
             ->groupBy(['comic_episodes.comic_id', 'comics.id'])
             ->orderByDesc(DB::raw('sum(comic_episode_views_by_hour.views)'))
-            ->limit($limit);
+            ->limit($limit)->get();
 
-        return $comics->get();
+        return $comics;
     }
 
     /**
@@ -316,9 +316,9 @@ class Comic extends Model
                 })
                 ->groupBy(['comic_episodes.comic_id', 'comics.id'])
                 ->orderByDesc(DB::raw('sum(comic_episode_views_by_month.views)'))
-                ->limit($limit);
+                ->limit($limit)->get();
 
-            return $comics->get();
+            return $comics;
         }
 
         $startTime = Carbon::make($month)->floorMonth()->addDay();
@@ -335,9 +335,9 @@ class Comic extends Model
             })
             ->groupBy(['comic_episodes.comic_id', 'comics.id'])
             ->orderByDesc(DB::raw('sum(comic_episode_views_by_day.views)'))
-            ->limit($limit);
+            ->limit($limit)->get();
 
-        return $comics->get();
+        return $comics;
     }
 
     /**
