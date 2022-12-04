@@ -35,15 +35,14 @@ class ComicEpisodeViewByMonth extends Model
                 $time = $i_->copy();
                 $time1 = $i_->copy()->addMonth()->subMicrosecond();
 
-                $abc = ComicEpisodeViewByDay::query()
-                    ->select(['comic_episode_views_by_day.*'])
-                    ->where('created_at', '>=', $time)
-                    ->where('created_at', '<=', $time1)
-                    ->get()
-                    ->sum('views');
                 $data[] = [
                     "date" => $i_->format('Y-m'),
-                    "views" => $abc
+                    "views" => ComicEpisodeViewByDay::query()
+                        ->select(['comic_episode_views_by_day.*'])
+                        ->where('created_at', '>=', $time)
+                        ->where('created_at', '<=', $time1)
+                        ->get()
+                        ->sum('views')
                 ];
             } else {
                 $time = $i->copy();

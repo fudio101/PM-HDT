@@ -51,7 +51,9 @@ Route::put('accept-view/{comic:slug}/{episode_number}', [ClientController::class
 Route::get('search', [ClientController::class, 'search']);
 Route::get('get-just-updated-comics', [ClientController::class, 'getJustUpdatedComics']);
 Route::get('get-comics-by-category/{category}', [ClientController::class, 'getComicsByCategory']);
+
 Route::get('get-view-statistics-by-day', [ClientController::class, 'getViewStatisticsByDay']);
 Route::get('get-view-statistics-by-month', [ClientController::class, 'getViewStatisticsByMonth']);
 Route::get('get-view-statistics', [ClientController::class, 'getViewStatistics']);
 Route::get('get-total-views-by-month', [ClientController::class, 'getTotalViewsByMonth']);
+Route::get('get-total-views-by-day', [ClientController::class, 'getTotalViewsByDay']);
