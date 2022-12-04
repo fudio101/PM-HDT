@@ -4,13 +4,14 @@ namespace App\Models;
 
 use App\Http\Traits\AddUser;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Scout\Searchable;
 use Spatie\Sluggable\HasSlug;
@@ -26,7 +27,6 @@ class Comic extends Model
     ];
     protected $appends = [
 //        'author_name',
-        'user_name',
 //        'category_names',
         'image_url',
         'num_of_episodes',
@@ -214,5 +214,111 @@ class Comic extends Model
     {
         return $this->hasMany(ComicEpisode::class, 'comic_id', 'id')->where('episode_number', "=",
             $episode_number)->first();
+    }
+
+    //View statistic
+
+    /**
+     * Get comics by day with view count desc
+     *
+     * @param  string  $day
+     * @return array|Collection|null
+     */
+    public static function getComicViewStatisticsByDay(string $day): array|Collection|null
+    {
+        $time = Carbon::make($day)->floorDay();
+        $now = Carbon::make(now())->floorDay();
+
+        if ($time->gt($now)) {
+            return self::all();
+        }
+
+        if ($now->gt($time)) {
+            $startTime = Carbon::make($day)->floorDay()->addDay();
+            $endTime = Carbon::make($day)->floorDay()->addDays(2)->subMicrosecond();
+
+            $comics = self::query()
+                ->select(['comics.*'])
+                ->leftJoin('comic_episodes', 'comic_episodes.comic_id', '=', 'comics.id')
+                ->whereNull('comic_episodes.deleted_at')
+                ->leftJoin('comic_episode_views_by_day', function ($join) use ($startTime, $endTime) {
+                    $join->on('comic_episode_views_by_day.comic_episode_id', '=', 'comic_episodes.id')
+                        ->where('comic_episode_views_by_day.created_at', '>=', $startTime)
+                        ->where('comic_episode_views_by_day.created_at', '<=', $endTime);
+                })
+                ->groupBy(['comic_episodes.comic_id', 'comics.id'])
+                ->orderByDesc(DB::raw('sum(comic_episode_views_by_day.views)'));
+
+            return $comics->get();
+        }
+
+        $startTime = Carbon::make($day)->floorDay()->addHour();
+        $endTime = Carbon::make($day)->floorDay()->addHour()->addDay()->subMicrosecond();
+
+        $comics = self::query()
+            ->select(['comics.*'])
+            ->leftJoin('comic_episodes', 'comic_episodes.comic_id', '=', 'comics.id')
+            ->whereNull('comic_episodes.deleted_at')
+            ->leftJoin('comic_episode_views_by_hour', function ($join) use ($startTime, $endTime) {
+                $join->on('comic_episode_views_by_hour.comic_episode_id', '=', 'comic_episodes.id')
+                    ->where('comic_episode_views_by_hour.created_at', '>=', $startTime)
+                    ->where('comic_episode_views_by_hour.created_at', '<=', $endTime);
+            })
+            ->groupBy(['comic_episodes.comic_id', 'comics.id'])
+            ->orderByDesc(DB::raw('sum(comic_episode_views_by_hour.views)'));
+
+        return $comics->get();
+    }
+
+    /**
+     * Get comics by month with view count desc
+     *
+     * @param  string  $month
+     * @return array|Collection|null
+     */
+    public static function getComicViewStatisticsByMonth(string $month): array|Collection|null
+    {
+        $time = Carbon::make($month)->floorMonth();
+        $now = Carbon::make(now())->floorMonth();
+
+        if ($time->gt($now)) {
+            return self::all();
+        }
+
+        if ($now->gt($time)) {
+            $startTime = Carbon::make($month)->floorMonth()->addMonth();
+            $endTime = Carbon::make($month)->floorMonth()->addMonth(2)->subMicrosecond();
+
+            $comics = self::query()
+                ->select(['comics.*'])
+                ->leftJoin('comic_episodes', 'comic_episodes.comic_id', '=', 'comics.id')
+                ->whereNull('comic_episodes.deleted_at')
+                ->leftJoin('comic_episode_views_by_month', function ($join) use ($startTime, $endTime) {
+                    $join->on('comic_episode_views_by_month.comic_episode_id', '=', 'comic_episodes.id')
+                        ->where('comic_episode_views_by_month.created_at', '>=', $startTime)
+                        ->where('comic_episode_views_by_month.created_at', '<=', $endTime);
+                })
+                ->groupBy(['comic_episodes.comic_id', 'comics.id'])
+                ->orderByDesc(DB::raw('sum(comic_episode_views_by_month.views)'));
+
+            return $comics->get();
+        }
+
+        $startTime = Carbon::make($month)->floorMonth()->addDay();
+        $endTime = Carbon::make($month)->floorMonth()->addDay()->addMonth()->subMicrosecond();
+
+        $comics = self::query()
+            ->select(['comics.*'])
+            ->leftJoin('comic_episodes', 'comic_episodes.comic_id', '=', 'comics.id')
+            ->whereNull('comic_episodes.deleted_at')
+            ->leftJoin('comic_episode_views_by_day', function ($join) use ($startTime, $endTime) {
+                $join->on('comic_episode_views_by_day.comic_episode_id', '=', 'comic_episodes.id')
+                    ->where('comic_episode_views_by_day.created_at', '>=', $startTime)
+                    ->where('comic_episode_views_by_day.created_at', '<=', $endTime);
+            })
+            ->groupBy(['comic_episodes.comic_id', 'comics.id'])
+            ->orderByDesc(DB::raw('sum(comic_episode_views_by_day.views)'));
+
+        return $comics->get();
     }
 }

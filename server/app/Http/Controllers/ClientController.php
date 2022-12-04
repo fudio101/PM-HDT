@@ -20,14 +20,14 @@ class ClientController extends Controller
      * @param  Category  $category
      * @return JsonResponse
      */
-    public function showCategory(Category $category)
+    public function showCategory(Category $category): JsonResponse
     {
         return response()->json([
             'data' => $category->comics,
         ], ResponseAlias::HTTP_OK);
     }
 
-    public function search(Request $request)
+    public function search(Request $request): JsonResponse
     {
         $data = ClientComicResource::collection(Comic::search($request->search)->get());//->makeHidden('episodes');
         return response()->json([
@@ -50,7 +50,7 @@ class ClientController extends Controller
      * @param  $episode_number
      * @return JsonResponse
      */
-    public function showEpisodeImages(Comic $comic, $episode_number)
+    public function showEpisodeImages(Comic $comic, $episode_number): JsonResponse
     {
         $comicEpisode = $comic->getEpisode($episode_number);
 
@@ -73,7 +73,7 @@ class ClientController extends Controller
         ], ResponseAlias::HTTP_BAD_REQUEST);
     }
 
-    public function acceptEpisodeView(Comic $comic, $episode_number, Request $request)
+    public function acceptEpisodeView(Comic $comic, $episode_number, Request $request): JsonResponse
     {
         $validate = $request->validate([
             'view_id' => 'required|exists:comic_episode_views,id',
@@ -93,7 +93,7 @@ class ClientController extends Controller
     /**
      * @return JsonResponse
      */
-    public function getJustUpdatedComics(Request $request)
+    public function getJustUpdatedComics(Request $request): JsonResponse
     {
         $input = $request->validate(['number' => 'integer']);
         $number = $input['number'] ?? 20;
@@ -107,10 +107,40 @@ class ClientController extends Controller
         return response()->json(['data' => $data], ResponseAlias::HTTP_OK);
     }
 
-    public function getComicsByCategory(Category $category)
+    public function getComicsByCategory(Category $category): JsonResponse
     {
         $comics = $category->comics;
         $data = ClientComicResource::collection($comics);
+        return response()->json(['data' => $data], ResponseAlias::HTTP_OK);
+    }
+
+    public function getViewStatisticsByDay(Request $request): JsonResponse
+    {
+        $validate = $request->validate([
+            'day' => 'required|date_format:Y-m-d'
+        ]);
+
+        $day = $validate['day'];
+
+        $comics = Comic::getComicViewStatisticsByDay($day);
+
+        $data = ClientComicResource::collection($comics);
+
+        return response()->json(['data' => $data], ResponseAlias::HTTP_OK);
+    }
+
+    public function getViewStatisticsByMonth(Request $request): JsonResponse
+    {
+        $validate = $request->validate([
+            'month' => 'required|date_format:Y-m'
+        ]);
+
+        $day = $validate['month'];
+
+        $comics = Comic::getComicViewStatisticsByMonth($day);
+
+        $data = ClientComicResource::collection($comics);
+
         return response()->json(['data' => $data], ResponseAlias::HTTP_OK);
     }
 }

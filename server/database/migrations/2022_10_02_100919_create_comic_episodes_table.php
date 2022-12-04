@@ -19,7 +19,7 @@ return new class extends Migration {
             $table->integer('cooldown')->default(0);
 //            $table->date('published_date');
             $table->unsignedBigInteger('likes')->default(0);
-            $table->unsignedBigInteger('views')->default(0);
+//            $table->unsignedBigInteger('views')->default(0);
             $table->foreignId('user_id')->constrained();
             $table->softDeletes();
             $table->timestamps();
