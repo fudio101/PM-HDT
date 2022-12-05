@@ -81,6 +81,8 @@ function HeaderSection() {
       toast("Password Changed, Check Your Email!", {
         type: "success",
       });
+      setIsOpen(false);
+      setInputData("");
     } catch (error) {
       toast(error, {
         type: "error",

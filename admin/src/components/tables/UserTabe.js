@@ -34,11 +34,13 @@ function Usertable({ columns, data, setRowSelected }) {
               className={classes.view_btn}
               onClick={(e) => {
                 // e.preventDefault();
+
                 setRowSelected({
                   id: row.row.original.id,
                   name: row.row.original.name,
                   avt: row.row.original.avt,
                   email: row.row.original.email,
+                  role_id: row.row.original.role_id,
                 });
               }}
             >
@@ -54,7 +56,7 @@ function Usertable({ columns, data, setRowSelected }) {
       columns: columns,
       data: data,
       initialState: {
-        hiddenColumns: ["id"],
+        hiddenColumns: ["id", "role_id"],
       },
     },
     useGlobalFilter, // useGlobalFilter!
