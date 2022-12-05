@@ -34,7 +34,6 @@ function PaginatedItems({ itemsPerPage, data }) {
             // console.log(`Loading items from ${itemOffset} to ${endOffset}`);
             setCurrentItems(items.slice(itemOffset, endOffset));
             setPageCount(Math.ceil(items.length / itemsPerPage));
-            console.log(2);
         }
     }, [itemOffset, itemsPerPage, items]);
     // Invoke when user click to request another page.
