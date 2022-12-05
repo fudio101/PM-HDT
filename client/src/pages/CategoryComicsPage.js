@@ -5,12 +5,18 @@ import ComicItem from "../components/item/ComicItem";
 import CategoryComicsFilter from "../components/item/Filters/CategoryComicsFilter";
 import PaginatedItems from "../components/item/pagination/PaginatedItem";
 import { getCategoryComics } from "../redux/reducers/categoryComicsSlice";
-import { categoryComicsFilterResultSelector } from "../redux/selectors";
+import {
+    categoryComicsFilterItemsPerPageSelector,
+    categoryComicsFilterResultSelector,
+} from "../redux/selectors";
 
 function CategoryComicsPage() {
     const { categoryId } = useParams();
     const dispatch = useDispatch();
     let comicsFilter = useSelector(categoryComicsFilterResultSelector);
+    let itemsPerPage = parseInt(
+        useSelector(categoryComicsFilterItemsPerPageSelector)
+    );
     const items = [];
 
     useEffect(() => {
@@ -25,7 +31,7 @@ function CategoryComicsPage() {
         <>
             <CategoryComicsFilter />
             {comicsFilter.length > 0 ? (
-                <PaginatedItems data={items} itemsPerPage={12} />
+                <PaginatedItems data={items} itemsPerPage={itemsPerPage} />
             ) : (
                 <div>Không tìm thấy kết quả</div>
             )}

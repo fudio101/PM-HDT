@@ -16,6 +16,11 @@ const comicApi = {
         }),
     getComicByCategory: (categoryId) =>
         axiosClient.get(`get-comics-by-category/${categoryId}`),
+    getViewStatisticsByDay: (day) =>
+        axiosClient.get(`get-view-statistics-by-day?day=${day}`),
+    getViewStatisticsByMonth: (month) =>
+        axiosClient.get(`get-view-statistics-by-month?month=${month}`),
+    getViewStatisticsAll: () => axiosClient.get(`get-view-statistics`),
 };
 
 export default comicApi;

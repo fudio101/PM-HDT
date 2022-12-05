@@ -7,6 +7,7 @@ const categoryComicsSlice = createSlice({
         filters: {
             status: -1,
             country: 0,
+            itemsPerPage: 12,
         },
         data: [],
         status: "idle",
@@ -17,6 +18,9 @@ const categoryComicsSlice = createSlice({
         },
         categoryComicsFilterCountryChange: (state, action) => {
             state.filters.country = action.payload;
+        },
+        categoryComicsFilterItemsPerPageChange: (state, action) => {
+            state.filters.itemsPerPage = action.payload;
         },
     },
     extraReducers: (builder) => {
@@ -44,7 +48,8 @@ const { actions } = categoryComicsSlice;
 
 export const {
     categoryComicsFilterStatusChange,
-    categoryComicsFilterCountryChange: categoryComicsFilterNationChange,
+    categoryComicsFilterCountryChange,
+    categoryComicsFilterItemsPerPageChange,
 } = actions;
 
 export default categoryComicsSlice;

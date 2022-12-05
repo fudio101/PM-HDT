@@ -1,23 +1,27 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
-    latestComicsFilterCategoryChange,
-    latestComicsFilterCountryChange,
-    latestComicsFilterItemsPerPageChange,
-    latestComicsFilterStatusChange,
-} from "../../../redux/reducers/latestComicsSlice";
-import {
     categoryListSelector,
     countryListSelector,
 } from "../../../redux/selectors";
+import DatePicker from "react-date-picker";
 
 import classes from "./Filter.module.css";
+import {
+    comicRankingsAll,
+    comicRankingsByDay,
+    comicRankingsByMonth,
+    comicRankingsFilterCategoryChange,
+    comicRankingsFilterCountryChange,
+    comicRankingsFilterStatusChange,
+} from "../../../redux/reducers/comicRankingsSlice";
 
-function LatestComicsFilter(props) {
+function ComicRankingsFilter(props) {
+    const [rankBy, setRankBy] = useState(1);
     const [category, setCategory] = useState("0");
     const [status, setStatus] = useState(-1);
     const [country, setCountry] = useState(0);
-    const [itemsPerPage, setItemsPerPage] = useState(12);
+    const [value, onChange] = useState(new Date());
     const categories = [
         { id: 0, name: "Tất cả" },
         ...useSelector(categoryListSelector),
@@ -25,31 +29,115 @@ function LatestComicsFilter(props) {
     const countries = useSelector(countryListSelector);
     const dispatch = useDispatch();
 
+    const rankByChangeHandle = (value) => {
+        setRankBy(value);
+    };
+
     const categoryChangeHandle = (e) => {
         let value = e.target.value;
         setCategory(value);
-        dispatch(latestComicsFilterCategoryChange(value));
+        dispatch(comicRankingsFilterCategoryChange(value));
     };
 
     const statusChangeHandle = (value) => {
         setStatus(value);
-        dispatch(latestComicsFilterStatusChange(value));
+        dispatch(comicRankingsFilterStatusChange(value));
     };
 
     const nationChangeHandle = (value) => {
         setCountry(value);
-        dispatch(latestComicsFilterCountryChange(value));
+        dispatch(comicRankingsFilterCountryChange(value));
     };
 
-    const itemsPerPageChangeHandle = (e) => {
-        let value = e.target.value;
-        setItemsPerPage(value);
-        dispatch(latestComicsFilterItemsPerPageChange(value));
+    const formatDate = (date, type) => {
+        var month = "" + (date.getMonth() + 1),
+            day = "" + date.getDate(),
+            year = date.getFullYear();
+
+        if (month.length < 2) month = "0" + month;
+        if (day.length < 2) day = "0" + day;
+
+        if (type === 1) return [year, month, day].join("-");
+        return [year, month].join("-");
+    };
+
+    const submitHandle = () => {
+        switch (rankBy) {
+            case 1:
+                dispatch(comicRankingsByDay(formatDate(value, rankBy)));
+                break;
+            case 2:
+                dispatch(comicRankingsByMonth(formatDate(value, rankBy)));
+                break;
+            default:
+                dispatch(comicRankingsAll());
+        }
     };
 
     return (
         <div className={`${classes.story_list_bl01} ${classes.box}`}>
             <table>
+                <tbody>
+                    <tr>
+                        <th>Xếp hạng theo</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <ul className={classes.choose}>
+                                <li
+                                    onClick={() => rankByChangeHandle(1)}
+                                    className={
+                                        rankBy === 1 ? classes.active : ""
+                                    }
+                                >
+                                    Ngày
+                                </li>
+                                <li
+                                    onClick={() => rankByChangeHandle(2)}
+                                    className={
+                                        rankBy === 2 ? classes.active : ""
+                                    }
+                                >
+                                    Tháng
+                                </li>
+                                <li
+                                    onClick={() => rankByChangeHandle(3)}
+                                    className={
+                                        rankBy === 3 ? classes.active : ""
+                                    }
+                                >
+                                    Tất cả
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                    {rankBy !== 3 ? (
+                        <tr>
+                            <td>
+                                <div>
+                                    <DatePicker
+                                        onChange={onChange}
+                                        value={value}
+                                        format={rankBy === 1 ? "d/M/y" : "M/y"}
+                                        maxDetail={
+                                            rankBy === 1 ? "month" : "year"
+                                        }
+                                    />
+                                </div>
+                            </td>
+                        </tr>
+                    ) : null}
+                    <tr>
+                        <td>
+                            <button
+                                className={classes.submit_btn}
+                                onClick={submitHandle}
+                            >
+                                Hiện kết quả
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
                 <tbody>
                     <tr>
                         <th>Thể loại truyện</th>
@@ -70,7 +158,6 @@ function LatestComicsFilter(props) {
                                                 key={item.id}
                                                 value={item.id}
                                             >
-                                                {" "}
                                                 {item.name}
                                             </option>
                                         );
@@ -149,30 +236,9 @@ function LatestComicsFilter(props) {
                         </td>
                     </tr>
                 </tbody>
-                <tbody>
-                    <tr>
-                        <th>Hiển thị</th>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div className={classes.choose}>
-                                <select
-                                    className={classes.cate_options}
-                                    value={itemsPerPage}
-                                    onChange={itemsPerPageChangeHandle}
-                                >
-                                    <option value={12}>12</option>
-                                    <option value={24}>24</option>
-                                    <option value={48}>48</option>
-                                    <option value={-1}>All</option>
-                                </select>
-                            </div>
-                        </td>
-                    </tr>
-                </tbody>
             </table>
         </div>
     );
 }
 
-export default LatestComicsFilter;
+export default ComicRankingsFilter;

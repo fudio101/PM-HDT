@@ -13,6 +13,8 @@ const searchComicsFilterStatusSelector = (state) =>
     state.searchComics.filters.status;
 const searchComicsFilterCountrySelector = (state) =>
     state.searchComics.filters.country;
+export const searchComicsFilterItemsPerPageSelector = (state) =>
+    state.searchComics.filters.itemsPerPage;
 export const searchComicsFilterResultSelector = createSelector(
     searchComicsFilterDataSelector,
     searchComicsFilterCategorySelector,
@@ -35,6 +37,9 @@ const latestComicsFilterStatusSelector = (state) =>
     state.latestComics.filters.status;
 const latestComicsFilterCountrySelector = (state) =>
     state.latestComics.filters.country;
+export const latestComicsFilterItemsPerPageSelector = (state) =>
+    state.latestComics.filters.itemsPerPage;
+
 export const latestComicsFilterResultSelector = createSelector(
     latestComicsFilterDataSelector,
     latestComicsFilterCategorySelector,
@@ -50,11 +55,36 @@ export const latestComicsFilterResultSelector = createSelector(
         )
 );
 
+const comicRankingsFilterDataSelector = (state) => state.comicRankings.data;
+const comicRankingsFilterCategorySelector = (state) =>
+    state.comicRankings.filters.category;
+const comicRankingsFilterStatusSelector = (state) =>
+    state.comicRankings.filters.status;
+const comicRankingsFilterCountrySelector = (state) =>
+    state.comicRankings.filters.country;
+
+export const comicRankingsFilterResultSelector = createSelector(
+    comicRankingsFilterDataSelector,
+    comicRankingsFilterCategorySelector,
+    comicRankingsFilterStatusSelector,
+    comicRankingsFilterCountrySelector,
+    (data, category, status, country) =>
+        data?.filter(
+            (comic, index) =>
+                (category === 0 ||
+                    comic.categories.some((cate) => cate.id === category)) &&
+                (status === -1 || comic.status === status) &&
+                (country === 0 || comic.country.id === country)
+        )
+);
+
 const categoryComicsFilterDataSelector = (state) => state.categoryComics.data;
 const categoryComicsFilterStatusSelector = (state) =>
     state.categoryComics.filters.status;
 const categoryComicsFilterCountrySelector = (state) =>
     state.categoryComics.filters.country;
+export const categoryComicsFilterItemsPerPageSelector = (state) =>
+    state.categoryComics.filters.itemsPerPage;
 export const categoryComicsFilterResultSelector = createSelector(
     categoryComicsFilterDataSelector,
     categoryComicsFilterStatusSelector,
@@ -68,6 +98,7 @@ export const categoryComicsFilterResultSelector = createSelector(
 );
 
 export const chapterImagesSelector = (state) => state.chapter.data?.image_urls;
+export const viewInforSelector = (state) => state.chapter.viewInfor;
 export const previousChapterSelector = (state) => state.chapter.previousChapter;
 export const nextChapterSelector = (state) => state.chapter.nextChapter;
 export const chapterListSelector = (state) =>
@@ -82,6 +113,7 @@ const chapterSliceStatusSelector = (state) => state.chapter.status;
 const countriesSliceStatusSelector = (state) => state.countries.status;
 const latestComicsSliceStatusSelector = (state) => state.latestComics.status;
 const searchComicsSliceStatusSelector = (state) => state.searchComics.status;
+const comicRankingsSliceStatusSelector = (state) => state.comicRankings.status;
 
 export const isLoadingSelector = createSelector(
     categoriesSliceStatusSelector,
@@ -90,13 +122,15 @@ export const isLoadingSelector = createSelector(
     countriesSliceStatusSelector,
     latestComicsSliceStatusSelector,
     searchComicsSliceStatusSelector,
+    comicRankingsSliceStatusSelector,
     (
         categories,
         categoryComics,
         chapter,
         countries,
         latestComics,
-        searchComics
+        searchComics,
+        comicRankings
     ) =>
         [
             categories,
@@ -105,6 +139,7 @@ export const isLoadingSelector = createSelector(
             countries,
             latestComics,
             searchComics,
+            comicRankings,
         ].includes("loading")
 );
 

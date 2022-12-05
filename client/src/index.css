@@ -55,3 +55,7 @@ body {
     background-color: #495c83;
     color: white;
 }
+
+.react-date-picker__calendar {
+    position: absolute !important;
+}

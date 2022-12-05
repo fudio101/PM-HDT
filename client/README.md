@@ -1,5 +1,11 @@
 # Set up for the first time:
 
-On Terminal Client : npm install
+Create .env file with config:
 
-Run React App : npm start
+```
+REACT_APP_BASE_BACKEND_URL=
+```
+
+On Terminal Client : yarn install
+
+Run React App : yarn start

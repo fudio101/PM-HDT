@@ -19,7 +19,7 @@ function Navigator(props) {
                                 }
                                 to={"/home"}
                             >
-                                Home
+                                Trang Chủ
                             </NavLink>
                         </li>
                         <li
@@ -30,9 +30,9 @@ function Navigator(props) {
                                 className={(navLink) =>
                                     navLink.isActive ? classes.active : ""
                                 }
-                                to={"/categories"}
+                                to={""}
                             >
-                                Category
+                                Danh Mục
                             </NavLink>
                         </li>
 
@@ -43,20 +43,20 @@ function Navigator(props) {
                                 }
                                 to={"/lastest"}
                             >
-                                Lastest
+                                Mới Nhất
                             </NavLink>
                         </li>
 
-                        {/* <li>
+                        <li>
                             <NavLink
                                 className={(navLink) =>
                                     navLink.isActive ? classes.active : ""
                                 }
                                 to={"/popular"}
                             >
-                                Popular
+                                Phổ Biến
                             </NavLink>
-                        </li> */}
+                        </li>
 
                         <li>
                             <div

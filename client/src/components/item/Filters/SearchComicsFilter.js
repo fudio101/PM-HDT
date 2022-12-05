@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
     searchComicsFilterCategoryChange,
-    searchComicsFilterNationChange,
+    searchComicsFilterCountryChange,
+    searchComicsFilterItemsPerPageChange,
     searchComicsFilterStatusChange,
 } from "../../../redux/reducers/searchComicsSlice";
 import {
@@ -16,6 +17,7 @@ function SearchComicsFilter(props) {
     const [category, setCategory] = useState("0");
     const [status, setStatus] = useState(-1);
     const [country, setCountry] = useState(0);
+    const [itemsPerPage, setItemsPerPage] = useState(12);
     const categories = [
         { id: 0, name: "Tất cả" },
         ...useSelector(categoryListSelector),
@@ -36,7 +38,13 @@ function SearchComicsFilter(props) {
 
     const nationChangeHandle = (value) => {
         setCountry(value);
-        dispatch(searchComicsFilterNationChange(value));
+        dispatch(searchComicsFilterCountryChange(value));
+    };
+
+    const itemsPerPageChangeHandle = (e) => {
+        let value = e.target.value;
+        setItemsPerPage(value);
+        dispatch(searchComicsFilterItemsPerPageChange(value));
     };
 
     return (
@@ -138,6 +146,27 @@ function SearchComicsFilter(props) {
                                     </li>
                                 ))}
                             </ul>
+                        </td>
+                    </tr>
+                </tbody>
+                <tbody>
+                    <tr>
+                        <th>Hiển thị</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div className={classes.choose}>
+                                <select
+                                    className={classes.cate_options}
+                                    value={itemsPerPage}
+                                    onChange={itemsPerPageChangeHandle}
+                                >
+                                    <option value={12}>12</option>
+                                    <option value={24}>24</option>
+                                    <option value={48}>48</option>
+                                    <option value={-1}>All</option>
+                                </select>
+                            </div>
                         </td>
                     </tr>
                 </tbody>
