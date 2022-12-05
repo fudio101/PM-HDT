@@ -32,8 +32,8 @@ class ComicEpisodeViewByDay extends Model
             $i_ = $i->copy()->subDay();
 
             if ($i_->eq($now)) {
-                $time = $i_->copy();
-                $time1 = $i_->copy()->addDay()->subMicrosecond();
+                $time = $i_->copy()->addHour();
+                $time1 = $time->copy()->addDay()->subMicrosecond();
 
                 $data[] = [
                     "date" => $i_->format('Y-m-d'),
@@ -43,6 +43,11 @@ class ComicEpisodeViewByDay extends Model
                         ->where('created_at', '<=', $time1)
                         ->get()
                         ->sum('views')
+                ];
+            } elseif ($i_->gt($now)) {
+                $data[] = [
+                    "date" => $i_->format('Y-m-d'),
+                    "views" => 0
                 ];
             } else {
                 $time = $i->copy();
@@ -61,5 +66,23 @@ class ComicEpisodeViewByDay extends Model
         }
 
         return $data;
+    }
+
+    /**
+     * Get total comic views at today
+     *
+     * @return mixed
+     */
+    public static function getTotalTodayComicViews(): mixed
+    {
+        $time = Carbon::now()->floorDay()->addHour();
+        $time1 = $time->copy()->addDay()->subMicrosecond();
+
+        return ComicEpisodeViewByHour::query()
+            ->select(['comic_episode_views_by_hour.*'])
+            ->where('created_at', '>=', $time)
+            ->where('created_at', '<=', $time1)
+            ->get()
+            ->sum('views');
     }
 }
