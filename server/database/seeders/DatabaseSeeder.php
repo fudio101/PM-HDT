@@ -44,32 +44,34 @@ class DatabaseSeeder extends Seeder
         Country::factory()->create([
             'name' => 'Trung Quốc'
         ]);
+
+
 //        for ($k = 1; $k <= 40; $k++) {
-//            for ($i = 3; $i <= 11; $i++) {
-//                $monthViews = 0;
-//                for ($j = 1; $j <= 30; $j++) {
-//                    $dayViews = random_int(1, 1000);
-//                    $monthViews += $dayViews;
+//            $i = 12;
+//            $monthViews = 0;
+//            for ($j = 1; $j <= 31; $j++) {
+//                $dayViews = random_int(123, 1234);
+//                $monthViews += $dayViews;
 //
-//                    ComicEpisodeViewByDay::factory()->create([
-//                        'comic_episode_id' => $k,
-//                        'views' => $dayViews,
-//                        'created_at' => Carbon::create(2022, $i, $j)
-//                    ]);
-//                }
-//
-//                ComicEpisodeViewByMonth::factory()->create([
+//                ComicEpisodeViewByDay::factory()->create([
 //                    'comic_episode_id' => $k,
-//                    'views' => $monthViews,
-//                    'created_at' => Carbon::create(2022, $i)
+//                    'views' => $dayViews,
+//                    'created_at' => Carbon::create(2022, $i, $j)
 //                ]);
 //            }
-//            for ($i = 1; $i <= 23; $i++) {
+//
+//            ComicEpisodeViewByMonth::factory()->create([
+//                'comic_episode_id' => $k,
+//                'views' => $monthViews,
+//                'created_at' => Carbon::create(2022, $i)
+//            ]);
+//
+//            for ($i = 0; $i <= 23; $i++) {
 //                $hourViews = random_int(1, 250);
 //                ComicEpisodeViewByHour::factory()->create([
 //                    'comic_episode_id' => $k,
 //                    'views' => $hourViews,
-//                    'created_at' => Carbon::create(2022, 12, 7, $i)
+//                    'created_at' => Carbon::create(2022, 12, 15, $i)
 //                ]);
 //            }
 //        }
