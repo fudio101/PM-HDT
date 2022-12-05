@@ -267,7 +267,7 @@ class Comic extends Model
         $endTime = Carbon::make($day)->floorDay()->addHour()->addDay()->subMicrosecond();
 
         $comics = self::query()
-            ->select(['comics.*', DB::raw('sum(comic_episode_views_by_hour.views) as aaa')])
+            ->select(['comics.*'])
             ->leftJoin('comic_episodes', 'comic_episodes.comic_id', '=', 'comics.id')
             ->whereNull('comic_episodes.deleted_at')
             ->leftJoin('comic_episode_views_by_hour', function ($join) use ($startTime, $endTime) {
