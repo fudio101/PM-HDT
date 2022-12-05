@@ -2,12 +2,12 @@ import axiosClient from "./axiosClient";
 
 const userAPI = {
   getAll: () => {
-    const url = "http://server-pmhdt/api/countries";
+    const url = "/countries";
     return axiosClient.get(url);
   },
 
   //   store: (user) => {
-  //     const url = "http://server-pmhdt/api/users";
+  //     const url = "/users";
   //     return axiosClient({
   //       url: url,
   //       method: "post",
@@ -16,12 +16,12 @@ const userAPI = {
   //   },
 
   //   delete: (id) => {
-  //     const url = `http://server-pmhdt/api/users/${id}`;
+  //     const url = `/users/${id}`;
   //     return axiosClient.delete(url);
   //   },
 
   //   update: (id, user) => {
-  //     const url = `http://server-pmhdt/api/users/${id}?_method=PUT`;
+  //     const url = `/users/${id}?_method=PUT`;
   //     return axiosClient({
   //       url: url,
   //       method: "post",

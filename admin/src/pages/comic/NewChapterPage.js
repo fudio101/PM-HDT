@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import moment from "moment";
 
+import { trackPromise } from "react-promise-tracker";
 import { useDispatch, useSelector } from "react-redux";
 import { getComic } from "../../store/actions/comicAction";
 import { newChapter, getComicEpByID } from "../../store/actions/comicEpAction";
@@ -84,8 +85,7 @@ function NewChapterPage() {
     });
   }, [error]);
 
-  const uploadEPHandler = async (e) => {
-    e.preventDefault();
+  const uploadEPHandlerAction = async () => {
     try {
       const formData = new FormData();
       returnPts.forEach((photo) => {
@@ -95,8 +95,7 @@ function NewChapterPage() {
 
       formData.append("comic_id", id);
       formData.append("episode_number", episode);
-      const action = await dispatch(newChapter({ photos: formData }));
-      unwrapResult(action); // catch error
+      unwrapResult(await dispatch(newChapter({ photos: formData })));
       toast("New Episode Added Successfully", {
         type: "success",
       });
@@ -108,6 +107,11 @@ function NewChapterPage() {
         type: "error",
       });
     }
+  };
+
+  const uploadEPHandler = (e) => {
+    e.preventDefault();
+    trackPromise(uploadEPHandlerAction());
   };
 
   return (

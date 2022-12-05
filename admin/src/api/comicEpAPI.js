@@ -2,12 +2,12 @@ import axiosClient from "./axiosClient";
 
 const comicEpAPI = {
   getComicEp: (id) => {
-    const url = `http://server-pmhdt/api/comic-episodes/${id}`;
+    const url = `/comic-episodes/${id}`;
     return axiosClient.get(url);
   },
 
   newChapter: (photos) => {
-    const url = `http://server-pmhdt/api/comic-episodes`;
+    const url = `/comic-episodes`;
     return axiosClient({
       url: url,
       method: "post",
@@ -16,7 +16,7 @@ const comicEpAPI = {
   },
 
   updateComicEP: (id, photos) => {
-    const url = `http://server-pmhdt/api/comic-episodes/${id}?_method=PUT`;
+    const url = `/comic-episodes/${id}?_method=PUT`;
     return axiosClient({
       url: url,
       method: "post",
@@ -25,7 +25,7 @@ const comicEpAPI = {
   },
 
   deleteComiCEP: (id) => {
-    const url = `http://server-pmhdt/api/comic-episodes/${id}`;
+    const url = `/comic-episodes/${id}`;
     return axiosClient.delete(url);
   },
 };

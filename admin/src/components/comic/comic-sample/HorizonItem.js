@@ -1,7 +1,5 @@
 import React from "react";
 
-import LoadingSpinner from "../../UI/LoadingSpinner";
-
 import classes from "./HorizonItem.module.css";
 
 function HorizonItem(props) {
@@ -9,14 +7,10 @@ function HorizonItem(props) {
     <>
       <div className={classes.post_feature}>
         <div className={`${classes.post_eature_media}  ${classes.post_media}`}>
-          {props.postData.image_url ? (
-            <img
-              className={classes.post_feature_image}
-              src={props.postData.image_url}
-            />
-          ) : (
-            <LoadingSpinner />
-          )}
+          <img
+            className={classes.post_feature_image}
+            src={props.postData?.image_url}
+          />
         </div>
         <div className={classes.post_feature_info}>
           <div>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-
+import { trackPromise } from "react-promise-tracker";
 import Button from "../components/UI/Button";
 import TableAuthor from "../components/tables/TableAuthor";
 import AuthorModal from "../components/Modal/AuthorModal";
@@ -47,13 +47,12 @@ function AuthorManagementPage() {
   }, [error]);
 
   // add new author
-  const newAuthorHandler = async (e) => {
-    e.preventDefault();
+  const newAuthorHandlerAction = async () => {
     try {
       const formData = new FormData();
       formData.append("name", authorData.name);
       formData.append("image", authorData.img);
-      dispath(newAuthor({ author: formData }));
+      unwrapResult(await dispath(newAuthor({ author: formData })));
 
       toast("New Author Added", {
         type: "success",
@@ -66,6 +65,11 @@ function AuthorManagementPage() {
 
     fetchAuthorList();
     closeHandler();
+  };
+
+  const newAuthorHandler = (e) => {
+    e.preventDefault();
+    trackPromise(newAuthorHandlerAction());
   };
 
   // Delete An author

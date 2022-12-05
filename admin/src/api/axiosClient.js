@@ -2,7 +2,10 @@
 import axios from "axios";
 // import queryString from "query-string";
 // Set up default config for http requests here
-const axiosClient = axios.create();
+const axiosClient = axios.create({
+  baseURL: process.env.REACT_APP_BASE_BACKEND_URL,
+});
+
 //       {
 //       headers: {
 //         // Cookie: "XDEBUG_SESSION=XDEBUG_ECLIPSE",

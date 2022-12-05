@@ -2,17 +2,17 @@ import axiosClient from "./axiosClient";
 
 const comicAPI = {
   getAll: () => {
-    const url = "http://server-pmhdt/api/comics";
+    const url = "/comics";
     return axiosClient.get(url);
   },
 
   get: (id) => {
-    const url = `http://server-pmhdt/api/comics/${id}`;
+    const url = `/comics/${id}`;
     return axiosClient.get(url);
   },
 
   store: (comic) => {
-    const url = `http://server-pmhdt/api/comics`;
+    const url = `/comics`;
     return axiosClient({
       url: url,
       method: "post",
@@ -21,12 +21,12 @@ const comicAPI = {
   },
 
   delete: (id) => {
-    const url = `http://server-pmhdt/api/comics/${id}`;
+    const url = `/comics/${id}`;
     return axiosClient.delete(url);
   },
 
   update: (id, comic) => {
-    const url = `http://server-pmhdt/api/comics/${id}?_method=PUT`;
+    const url = `/comics/${id}?_method=PUT`;
 
     return axiosClient({
       url: url,
