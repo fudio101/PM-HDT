@@ -100,7 +100,7 @@ class ClientController extends Controller
         $input = $request->validate(['number' => 'integer']);
         $number = $input['number'] ?? 20;
 
-        $comics = Comic::all()->where('updated_time_diff_on_days', '<=', 3)->sortByDesc('updated_time')->take($number);
+        $comics = Comic::all()->sortByDesc('updated_time')->take($number);
 
 //        $comics->sortByDesc('updated_time');
 
