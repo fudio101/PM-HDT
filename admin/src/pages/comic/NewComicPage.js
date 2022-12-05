@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import ComicEditForm from "../../components/comic/comic-edit/ComicEditForm";
 import { useNavigate } from "react-router-dom";
 import moment from "moment";
-
+import { trackPromise } from "react-promise-tracker";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllAuthor } from "../../store/actions/authorAction";
 import { getAllCate } from "../../store/actions/categoryAction";
@@ -104,7 +104,7 @@ function NewComicPage() {
   const [data, setData] = useState(initVal);
   const navigate = useNavigate();
 
-  const uploadComicHandler = async () => {
+  const uploadComicHandlerAction = async () => {
     try {
       const formData = new FormData();
       formData.append("name", data.name);
@@ -117,7 +117,6 @@ function NewComicPage() {
       data.categories.forEach((cate) => {
         formData.append("category_id[]", cate.id);
       });
-      console.log(data);
       unwrapResult(await dispatch(newComic({ comic: formData })));
 
       toast("New Document Added", {
@@ -132,6 +131,10 @@ function NewComicPage() {
         type: "error",
       });
     }
+  };
+
+  const uploadComicHandler = () => {
+    trackPromise(uploadComicHandlerAction());
   };
 
   return (

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Select from "react-select";
 import moment from "moment";
-
+import { trackPromise } from "react-promise-tracker";
 import Wrapper from "../../components/UI/Wrapper";
 
 import Button from "../../components/UI/Button";
@@ -128,7 +128,7 @@ function EditComicPage() {
     dispatch(getAllAuthor());
     dispatch(getAllCate());
     dispatch(getComic(id));
-    fetchAllCountry();
+    trackPromise(fetchAllCountry());
   }, []);
 
   useEffect(() => {
@@ -179,10 +179,9 @@ function EditComicPage() {
 
   //delete episode
 
-  const deleteEpisodeHandler = async () => {
+  const deleteEpisodeHandlerAction = async () => {
     try {
-      const action = await dispatch(deleteComicEP(selectedEp));
-      unwrapResult(action);
+      unwrapResult(await dispatch(deleteComicEP(selectedEp)));
       toast("Episode Deleted Successfully", {
         type: "success",
       });
@@ -192,10 +191,12 @@ function EditComicPage() {
       });
     }
   };
+  const deleteEpisodeHandler = () => {
+    trackPromise(deleteEpisodeHandlerAction());
+  };
 
   //update comic episode
-
-  const updateComicEpHandler = async (e) => {
+  const updateComicEpHandlerAction = async (e) => {
     e.preventDefault();
     try {
       const formData = new FormData();
@@ -204,10 +205,11 @@ function EditComicPage() {
         formData.append("images[]", photo[1]);
         formData.append("imageOrder[]", photo[1].name);
       });
-      const action = await dispatch(
-        updateComicEP({ id: selectedEp, photos: formData })
+
+      unwrapResult(
+        await dispatch(updateComicEP({ id: selectedEp, photos: formData }))
       );
-      const unwrap = unwrapResult(action);
+
       toast("Episode Update Successfully", {
         type: "success",
       });
@@ -222,8 +224,11 @@ function EditComicPage() {
     }
   };
 
+  const updateComicEpHandler = () => {
+    trackPromise(updateComicEpHandlerAction());
+  };
   //update comic
-  const updateComicHandler = async () => {
+  const updateComicHandlerAction = async () => {
     try {
       const formData = new FormData();
       formData.append("name", data.name);
@@ -244,8 +249,9 @@ function EditComicPage() {
           console.log("deleted");
         }
       }
-      const action = await dispatch(update({ id: id, comic: formData }));
-      unwrapResult(action);
+
+      unwrapResult(await dispatch(update({ id: id, comic: formData })));
+
       toast("Comic Update Successfully", {
         type: "success",
       });
@@ -260,7 +266,7 @@ function EditComicPage() {
   };
 
   //delete Comic
-  const deleteComicHandler = async () => {
+  const deleteComicHandlerAction = async () => {
     try {
       const action = await dispatch(delComic(id));
       unwrapResult(action);
@@ -276,6 +282,14 @@ function EditComicPage() {
         type: "error",
       });
     }
+  };
+
+  const updateComicHandler = () => {
+    trackPromise(updateComicHandlerAction());
+  };
+
+  const deleteComicHandler = () => {
+    trackPromise(deleteComicHandlerAction());
   };
 
   return (

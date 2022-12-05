@@ -2,17 +2,17 @@ import axiosClient from "./axiosClient";
 
 const categoryAPI = {
   getAll: () => {
-    const url = "http://server-pmhdt/api/categories";
+    const url = "/categories";
     return axiosClient.get(url);
   },
 
   get: (id) => {
-    const url = `http://server-pmhdt/api/categories/${id}`;
+    const url = `/categories/${id}`;
     return axiosClient.get(url);
   },
 
   store: (category) => {
-    const url = `http://server-pmhdt/api/categories`;
+    const url = `/categories`;
     return axiosClient({
       url: url,
       method: "post",
@@ -21,12 +21,12 @@ const categoryAPI = {
   },
 
   delete: (id) => {
-    const url = `http://server-pmhdt/api/categories/${id}`;
+    const url = `/categories/${id}`;
     return axiosClient.delete(url);
   },
 
   update: (id, category) => {
-    const url = `http://server-pmhdt/api/categories/${id}`;
+    const url = `/categories/${id}`;
     return axiosClient({
       url: url,
       method: "put",

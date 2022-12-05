@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 import ComicTable from "../../components/tables/ComicsTable";
+import { trackPromise } from "react-promise-tracker";
 
 import classes from "../asset/css/StandardMain.module.css";
 import { NavLink } from "react-router-dom";
@@ -25,7 +26,7 @@ function ComicManagementPage() {
   };
 
   useEffect(() => {
-    fetchComicList();
+    trackPromise(fetchComicList());
   }, []);
 
   // useEffect(() => {
