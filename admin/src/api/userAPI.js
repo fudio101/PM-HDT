@@ -29,6 +29,15 @@ const userAPI = {
     });
   },
 
+  login: (info) => {
+    const url = "/auth/login";
+    return axiosClient({
+      url: url,
+      method: "post",
+      data: info,
+    });
+  },
+
   logout: () => {
     const url = `/auth/logout`;
     return axiosClient.post(url);
@@ -37,6 +46,15 @@ const userAPI = {
   me: () => {
     const url = `/auth/me`;
     return axiosClient.get(url);
+  },
+
+  changePassword: (password) => {
+    const url = "/auth/change-password";
+    return axiosClient({
+      url: url,
+      method: "post",
+      data: password,
+    });
   },
 };
 

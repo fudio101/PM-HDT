@@ -32,3 +32,19 @@ export const viewByMonth = createAsyncThunk(
     }
   }
 );
+
+export const getTotalView = createAsyncThunk(
+  "statistic/getTotalView",
+  async (limit, { rejectWithValue }) => {
+    try {
+      const res = await statisticAPI.getTotalView();
+      return res.data;
+    } catch (error) {
+      if (error.response && error.response.data.message) {
+        return rejectWithValue(error.response.data.message);
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  }
+);

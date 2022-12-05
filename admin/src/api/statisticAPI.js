@@ -10,6 +10,11 @@ const statisticAPI = {
     const url = `/get-total-views-by-months?${limit}`;
     return axiosClient.get(url);
   },
+
+  getTotalView: () => {
+    const url = "/get-total-views";
+    return axiosClient.get(url);
+  },
 };
 
 export default statisticAPI;

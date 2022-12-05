@@ -1,6 +1,11 @@
 import axiosClient from "./axiosClient";
 
 const comicEpAPI = {
+  getComicAllEp: () => {
+    const url = `/comic-episodes`;
+    return axiosClient.get(url);
+  },
+
   getComicEp: (id) => {
     const url = `/comic-episodes/${id}`;
     return axiosClient.get(url);

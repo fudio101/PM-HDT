@@ -5,11 +5,12 @@ import { useDispatch } from "react-redux";
 import {
   logout,
   updateUser,
-  getUserInfo,
+  chanegPassword,
 } from "../../../store/actions/userAction";
 import { unwrapResult } from "@reduxjs/toolkit";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
+import { trackPromise } from "react-promise-tracker";
 
 function HeaderSection() {
   const [isOpen, setIsOpen] = useState(false);
@@ -39,6 +40,7 @@ function HeaderSection() {
 
   const onUpdateHandler = async (e) => {
     e.preventDefault();
+    console.log(inputData);
     try {
       for (let [key, value] of Object.entries(inputData)) {
         if (value === null || value === "" || key === "email") {
@@ -61,6 +63,34 @@ function HeaderSection() {
         type: "error",
       });
     }
+  };
+
+  //change Password
+
+  const onChangePasswordAction = async () => {
+    try {
+      unwrapResult(
+        await dispatch(
+          chanegPassword({
+            old_password: inputData.old_password,
+            new_password: inputData.new_password,
+            new_password_confirmation: inputData.new_password_confirmation,
+          })
+        )
+      );
+      toast("Password Changed, Check Your Email!", {
+        type: "success",
+      });
+    } catch (error) {
+      toast(error, {
+        type: "error",
+      });
+    }
+  };
+
+  const onChangePassword = (e) => {
+    e.preventDefault();
+    trackPromise(onChangePasswordAction());
   };
   return (
     <>
@@ -88,6 +118,7 @@ function HeaderSection() {
           }}
           onLogout={onLogoutHandler}
           onUpdate={onUpdateHandler}
+          onChangePassword={onChangePassword}
           setInputData={setInputData}
         />
       )}

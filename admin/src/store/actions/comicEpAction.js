@@ -73,3 +73,21 @@ export const deleteComicEP = createAsyncThunk(
     }
   }
 );
+
+// get All Comic Ep
+
+export const getAllComicEP = createAsyncThunk(
+  "comic/getAllComicEP",
+  async (arg, { rejectWithValue }) => {
+    try {
+      const res = await comicEpAPI.getComicAllEp();
+      return res.data;
+    } catch (error) {
+      if (error.response && error.response.data.message) {
+        return rejectWithValue(error.response.data.message);
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  }
+);

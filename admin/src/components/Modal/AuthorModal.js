@@ -45,7 +45,12 @@ function AuthorModal(props) {
           </div>
           <div>
             <label>Author Avatar</label>
-            <input type="file" onChange={avaChangeHandler} required></input>
+            <input
+              className={classes.author__input__img}
+              type="file"
+              onChange={avaChangeHandler}
+              required
+            ></input>
           </div>
           <div>
             <label>Author Name</label>

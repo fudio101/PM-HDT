@@ -17,9 +17,16 @@ import {
 } from "recharts";
 import classes from "./asset/css/StandardMain.module.css";
 
-import { viewByMonth, topComics } from "../store/actions/statisticAction.js";
-import { useDispatch } from "react-redux";
+import {
+  viewByMonth,
+  topComics,
+  getTotalView,
+} from "../store/actions/statisticAction.js";
 
+import { getAllComic } from "../store/actions/comicAction";
+import { getAllComicEP } from "../store/actions/comicEpAction";
+
+import { useDispatch } from "react-redux";
 import { unwrapResult } from "@reduxjs/toolkit";
 
 const CustomizedLabel = (props) => {
@@ -34,71 +41,30 @@ const CustomizedLabel = (props) => {
 
 const DashBoardPage = () => {
   const dispatch = useDispatch();
-  // const data = [
-  //   {
-  //     name: "Page A",
-  //     uv: 4000,
-  //     pv: 2400,
-  //     amt: 2400,
-  //   },
-  //   {
-  //     name: "Page B",
-  //     uv: 3000,
-  //     pv: 1398,
-  //     amt: 2210,
-  //   },
-  //   {
-  //     name: "Page C",
-  //     uv: 2000,
-  //     pv: 9800,
-  //     amt: 2290,
-  //   },
-  //   {
-  //     name: "Page D",
-  //     uv: 2780,
-  //     pv: 3908,
-  //     amt: 2000,
-  //   },
-  //   {
-  //     name: "Page E",
-  //     uv: 1890,
-  //     pv: 4800,
-  //     amt: 2181,
-  //   },
-  //   {
-  //     name: "Page F",
-  //     uv: 2390,
-  //     pv: 3800,
-  //     amt: 2500,
-  //   },
-  //   {
-  //     name: "Page G",
-  //     uv: 3490,
-  //     pv: 4300,
-  //     amt: 2100,
-  //   },
-  // ];
+
   const [topComicList, setTopComicList] = React.useState();
   const [viewByTime, setViewByMonth] = React.useState();
+  const [statisticData, setStatisticData] = React.useState();
 
-  const getViewsList = () => {
-    let limit = "";
-    const start = moment().startOf("month");
-    for (let i = 0; i < 12; i++) {
-      if (i === 0) {
-        limit += `month=${start.format("YYYY-MM")}&`;
-      } else {
-        limit += `month${i}=${start.format("YYYY-MM")}&`;
-      }
-      start.subtract(1, "month");
-    }
-
-    console.log(limit);
+  const fetchStatisticData = async () => {
+    const totalView = unwrapResult(await dispatch(getTotalView())); // total view by day, month
+    const totalComic = unwrapResult(await dispatch(getAllComic()));
+    const totalEpisode = unwrapResult(await dispatch(getAllComicEP()));
+    // console.log(totalView);
+    // console.log(totalComic.length);
+    // console.log(totalEpisode.length);
+    setStatisticData({
+      viewByMonth: totalView.month,
+      viewByDay: totalView.today,
+      totalComic: totalComic,
+      totalEpisode: totalEpisode,
+    });
   };
 
   const fetchTopComicData = async () => {
     setTopComicList(unwrapResult(await dispatch(topComics())));
   };
+
   const fetchViewData = async () => {
     let limit = "";
     const start = moment().startOf("month");
@@ -111,6 +77,7 @@ const DashBoardPage = () => {
   useEffect(() => {
     fetchTopComicData();
     fetchViewData();
+    fetchStatisticData();
     // getViewsList();
     // console.log();
   }, []);
@@ -120,10 +87,10 @@ const DashBoardPage = () => {
         <p className={classes.font_weight_bold}>DASHBOARD</p>
       </div>
       <div className={classes.info_cards}>
-        <StatisticCard title={"Comic"} value={210} />
-        <StatisticCard title={"User"} value={10} />
-        <StatisticCard title={"Likes"} value={14212} />
-        <StatisticCard title={"Views"} value={14212} />
+        <StatisticCard title={"Comic"} value={statisticData?.viewByMonth} />
+        <StatisticCard title={"User"} value={statisticData?.viewByDay} />
+        <StatisticCard title={"Likes"} value={statisticData?.totalComic} />
+        <StatisticCard title={"Views"} value={statisticData?.totalEpisode} />
       </div>
       <>
         <div className={classes.charts}>

@@ -8,19 +8,21 @@ export const userLogin = createAsyncThunk(
   "user/login",
   async ({ email, password }, { rejectWithValue }) => {
     try {
-      const config = {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      };
-      const { data } = await axios.post(
-        "http://server-pmhdt/api/auth/login",
-        { email, password },
-        config
-      );
+      // const config = {
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //   },
+      // };
 
-      localStorage.setItem("userToken", data.access_token);
-      return data;
+      const res = await userAPI.login({ email, password });
+      // const { data } = await axios.post(
+      //   "http://server-pmhdt/api/auth/login",
+      //   { email, password },
+      //   config
+      // );
+
+      localStorage.setItem("userToken", res.access_token);
+      return res;
     } catch (error) {
       if (error.response && error.response.data.message) {
         return rejectWithValue(error.response.data.message);
@@ -124,6 +126,24 @@ export const getAllUsers = createAsyncThunk(
   async (arg, { rejectWithValue }) => {
     try {
       const data = await userAPI.getAll();
+      return data.data;
+    } catch (error) {
+      if (error.response && error.response.data.message) {
+        return rejectWithValue(error.response.data.message);
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  }
+);
+
+//change Password
+
+export const chanegPassword = createAsyncThunk(
+  "user/chanegPassword",
+  async (password, { rejectWithValue }) => {
+    try {
+      const data = await userAPI.changePassword(password);
       return data.data;
     } catch (error) {
       if (error.response && error.response.data.message) {
