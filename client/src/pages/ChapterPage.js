@@ -18,6 +18,7 @@ import {
 } from "../redux/selectors";
 import ReactModal from "react-modal";
 import { addReadComic } from "../redux/reducers/readComicList";
+import { useInView } from "react-intersection-observer";
 
 const customStyles = {
     overlay: {
@@ -43,7 +44,13 @@ function ChapterPage() {
     const [chapterSearchKey, setChapterSearchKey] = useState("");
     const defaultChapterList = useSelector(chapterListSelector);
     const [chapterList, setChapterList] = useState(defaultChapterList);
+    const { ref, inView } = useInView({
+        threshold: 0.7,
+        triggerOnce: true,
+        delay: 500,
+    });
     let chapterImages = useSelector(chapterImagesSelector);
+    const lastImages = parseInt((chapterImages?.length - 1) * 0.85);
     let previousChapter = useSelector(previousChapterSelector);
     let nextChapter = useSelector(nextChapterSelector);
     const dispatch = useDispatch();
@@ -102,6 +109,9 @@ function ChapterPage() {
         }
     }, [chapterSearchKey, defaultChapterList]);
 
+    console.log(inView);
+    console.log(lastImages);
+
     return (
         <div className={classes.container} id="abcd">
             <div className={classes.navbar_top}>
@@ -143,14 +153,24 @@ function ChapterPage() {
             </div>
 
             <div className={classes.comic_images_box}>
-                {chapterImages?.map((image, index) => (
-                    <img
-                        src={image}
-                        className={classes.comic_image}
-                        alt="error"
-                        key={index}
-                    ></img>
-                ))}
+                {chapterImages?.map((image, index) =>
+                    index === lastImages ? (
+                        <img
+                            src={image}
+                            className={classes.comic_image}
+                            alt="error"
+                            key={index}
+                            ref={ref}
+                        ></img>
+                    ) : (
+                        <img
+                            src={image}
+                            className={classes.comic_image}
+                            alt="error"
+                            key={index}
+                        ></img>
+                    )
+                )}
             </div>
 
             <div className={classes.navbar_bottom}>
