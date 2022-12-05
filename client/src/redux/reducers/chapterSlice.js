@@ -9,6 +9,11 @@ const chapterSlice = createSlice({
         data: {
             list_of_episode_number: [],
         },
+        viewInfor: {
+            cooldown: 0,
+            id: 0,
+        },
+        acceptedView: false,
         status: "idle",
     },
     extraReducers: (builder) => {
@@ -19,6 +24,7 @@ const chapterSlice = createSlice({
             })
             .addCase(getChapter.fulfilled, (state, action) => {
                 state.data = action.payload.data;
+                state.viewInfor = action.payload.view;
 
                 if (state.data && state.data.list_of_episode_number) {
                     let index = state.data.list_of_episode_number.indexOf(
@@ -42,6 +48,15 @@ const chapterSlice = createSlice({
                 }
 
                 state.status = "idle";
+            })
+            .addCase(acceptView.pending, (state, action) => {
+                state.acceptedView = false;
+            })
+            .addCase(acceptView.fulfilled, (state, action) => {
+                state.acceptedView = true;
+            })
+            .addCase(acceptView.rejected, (state, action) => {
+                state.acceptedView = false;
             });
     },
 });
@@ -50,6 +65,18 @@ export const getChapter = createAsyncThunk(
     "chapter/get",
     async (input, thunkApi) => {
         const res = await chapterApi.getChapter(input.comicSlug, input.chapter);
+        return res.data;
+    }
+);
+
+export const acceptView = createAsyncThunk(
+    "chapter/acceptView",
+    async (input, thunkApi) => {
+        const res = await chapterApi.acceptView(
+            input.comicSlug,
+            input.chapter,
+            input.viewId
+        );
         return res.data;
     }
 );

@@ -75,6 +75,7 @@ export const categoryComicsFilterResultSelector = createSelector(
 );
 
 export const chapterImagesSelector = (state) => state.chapter.data?.image_urls;
+export const viewInforSelector = (state) => state.chapter.viewInfor;
 export const previousChapterSelector = (state) => state.chapter.previousChapter;
 export const nextChapterSelector = (state) => state.chapter.nextChapter;
 export const chapterListSelector = (state) =>

@@ -9,16 +9,17 @@ import {
 } from "react-icons/bs";
 import { IoClose } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
-import { getChapter } from "../redux/reducers/chapterSlice";
+import { acceptView, getChapter } from "../redux/reducers/chapterSlice";
 import {
     chapterImagesSelector,
     chapterListSelector,
     nextChapterSelector,
     previousChapterSelector,
+    viewInforSelector,
 } from "../redux/selectors";
 import ReactModal from "react-modal";
 import { addReadComic } from "../redux/reducers/readComicList";
-import { useInView } from "react-intersection-observer";
+import { useScrollPercentage } from "react-scroll-percentage";
 
 const customStyles = {
     overlay: {
@@ -42,15 +43,13 @@ function ChapterPage() {
     const { comicSlug, chapter } = useParams();
     const [isOpenModal, setIsOpenModal] = useState(false);
     const [chapterSearchKey, setChapterSearchKey] = useState("");
+    const [readAccepted, setReadAccepted] = useState(false);
+    const [timeoutAccepted, setTimeoutAccepted] = useState(false);
     const defaultChapterList = useSelector(chapterListSelector);
     const [chapterList, setChapterList] = useState(defaultChapterList);
-    const { ref, inView } = useInView({
-        threshold: 0.7,
-        triggerOnce: true,
-        delay: 500,
-    });
+    const [ref, percentage] = useScrollPercentage();
     let chapterImages = useSelector(chapterImagesSelector);
-    const lastImages = parseInt((chapterImages?.length - 1) * 0.85);
+    let viewInfor = useSelector(viewInforSelector);
     let previousChapter = useSelector(previousChapterSelector);
     let nextChapter = useSelector(nextChapterSelector);
     const dispatch = useDispatch();
@@ -109,8 +108,39 @@ function ChapterPage() {
         }
     }, [chapterSearchKey, defaultChapterList]);
 
-    console.log(inView);
-    console.log(lastImages);
+    useEffect(() => {
+        if (percentage > 0.85) {
+            setReadAccepted(true);
+        }
+    }, [percentage]);
+
+    useEffect(() => {
+        if (viewInfor?.cooldown > 0) {
+            setTimeout(
+                () => setTimeoutAccepted(true),
+                viewInfor?.cooldown * 1000
+            );
+        }
+    }, [viewInfor]);
+
+    useEffect(() => {
+        if (readAccepted && timeoutAccepted) {
+            dispatch(
+                acceptView({
+                    comicSlug: comicSlug,
+                    chapter: chapter,
+                    viewId: viewInfor.id,
+                })
+            );
+        }
+    }, [
+        readAccepted,
+        timeoutAccepted,
+        dispatch,
+        comicSlug,
+        chapter,
+        viewInfor,
+    ]);
 
     return (
         <div className={classes.container} id="abcd">
@@ -152,25 +182,15 @@ function ChapterPage() {
                 </ul>
             </div>
 
-            <div className={classes.comic_images_box}>
-                {chapterImages?.map((image, index) =>
-                    index === lastImages ? (
-                        <img
-                            src={image}
-                            className={classes.comic_image}
-                            alt="error"
-                            key={index}
-                            ref={ref}
-                        ></img>
-                    ) : (
-                        <img
-                            src={image}
-                            className={classes.comic_image}
-                            alt="error"
-                            key={index}
-                        ></img>
-                    )
-                )}
+            <div className={classes.comic_images_box} ref={ref}>
+                {chapterImages?.map((image, index) => (
+                    <img
+                        src={image}
+                        className={classes.comic_image}
+                        alt="error"
+                        key={index}
+                    ></img>
+                ))}
             </div>
 
             <div className={classes.navbar_bottom}>
