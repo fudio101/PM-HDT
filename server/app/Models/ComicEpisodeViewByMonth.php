@@ -32,8 +32,8 @@ class ComicEpisodeViewByMonth extends Model
             $i_ = $i->copy()->subMonth();
 
             if ($i_->eq($now)) {
-                $time = $i_->copy();
-                $time1 = $i_->copy()->addMonth()->subMicrosecond();
+                $time = $i_->copy()->addDay();
+                $time1 = $time->copy()->addMonth()->subMicrosecond();
 
                 $data[] = [
                     "date" => $i_->format('Y-m'),
@@ -43,6 +43,11 @@ class ComicEpisodeViewByMonth extends Model
                         ->where('created_at', '<=', $time1)
                         ->get()
                         ->sum('views')
+                ];
+            } elseif ($i_->gt($now)) {
+                $data[] = [
+                    "date" => $i_->format('Y-m'),
+                    "views" => 0
                 ];
             } else {
                 $time = $i->copy();
@@ -61,5 +66,23 @@ class ComicEpisodeViewByMonth extends Model
         }
 
         return $data;
+    }
+
+    /**
+     * Get total comic views at current month
+     *
+     * @return mixed
+     */
+    public static function getTotalMonthComicViews(): mixed
+    {
+        $time = Carbon::now()->floorMonth()->addDay();
+        $time1 = $time->copy()->addMonth()->subMicrosecond();
+
+        return ComicEpisodeViewByDay::query()
+            ->select(['comic_episode_views_by_day.*'])
+            ->where('created_at', '>=', $time)
+            ->where('created_at', '<=', $time1)
+            ->get()
+            ->sum('views');
     }
 }
