@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="{{asset('css/reset.css')}}">
     <link rel="stylesheet" href="{{asset('css/app.css')}}">
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css">
+    <link rel="icon" type="image/x-icon" href="{{asset('img/favicon.ico')}}">
     <title>Reset password</title>
 </head>
 
