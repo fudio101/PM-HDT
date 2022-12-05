@@ -154,3 +154,21 @@ export const chanegPassword = createAsyncThunk(
     }
   }
 );
+
+//forgot password
+
+export const forgotPassword = createAsyncThunk(
+  "user/forgotPassword",
+  async (email, { rejectWithValue }) => {
+    try {
+      const data = await userAPI.forgotPassword(email);
+      return data.data;
+    } catch (error) {
+      if (error.response && error.response.data.message) {
+        return rejectWithValue(error.response.data.message);
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  }
+);
