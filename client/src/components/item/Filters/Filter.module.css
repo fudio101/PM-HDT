@@ -60,3 +60,17 @@ table tbody th {
     border-radius: 50px;
     background-color: #f1f7fd;
 }
+
+.submit_btn {
+    height: 38px;
+    border-radius: 8px;
+    padding: 0 10px;
+    cursor: pointer;
+    border: solid 1px #e0e0e0;
+    background-color: #428bca;
+    color: white;
+}
+
+.submit_btn:hover {
+    color: #f18121;
+}

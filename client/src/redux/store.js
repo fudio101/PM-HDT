@@ -17,6 +17,7 @@ import categoryComicsSlice from "./reducers/categoryComicsSlice";
 import chapterSlice from "./reducers/chapterSlice";
 import countriesSlice from "./reducers/countriesSlice";
 import readComicListSlice from "./reducers/readComicList";
+import comicRankingsSlice from "./reducers/comicRankingsSlice";
 
 const rootReducer = combineReducers({
     categories: categoriesSlice.reducer,
@@ -26,6 +27,7 @@ const rootReducer = combineReducers({
     categoryComics: categoryComicsSlice.reducer,
     chapter: chapterSlice.reducer,
     readComicList: readComicListSlice.reducer,
+    comicRankings: comicRankingsSlice.reducer,
 });
 
 const persistConfig = {
