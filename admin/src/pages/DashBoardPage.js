@@ -3,6 +3,8 @@ import React, { useEffect } from "react";
 import StatisticCard from "../components/layouts/statistic/StatisticCard";
 import moment from "moment";
 
+import SyncLoader from "react-spinners/SyncLoader";
+
 import {
   BarChart,
   Bar,
@@ -56,8 +58,8 @@ const DashBoardPage = () => {
     setStatisticData({
       viewByMonth: totalView.month,
       viewByDay: totalView.today,
-      totalComic: totalComic,
-      totalEpisode: totalEpisode,
+      totalComic: totalComic.length,
+      totalEpisode: totalEpisode.length,
     });
   };
 
@@ -78,19 +80,74 @@ const DashBoardPage = () => {
     fetchTopComicData();
     fetchViewData();
     fetchStatisticData();
-    // getViewsList();
-    // console.log();
   }, []);
+
   return (
     <>
       <div className={classes.main_title}>
         <p className={classes.font_weight_bold}>DASHBOARD</p>
       </div>
       <div className={classes.info_cards}>
-        <StatisticCard title={"Comic"} value={statisticData?.viewByMonth} />
-        <StatisticCard title={"User"} value={statisticData?.viewByDay} />
-        <StatisticCard title={"Likes"} value={statisticData?.totalComic} />
-        <StatisticCard title={"Views"} value={statisticData?.totalEpisode} />
+        <StatisticCard
+          title={"Comics"}
+          value={
+            statisticData?.totalComic ? (
+              statisticData.totalComic
+            ) : (
+              <SyncLoader
+                color="#46457a"
+                loading
+                size={10}
+                speedMultiplier={0.7}
+              />
+            )
+          }
+        />
+        <StatisticCard
+          title={"Episodes"}
+          value={
+            statisticData?.totalEpisode ? (
+              statisticData.totalEpisode
+            ) : (
+              <SyncLoader
+                color="#46457a"
+                loading
+                size={10}
+                speedMultiplier={0.7}
+              />
+            )
+          }
+        />
+        <StatisticCard
+          title={"Total Views Today"}
+          value={
+            statisticData?.viewByDay ? (
+              statisticData.viewByDay
+            ) : (
+              <SyncLoader
+                color="#46457a"
+                loading
+                size={10}
+                speedMultiplier={0.7}
+              />
+            )
+          }
+        />
+        <StatisticCard
+          title={"Total Views This Month"}
+          value={
+            statisticData?.viewByMonth ? (
+              statisticData.viewByMonth
+            ) : (
+              <SyncLoader
+                color="#46457a"
+                loading
+                size={10}
+                speedMultiplier={0.7}
+              />
+            )
+          }
+        />
       </div>
       <>
         <div className={classes.charts}>

@@ -185,6 +185,7 @@ function EditComicPage() {
       toast("Episode Deleted Successfully", {
         type: "success",
       });
+      navigate("/comic-manage");
     } catch (error) {
       toast(error, {
         type: "error",

@@ -4,17 +4,18 @@ import Select from "react-select";
 import { useForm } from "react-hook-form";
 
 const accountTypeOptions = [
-  { value: "Agent", label: "Agent", id: 2 },
   { value: "Admin", label: "Admin", id: 1 },
+  { value: "Agent", label: "Agent", id: 2 },
 ];
 
 function EditUser(props) {
   const { register, handleSubmit } = useForm();
 
+  // console.log("selected", props.userSelectedData);
   const accountInputHandler = (e) => {
     props.setInputData((prev) => ({
       ...prev,
-      role: e.id,
+      role_id: e.id,
     }));
   };
 
@@ -47,7 +48,7 @@ function EditUser(props) {
             </div>
             {props.isNew ? (
               <div>
-                <label>Email </label>
+                <label>Email</label>
                 <input
                   type="email"
                   {...register("email")}
@@ -55,7 +56,15 @@ function EditUser(props) {
                 ></input>
               </div>
             ) : (
-              ""
+              <div>
+                <label>Email</label>
+                <input
+                  type="email"
+                  {...register("email")}
+                  defaultValue={props.userSelectedData.email}
+                  disabled
+                ></input>
+              </div>
             )}
             <div>
               <label>Name</label>

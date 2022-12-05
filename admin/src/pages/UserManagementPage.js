@@ -22,6 +22,10 @@ function UserManagementPage() {
   const columns = React.useMemo(
     () => [
       {
+        Header: "role",
+        accessor: "role_id",
+      },
+      {
         Header: "ID",
         accessor: "id",
       },
@@ -64,6 +68,7 @@ function UserManagementPage() {
   //new
   const newUserHandler = async (e) => {
     e.preventDefault();
+
     try {
       // for (let [key, value] of Object.entries(inputData)) {
       //   console.log(`${key}: ${value}`);
