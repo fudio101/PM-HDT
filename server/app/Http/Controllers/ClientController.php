@@ -195,17 +195,18 @@ class ClientController extends Controller
         return response()->json(['data' => $data], ResponseAlias::HTTP_OK);
     }
 
-    public function getTotalMonthViews(): JsonResponse
+    public function getTotalViews(): JsonResponse
     {
-        $data = ComicEpisodeViewByMonth::getTotalMonthComicViews();
+        $month = ComicEpisodeViewByMonth::getTotalMonthComicViews();
+        $today = ComicEpisodeViewByDay::getTotalTodayComicViews();
 
-        return response()->json(['data' => $data], ResponseAlias::HTTP_OK);
+
+        return response()->json([
+            'data' => [
+                'month' => $month,
+                'today' => $today
+            ]
+        ], ResponseAlias::HTTP_OK);
     }
 
-    public function getTotalTodayViews(): JsonResponse
-    {
-        $data = ComicEpisodeViewByDay::getTotalTodayComicViews();
-
-        return response()->json(['data' => $data], ResponseAlias::HTTP_OK);
-    }
 }

@@ -57,5 +57,4 @@ Route::get('get-view-statistics-by-month', [ClientController::class, 'getViewSta
 Route::get('get-view-statistics', [ClientController::class, 'getViewStatistics']);
 Route::get('get-total-views-by-months', [ClientController::class, 'getTotalViewsByMonths']);
 Route::get('get-total-views-by-days', [ClientController::class, 'getTotalViewsByDays']);
-Route::get('get-total-month-views', [ClientController::class, 'getTotalMonthViews']);
-Route::get('get-total-today-views', [ClientController::class, 'getTotalTodayViews']);
+Route::get('get-total-views', [ClientController::class, 'getTotalViews']);
