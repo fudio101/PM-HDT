@@ -56,6 +56,15 @@ const userAPI = {
       data: password,
     });
   },
+
+  forgotPassword: (email) => {
+    const url = "/auth/forgot-password";
+    return axiosClient({
+      url: url,
+      method: "post",
+      data: email,
+    });
+  },
 };
 
 export default userAPI;

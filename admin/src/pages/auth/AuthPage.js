@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { ToastContainer, toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
-import { userLogin } from "../../store/actions/userAction";
+import { userLogin, forgotPassword } from "../../store/actions/userAction";
 import { useNavigate } from "react-router-dom";
 
 // import LoginForm from "./forms/LoginForm";
@@ -47,13 +47,26 @@ const AuthForm = () => {
   }, [error]);
 
   const submitForm = async (data) => {
-    unwrapResult(await dispatch(userLogin(data)));
+    if (isLogin) {
+      unwrapResult(await dispatch(userLogin(data)));
+    } else {
+      try {
+        unwrapResult(await dispatch(forgotPassword({ email: data.email })));
+        toast("Confirmation Email Has Sent To You", {
+          type: "success",
+        });
+      } catch (error) {
+        toast(error, {
+          type: "error",
+        });
+      }
+    }
   };
 
   return (
     <div className={classes.wrap_login} onSubmit={handleSubmit(submitForm)}>
       <section className={classes.auth}>
-        <h1>{isLogin ? "USER LOGIN" : "SIGN UP"}</h1>
+        <h1>{isLogin ? "USER LOGIN" : "FORGOT PASSWORD"}</h1>
         <form>
           {isLogin ? (
             <div>
@@ -69,23 +82,21 @@ const AuthForm = () => {
           ) : (
             <div>
               <div className={classes.control}>
-                <label htmlFor="email">Enter Email</label>
+                <label htmlFor="email">Enter Your Email</label>
                 <input type="email" {...register("email")} required />
               </div>
-              <div className={classes.control}>
+              {/* <div className={classes.control}>
                 <label htmlFor="password">Enter Username</label>
                 <input type="text" {...register("name")} required />
               </div>
               <div className={classes.control}>
                 <label htmlFor="password">Enter Password</label>
                 <input type="password" {...register("password")} required />
-              </div>
+              </div> */}
             </div>
           )}
           <div className={classes.actions}>
-            <button disabled={loading}>
-              {isLogin ? "Login" : "Create Account"}
-            </button>
+            <button disabled={loading}>{isLogin ? "Login" : "Submit"}</button>
             <button
               type="reset"
               className={classes.toggle}
