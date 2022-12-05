@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ComicEpisode;
 use App\Http\Requests\StoreComicEpisodeRequest;
 use App\Http\Requests\UpdateComicEpisodeRequest;
+use App\Models\ComicEpisode;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
+use Throwable;
 
 class ComicEpisodeController extends Controller
 {
@@ -73,11 +74,14 @@ class ComicEpisodeController extends Controller
 
             $comicEpisodeNumber = $comicEpisode->episode_number;
             foreach ($images as $index => $image) {
-                Storage::putFileAs('comics/'.$comicSlug.'/'.$comicEpisodeNumber, $image, $index.'.'.$image->extension());
+                Storage::putFileAs('comics/'.$comicSlug.'/'.$comicEpisodeNumber, $image,
+                    $index.'.'.$image->extension());
             }
 
+            $comicEpisode->append('cooldown');
+
             return \response()->json(['data' => $comicEpisode], ResponseAlias::HTTP_CREATED);
-        } catch (\Throwable $exception) {
+        } catch (Throwable $exception) {
             return \response()->json(['message' => $exception->getMessage()], ResponseAlias::HTTP_BAD_REQUEST);
         }
     }
@@ -180,6 +184,7 @@ class ComicEpisodeController extends Controller
             }
 
             if ($result) {
+                $comicEpisode->append('cooldown');
                 return \response()->json([
                     'message' => 'Successfully update',
                     'data' => $comicEpisode
@@ -188,7 +193,7 @@ class ComicEpisodeController extends Controller
             }
 
             return \response()->json(['message' => 'Fail'], ResponseAlias::HTTP_BAD_REQUEST);
-        } catch (\Throwable $exception) {
+        } catch (Throwable $exception) {
             return \response()->json(['message' => $exception->getMessage()], ResponseAlias::HTTP_BAD_REQUEST);
         }
     }
