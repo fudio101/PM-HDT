@@ -27,6 +27,7 @@ class ClientComicResource extends JsonResource
             'author' => $this->author,
             'country' => $this->country,
             'categories' => $this->categories,
+            'views' => $this->views,
         ];
     }
 }

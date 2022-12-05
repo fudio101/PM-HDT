@@ -56,10 +56,7 @@ function ComicManagementPage() {
         Header: "Author",
         accessor: "author.name",
       },
-      {
-        Header: "UserName",
-        accessor: "user_name",
-      },
+
       {
         Header: "Episodes",
         accessor: "num_of_episodes",
