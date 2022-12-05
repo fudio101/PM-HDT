@@ -18,7 +18,7 @@ return new class extends Migration {
             $table->string('slug')->unique();
             $table->date('published_date');
             $table->unsignedBigInteger('likes')->default(0);
-            $table->unsignedBigInteger('views')->default(0);
+//            $table->unsignedBigInteger('views')->default(0);
             $table->integer('status')->default(0);
             $table->foreignId('author_id')->constrained();
             $table->text('description')->nullable();

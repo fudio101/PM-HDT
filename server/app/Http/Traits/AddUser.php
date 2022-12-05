@@ -15,8 +15,8 @@ trait AddUser
             $model->user_id = Auth::user()->id;
         });
 
-        static::updating(function ($model) {
-            $model->user_id = Auth::user()->id;
-        });
+//        static::updating(function ($model) {
+//            $model->user_id = Auth::user()->id;
+//        });
     }
 }
