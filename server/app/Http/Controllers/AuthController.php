@@ -6,18 +6,25 @@ use App\Events\PasswordChanged;
 use App\Http\Requests\ChangePasswordRequest;
 use App\Http\Requests\ForgotPasswordRequest;
 use App\Http\Requests\LoginRequest;
+use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\ResetPasswordRequest;
+use App\Http\Traits\ActivationCode;
 use App\Models\User;
+use App\Models\VerifyToken;
+use App\Notifications\RegistrationVerificationEmail;
 use Exception;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Password;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 class AuthController extends Controller
 {
+    use ActivationCode;
+
     /**
      * Create a new AuthController instance.
      *
@@ -25,7 +32,62 @@ class AuthController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login', 'refresh', 'forgotPassword', 'resetPassword']]);
+        $this->middleware('auth:api',
+            ['except' => ['register', 'login', 'refresh', 'forgotPassword', 'resetPassword']]);
+    }
+
+    /**
+     * Register a User.
+     *
+     * @param  RegisterRequest  $request
+     * @return JsonResponse
+     */
+    public function register(RegisterRequest $request): JsonResponse
+    {
+        try {
+            //create user
+            $user = User::create(array_merge(
+                $request->only(['name', 'email']),
+                [
+                    'password' => bcrypt($request->input('password')),
+                    'role_id' => 3
+                ]
+            ));
+
+            //create token
+            $token = Auth::fromUser($user);
+
+            //create a new activation code
+            $activationCode = $this->generateVerificationCode();
+
+            //create a new token
+            $newToken = new VerifyToken;
+            $newToken->code = $activationCode;
+            $newToken->user_id = $user->id;
+            $newToken->save();
+
+            //email details
+            $details = [
+                'greeting' => 'Hi '.$request->input('name'),
+                'body' => 'Use this activation code for verify your email address',
+                'activation_code' => $newToken->code,
+                'thanks' => 'Thank you',
+            ];
+
+            //send email verify to user email
+            Notification::send($user, new RegistrationVerificationEmail($details));
+
+            return response()->json([
+                'message' => 'User successfully registered and activation code sent to email',
+                'user' => $user,
+                'token' => $token,
+            ], ResponseAlias::HTTP_CREATED);
+        } catch (Exception $exception) {
+            return response()->json([
+                'message' => $exception->getMessage(),
+            ], ResponseAlias::HTTP_BAD_REQUEST);
+        }
+
     }
 
     /**
@@ -36,16 +98,22 @@ class AuthController extends Controller
      */
     public function login(LoginRequest $request)
     {
-        $credentials = $request->all(['email', 'password']);
+        try {
+            $credentials = $request->all(['email', 'password']);
 
-        if (!$token = Auth::attempt($credentials)) {
+            if (!$token = Auth::attempt($credentials)) {
+                return response()->json([
+                        'message' => 'Unauthorized'
+                    ]
+                    , ResponseAlias::HTTP_UNAUTHORIZED);
+            }
+
+            return $this->respondWithToken($token);
+        } catch (Exception $exception) {
             return response()->json([
-                    'message' => 'Unauthorized'
-                ]
-                , ResponseAlias::HTTP_UNAUTHORIZED);
+                'message' => $exception->getMessage(),
+            ], ResponseAlias::HTTP_OK);
         }
-
-        return $this->respondWithToken($token);
     }
 
     /**
