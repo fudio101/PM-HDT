@@ -18,7 +18,7 @@ function RankPage() {
             <ComicRankingsFilter />
 
             {comicsFilter.map((comic) => {
-                return <HorizonComicItem comic={comic} key={comic.id} />;
+                return <HorizonComicItem comic={comic} key={comic.slug} />;
             })}
         </div>
     );
