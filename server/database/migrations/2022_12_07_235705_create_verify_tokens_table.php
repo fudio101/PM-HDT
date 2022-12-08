@@ -16,6 +16,7 @@ return new class extends Migration {
             $table->id();
             $table->foreignId('user_id')->constrained();
             $table->integer('code');
+            $table->tinyInteger('status')->default(0);
             $table->timestamps();
         });
     }

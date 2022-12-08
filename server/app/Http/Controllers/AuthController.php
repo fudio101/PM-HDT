@@ -7,6 +7,7 @@ use App\Http\Requests\ChangePasswordRequest;
 use App\Http\Requests\ForgotPasswordRequest;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
+use App\Http\Requests\RegistrationVerificationRequest;
 use App\Http\Requests\ResetPasswordRequest;
 use App\Http\Traits\ActivationCode;
 use App\Models\User;
@@ -15,6 +16,7 @@ use App\Notifications\RegistrationVerificationEmail;
 use Exception;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Notification;
@@ -69,7 +71,7 @@ class AuthController extends Controller
             //email details
             $details = [
                 'greeting' => 'Hi '.$request->input('name'),
-                'body' => 'Use this activation code for verify your email address',
+                'body' => 'Use this activation code for verify your email address (this code valid in 15 minutes)',
                 'activation_code' => $newToken->code,
                 'thanks' => 'Thank you',
             ];
@@ -78,7 +80,7 @@ class AuthController extends Controller
             Notification::send($user, new RegistrationVerificationEmail($details));
 
             return response()->json([
-                'message' => 'User successfully registered and activation code sent to email',
+                'message' => 'User successfully registered and activation code has been sent to your email',
                 'user' => $user,
                 'token' => $token,
             ], ResponseAlias::HTTP_CREATED);
@@ -87,7 +89,95 @@ class AuthController extends Controller
                 'message' => $exception->getMessage(),
             ], ResponseAlias::HTTP_BAD_REQUEST);
         }
+    }
 
+    public function verifyRegistration(RegistrationVerificationRequest $request)
+    {
+        try {
+            $user = Auth::user();
+            $findUser = User::query()->find($user->id);
+
+            if ($findUser->email_verified_at) {
+                return response()->json(['message' => 'Your account has been verified'], 200);
+            }
+
+            $inputCode = (int) $request->input('code');
+
+            $token = VerifyToken::query()->where('user_id', '=', Auth::user()->id)->orderByDesc('created_at')->first();
+            $activationCode = $token->code;
+            $expires = Carbon::make($token->created_at)->addMinutes(15);
+
+            $now = Carbon::now();
+            if ($inputCode === $activationCode) {
+                if ($now->lt($expires)) {
+                    $findUser->email_verified_at = $now;
+                    $findUser->save();
+
+                    $token->status = 1;
+                    $token->save();
+
+                    return response()->json(['message' => 'Email verified successfully'], 200);
+                }
+
+                return response()->json(['message' => 'Code expired'], 400);
+            }
+
+            return response()->json(['message' => 'Wrong activation code'], 400);
+        } catch (Exception $exception) {
+            return response()->json([
+                'message' => $exception->getMessage(),
+            ], ResponseAlias::HTTP_BAD_REQUEST);
+        }
+    }
+
+    public function resendVerifyCode()
+    {
+        try {
+            $user = Auth::user();
+            $findUser = User::query()->find($user->id);
+
+            if ($findUser->email_verified_at) {
+                return response()->json(['message' => 'Your account has been verified'], 200);
+            }
+
+            $oldToken = VerifyToken::query()->where('user_id', '=',
+                Auth::user()->id)->orderByDesc('created_at')->first();
+            $expires = Carbon::make($oldToken->created_at)->addMinutes(0);
+
+            $now = Carbon::now();
+            if ($now->lt($expires)) {
+                return response()->json(['message' => 'Please wait before trying again'], 400);
+            }
+
+            //create a new activation code
+            $activationCode = $this->generateVerificationCode();
+
+            //create a new token
+            $newToken = new VerifyToken;
+            $newToken->code = $activationCode;
+            $newToken->user_id = $user->id;
+            $newToken->save();
+
+            //email details
+            $details = [
+                'greeting' => 'Hi '.$user->name,
+                'body' => 'Use this activation code for verify your email address (this code valid in 15 minutes)',
+                'activation_code' => $newToken->code,
+                'thanks' => 'Thank you',
+            ];
+
+            //send email verify to user email
+            Notification::send($user, new RegistrationVerificationEmail($details));
+
+            return response()->json([
+                'message' => 'A new activation code has been sent to your email',
+            ], ResponseAlias::HTTP_OK);
+
+        } catch (Exception $exception) {
+            return response()->json([
+                'message' => $exception->getMessage(),
+            ], ResponseAlias::HTTP_BAD_REQUEST);
+        }
     }
 
     /**
