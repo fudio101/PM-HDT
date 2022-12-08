@@ -16,7 +16,9 @@ import "slick-carousel/slick/slick-theme.css";
 import LatestComicsPage from "./pages/LatestComicsPage";
 import CategoryComicsPage from "./pages/CategoryComicsPage";
 import { getCountryList } from "./redux/reducers/countriesSlice";
-import Login from "./pages/Login";
+import Login from "./pages/auth/Login";
+import Signup from "./pages/auth/Signup";
+import ForgotPassword from "./pages/auth/ForgotPassword";
 
 function App() {
     const dispatch = useDispatch();
@@ -51,6 +53,8 @@ function App() {
                 />
             </Route>
             <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/forgot-pasword" element={<ForgotPassword />} />
         </Routes>
     );
 }
