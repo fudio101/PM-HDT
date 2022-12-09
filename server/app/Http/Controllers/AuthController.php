@@ -82,7 +82,7 @@ class AuthController extends Controller
             return response()->json([
                 'message' => 'User successfully registered and activation code has been sent to your email',
                 'user' => $user,
-                'token' => $token,
+                'access_token' => $token,
             ], ResponseAlias::HTTP_CREATED);
         } catch (Exception $exception) {
             return response()->json([
