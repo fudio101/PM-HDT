@@ -58,7 +58,7 @@ function Signup() {
                             className="block w-full px-4 py-2 mt-2 text-indigo-600 bg-white border rounded-md focus:border-purple-400 focus:ring-purple-300 focus:outline-none focus:ring focus:ring-opacity-40"
                         />
                         {errors.name && (
-                            <p class="mt-2 text-pink-600 text-sm">
+                            <p className="mt-2 text-pink-600 text-sm">
                                 {errors.name.message}
                             </p>
                         )}
@@ -82,7 +82,7 @@ function Signup() {
                             className="block w-full px-4 py-2 mt-2 text-indigo-600 bg-white border rounded-md focus:border-purple-400 focus:ring-purple-300 focus:outline-none focus:ring focus:ring-opacity-40"
                         />
                         {errors.email && (
-                            <p class="mt-2 text-pink-600 text-sm">
+                            <p className="mt-2 text-pink-600 text-sm">
                                 {errors.email.message}
                             </p>
                         )}
@@ -107,7 +107,7 @@ function Signup() {
                             className="block w-full px-4 py-2 mt-2 text-indigo-600 bg-white border rounded-md focus:border-purple-400 focus:ring-purple-300 focus:outline-none focus:ring focus:ring-opacity-40"
                         />
                         {errors.password && (
-                            <p class="mt-2 text-pink-600 text-sm">
+                            <p className="mt-2 text-pink-600 text-sm">
                                 {errors.password.message}
                             </p>
                         )}
@@ -130,7 +130,7 @@ function Signup() {
                             className="block w-full px-4 py-2 mt-2 text-indigo-600 bg-white border rounded-md focus:border-purple-400 focus:ring-purple-300 focus:outline-none focus:ring focus:ring-opacity-40"
                         />
                         {errors.passwordConfirmation && (
-                            <p class="mt-2 text-pink-600 text-sm">
+                            <p className="mt-2 text-pink-600 text-sm">
                                 {errors.passwordConfirmation.message}
                             </p>
                         )}
@@ -146,7 +146,7 @@ function Signup() {
                     Đã có tài khoản?
                     <Link
                         to="/login"
-                        className="font-medium text-indigo-600 hover:underline"
+                        className="font-medium text-indigo-600 hover:underline ml-1"
                     >
                         Đăng Nhập
                     </Link>
