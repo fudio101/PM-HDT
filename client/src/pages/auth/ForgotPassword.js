@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import authApi from "../../api/authApi";
 
 function ForgotPassword() {
@@ -75,7 +75,6 @@ function ForgotPassword() {
                     </Link>
                 </p>
             </div>
-            <ToastContainer />
         </div>
     );
 }

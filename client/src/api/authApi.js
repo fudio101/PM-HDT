@@ -12,6 +12,11 @@ const authApi = {
         axiosClient.post("/auth/forgot-password", {
             email: email,
         }),
+    login: (email, password) =>
+        axiosClient.post("/auth/login", {
+            email: email,
+            password: password,
+        }),
 };
 
 export default authApi;

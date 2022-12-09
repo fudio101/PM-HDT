@@ -1,14 +1,44 @@
+import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 import { BsGoogle, BsFacebook } from "react-icons/bs";
+import authApi from "../../api/authApi";
 
 function Login() {
+    const {
+        register,
+        formState: { errors },
+        handleSubmit,
+        watch,
+    } = useForm({
+        defaultValues: {
+            email: "",
+            password: "",
+        },
+    });
+
+    const submitFormHandle = async () => {
+        try {
+            const response = await authApi.login(
+                watch("email"),
+                watch("password")
+            );
+            toast.success(response.data.message);
+        } catch (error) {
+            toast.error("Sai Emai hoặc Mật Khẩu");
+        }
+    };
+
     return (
         <div className="relative flex flex-col justify-center min-h-screen overflow-hidden">
             <div className="w-full p-6 m-auto bg-white rounded-md shadow-xl lg:max-w-xl">
                 <h1 className="text-3xl font-semibold text-center text-indigo-600 uppercase">
                     Đăng Nhập
                 </h1>
-                <form className="mt-6">
+                <form
+                    className="mt-6"
+                    onSubmit={handleSubmit(submitFormHandle)}
+                >
                     <div className="mb-2">
                         <label
                             htmlFor="email"
@@ -17,9 +47,21 @@ function Login() {
                             Email
                         </label>
                         <input
+                            {...register("email", {
+                                required: "Email là bắt buộc",
+                                pattern: {
+                                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                                    message: "Email không hợp lệ",
+                                },
+                            })}
                             type="email"
                             className="block w-full px-4 py-2 mt-2 text-indigo-600 bg-white border rounded-md focus:border-purple-400 focus:ring-purple-300 focus:outline-none focus:ring focus:ring-opacity-40"
                         />
+                        {errors.email && (
+                            <p className="mt-2 text-pink-600 text-sm">
+                                {errors.email.message}
+                            </p>
+                        )}
                     </div>
                     <div className="mb-2">
                         <label
@@ -29,9 +71,22 @@ function Login() {
                             Mật Khẩu
                         </label>
                         <input
+                            {...register("password", {
+                                required: "Mật Khẩu là bắt buộc",
+                                pattern: {
+                                    value: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/,
+                                    message:
+                                        "Mật khẩu phải chứa ít nhất 1 chữ số, 1 ký tự in hoa, 1 ký tự thường và dài ít nhất 8 ký tự",
+                                },
+                            })}
                             type="password"
                             className="block w-full px-4 py-2 mt-2 text-indigo-600 bg-white border rounded-md focus:border-purple-400 focus:ring-purple-300 focus:outline-none focus:ring focus:ring-opacity-40"
                         />
+                        {errors.password && (
+                            <p className="mt-2 text-pink-600 text-sm">
+                                {errors.password.message}
+                            </p>
+                        )}
                     </div>
                     <Link
                         to="/forgot-pasword"
