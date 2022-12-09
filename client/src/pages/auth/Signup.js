@@ -24,7 +24,7 @@ function Signup() {
 
     const submitFormHandle = async () => {
         try {
-            dispatch(
+            await dispatch(
                 signup({
                     name: watch("name"),
                     email: watch("email"),

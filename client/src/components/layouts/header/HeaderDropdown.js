@@ -11,17 +11,13 @@ function classNames(...classes) {
 export default function HeaderDropdown({ className, name }) {
     const dispatch = useDispatch();
 
-    const logoutHandle = () => {
-        dispatch(logout());
-    };
-
     return (
         <Menu
             as="div"
             className={`relative inline-block text-left ${className}`}
         >
             <div>
-                <Menu.Button className="inline-flex w-full justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-100">
+                <Menu.Button className="inline-flex w-full justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-bold text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-100">
                     Chào {name}
                     <ChevronDownIcon
                         className="-mr-1 ml-2 h-5 w-5"
@@ -65,7 +61,7 @@ export default function HeaderDropdown({ className, name }) {
                                             : "text-gray-700",
                                         "block px-4 py-2 text-sm w-full"
                                     )}
-                                    onClick={logoutHandle}
+                                    onClick={() => dispatch(logout())}
                                 >
                                     Đăng xuất
                                 </button>

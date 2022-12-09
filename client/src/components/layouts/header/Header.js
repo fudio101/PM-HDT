@@ -6,7 +6,7 @@ import { Link, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { userInfoSelector } from "../../../redux/selectors";
 import HeaderDropdown from "./HeaderDropdown";
-import { getUserInfo } from "../../../redux/reducers/userSlice";
+import { getUserInfo, logout } from "../../../redux/reducers/userSlice";
 
 function Header({ isVisible }) {
     const [navbar, setNavbar] = useState(false);
@@ -82,18 +82,37 @@ function Header({ isVisible }) {
                     >
                         <div className="mt-3 space-y-2 lg:hidden md:inline-block">
                             <Search className="inline-block w-full px-4 py-2" />
-                            <Link
-                                to={"/login"}
-                                className="inline-block w-full px-4 py-2 text-center text-white bg-gray-600 rounded-md shadow hover:bg-gray-800"
-                            >
-                                Sign in
-                            </Link>
-                            <Link
-                                to={"/signup"}
-                                className="inline-block w-full px-4 py-2 text-center text-gray-800 bg-white rounded-md shadow hover:bg-gray-100"
-                            >
-                                Sign up
-                            </Link>
+                            {!userInfo ? (
+                                <>
+                                    <Link
+                                        to={"/login"}
+                                        className="inline-block w-full px-4 py-2 text-center text-white bg-gray-600 rounded-md shadow hover:bg-gray-800"
+                                    >
+                                        Sign in
+                                    </Link>
+                                    <Link
+                                        to={"/signup"}
+                                        className="inline-block w-full px-4 py-2 text-center text-gray-800 bg-white rounded-md shadow hover:bg-gray-100"
+                                    >
+                                        Sign up
+                                    </Link>
+                                </>
+                            ) : (
+                                <>
+                                    <div className="inline-block w-full px-4 py-2 text-center text-white rounded-md font-bold">
+                                        Chào {userInfo.name}
+                                    </div>
+                                    <button className="inline-block w-full px-4 py-2 text-center text-white bg-gray-600 rounded-md shadow hover:bg-gray-800">
+                                        Thông tin tài khoản
+                                    </button>
+                                    <button
+                                        onClick={() => dispatch(logout())}
+                                        className="inline-block w-full px-4 py-2 text-center text-gray-800 bg-white rounded-md shadow hover:bg-gray-100"
+                                    >
+                                        Đăng xuất
+                                    </button>
+                                </>
+                            )}
                         </div>
                     </div>
                 </div>
