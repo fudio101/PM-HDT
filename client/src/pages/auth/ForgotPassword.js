@@ -35,10 +35,7 @@ function ForgotPassword() {
                     onSubmit={handleSubmit(submitFormHandle)}
                 >
                     <div className="mb-2">
-                        <label
-                            htmlFor="email"
-                            className="block text-sm font-semibold text-gray-800"
-                        >
+                        <label className="block text-sm font-semibold text-gray-800">
                             Email
                         </label>
                         <input

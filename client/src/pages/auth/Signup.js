@@ -44,10 +44,7 @@ function Signup() {
                     onSubmit={handleSubmit(submitFormHandle)}
                 >
                     <div className="mb-2">
-                        <label
-                            htmlFor="name"
-                            className="block text-sm font-semibold text-gray-800"
-                        >
+                        <label className="block text-sm font-semibold text-gray-800">
                             Tên
                         </label>
                         <input
@@ -64,10 +61,7 @@ function Signup() {
                         )}
                     </div>
                     <div className="mb-2">
-                        <label
-                            htmlFor="email"
-                            className="block text-sm font-semibold text-gray-800"
-                        >
+                        <label className="block text-sm font-semibold text-gray-800">
                             Email
                         </label>
                         <input
@@ -88,17 +82,14 @@ function Signup() {
                         )}
                     </div>
                     <div className="mb-2">
-                        <label
-                            htmlFor="password"
-                            className="block text-sm font-semibold text-gray-800"
-                        >
+                        <label className="block text-sm font-semibold text-gray-800">
                             Mật Khẩu
                         </label>
                         <input
                             {...register("password", {
                                 required: "Mật Khẩu là bắt buộc",
                                 pattern: {
-                                    value: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/,
+                                    value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,}$/,
                                     message:
                                         "Mật khẩu phải chứa ít nhất 1 chữ số, 1 ký tự in hoa, 1 ký tự thường và dài ít nhất 8 ký tự",
                                 },
@@ -113,10 +104,7 @@ function Signup() {
                         )}
                     </div>
                     <div className="mb-2">
-                        <label
-                            htmlFor="password"
-                            className="block text-sm font-semibold text-gray-800"
-                        >
+                        <label className="block text-sm font-semibold text-gray-800">
                             Xác Nhận Mật Khẩu
                         </label>
                         <input
