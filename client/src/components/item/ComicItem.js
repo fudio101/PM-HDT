@@ -6,11 +6,13 @@ function ComicItem(props) {
     return (
         <div className={classes.post_item}>
             <div className={classes.post_media}>
-                <div className={classes.top_notice}>
-                    <span className={classes.time_ago}>
-                        {props.comic.updated_time_diff}
-                    </span>
-                </div>
+                {props.comic.updated_time_diff && (
+                    <div className={classes.top_notice}>
+                        <span className={classes.time_ago}>
+                            {props.comic.updated_time_diff}
+                        </span>
+                    </div>
+                )}
                 <img
                     src={props.comic.image_url}
                     alt="something went wrong"

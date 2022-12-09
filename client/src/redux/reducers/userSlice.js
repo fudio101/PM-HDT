@@ -9,15 +9,20 @@ const userSlice = createSlice({
     name: "user",
     initialState: {
         token,
-        userInfor: null,
+        userInfo: null,
         status: "idle",
     },
-    reducers: {},
+    reducers: {
+        logout: (state, action) => {
+            state.userInfo = null;
+            state.token = null;
+            localStorage.removeItem("userToken"); // deletes token from storage
+        },
+    },
     extraReducers: (builder) => {
         builder
             .addCase(login.pending, (state, action) => {
                 state.status = "loading";
-                state.data = [];
             })
             .addCase(login.fulfilled, (state, action) => {
                 state.status = "idle";
@@ -26,13 +31,26 @@ const userSlice = createSlice({
             })
             .addCase(signup.pending, (state, action) => {
                 state.status = "loading";
-                state.data = [];
             })
             .addCase(signup.fulfilled, (state, action) => {
                 state.status = "idle";
-                state.userInfor = action.payload.user;
+                state.userInfo = action.payload.user;
                 state.token = action.payload.access_token;
                 localStorage.setItem("userToken", action.payload.access_token);
+            })
+            .addCase(getUserInfo.pending, (state, action) => {
+                state.status = "loading";
+                state.userInfo = null;
+            })
+            .addCase(getUserInfo.fulfilled, (state, action) => {
+                state.status = "idle";
+                state.userInfo = action.payload;
+            })
+            .addCase(getUserInfo.rejected, (state, action) => {
+                state.status = "idle";
+                localStorage.removeItem("userToken"); // deletes token from storage
+                state.userInfo = null;
+                state.token = null;
             });
     },
 });
@@ -58,8 +76,22 @@ export const signup = createAsyncThunk(
     }
 );
 
+export const getUserInfo = createAsyncThunk(
+    "user/info",
+    async (input, { getState }) => {
+        const { user } = getState();
+        const token = user.token;
+        const userInfo = user.userInfo;
+        if (token || userInfo) {
+            const res = await authApi.me(token);
+            return res.data;
+        }
+        return null;
+    }
+);
+
 const { actions } = userSlice;
 
-export const {} = actions;
+export const { logout } = actions;
 
 export default userSlice;

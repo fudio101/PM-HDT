@@ -38,7 +38,7 @@ function ComicIntroPage() {
                 }}
             />
             <ComicChapters chapters={comic?.episodes} comicSlug={comic?.slug} />
-            <Loading isLoading_={isLoading} />
+            <Loading isLoading={isLoading} />
         </div>
     );
 }

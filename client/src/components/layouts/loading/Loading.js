@@ -1,21 +1,11 @@
-import { useEffect, useState } from "react";
 import { Bars } from "react-loader-spinner";
-import { useSelector } from "react-redux";
-import { isLoadingSelector } from "../../../redux/selectors";
 import classes from "./Loading.module.css";
 
-function Loading({ isLoading_ }) {
-    const [isLoading, setIsLoading] = useState(true);
-    const temp = useSelector(isLoadingSelector);
-
-    useEffect(() => {
-        setIsLoading(temp);
-    }, [temp]);
-
+function Loading({ isLoading }) {
     return (
         <div
             className={`${classes.container} ${
-                isLoading || isLoading_ ? classes.active : ""
+                isLoading ? classes.active : ""
             }`}
         >
             <Bars

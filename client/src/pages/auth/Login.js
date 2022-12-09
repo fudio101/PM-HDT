@@ -22,7 +22,7 @@ function Login() {
 
     const submitFormHandle = async () => {
         try {
-            dispatch(
+            await dispatch(
                 login({
                     email: watch("email"),
                     password: watch("password"),

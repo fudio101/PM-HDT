@@ -145,3 +145,9 @@ export const isLoadingSelector = createSelector(
 
 export const readComicSelector = (comicSlug) => (state) =>
     state.readComicList.data.find((item) => item.slug === comicSlug)?.chapter;
+
+export const userInfoSelector = (state) => state.user.userInfo;
+export const isMainLoadingSelector = createSelector(
+    (state) => state.user.status,
+    (status) => status === "loading"
+);

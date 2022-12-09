@@ -18,6 +18,12 @@ const authApi = {
             email: email,
             password: password,
         }),
+    me: (token) =>
+        axiosClient.get("/auth/me", {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        }),
 };
 
 // Thêm một bộ đón chặn response
