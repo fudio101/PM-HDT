@@ -1,5 +1,7 @@
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
+import { categoryListSelector } from "../../../redux/selectors";
 
 import Categories from "./Categories";
 
@@ -7,6 +9,9 @@ import classes from "./Navigator.module.css";
 
 function Navigator(props) {
     const [visibleCate, setVisibleCate] = useState(false);
+    const categories = useSelector(categoryListSelector);
+    const firstCategory = categories ? categories[0]?.id : "";
+
     return (
         <>
             <div className={classes.navigator}>
@@ -30,7 +35,7 @@ function Navigator(props) {
                                 className={(navLink) =>
                                     navLink.isActive ? classes.active : ""
                                 }
-                                to={""}
+                                to={"/category/" + firstCategory}
                             >
                                 Danh Mục
                             </NavLink>
