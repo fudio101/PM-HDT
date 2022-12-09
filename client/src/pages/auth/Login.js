@@ -1,8 +1,9 @@
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
-import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
 import { BsGoogle, BsFacebook } from "react-icons/bs";
-import authApi from "../../api/authApi";
+import { login } from "../../redux/reducers/userSlice";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
     const {
@@ -16,17 +17,19 @@ function Login() {
             password: "",
         },
     });
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const submitFormHandle = async () => {
         try {
-            const response = await authApi.login(
-                watch("email"),
-                watch("password")
+            dispatch(
+                login({
+                    email: watch("email"),
+                    password: watch("password"),
+                })
             );
-            toast.success(response.data.message);
-        } catch (error) {
-            toast.error("Sai Emai hoặc Mật Khẩu");
-        }
+            navigate("/");
+        } catch (error) {}
     };
 
     return (

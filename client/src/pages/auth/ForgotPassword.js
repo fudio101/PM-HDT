@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
-import { toast } from "react-toastify";
 import authApi from "../../api/authApi";
+import { useNavigate } from "react-router-dom";
 
 function ForgotPassword() {
     const {
@@ -14,14 +14,13 @@ function ForgotPassword() {
             email: "",
         },
     });
+    const navigate = useNavigate();
 
     const submitFormHandle = async () => {
         try {
-            const response = await authApi.forgotPassword(watch("email"));
-            toast.success(response.data.message);
-        } catch (error) {
-            toast.error(error.response.data.message);
-        }
+            await authApi.forgotPassword(watch("email"));
+            navigate("/login");
+        } catch (error) {}
     };
 
     return (

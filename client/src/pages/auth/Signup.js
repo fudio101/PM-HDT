@@ -1,8 +1,9 @@
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
-import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import authApi from "../../api/authApi";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { signup } from "../../redux/reducers/userSlice";
 
 function Signup() {
     const {
@@ -18,19 +19,21 @@ function Signup() {
             passwordConfirmation: "",
         },
     });
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const submitFormHandle = async () => {
         try {
-            const response = await authApi.signup(
-                watch("name"),
-                watch("email"),
-                watch("password"),
-                watch("passwordConfirmation")
+            dispatch(
+                signup({
+                    name: watch("name"),
+                    email: watch("email"),
+                    password: watch("password"),
+                    passwordConfirmation: watch("passwordConfirmation"),
+                })
             );
-            toast.success(response.data.message);
-        } catch (error) {
-            toast.error(error.response.data.message);
-        }
+            navigate("/");
+        } catch (error) {}
     };
 
     return (
