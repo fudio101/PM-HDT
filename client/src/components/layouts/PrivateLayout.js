@@ -17,7 +17,7 @@ function PrivateLayout() {
     }, [dispatch, location]);
 
     useEffect(() => {
-        if (userInfo) navigate(from, { replace: true });
+        if (userInfo?.isVerified) navigate(from, { replace: true });
     }, [userInfo, navigate, from, location]);
 
     return <Outlet />;
