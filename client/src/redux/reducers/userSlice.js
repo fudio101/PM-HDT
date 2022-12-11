@@ -1,8 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import authApi from "../../api/authApi";
 
-const token = localStorage.getItem("userToken")
-    ? localStorage.getItem("userToken")
+const token = localStorage.getItem("_userToken")
+    ? localStorage.getItem("userToken_")
     : null;
 
 const userSlice = createSlice({
@@ -16,7 +16,7 @@ const userSlice = createSlice({
         logout: (state, action) => {
             state.userInfo = null;
             state.token = null;
-            localStorage.removeItem("userToken"); // deletes token from storage
+            localStorage.removeItem("userToken_"); // deletes token from storage
         },
     },
     extraReducers: (builder) => {
@@ -27,7 +27,7 @@ const userSlice = createSlice({
             .addCase(login.fulfilled, (state, action) => {
                 state.status = "idle";
                 state.token = action.payload.access_token;
-                localStorage.setItem("userToken", action.payload.access_token);
+                localStorage.setItem("userToken_", action.payload.access_token);
             })
             .addCase(signup.pending, (state, action) => {
                 state.status = "loading";
@@ -36,7 +36,7 @@ const userSlice = createSlice({
                 state.status = "idle";
                 state.userInfo = action.payload.user;
                 state.token = action.payload.access_token;
-                localStorage.setItem("userToken", action.payload.access_token);
+                localStorage.setItem("userToken_", action.payload.access_token);
             })
             .addCase(getUserInfo.pending, (state, action) => {
                 state.status = "loading";
@@ -48,7 +48,7 @@ const userSlice = createSlice({
             })
             .addCase(getUserInfo.rejected, (state, action) => {
                 state.status = "idle";
-                localStorage.removeItem("userToken"); // deletes token from storage
+                localStorage.removeItem("userToken_"); // deletes token from storage
                 state.userInfo = null;
                 state.token = null;
             });

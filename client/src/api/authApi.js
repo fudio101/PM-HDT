@@ -38,7 +38,8 @@ axiosClient.interceptors.response.use(
         if (
             error.response &&
             error.response.data &&
-            error.response.data.message
+            error.response.data.message &&
+            error.response.status !== 401
         ) {
             toast.error(error.response.data.message);
         }
