@@ -86,12 +86,14 @@ function Header({ isVisible }) {
                                 <>
                                     <Link
                                         to={"/login"}
+                                        state={{ from: location }}
                                         className="inline-block w-full px-4 py-2 text-center text-white bg-gray-600 rounded-md shadow hover:bg-gray-800"
                                     >
                                         Sign in
                                     </Link>
                                     <Link
                                         to={"/signup"}
+                                        state={{ from: location }}
                                         className="inline-block w-full px-4 py-2 text-center text-gray-800 bg-white rounded-md shadow hover:bg-gray-100"
                                     >
                                         Sign up
@@ -122,12 +124,14 @@ function Header({ isVisible }) {
                         <>
                             <Link
                                 to={"/login"}
+                                state={{ from: location }}
                                 className="px-4 py-2 text-white bg-gray-600 rounded-md shadow hover:bg-gray-800"
                             >
                                 Sign in
                             </Link>
                             <Link
                                 to={"/signup"}
+                                state={{ from: location }}
                                 className="px-4 py-2 text-gray-800 bg-white rounded-md shadow hover:bg-gray-100"
                             >
                                 Sign up

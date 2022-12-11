@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -21,6 +21,9 @@ function Signup() {
     });
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const location = useLocation();
+    // Get redirect location or provide fallback
+    const from = location.state?.from || "/";
 
     const submitFormHandle = async () => {
         try {
@@ -32,7 +35,7 @@ function Signup() {
                     passwordConfirmation: watch("passwordConfirmation"),
                 })
             );
-            navigate("/");
+            navigate(from, { replace: true });
         } catch (error) {}
     };
 

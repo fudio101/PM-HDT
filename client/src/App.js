@@ -19,6 +19,7 @@ import { getCountryList } from "./redux/reducers/countriesSlice";
 import Login from "./pages/auth/Login";
 import Signup from "./pages/auth/Signup";
 import ForgotPassword from "./pages/auth/ForgotPassword";
+import PrivateLayout from "./components/layouts/PrivateLayout";
 
 function App() {
     const dispatch = useDispatch();
@@ -52,9 +53,11 @@ function App() {
                     element={<ChapterPage />}
                 />
             </Route>
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<Signup />} />
-            <Route path="/forgot-pasword" element={<ForgotPassword />} />
+            <Route element={<PrivateLayout />}>
+                <Route path="/login" element={<Login />} />
+                <Route path="/signup" element={<Signup />} />
+                <Route path="/forgot-pasword" element={<ForgotPassword />} />
+            </Route>
         </Routes>
     );
 }

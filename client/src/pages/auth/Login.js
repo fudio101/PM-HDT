@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { BsGoogle, BsFacebook } from "react-icons/bs";
 import { login } from "../../redux/reducers/userSlice";
@@ -19,6 +19,9 @@ function Login() {
     });
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const location = useLocation();
+    // Get redirect location or provide fallback
+    const from = location.state?.from || "/";
 
     const submitFormHandle = async () => {
         try {
@@ -28,7 +31,7 @@ function Login() {
                     password: watch("password"),
                 })
             );
-            navigate("/");
+            navigate(from, { replace: true });
         } catch (error) {}
     };
 
