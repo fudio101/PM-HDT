@@ -13,6 +13,7 @@ import { acceptView, getChapter } from "../redux/reducers/chapterSlice";
 import {
     chapterImagesSelector,
     chapterListSelector,
+    isAcceptedViewSelector,
     nextChapterSelector,
     previousChapterSelector,
     viewInforSelector,
@@ -52,6 +53,7 @@ function ChapterPage() {
     let viewInfor = useSelector(viewInforSelector);
     let previousChapter = useSelector(previousChapterSelector);
     let nextChapter = useSelector(nextChapterSelector);
+    let isAcceptedView = useSelector(isAcceptedViewSelector);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -62,6 +64,16 @@ function ChapterPage() {
             })
         );
     }, [dispatch, comicSlug, chapter]);
+
+    useEffect(() => {
+        if (isAcceptedView)
+            dispatch(
+                addReadComic({
+                    slug: comicSlug,
+                    chapter: nextChapter,
+                })
+            );
+    }, [dispatch, comicSlug, isAcceptedView, nextChapter]);
 
     useEffect(() => {
         dispatch(

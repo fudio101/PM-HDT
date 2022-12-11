@@ -105,6 +105,7 @@ export const chapterListSelector = (state) =>
     state.chapter.data?.list_of_episode_number
         ? [...state.chapter.data?.list_of_episode_number].reverse()
         : [];
+export const isAcceptedViewSelector = (state) => state.chapter.acceptedView;
 
 const categoriesSliceStatusSelector = (state) => state.categories.status;
 const categoryComicsSliceStatusSelector = (state) =>
