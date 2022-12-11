@@ -20,46 +20,39 @@ import Login from "./pages/auth/Login";
 import Signup from "./pages/auth/Signup";
 import ForgotPassword from "./pages/auth/ForgotPassword";
 import PrivateLayout from "./components/layouts/PrivateLayout";
+import VerifyAccount from "./pages/auth/VerifyAccount";
 
 function App() {
-    const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
-    useEffect(() => {
-        dispatch(getCategoryList());
-        dispatch(getCountryList());
-    }, [dispatch]);
+  useEffect(() => {
+    dispatch(getCategoryList());
+    dispatch(getCountryList());
+  }, [dispatch]);
 
-    return (
-        <Routes>
-            <Route element={<Layout />}>
-                <Route path="/comic/:comicSlug" element={<ComicIntroPage />} />
-                <Route index element={<HomePage />} />
-                <Route path="/home" element={<HomePage />} />
-                <Route path="*" element={<HomePage />} />
-                <Route
-                    path="/search/:searchKey"
-                    element={<SearchComicsPage />}
-                />
-                <Route path="/cate/*" element={<SearchComicsPage />} />
-                <Route path="/categories" element={<CategoryPage />} />
-                <Route
-                    path="/category/:categoryId"
-                    element={<CategoryComicsPage />}
-                />
-                <Route path="/popular" element={<RankPage />} />
-                <Route path="/lastest" element={<LatestComicsPage />} />
-                <Route
-                    path="/chapter/:comicSlug/:chapter"
-                    element={<ChapterPage />}
-                />
-            </Route>
-            <Route element={<PrivateLayout />}>
-                <Route path="/login" element={<Login />} />
-                <Route path="/signup" element={<Signup />} />
-                <Route path="/forgot-pasword" element={<ForgotPassword />} />
-            </Route>
-        </Routes>
-    );
+  return (
+    <Routes>
+      <Route element={<Layout />}>
+        <Route path="/comic/:comicSlug" element={<ComicIntroPage />} />
+        <Route index element={<HomePage />} />
+        <Route path="/home" element={<HomePage />} />
+        <Route path="*" element={<HomePage />} />
+        <Route path="/search/:searchKey" element={<SearchComicsPage />} />
+        <Route path="/cate/*" element={<SearchComicsPage />} />
+        <Route path="/categories" element={<CategoryPage />} />
+        <Route path="/category/:categoryId" element={<CategoryComicsPage />} />
+        <Route path="/popular" element={<RankPage />} />
+        <Route path="/lastest" element={<LatestComicsPage />} />
+        <Route path="/chapter/:comicSlug/:chapter" element={<ChapterPage />} />
+      </Route>
+      <Route element={<PrivateLayout />}>
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/forgot-pasword" element={<ForgotPassword />} />
+      </Route>
+      <Route path="/verify-account" element={<VerifyAccount />} />
+    </Routes>
+  );
 }
 
 export default App;

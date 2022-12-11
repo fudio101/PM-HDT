@@ -30,15 +30,15 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 let persistor = persistStore(store);
 
 root.render(
-    <React.StrictMode>
-        <Provider store={store}>
-            <PersistGate loading={null} persistor={persistor}>
-                <BrowserRouter>
-                    <ScrollToTop />
-                    <App />
-                    <ToastContainer />
-                </BrowserRouter>
-            </PersistGate>
-        </Provider>
-    </React.StrictMode>
+  <React.StrictMode>
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <BrowserRouter>
+          <ScrollToTop />
+          <App />
+          <ToastContainer />
+        </BrowserRouter>
+      </PersistGate>
+    </Provider>
+  </React.StrictMode>
 );

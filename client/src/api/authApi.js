@@ -23,6 +23,20 @@ const authApi = {
                 Authorization: `Bearer ${localStorage.getItem("_userToken")}`,
             },
         }),
+
+    resendCode: () =>
+        axiosClient.post("/auth/resend-verify-code", {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("_userToken")}`,
+            },
+        }),
+    verify: (code) =>
+        axiosClient.post("/auth/verify-registration", {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("_userToken")}`,
+            },
+            code: code,
+        }),
 };
 
 export default authApi;

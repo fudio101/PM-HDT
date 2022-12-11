@@ -134,31 +134,26 @@ function UserManagementPage() {
         <p className={classes.font_weight_bold}>USER MANAGEMENT</p>
       </div>
 
-      <div className={classes.col_md_12}>
-        <div className={classes.tile}>
-          <div className={classes.tile_body}>
-            <div className={`${classes.row} ${classes.element_button}`}>
-              <div className={classes.col_sm_2}>
-                <Button
-                  className={classes.add_btn}
-                  onClick={() => {
-                    setRowSelected(!rowSelected);
-                    setIsNewAction(true);
-                  }}
-                >
-                  Add
-                </Button>
-              </div>
-            </div>
-            <Usertable
-              columns={columns}
-              data={users}
-              setRowSelected={setRowSelected}
-              userSelectedData={rowSelected}
-            ></Usertable>
-          </div>
+      <div className={classes.tile}>
+        <div className={`${classes.row} ${classes.element_button}`}>
+          <Button
+            className={classes.add_btn}
+            onClick={() => {
+              setRowSelected(!rowSelected);
+              setIsNewAction(true);
+            }}
+          >
+            Add
+          </Button>
         </div>
+        <Usertable
+          columns={columns}
+          data={users}
+          setRowSelected={setRowSelected}
+          userSelectedData={rowSelected}
+        ></Usertable>
       </div>
+
       {rowSelected && (
         <EditUser
           isNew={isNewAction}

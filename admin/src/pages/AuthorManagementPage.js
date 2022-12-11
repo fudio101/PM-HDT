@@ -88,16 +88,6 @@ function AuthorManagementPage() {
         type: "error",
       });
     }
-    // try {
-    //   await authorAPI.delete(rowSelected.id);
-    //   toast("Author Has Been Deleted", {
-    //     type: "success",
-    //   });
-    // } catch (error) {
-    //   toast(error.response.data.message, {
-    //     type: "error",
-    //   });
-    // }
 
     fetchAuthorList();
     closeHandler();
@@ -177,30 +167,25 @@ function AuthorManagementPage() {
         <p className={classes.font_weight_bold}>AUTHOR MANAGEMENT</p>
       </div>
 
-      <div className={classes.col_md_12}>
-        <div className={classes.tile}>
-          <div className={classes.tile_body}>
-            <div className={`${classes.row} ${classes.element_button}`}>
-              <div className={classes.col_sm_2}>
-                <Button
-                  className={classes.add_btn}
-                  onClick={() => {
-                    setRowSelected(true);
-                    setNew(true);
-                  }}
-                >
-                  Add
-                </Button>
-              </div>
-            </div>
-            <TableAuthor
-              columns={columns}
-              data={author}
-              setRowSelected={setRowSelected}
-            ></TableAuthor>
-          </div>
+      <div className={classes.tile}>
+        <div className={`${classes.row} ${classes.element_button}`}>
+          <Button
+            className={classes.add_btn}
+            onClick={() => {
+              setRowSelected(true);
+              setNew(true);
+            }}
+          >
+            Add
+          </Button>
         </div>
+        <TableAuthor
+          columns={columns}
+          data={author}
+          setRowSelected={setRowSelected}
+        ></TableAuthor>
       </div>
+
       {rowSelected && (
         <AuthorModal
           onClose={closeHandler}
