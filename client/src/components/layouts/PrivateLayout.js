@@ -18,7 +18,7 @@ function PrivateLayout() {
   }, [dispatch, location]);
 
   useEffect(() => {
-    if (location.pathname === "verify-account") {
+    if (location.pathname === "/verify-account") {
       if (userInfo?.isVerified) navigate(from, { replace: true });
       console.log(location.pathname);
     } else if (userToken) navigate(from, { replace: true });

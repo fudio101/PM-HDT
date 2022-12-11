@@ -24,27 +24,27 @@ const authApi = {
       },
     }),
 
-  resendCode: () => {
-    const url = "/auth/resend-verify-code";
-    axiosClient({
-      url: url,
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("_userToken")}`,
-      },
-      method: "post",
-    });
-    axiosClient({});
-  },
+  resendCode: () =>
+    axiosClient.post(
+      "/auth/resend-verify-code",
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("_userToken")}`,
+        },
+      }
+    ),
+
   verify: (code) => {
-    const url = "/auth/verify-registration";
-    axiosClient({
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("_userToken")}`,
-      },
-      url: url,
-      code: code,
-      method: "post",
-    });
+    axiosClient.post(
+      "/auth/verify-registration",
+      { code: code },
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("_userToken")}`,
+        },
+      }
+    );
   },
 };
 
