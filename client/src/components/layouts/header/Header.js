@@ -15,8 +15,8 @@ function Header({ isVisible }) {
     let location = useLocation();
 
     useEffect(() => {
-        if (!userInfo) dispatch(getUserInfo());
-    }, [dispatch, location, userInfo]);
+        dispatch(getUserInfo());
+    }, [dispatch, location]);
 
     return (
         <nav

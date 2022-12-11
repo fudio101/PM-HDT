@@ -18,18 +18,11 @@ const authApi = {
             password: password,
         }),
     me: () =>
-        axiosClient
-            .get("/auth/me", {
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem(
-                        "_userToken"
-                    )}`,
-                },
-            })
-            .then(() => {})
-            .catch((error) => {
-                console.log(error);
-            }),
+        axiosClient.get("/auth/me", {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("_userToken")}`,
+            },
+        }),
 };
 
 export default authApi;

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import classes from "./asset/css/ChapterPage.module.css";
 import { IconContext } from "react-icons";
 import { TiArrowLeftThick, TiArrowRightThick, TiHome } from "react-icons/ti";
@@ -16,6 +16,7 @@ import {
     isAcceptedViewSelector,
     nextChapterSelector,
     previousChapterSelector,
+    userTokenSelector,
     viewInforSelector,
 } from "../redux/selectors";
 import ReactModal from "react-modal";
@@ -49,12 +50,19 @@ function ChapterPage() {
     const defaultChapterList = useSelector(chapterListSelector);
     const [chapterList, setChapterList] = useState(defaultChapterList);
     const [ref, percentage] = useScrollPercentage();
+    const userToken = useSelector(userTokenSelector);
     let chapterImages = useSelector(chapterImagesSelector);
     let viewInfor = useSelector(viewInforSelector);
     let previousChapter = useSelector(previousChapterSelector);
     let nextChapter = useSelector(nextChapterSelector);
     let isAcceptedView = useSelector(isAcceptedViewSelector);
     const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const location = useLocation();
+
+    useEffect(() => {
+        if (!userToken) navigate("/login", { state: { from: location } });
+    }, [navigate, location, userToken]);
 
     useEffect(() => {
         setReadAccepted(false);

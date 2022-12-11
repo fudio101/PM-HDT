@@ -10,6 +10,21 @@ import ScrollToTop from "./helpers/ScrollToTop";
 import "./index.scss";
 import App from "./App";
 import store from "./redux/store";
+import axiosClient from "./api/axiosClient";
+import { logout } from "./redux/reducers/userSlice";
+
+// Thêm một bộ đón chặn response
+axiosClient.interceptors.response.use(
+    function (response) {
+        return response;
+    },
+    function (error) {
+        if (error.response && error.response.status === 401) {
+            store.dispatch(logout());
+        }
+        return Promise.reject(error);
+    }
+);
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 let persistor = persistStore(store);

@@ -35,7 +35,7 @@ function Signup() {
                     passwordConfirmation: watch("passwordConfirmation"),
                 })
             );
-            navigate(from, { replace: true });
+            setTimeout(navigate(from, { replace: true }), 1000);
         } catch (error) {}
     };
 
