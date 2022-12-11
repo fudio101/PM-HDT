@@ -80,7 +80,7 @@ class AuthController extends Controller
             Notification::send($user, new RegistrationVerificationEmail($details));
 
             return response()->json([
-                'message' => 'User successfully registered and activation code has been sent to your email',
+                'message' => 'Đăng ký tài khoản thành công, một mã kích hoạt đã được gửi tới email của bạn',
                 'user' => $user,
                 'access_token' => $token,
             ], ResponseAlias::HTTP_CREATED);
@@ -98,7 +98,7 @@ class AuthController extends Controller
             $findUser = User::query()->find($user->id);
 
             if ($findUser->email_verified_at) {
-                return response()->json(['message' => 'Your account has been verified'], 200);
+                return response()->json(['message' => 'Tài khoản của bạn đã được xác minh'], 200);
             }
 
             $inputCode = (int) $request->input('code');
@@ -116,13 +116,13 @@ class AuthController extends Controller
                     $token->status = 1;
                     $token->save();
 
-                    return response()->json(['message' => 'Email verified successfully'], 200);
+                    return response()->json(['message' => 'Tài khoản đã xác minh thành công'], 200);
                 }
 
-                return response()->json(['message' => 'Code expired'], 400);
+                return response()->json(['message' => 'Mã kích hoạt đã hết hạn'], 400);
             }
 
-            return response()->json(['message' => 'Wrong activation code'], 400);
+            return response()->json(['message' => 'Sai mã kích hoạt'], 400);
         } catch (Exception $exception) {
             return response()->json([
                 'message' => $exception->getMessage(),
@@ -133,20 +133,22 @@ class AuthController extends Controller
     public function resendVerifyCode()
     {
         try {
+            Carbon::setLocale('vi');
             $user = Auth::user();
             $findUser = User::query()->find($user->id);
 
             if ($findUser->email_verified_at) {
-                return response()->json(['message' => 'Your account has been verified'], 200);
+                return response()->json(['message' => 'Tài khoản của bạn đã được xác minh'], ResponseAlias::HTTP_OK);
             }
 
             $oldToken = VerifyToken::query()->where('user_id', '=',
                 Auth::user()->id)->orderByDesc('created_at')->first();
-            $expires = Carbon::make($oldToken->created_at)->addMinutes(0);
+            $expires = Carbon::make($oldToken->created_at)->addMinutes(5);
 
             $now = Carbon::now();
             if ($now->lt($expires)) {
-                return response()->json(['message' => 'Please wait before trying again'], 400);
+                $temp = $now->diffForHumans($expires);
+                return response()->json(['message' => "Làm ơn chờ {$temp} khi thử lại"], 400);
             }
 
             //create a new activation code
@@ -170,8 +172,8 @@ class AuthController extends Controller
             Notification::send($user, new RegistrationVerificationEmail($details));
 
             return response()->json([
-                'message' => 'A new activation code has been sent to your email',
-            ], ResponseAlias::HTTP_OK);
+                'message' => 'Một mã kích hoạt mới đã gửi tới email của bạn',
+            ], ResponseAlias::HTTP_CREATED);
 
         } catch (Exception $exception) {
             return response()->json([
