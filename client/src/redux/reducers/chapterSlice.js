@@ -20,11 +20,13 @@ const chapterSlice = createSlice({
         builder
             .addCase(getChapter.pending, (state, action) => {
                 state.status = "loading";
+                state.acceptedView = false;
                 state.data = {};
             })
             .addCase(getChapter.fulfilled, (state, action) => {
                 state.data = action.payload.data;
                 state.viewInfor = action.payload.view;
+                state.acceptedView = false;
 
                 if (state.data && state.data.list_of_episode_number) {
                     let index = state.data.list_of_episode_number.indexOf(
@@ -63,21 +65,33 @@ const chapterSlice = createSlice({
 
 export const getChapter = createAsyncThunk(
     "chapter/get",
-    async (input, thunkApi) => {
-        const res = await chapterApi.getChapter(input.comicSlug, input.chapter);
+    async (input, { getState }) => {
+        const { user } = getState();
+        const token = user.token;
+        const res = await chapterApi.getChapter(
+            token,
+            input.comicSlug,
+            input.chapter
+        );
         return res.data;
     }
 );
 
 export const acceptView = createAsyncThunk(
     "chapter/acceptView",
-    async (input, thunkApi) => {
-        const res = await chapterApi.acceptView(
-            input.comicSlug,
-            input.chapter,
-            input.viewId
-        );
-        return res.data;
+    async (input, { getState }) => {
+        const { user, chapter } = getState();
+        const acceptedView = chapter.acceptedView;
+        if (!acceptedView) {
+            const token = user.token;
+            const res = await chapterApi.acceptView(
+                token,
+                input.comicSlug,
+                input.chapter,
+                input.viewId
+            );
+            return res.data;
+        }
     }
 );
 

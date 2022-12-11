@@ -36,6 +36,7 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
 
     protected $appends = [
 //        'image_url',
+        'is_verified'
     ];
 
     /**
@@ -48,6 +49,7 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
         'deleted_at',
         'created_at',
         'updated_at',
+        'email_verified_at',
 //        'remember_token',
     ];
 
@@ -62,6 +64,11 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
                 array_shift($image)
 
         );
+    }
+
+    public function getIsVerifiedAttribute()
+    {
+        return !is_null($this->email_verified_at);
     }
 
     public function imageUrl(): Attribute

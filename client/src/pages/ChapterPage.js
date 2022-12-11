@@ -57,6 +57,11 @@ function ChapterPage() {
     const dispatch = useDispatch();
 
     useEffect(() => {
+        setReadAccepted(false);
+        setTimeoutAccepted(false);
+    }, [comicSlug, chapter]);
+
+    useEffect(() => {
         dispatch(
             addReadComic({
                 slug: comicSlug,
@@ -223,7 +228,10 @@ function ChapterPage() {
                     <BsFillArrowLeftCircleFill />
                 )}
 
-                <button className={classes.active} onClick={openModal}>
+                <button
+                    className={`${classes.active} bg-gray-200`}
+                    onClick={openModal}
+                >
                     Chương {chapter}
                 </button>
 
