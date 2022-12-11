@@ -1,6 +1,10 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import authApi from "../../api/authApi";
 
+const token = localStorage.getItem("_userToken")
+  ? localStorage.getItem("userToken_")
+  : null;
+
 const userSlice = createSlice({
   name: "user",
   initialState: {
@@ -78,13 +82,9 @@ export const getUserInfo = createAsyncThunk(
     const { user } = getState();
     const token = user.token;
     const userInfo = user.userInfo;
-    if (token) {
-      if (!userInfo) {
-        const res = await authApi.me(token);
-        return res.data;
-      }
-
-      return userInfo;
+    if (token || userInfo) {
+      const res = await authApi.me(token);
+      return res.data;
     }
     return null;
   }
