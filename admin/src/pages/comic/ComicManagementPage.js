@@ -71,23 +71,17 @@ function ComicManagementPage() {
         <p className={classes.font_weight_bold}>COMIC MANAGEMENT</p>
       </div>
 
-      <div className={classes.col_md_12}>
-        <div className={classes.tile}>
-          <div className={classes.tile_body}>
-            <div className={`${classes.row} ${classes.element_button}`}>
-              <div className={classes.col_sm_2}>
-                <NavLink to={"/new-comic"} className={classes.add_btn}>
-                  New
-                </NavLink>
-              </div>
-            </div>
-            <ComicTable
-              columns={columns}
-              data={comicList}
-              isComic={true}
-            ></ComicTable>
-          </div>
+      <div className={classes.tile}>
+        <div className={`${classes.row} ${classes.element_button}`}>
+          <NavLink to={"/new-comic"} className={classes.add_btn}>
+            New
+          </NavLink>
         </div>
+        <ComicTable
+          columns={columns}
+          data={comicList}
+          isComic={true}
+        ></ComicTable>
       </div>
     </>
   );

@@ -112,30 +112,25 @@ function CategoryManagementPage() {
         <p className={classes.font_weight_bold}>CATEGORY MANAGEMENT</p>
       </div>
 
-      <div className={classes.col_md_12}>
-        <div className={classes.tile}>
-          <div className={classes.tile_body}>
-            <div className={`${classes.row} ${classes.element_button}`}>
-              <div className={classes.col_sm_2}>
-                <Button
-                  className={classes.add_btn}
-                  onClick={() => {
-                    setRowSelected(true);
-                    setNew(true);
-                  }}
-                >
-                  Add
-                </Button>
-              </div>
-            </div>
-            <Table
-              columns={columns}
-              data={categories}
-              setRowSelected={setRowSelected}
-            ></Table>
-          </div>
+      <div className={classes.tile}>
+        <div className={`${classes.row} ${classes.element_button}`}>
+          <Button
+            className={classes.add_btn}
+            onClick={() => {
+              setRowSelected(true);
+              setNew(true);
+            }}
+          >
+            Add
+          </Button>
         </div>
+        <Table
+          columns={columns}
+          data={categories}
+          setRowSelected={setRowSelected}
+        ></Table>
       </div>
+
       {rowSelected && (
         <CategoryModal
           onClose={closeHandler}

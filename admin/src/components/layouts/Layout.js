@@ -12,10 +12,10 @@ import { Outlet } from "react-router-dom";
 function Layout() {
   const { promiseInProgress } = usePromiseTracker();
   return (
-    <div className={classes.grid_container}>
-      <HeaderSection />
+    <section className="flex gap-1 h-screen">
       <VerticalBar />
-      <div className={classes.main_container}>
+      {/* <HeaderSection /> */}
+      <div className="md:overflow-x-hidden m-3  w-full overflow-auto">
         <div
           className={`${promiseInProgress ? classes.spinner__active : ""} ${
             classes.spinner__wrapper
@@ -27,7 +27,7 @@ function Layout() {
         </div>
         <Outlet />
       </div>
-    </div>
+    </section>
   );
 }
 

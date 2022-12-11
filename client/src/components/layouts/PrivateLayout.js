@@ -5,22 +5,24 @@ import { getUserInfo } from "../../redux/reducers/userSlice";
 import { userInfoSelector } from "../../redux/selectors";
 
 function PrivateLayout() {
-    const userInfo = useSelector(userInfoSelector);
-    const dispatch = useDispatch();
-    let location = useLocation();
-    const navigate = useNavigate();
-    // Get redirect location or provide fallback
-    const from = location.state?.from || "/";
+  const userInfo = useSelector(userInfoSelector);
+  const dispatch = useDispatch();
+  let location = useLocation();
+  const navigate = useNavigate();
+  // Get redirect location or provide fallback
+  const from = location.state?.from || "/";
 
-    useEffect(() => {
-        dispatch(getUserInfo());
-    }, [dispatch, location]);
+  //   console.log("private", location);
 
-    useEffect(() => {
-        if (userInfo) navigate(from, { replace: true });
-    }, [userInfo, navigate, from, location]);
+  useEffect(() => {
+    dispatch(getUserInfo());
+  }, [dispatch, location]);
 
-    return <Outlet />;
+  useEffect(() => {
+    if (userInfo) navigate(from, { replace: true });
+  }, [userInfo, navigate, from, location]);
+
+  return <Outlet />;
 }
 
 export default PrivateLayout;

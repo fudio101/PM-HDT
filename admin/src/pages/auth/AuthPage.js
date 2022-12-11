@@ -66,7 +66,9 @@ const AuthForm = () => {
   return (
     <div className={classes.wrap_login} onSubmit={handleSubmit(submitForm)}>
       <section className={classes.auth}>
-        <h1>{isLogin ? "USER LOGIN" : "FORGOT PASSWORD"}</h1>
+        <h1 class="font-bold text-2xl text-blue-900">
+          {isLogin ? "USER LOGIN" : "FORGOT PASSWORD"}
+        </h1>
         <form>
           {isLogin ? (
             <div>
