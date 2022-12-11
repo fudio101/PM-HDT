@@ -17,6 +17,16 @@ use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 class ClientController extends Controller
 {
     /**
+     * Instantiate a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth:api', ['only' => ['showEpisodeImages', 'acceptEpisodeView']]);
+    }
+
+    /**
      * Show all comics in a category
      *
      * @param  Category  $category
