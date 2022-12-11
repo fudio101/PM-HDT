@@ -31,6 +31,7 @@ function Login() {
                     password: watch("password"),
                 })
             );
+
             navigate(from, { replace: true });
         } catch (error) {}
     };
