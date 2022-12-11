@@ -24,19 +24,28 @@ const authApi = {
       },
     }),
 
-  resendCode: () =>
-    axiosClient.post("/auth/resend-verify-code", {
+  resendCode: () => {
+    const url = "/auth/resend-verify-code";
+    axiosClient({
+      url: url,
       headers: {
         Authorization: `Bearer ${localStorage.getItem("_userToken")}`,
       },
-    }),
-  verify: (code) =>
-    axiosClient.post("/auth/verify-registration", {
+      method: "post",
+    });
+    axiosClient({});
+  },
+  verify: (code) => {
+    const url = "/auth/verify-registration";
+    axiosClient({
       headers: {
         Authorization: `Bearer ${localStorage.getItem("_userToken")}`,
       },
+      url: url,
       code: code,
-    }),
+      method: "post",
+    });
+  },
 };
 
 export default authApi;

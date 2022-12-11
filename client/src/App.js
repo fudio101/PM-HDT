@@ -49,8 +49,8 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/forgot-pasword" element={<ForgotPassword />} />
+        <Route path="/verify-account" element={<VerifyAccount />} />
       </Route>
-      <Route path="/verify-account" element={<VerifyAccount />} />
     </Routes>
   );
 }
