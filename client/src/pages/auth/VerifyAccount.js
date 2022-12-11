@@ -62,7 +62,7 @@ function VerifyAccount() {
           </div>
         </form>
 
-        <p className="mt-8 text-xs font-semibold text-center text-gray-700">
+        <div className="mt-8 text-xs font-semibold text-center text-gray-700">
           Chưa Nhận Được Email
           <div
             className="inline text-sm font-semibold text-indigo-600 hover:underline ml-1 cursor-pointer hover:text-indigo-400"
@@ -70,7 +70,7 @@ function VerifyAccount() {
           >
             Gửi Lại
           </div>
-        </p>
+        </div>
       </div>
     </div>
   );

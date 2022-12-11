@@ -24,6 +24,11 @@ const authApi = {
         Authorization: `Bearer ${token}`,
       },
     }),
+  resendCode: () => axiosClient.post("/auth/resend-verify-code"),
+  verify: (code) =>
+    axiosClient.post("/auth/verify-registration", {
+      code: code,
+    }),
 };
 
 // Thêm một bộ đón chặn response
