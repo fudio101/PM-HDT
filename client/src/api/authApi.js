@@ -1,5 +1,4 @@
 import axiosClient from "./axiosClient";
-import { toast } from "react-toastify";
 
 const authApi = {
   signup: (name, email, password, passwordConfirmation) =>
@@ -18,37 +17,26 @@ const authApi = {
       email: email,
       password: password,
     }),
-  me: (token) =>
+  me: () =>
     axiosClient.get("/auth/me", {
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${localStorage.getItem("_userToken")}`,
       },
     }),
-  resendCode: () => axiosClient.post("/auth/resend-verify-code"),
+
+  resendCode: () =>
+    axiosClient.post("/auth/resend-verify-code", {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("_userToken")}`,
+      },
+    }),
   verify: (code) =>
     axiosClient.post("/auth/verify-registration", {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("_userToken")}`,
+      },
       code: code,
     }),
 };
-
-// Thêm một bộ đón chặn response
-axiosClient.interceptors.response.use(
-  function (response) {
-    if (response.data && response.data.message) {
-      toast.success(response.data.message);
-    }
-    return response;
-  },
-  function (error) {
-    if (
-      error.response &&
-      error.response.data &&
-      error.response.data.message &&
-      error.response.status !== 401
-    ) {
-      toast.error(error.response.data.message);
-    }
-  }
-);
 
 export default authApi;
