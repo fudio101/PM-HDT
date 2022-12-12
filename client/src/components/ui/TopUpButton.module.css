@@ -1,13 +1,13 @@
 .top_up {
-    font-size: 3rem;
-    cursor: pointer;
-    position: fixed;
-    z-index: 9999;
-    color: #0084ff;
-    bottom: 52px;
-    right: 15px;
+  font-size: 3rem;
+  cursor: pointer;
+  position: fixed;
+  z-index: 9999;
+  color: #0084ff;
+  bottom: 52px;
+  right: 15px;
 }
 
 .top_up:hover {
-    color: #05549e;
+  color: #05549e;
 }
