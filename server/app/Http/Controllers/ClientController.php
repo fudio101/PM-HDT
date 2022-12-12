@@ -10,8 +10,11 @@ use App\Models\Comic;
 use App\Models\ComicEpisodeView;
 use App\Models\ComicEpisodeViewByDay;
 use App\Models\ComicEpisodeViewByMonth;
+use App\Models\User;
+use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 class ClientController extends Controller
@@ -23,7 +26,7 @@ class ClientController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:api', ['only' => ['showEpisodeImages', 'acceptEpisodeView']]);
+        $this->middleware('auth:api', ['only' => ['showEpisodeImages', 'acceptEpisodeView', 'changeUserName']]);
     }
 
     /**
@@ -217,6 +220,27 @@ class ClientController extends Controller
                 'today' => $today
             ]
         ], ResponseAlias::HTTP_OK);
+    }
+
+    public function changeUserName(Request $request)
+    {
+        try {
+            $request->validate([
+                'name' => 'required|string|min:3|max:50'
+            ]);
+
+            $user = User::query()->find(Auth::user()->id);
+
+            $user->name = $request->input('name');
+            $user->save();
+
+            return response()->json([
+                'message' => 'Đổi tên thành công',
+                'user' => $user
+            ], ResponseAlias::HTTP_OK);
+        } catch (Exception $e) {
+            return response()->json(['message' => $e->getMessage()], ResponseAlias::HTTP_BAD_REQUEST);
+        }
     }
 
 }
