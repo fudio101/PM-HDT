@@ -2,8 +2,12 @@ import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import authApi from "../../api/authApi";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { ImSpinner } from "react-icons/im";
+import { useState } from "react";
 
 function ForgotPassword() {
+    const [loading, setLoading] = useState(false);
     const {
         register,
         formState: { errors },
@@ -17,10 +21,25 @@ function ForgotPassword() {
     const navigate = useNavigate();
 
     const submitFormHandle = async () => {
-        try {
-            await authApi.forgotPassword(watch("email"));
-            navigate("/login");
-        } catch (error) {}
+        if (!loading) {
+            setLoading(true);
+
+            try {
+                const result = await authApi.forgotPassword(watch("email"));
+
+                toast.success(result.data.message);
+
+                navigate("/login");
+            } catch (error) {
+                if (error.response && error.response.data.message) {
+                    toast.warning(error.response.data.message);
+                } else {
+                    toast.warning(error.message);
+                }
+            }
+
+            setLoading(false);
+        }
     };
 
     return (
@@ -56,6 +75,9 @@ function ForgotPassword() {
                     </div>
                     <div className="mt-6">
                         <button className="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-indigo-600 rounded-md hover:bg-indigo-500 focus:outline-none focus:bg-purple-600">
+                            {loading && (
+                                <ImSpinner className="animate-spin inline-block mr-2 text-base" />
+                            )}
                             Tìm Kiếm
                         </button>
                     </div>
