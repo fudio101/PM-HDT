@@ -1,9 +1,10 @@
 import { useForm } from "react-hook-form";
 import { Link, useLocation } from "react-router-dom";
-import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { signup } from "../../redux/reducers/userSlice";
+import { toast } from "react-toastify";
+import { unwrapResult } from "@reduxjs/toolkit";
 
 function Signup() {
     const {
@@ -27,16 +28,23 @@ function Signup() {
 
     const submitFormHandle = async () => {
         try {
-            await dispatch(
-                signup({
-                    name: watch("name"),
-                    email: watch("email"),
-                    password: watch("password"),
-                    passwordConfirmation: watch("passwordConfirmation"),
-                })
+            const result = unwrapResult(
+                await dispatch(
+                    signup({
+                        name: watch("name"),
+                        email: watch("email"),
+                        password: watch("password"),
+                        passwordConfirmation: watch("passwordConfirmation"),
+                    })
+                )
             );
+
+            toast.success(result.data.message);
+
             navigate(from, { replace: true });
-        } catch (error) {}
+        } catch (error) {
+            toast.warning(error);
+        }
     };
 
     return (

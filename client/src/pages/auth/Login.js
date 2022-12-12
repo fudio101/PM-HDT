@@ -4,6 +4,8 @@ import { useDispatch } from "react-redux";
 import { BsGoogle, BsFacebook } from "react-icons/bs";
 import { login } from "../../redux/reducers/userSlice";
 import { useNavigate } from "react-router-dom";
+import { unwrapResult } from "@reduxjs/toolkit";
+import { toast } from "react-toastify";
 
 function Login() {
     const {
@@ -25,15 +27,19 @@ function Login() {
 
     const submitFormHandle = async () => {
         try {
-            await dispatch(
-                login({
-                    email: watch("email"),
-                    password: watch("password"),
-                })
+            unwrapResult(
+                await dispatch(
+                    login({
+                        email: watch("email"),
+                        password: watch("password"),
+                    })
+                )
             );
 
             navigate(from, { replace: true });
-        } catch (error) {}
+        } catch (error) {
+            toast.warning("Sai email hoặc mật khẩu");
+        }
     };
 
     return (
