@@ -83,9 +83,25 @@ export const getUserInfo = createAsyncThunk(
 
 export const changePassword = createAsyncThunk(
   "user/changePassword",
-  async (input, { getState }) => {
-    const res = await authApi.changePassword(input);
-    return res.data;
+  async (input, { rejectWithValue }) => {
+    try {
+      const res = await authApi.changePassword(input);
+      return res;
+    } catch (error) {
+      if (error.response && error.response.data.message) {
+        return rejectWithValue(error.response.data.message);
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  }
+);
+
+export const changeUserInfo = createAsyncThunk(
+  "user/changeUserInfo",
+  async (name, { getState }) => {
+    const res = await authApi.changeUserInfo(name);
+    return res.user;
   }
 );
 
