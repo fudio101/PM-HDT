@@ -7,7 +7,7 @@ import {
     changeUserInfo,
     getUserInfo,
 } from "../../redux/reducers/userSlice";
-import { userInfoSelector } from "../../redux/selectors";
+import { userSliceInfoSelector } from "../../redux/selectors";
 
 import { ToastContainer, toast } from "react-toastify";
 import { useSelector } from "react-redux";
@@ -15,7 +15,7 @@ import { useSelector } from "react-redux";
 function UserInfoPopUp({ onClose, setVisiblePopUp, isVisiblePopUp }) {
     const [isChangePassword, setChangePassword] = useState(false);
     const dispatch = useDispatch();
-    const userInfo = useSelector(userInfoSelector);
+    const userInfo = useSelector(userSliceInfoSelector);
     const {
         register,
         formState: { errors },

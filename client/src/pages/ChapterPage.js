@@ -16,7 +16,9 @@ import {
     isAcceptedViewSelector,
     nextChapterSelector,
     previousChapterSelector,
-    userTokenSelector,
+    userSliceInfoSelector,
+    userSliceStatusSelector,
+    userSliceTokenSelector,
     viewInforSelector,
 } from "../redux/selectors";
 import ReactModal from "react-modal";
@@ -50,7 +52,9 @@ function ChapterPage() {
     const defaultChapterList = useSelector(chapterListSelector);
     const [chapterList, setChapterList] = useState(defaultChapterList);
     const [ref, percentage] = useScrollPercentage();
-    const userToken = useSelector(userTokenSelector);
+    const userToken = useSelector(userSliceTokenSelector);
+    const userInfo = useSelector(userSliceInfoSelector);
+    const userSliceStatus = useSelector(userSliceStatusSelector);
     let chapterImages = useSelector(chapterImagesSelector);
     let viewInfor = useSelector(viewInforSelector);
     let previousChapter = useSelector(previousChapterSelector);
@@ -63,6 +67,12 @@ function ChapterPage() {
     useEffect(() => {
         if (!userToken) navigate("/login", { state: { from: location } });
     }, [navigate, location, userToken]);
+
+    useEffect(() => {
+        if (userSliceStatus === "idle" && !userInfo?.is_verified)
+            navigate("/verify-account", { state: { from: location } });
+        console.log(userSliceStatus === "idle" && !userInfo?.is_verified);
+    }, [navigate, location, userInfo, userSliceStatus]);
 
     useEffect(() => {
         setReadAccepted(false);

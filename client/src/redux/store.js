@@ -35,7 +35,7 @@ const rootReducer = combineReducers({
 const persistConfig = {
     key: "comicClient",
     storage,
-    whitelist: ["readComicList"],
+    whitelist: ["readComicList", "user"],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
