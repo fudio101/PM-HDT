@@ -26,6 +26,9 @@ function App() {
   const getCurrUserInfo = async () => {
     if (location.pathname !== "/login") {
       const info = unwrapResult(await dispatch(getUserInfo()));
+      if (info.role_id === 3) {
+        localStorage.clear();
+      }
       if (!localStorage.getItem("email")) {
         for (let [key, value] of Object.entries(info)) {
           localStorage.setItem(key, value);

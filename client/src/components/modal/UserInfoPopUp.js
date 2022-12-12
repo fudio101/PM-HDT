@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
+import { userInfoSelector } from "../../redux/selectors";
 
 function UserInfoPopUp(props) {
   const [isChangePassword, setChangePassword] = useState(true);

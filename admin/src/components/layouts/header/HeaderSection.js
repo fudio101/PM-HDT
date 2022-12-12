@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux";
 import {
   logout,
   updateUser,
-  chanegPassword,
+  changePassword,
 } from "../../../store/actions/userAction";
 import { unwrapResult } from "@reduxjs/toolkit";
 import { useNavigate } from "react-router-dom";
@@ -71,7 +71,7 @@ function HeaderSection() {
     try {
       unwrapResult(
         await dispatch(
-          chanegPassword({
+          changePassword({
             old_password: inputData.old_password,
             new_password: inputData.new_password,
             new_password_confirmation: inputData.new_password_confirmation,

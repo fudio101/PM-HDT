@@ -12,7 +12,7 @@ import { FiUsers } from "react-icons/fi";
 import {
   logout,
   updateUser,
-  chanegPassword,
+  changePassword,
 } from "../../../store/actions/userAction";
 import { useDispatch } from "react-redux";
 import { unwrapResult } from "@reduxjs/toolkit";
@@ -109,7 +109,7 @@ function VerticalBar() {
     try {
       unwrapResult(
         await dispatch(
-          chanegPassword({
+          changePassword({
             old_password: inputData.old_password,
             new_password: inputData.new_password,
             new_password_confirmation: inputData.new_password_confirmation,
