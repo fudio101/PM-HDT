@@ -16,7 +16,7 @@ return new class extends Migration {
             $table->id();
             $table->string('name');
             $table->unsignedFloat('price');
-            $table->unsignedInteger('duration')->comment('By seconds');
+            $table->unsignedInteger('duration')->comment('By dáy');
             $table->text('description');
             $table->timestamps();
         });
