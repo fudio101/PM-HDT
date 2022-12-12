@@ -67,6 +67,11 @@ class ClientController extends Controller
      */
     public function showEpisodeImages(Comic $comic, $episode_number): JsonResponse
     {
+        if (is_null(Auth::user()->email_verified_at)) {
+            return response()->json(['message' => 'Bạn phải xác thực email để có thể đọc truyện'],
+                ResponseAlias::HTTP_METHOD_NOT_ALLOWED);
+        }
+
         $comicEpisode = $comic->getEpisode($episode_number);
 
         if ($comicEpisode) {
