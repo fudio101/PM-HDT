@@ -3,11 +3,15 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { changePassword, changeUserInfo } from "../../redux/reducers/userSlice";
+import { userInfoSelector } from "../../redux/selectors";
+
 import { ToastContainer, toast } from "react-toastify";
+import { useSelector } from "react-redux";
 
 function UserInfoPopUp({ onClose, setVisiblePopUp, isVisiblePopUp }) {
   const [isChangePassword, setChangePassword] = useState(false);
   const dispatch = useDispatch();
+  const userInfo = useSelector(userInfoSelector);
   const {
     register,
     formState: { errors },
@@ -100,6 +104,7 @@ function UserInfoPopUp({ onClose, setVisiblePopUp, isVisiblePopUp }) {
                     </label>
                     <input
                       disabled
+                      value={userInfo?.email}
                       type="email"
                       name="email"
                       className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
