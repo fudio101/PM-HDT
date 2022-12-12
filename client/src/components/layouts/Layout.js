@@ -15,9 +15,10 @@ import {
   isLoadingSelector,
   isMainLoadingSelector,
   userInfoSelector,
+  userTokenSelector,
 } from "../../redux/selectors";
 
-function Layout(props) {
+function Layout() {
   const scroll = useRef(null);
   const { ref, inView } = useInView({
     threshold: 1,
@@ -27,6 +28,7 @@ function Layout(props) {
   const isLoading_ = useSelector(isLoadingSelector);
   const isMainLoading_ = useSelector(isMainLoadingSelector);
   const userInfo = useSelector(userInfoSelector);
+  const userToken = useSelector(userTokenSelector);
 
   useEffect(() => {
     setIsLoading(isLoading_);
@@ -39,7 +41,7 @@ function Layout(props) {
   return (
     <Fragment>
       <div className={`${classes.top_section} ${isMainLoading && "hidden"}`}>
-        <VerifyAlert isVisible={userInfo?.is_verified} />
+        <VerifyAlert isVisible={userToken && !userInfo?.is_verified} />
         <Header isVisible={inView} />
         <Navigator
           onClick={() => {

@@ -46,6 +46,18 @@ const authApi = {
       }
     );
   },
+
+  ChangePassword: (input) => {
+    axiosClient.post(
+      "/auth/change-password",
+      { input },
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("_userToken")}`,
+        },
+      }
+    );
+  },
 };
 
 export default authApi;

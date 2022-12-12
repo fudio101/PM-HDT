@@ -1,9 +1,9 @@
 import React from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 function VerifyAlert(props) {
   return (
-    <div className={`py-1 bg-orange-400 ${props.isVisible ? "hidden" : ""}`}>
+    <div className={`py-1 bg-orange-400 ${props.isVisible ? "" : "hidden"}`}>
       <div
         className={`text-xs opacity-90 flex flex-row justify-center items-center font-semibold text-gray-800 `}
       >

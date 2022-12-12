@@ -81,6 +81,14 @@ export const getUserInfo = createAsyncThunk(
   }
 );
 
+export const changePassword = createAsyncThunk(
+  "user/changePassword",
+  async (input, { getState }) => {
+    const res = await authApi.changePassword(input);
+    return res.data;
+  }
+);
+
 const { actions } = userSlice;
 
 export const { logout } = actions;
