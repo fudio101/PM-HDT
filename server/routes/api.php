@@ -7,6 +7,7 @@ use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ComicController;
 use App\Http\Controllers\ComicEpisodeController;
 use App\Http\Controllers\CountryController;
+use App\Http\Controllers\SubscriptionPackageController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -45,6 +46,7 @@ Route::apiResource('categories', CategoryController::class);
 Route::apiResource('comics', ComicController::class);
 Route::apiResource('countries', CountryController::class);
 Route::apiResource('comic-episodes', ComicEpisodeController::class);
+Route::apiResource('subscription-packages', SubscriptionPackageController::class);
 
 Route::get('comics/categories/{category}', [ClientController::class, 'showCategory']);
 //Route::get('comic-episodes/images/{comicEpisode}', [ComicEpisodeController::class, 'getImages']);
