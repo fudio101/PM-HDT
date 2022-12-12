@@ -15,9 +15,10 @@ return new class extends Migration {
         Schema::create('subscription_packages', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->unsignedFloat('price');
+            $table->unsignedDouble('price');
             $table->unsignedInteger('duration')->comment('By dáy');
             $table->text('description');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
