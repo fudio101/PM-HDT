@@ -1,7 +1,7 @@
 import { unwrapResult } from "@reduxjs/toolkit";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
     changePassword,
     changeUserInfo,
@@ -9,10 +9,12 @@ import {
 } from "../../redux/reducers/userSlice";
 
 import { ToastContainer, toast } from "react-toastify";
+import { userSliceInfoSelector } from "../../redux/selectors";
 
 function UserInfoPopUp({ onClose, setVisiblePopUp, isVisiblePopUp }) {
     const [isChangePassword, setChangePassword] = useState(false);
     const dispatch = useDispatch();
+    const userInfo = useSelector(userSliceInfoSelector);
     const {
         register,
         formState: { errors },
