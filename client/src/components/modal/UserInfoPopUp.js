@@ -7,15 +7,12 @@ import {
     changeUserInfo,
     getUserInfo,
 } from "../../redux/reducers/userSlice";
-import { userSliceInfoSelector } from "../../redux/selectors";
 
 import { ToastContainer, toast } from "react-toastify";
-import { useSelector } from "react-redux";
 
 function UserInfoPopUp({ onClose, setVisiblePopUp, isVisiblePopUp }) {
     const [isChangePassword, setChangePassword] = useState(false);
     const dispatch = useDispatch();
-    const userInfo = useSelector(userSliceInfoSelector);
     const {
         register,
         formState: { errors },
@@ -24,7 +21,7 @@ function UserInfoPopUp({ onClose, setVisiblePopUp, isVisiblePopUp }) {
         resetField,
     } = useForm({
         defaultValues: {
-            name: userInfo.name,
+            name: "",
             old_password: "",
             new_password: "",
             new_password_confirmation: "",
@@ -137,7 +134,7 @@ function UserInfoPopUp({ onClose, setVisiblePopUp, isVisiblePopUp }) {
                                     {!isChangePassword ? (
                                         <div>
                                             <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                                                Tên
+                                                Tên Mới
                                             </label>
                                             <input
                                                 {...register("name")}
