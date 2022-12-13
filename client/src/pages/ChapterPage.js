@@ -64,15 +64,22 @@ function ChapterPage() {
     const navigate = useNavigate();
     const location = useLocation();
 
+    // check login
     useEffect(() => {
         if (!userToken) navigate("/login", { state: { from: location } });
     }, [navigate, location, userToken]);
 
+    // check verify
     useEffect(() => {
-        if (userSliceStatus === "idle" && !userInfo?.is_verified)
+        if (
+            userToken &&
+            userSliceStatus === "idle" &&
+            userInfo &&
+            !userInfo.is_verified
+        )
             navigate("/verify-account", { state: { from: location } });
         console.log(userSliceStatus === "idle" && !userInfo?.is_verified);
-    }, [navigate, location, userInfo, userSliceStatus]);
+    }, [navigate, location, userInfo, userSliceStatus, userToken]);
 
     useEffect(() => {
         setReadAccepted(false);
