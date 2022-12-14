@@ -8,6 +8,7 @@ import { FaFeatherAlt } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 import { HiMenuAlt3, HiMenu } from "react-icons/hi";
 import { FiUsers } from "react-icons/fi";
+import { MdSubscriptions } from "react-icons/md";
 
 import {
   logout,
@@ -27,6 +28,11 @@ const menus = [
   { name: "Categories", link: "/category-manage", icon: BiCategoryAlt },
   { name: "Users", link: "/user-manage", icon: FiUsers },
   { name: "Authors", link: "/author-manage", icon: FaFeatherAlt },
+  {
+    name: "Packages ",
+    link: "/packages-manage",
+    icon: MdSubscriptions,
+  },
 ];
 
 function VerticalBar() {

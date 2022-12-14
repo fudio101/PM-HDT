@@ -43,12 +43,15 @@ function UserInfoPopUp({ onClose, setVisiblePopUp, isVisiblePopUp }) {
 
         setTimeout(() => {
           setVisiblePopUp(false);
-        }, 3000);
+        }, 2000);
       } else {
         unwrapResult(await dispatch(changeUserInfo({ name: watch("name") })));
         toast("Tên Người Dùng Đã Được Thay Đổi", {
           type: "success",
         });
+        setTimeout(() => {
+          setVisiblePopUp(false);
+        }, 2000);
       }
 
       // navigate(from, { replace: true });
@@ -118,6 +121,7 @@ function UserInfoPopUp({ onClose, setVisiblePopUp, isVisiblePopUp }) {
                       </label>
                       <input
                         {...register("name")}
+                        placeholder={userInfo?.name}
                         type="text"
                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                         required

@@ -28,12 +28,19 @@ const AuthForm = () => {
 
   useEffect(() => {
     if (userToken) {
-      toast("Welcome Back!", {
-        type: "success",
-      });
-      setTimeout(() => {
-        navigate("/dashboard");
-      }, 3000);
+      const { role_id } = jwt_decode(userToken);
+      if (role_id !== 3) {
+        toast("Welcome Back!", {
+          type: "success",
+        });
+        setTimeout(() => {
+          navigate("/dashboard");
+        }, 3000);
+      } else {
+        toast("Your Account Does Not Have This Permission!!!", {
+          type: "error",
+        });
+      }
     }
     // navigate("/dashboard");
   }, [userToken, navigate]);
