@@ -21,6 +21,7 @@ import Signup from "./pages/auth/Signup";
 import ForgotPassword from "./pages/auth/ForgotPassword";
 import PrivateLayout from "./components/layouts/PrivateLayout";
 import VerifyAccount from "./pages/auth/VerifyAccount";
+import SubscriptionPage from "./pages/SubscriptionPage";
 
 function App() {
     const dispatch = useDispatch();
@@ -53,6 +54,7 @@ function App() {
                     path="/chapter/:comicSlug/:chapter"
                     element={<ChapterPage />}
                 />
+                <Route path="/subscription" element={<SubscriptionPage />} />
             </Route>
             <Route element={<PrivateLayout />}>
                 <Route path="/login" element={<Login />} />

@@ -56,7 +56,9 @@ function Layout() {
             <div ref={ref} />
 
             {/* all content show here */}
-            <div className={classes.main}>
+            <div
+                className={`w-full mx-auto sm:w-11/12 flex justify-center ${classes.main}`}
+            >
                 <Outlet />
                 <TopUpButton />
                 <Loading isLoading={isLoading} />
