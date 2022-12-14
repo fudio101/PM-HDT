@@ -12,12 +12,15 @@ import EditComicPage from "./pages/comic/EditComicPage";
 import AuthPage from "./pages/auth/AuthPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import AuthorManagementPage from "./pages/AuthorManagementPage";
+import PackageManagementPage from "./pages/package/PackageManagementPage";
+import PackageEditPage from "./pages/package/PackageEditPage";
 import { getUserInfo } from "./store/actions/userAction";
 import { useDispatch } from "react-redux";
 import { unwrapResult } from "@reduxjs/toolkit";
 import { useLocation } from "react-router-dom";
 
 import "react-toastify/ReactToastify.min.css";
+import NewPackagePage from "./pages/package/NewPackagePage";
 
 function App() {
   const dispatch = useDispatch();
@@ -26,6 +29,9 @@ function App() {
   const getCurrUserInfo = async () => {
     if (location.pathname !== "/login") {
       const info = unwrapResult(await dispatch(getUserInfo()));
+      if (info.role_id === 3) {
+        localStorage.clear();
+      }
       if (!localStorage.getItem("email")) {
         for (let [key, value] of Object.entries(info)) {
           localStorage.setItem(key, value);
@@ -48,6 +54,9 @@ function App() {
         <Route path="/edit-comic/:id" element={<EditComicPage />} />
         <Route path="/new-chapter/:id" element={<NewChapterPage />} />
         <Route path="/author-manage" element={<AuthorManagementPage />} />
+        <Route path="/packages-manage" element={<PackageManagementPage />} />
+        <Route path="/new-packages" element={<NewPackagePage />} />
+        <Route path="/edit-packages/:id" element={<PackageEditPage />} />
       </Route>
       <Route path="/login" element={<AuthPage />} />
       <Route path="/" element={<AuthPage />} />

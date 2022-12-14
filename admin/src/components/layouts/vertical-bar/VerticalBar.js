@@ -8,11 +8,12 @@ import { FaFeatherAlt } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 import { HiMenuAlt3, HiMenu } from "react-icons/hi";
 import { FiUsers } from "react-icons/fi";
+import { MdSubscriptions } from "react-icons/md";
 
 import {
   logout,
   updateUser,
-  chanegPassword,
+  changePassword,
 } from "../../../store/actions/userAction";
 import { useDispatch } from "react-redux";
 import { unwrapResult } from "@reduxjs/toolkit";
@@ -27,6 +28,11 @@ const menus = [
   { name: "Categories", link: "/category-manage", icon: BiCategoryAlt },
   { name: "Users", link: "/user-manage", icon: FiUsers },
   { name: "Authors", link: "/author-manage", icon: FaFeatherAlt },
+  {
+    name: "Packages ",
+    link: "/packages-manage",
+    icon: MdSubscriptions,
+  },
 ];
 
 function VerticalBar() {
@@ -109,7 +115,7 @@ function VerticalBar() {
     try {
       unwrapResult(
         await dispatch(
-          chanegPassword({
+          changePassword({
             old_password: inputData.old_password,
             new_password: inputData.new_password,
             new_password_confirmation: inputData.new_password_confirmation,

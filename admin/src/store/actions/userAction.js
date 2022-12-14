@@ -139,8 +139,8 @@ export const getAllUsers = createAsyncThunk(
 
 //change Password
 
-export const chanegPassword = createAsyncThunk(
-  "user/chanegPassword",
+export const changePassword = createAsyncThunk(
+  "user/changePassword",
   async (password, { rejectWithValue }) => {
     try {
       const data = await userAPI.changePassword(password);

@@ -12,7 +12,7 @@ import { Outlet } from "react-router-dom";
 function Layout() {
   const { promiseInProgress } = usePromiseTracker();
   return (
-    <section className="flex gap-1 h-screen">
+    <section className="flex  h-screen">
       <VerticalBar />
       {/* <HeaderSection /> */}
       <div className="md:overflow-x-hidden m-3  w-full overflow-auto">

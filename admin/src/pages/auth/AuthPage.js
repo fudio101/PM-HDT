@@ -4,6 +4,7 @@ import { ToastContainer, toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { userLogin, forgotPassword } from "../../store/actions/userAction";
 import { useNavigate } from "react-router-dom";
+import jwt_decode from "jwt-decode";
 
 // import LoginForm from "./forms/LoginForm";
 // import SignUpForm from "./forms/SignUpForm";
@@ -12,9 +13,7 @@ import { useNavigate } from "react-router-dom";
 import classes from "./AuthForm.module.css";
 import { unwrapResult } from "@reduxjs/toolkit";
 const AuthForm = () => {
-  const { loading, error, userToken, userInfo } = useSelector(
-    (state) => state.user
-  );
+  const { loading, userToken } = useSelector((state) => state.user);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -29,44 +28,50 @@ const AuthForm = () => {
 
   useEffect(() => {
     if (userToken) {
-      toast("Welcome Back!", {
-        type: "success",
-      });
-
-      setTimeout(() => {
-        navigate("/dashboard");
-      }, 3000);
+      const { role_id } = jwt_decode(userToken);
+      if (role_id !== 3) {
+        toast("Welcome Back!", {
+          type: "success",
+        });
+        setTimeout(() => {
+          navigate("/dashboard");
+        }, 3000);
+      } else {
+        toast("Your Account Does Not Have This Permission!!!", {
+          type: "error",
+        });
+      }
     }
     // navigate("/dashboard");
   }, [userToken, navigate]);
 
-  useEffect(() => {
-    toast(error, {
-      type: "error",
-    });
-  }, [error]);
+  // useEffect(() => {
+  //   toast(error, {
+  //     type: "error",
+  //   });
+  // }, [error]);
 
   const submitForm = async (data) => {
-    if (isLogin) {
-      unwrapResult(await dispatch(userLogin(data)));
-    } else {
-      try {
+    try {
+      if (isLogin) {
+        unwrapResult(await dispatch(userLogin(data)));
+      } else {
         unwrapResult(await dispatch(forgotPassword({ email: data.email })));
         toast("Confirmation Email Has Sent To You", {
           type: "success",
         });
-      } catch (error) {
-        toast(error, {
-          type: "error",
-        });
       }
+    } catch (error) {
+      toast(error, {
+        type: "error",
+      });
     }
   };
 
   return (
     <div className={classes.wrap_login} onSubmit={handleSubmit(submitForm)}>
       <section className={classes.auth}>
-        <h1 class="font-bold text-2xl text-blue-900">
+        <h1 className="font-bold text-2xl text-blue-900">
           {isLogin ? "USER LOGIN" : "FORGOT PASSWORD"}
         </h1>
         <form>
