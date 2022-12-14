@@ -7,9 +7,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { userSliceInfoSelector } from "../../../redux/selectors";
 import HeaderDropdown from "./HeaderDropdown";
 import { getUserInfo, logout } from "../../../redux/reducers/userSlice";
+import UserInfoPopUp from "../../modal/UserInfoPopUp";
 
 function Header({ isVisible }) {
     const [navbar, setNavbar] = useState(false);
+    const [isVisiblePopUp, setVisiblePopUp] = useState(false);
     const userInfo = useSelector(userSliceInfoSelector);
     const dispatch = useDispatch();
     let location = useLocation();
@@ -18,13 +20,21 @@ function Header({ isVisible }) {
         dispatch(getUserInfo());
     }, [dispatch, location]);
 
+    React.useEffect(() => {
+        if (isVisiblePopUp) {
+            document.body.style.overflow = "hidden";
+        } else {
+            document.body.style.overflow = "unset";
+        }
+    }, [isVisiblePopUp]);
+
     return (
         <nav
             className={`w-full bg-indigo-400 shadow ${
                 isVisible ? "block" : "hidden"
             }`}
         >
-            <div className="justify-between px-4 mx-auto lg:max-w-7xl md:items-center md:flex md:px-8">
+            <div className="justify-between px-2 mx-auto lg:max-w-7xl md:items-center md:flex md:px-8">
                 <div>
                     <div className="flex items-center justify-between md:block">
                         <Link to={"/"}>
@@ -104,7 +114,18 @@ function Header({ isVisible }) {
                                     <div className="inline-block w-full px-4 py-2 text-center text-white rounded-md font-bold">
                                         Chào {userInfo.name}
                                     </div>
+                                    <div className="inline-block w-full px-4 py-2 pt-0 text-center text-white rounded-md font-bold">
+                                        Thời hạn còn lại: 6 ngày
+                                    </div>
                                     <button className="inline-block w-full px-4 py-2 text-center text-white bg-gray-600 rounded-md shadow hover:bg-gray-800">
+                                        Đăng ký gói
+                                    </button>
+                                    <button
+                                        onClick={() => {
+                                            setVisiblePopUp(!isVisiblePopUp);
+                                        }}
+                                        className="inline-block w-full px-4 py-2 text-center text-white bg-gray-600 rounded-md shadow hover:bg-gray-800"
+                                    >
                                         Thông tin tài khoản
                                     </button>
                                     <button
@@ -119,7 +140,7 @@ function Header({ isVisible }) {
                     </div>
                 </div>
                 <div className="hidden space-x-2 md:inline-block">
-                    <Search className="px-4 py-2 inline-block" />
+                    <Search className="px-2 py-2 inline-block" />
                     {!userInfo ? (
                         <>
                             <Link
@@ -139,12 +160,16 @@ function Header({ isVisible }) {
                         </>
                     ) : (
                         <HeaderDropdown
-                            className="px-4 py-2 inline-block"
+                            className="px-2 py-2 inline-block"
                             name={userInfo.name}
                         />
                     )}
                 </div>
             </div>
+            <UserInfoPopUp
+                isVisiblePopUp={isVisiblePopUp}
+                setVisiblePopUp={setVisiblePopUp}
+            />
         </nav>
     );
 }
