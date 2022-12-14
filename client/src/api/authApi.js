@@ -47,16 +47,20 @@ const authApi = {
     );
   },
 
-  ChangePassword: (input) => {
-    axiosClient.post(
-      "/auth/change-password",
-      { input },
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("_userToken")}`,
-        },
-      }
-    );
+  changePassword: (input) => {
+    return axiosClient.post("/auth/change-password", input, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("_userToken")}`,
+      },
+    });
+  },
+
+  changeUserInfo: (name) => {
+    return axiosClient.put("/change-user-name", name, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("_userToken")}`,
+      },
+    });
   },
 };
 

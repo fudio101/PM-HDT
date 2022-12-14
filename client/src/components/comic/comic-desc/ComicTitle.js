@@ -87,8 +87,8 @@ function ComicTitle({ info }) {
                 </ul>
             </div>
 
-            <div className={classes.desc_section}>
-                <h3> Giới thiệu</h3>
+            <div className={`classes.desc_section`}>
+                <h3 className="mb-2 font-bold">Giới thiệu:</h3>
                 <p className={classes.desc_detail}>{info?.description}</p>
             </div>
         </>

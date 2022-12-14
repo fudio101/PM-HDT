@@ -7,7 +7,7 @@ import classes from "./ComicDesc.module.css";
 function ComicChapters({ chapters, comicSlug }) {
     return (
         <div className={classes.chapter_table}>
-            <h3>Danh sách tập</h3>
+            <h3 className="mb-2 font-bold">Danh sách tập:</h3>
 
             <div className={classes.sticky_table}>
                 <table>

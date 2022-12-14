@@ -8,6 +8,7 @@ import { ToastContainer } from "react-toastify";
 
 import ScrollToTop from "./helpers/ScrollToTop";
 import "./index.scss";
+import "react-toastify/dist/ReactToastify.css";
 import App from "./App";
 import store from "./redux/store";
 import axiosClient from "./api/axiosClient";
@@ -30,15 +31,15 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 let persistor = persistStore(store);
 
 root.render(
-  <React.StrictMode>
-    <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <BrowserRouter>
-          <ScrollToTop />
-          <App />
-          <ToastContainer />
-        </BrowserRouter>
-      </PersistGate>
-    </Provider>
-  </React.StrictMode>
+    <React.StrictMode>
+        <Provider store={store}>
+            <PersistGate loading={null} persistor={persistor}>
+                <BrowserRouter>
+                    <ScrollToTop />
+                    <App />
+                    <ToastContainer />
+                </BrowserRouter>
+            </PersistGate>
+        </Provider>
+    </React.StrictMode>
 );

@@ -81,9 +81,10 @@ export default function HeaderDropdown({ className, name }) {
 
       <UserInfoPopUp
         isVisiblePopUp={isVisiblePopUp}
-        onClose={() => {
-          setVisiblePopUp(!isVisiblePopUp);
-        }}
+        // onClose={() => {
+        //   setVisiblePopUp(!isVisiblePopUp);
+        // }}
+        setVisiblePopUp={setVisiblePopUp}
       />
     </>
   );
