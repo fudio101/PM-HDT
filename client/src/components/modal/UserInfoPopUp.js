@@ -1,24 +1,29 @@
 import { unwrapResult } from "@reduxjs/toolkit";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useDispatch } from "react-redux";
-import { changePassword, changeUserInfo } from "../../redux/reducers/userSlice";
-import { userInfoSelector } from "../../redux/selectors";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  changePassword,
+  changeUserInfo,
+  getUserInfo,
+} from "../../redux/reducers/userSlice";
 
 import { ToastContainer, toast } from "react-toastify";
-import { useSelector } from "react-redux";
+import { userSliceInfoSelector } from "../../redux/selectors";
 
 function UserInfoPopUp({ onClose, setVisiblePopUp, isVisiblePopUp }) {
   const [isChangePassword, setChangePassword] = useState(false);
   const dispatch = useDispatch();
-  const userInfo = useSelector(userInfoSelector);
+  const userInfo = useSelector(userSliceInfoSelector);
   const {
     register,
     formState: { errors },
     handleSubmit,
     watch,
+    resetField,
   } = useForm({
     defaultValues: {
+      name: "",
       old_password: "",
       new_password: "",
       new_password_confirmation: "",
@@ -41,17 +46,21 @@ function UserInfoPopUp({ onClose, setVisiblePopUp, isVisiblePopUp }) {
           type: "success",
         });
 
-        setTimeout(() => {
-          setVisiblePopUp(false);
-        }, 2000);
+        setVisiblePopUp(false);
+        resetField("old_password");
+        resetField("new_password");
+        resetField("new_password_confirmation");
       } else {
         unwrapResult(await dispatch(changeUserInfo({ name: watch("name") })));
+
+        await dispatch(getUserInfo());
+
         toast("Tên Người Dùng Đã Được Thay Đổi", {
           type: "success",
         });
-        setTimeout(() => {
-          setVisiblePopUp(false);
-        }, 2000);
+
+        setVisiblePopUp(false);
+        resetField("name");
       }
 
       // navigate(from, { replace: true });
@@ -78,6 +87,10 @@ function UserInfoPopUp({ onClose, setVisiblePopUp, isVisiblePopUp }) {
               <button
                 onClick={() => {
                   setVisiblePopUp(false);
+                  resetField("name");
+                  resetField("old_password");
+                  resetField("new_password");
+                  resetField("new_password_confirmation");
                 }}
                 type="button"
                 className="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white"
@@ -117,18 +130,17 @@ function UserInfoPopUp({ onClose, setVisiblePopUp, isVisiblePopUp }) {
                   {!isChangePassword ? (
                     <div>
                       <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                        Tên
+                        Tên Mới
                       </label>
                       <input
                         {...register("name")}
-                        placeholder={userInfo?.name}
                         type="text"
                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                         required
                       />
                     </div>
                   ) : (
-                    <div>
+                    <>
                       <div>
                         <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                           Mật Khẩu Cũ
@@ -201,7 +213,7 @@ function UserInfoPopUp({ onClose, setVisiblePopUp, isVisiblePopUp }) {
                           </p>
                         )}
                       </div>
-                    </div>
+                    </>
                   )}
 
                   <div className="flex justify-between">

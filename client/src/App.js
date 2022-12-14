@@ -13,7 +13,6 @@ import { getCategoryList } from "./redux/reducers/categoriesSlice";
 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import "react-toastify/dist/ReactToastify.css";
 import LatestComicsPage from "./pages/LatestComicsPage";
 import CategoryComicsPage from "./pages/CategoryComicsPage";
 import { getCountryList } from "./redux/reducers/countriesSlice";

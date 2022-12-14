@@ -4,13 +4,13 @@ import classes from "./Header.module.css";
 import logo from "../logo.png";
 import { Link, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { userInfoSelector } from "../../../redux/selectors";
+import { userSliceInfoSelector } from "../../../redux/selectors";
 import HeaderDropdown from "./HeaderDropdown";
 import { getUserInfo, logout } from "../../../redux/reducers/userSlice";
 
 function Header({ isVisible }) {
     const [navbar, setNavbar] = useState(false);
-    const userInfo = useSelector(userInfoSelector);
+    const userInfo = useSelector(userSliceInfoSelector);
     const dispatch = useDispatch();
     let location = useLocation();
 
