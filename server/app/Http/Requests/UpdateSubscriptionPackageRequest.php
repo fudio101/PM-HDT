@@ -24,10 +24,11 @@ class UpdateSubscriptionPackageRequest extends FormRequest
     public function rules()
     {
         return [
-//            'name' => 'string|min:3|max:50',
-//            'price' => 'numeric|gt:0',
-//            'duration' => 'integer|gt:0',
-//            'description' => 'string'
+            'name' => 'string|min:3|max:50',
+            'price' => 'numeric|gt:0',
+            'duration' => 'integer|gt:0',
+            'description' => 'string',
+            'image' => 'image'
         ];
     }
 }
