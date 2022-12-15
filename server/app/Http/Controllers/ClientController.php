@@ -5,15 +5,18 @@ namespace App\Http\Controllers;
 use App\Http\Resources\ClientComicInforResource;
 use App\Http\Resources\ClientComicResource;
 use App\Http\Resources\ClientEpidoseImagesResource;
+use App\Models\Bill;
 use App\Models\Category;
 use App\Models\Comic;
 use App\Models\ComicEpisodeView;
 use App\Models\ComicEpisodeViewByDay;
 use App\Models\ComicEpisodeViewByMonth;
+use App\Models\SubscriptionPackage;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
@@ -26,7 +29,8 @@ class ClientController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:api', ['only' => ['showEpisodeImages', 'acceptEpisodeView', 'changeUserName']]);
+        $this->middleware('auth:api',
+            ['only' => ['showEpisodeImages', 'acceptEpisodeView', 'changeUserName', 'buySubscriptionPackage']]);
     }
 
     /**
@@ -248,4 +252,33 @@ class ClientController extends Controller
         }
     }
 
+    /**
+     * @param  SubscriptionPackage  $subscriptionPackage
+     * @return JsonResponse
+     */
+    public function buySubscriptionPackage(SubscriptionPackage $subscriptionPackage)
+    {
+        try {
+            $user = Auth::user();
+            $duration = $subscriptionPackage->duration;
+
+            Bill::query()->create([
+                'user_id' => $user->id,
+                'subscription_package_id' => $subscriptionPackage->getKey(),
+                'subscription_package_price' => $subscriptionPackage->price,
+                'subscription_package_duration' => $duration
+            ]);
+
+            $registrationExpiresOn = $user->registration_expires_on ? Carbon::make($user->registration_expires_on) : Carbon::now();
+
+            $registrationExpiresOn->addDays($duration);
+
+            User::query()->find($user->id)->update(['registration_expires_on' => $registrationExpiresOn]);
+
+            return response()->json(['message' => "Đăng ký gói thành công"], ResponseAlias::HTTP_OK);
+
+        } catch (Exception $exception) {
+            return response()->json(['message' => $exception->getMessage()], ResponseAlias::HTTP_BAD_REQUEST);
+        }
+    }
 }

@@ -60,6 +60,7 @@ Route::get('search', [ClientController::class, 'search']);
 Route::get('get-just-updated-comics', [ClientController::class, 'getJustUpdatedComics']);
 Route::get('get-comics-by-category/{category}', [ClientController::class, 'getComicsByCategory']);
 Route::put('change-user-name', [ClientController::class, 'changeUserName']);
+Route::post('buy-subscription-package/{subscriptionPackage}', [ClientController::class, 'buySubscriptionPackage']);
 
 Route::get('get-view-statistics-by-day', [ClientController::class, 'getViewStatisticsByDay']);
 Route::get('get-view-statistics-by-month', [ClientController::class, 'getViewStatisticsByMonth']);
