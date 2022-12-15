@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AuthorController;
+use App\Http\Controllers\BillController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ComicController;
@@ -47,6 +48,8 @@ Route::apiResource('comics', ComicController::class);
 Route::apiResource('countries', CountryController::class);
 Route::apiResource('comic-episodes', ComicEpisodeController::class);
 Route::apiResource('subscription-packages', SubscriptionPackageController::class);
+Route::get('bills', [BillController::class, "index"]);
+Route::get('bills/{bill}', [BillController::class, "show"]);
 
 Route::get('comics/categories/{category}', [ClientController::class, 'showCategory']);
 //Route::get('comic-episodes/images/{comicEpisode}', [ComicEpisodeController::class, 'getImages']);
