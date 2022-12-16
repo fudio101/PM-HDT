@@ -71,12 +71,30 @@ class ClientController extends Controller
      */
     public function showEpisodeImages(Comic $comic, $episode_number): JsonResponse
     {
-        if (is_null(Auth::user()->email_verified_at)) {
-            return response()->json(['message' => 'Bạn phải xác thực email để có thể đọc truyện'],
-                ResponseAlias::HTTP_METHOD_NOT_ALLOWED);
-        }
+        $user = User::query()->find(Auth::user()->id);
+        $roleId = $user->getAttribute('role_id');
 
         $comicEpisode = $comic->getEpisode($episode_number);
+
+        if ($roleId !== 1 && $roleId !== 2) {
+            if (is_null($user->getAttribute('email_verified_at'))) {
+                return response()->json(['message' => "Bạn phải xác thực email để có thể đọc truyện"],
+                    ResponseAlias::HTTP_METHOD_NOT_ALLOWED);
+            }
+
+            $episode = $comic->episodes->slice(2, 1)->first();
+            if ($episode) {
+                $episodeNum = $episode->episode_number;
+                if ($episode_number > $episodeNum) {
+                    $registrationExpiresOn = $user->getAttribute('registration_expires_on');
+                    if (is_null($registrationExpiresOn) || Carbon::now()->gt(Carbon::make($registrationExpiresOn)->addDay())) {
+                        return response()->json(['message' => "Bạn cần mua gói thành viên để tiếp tục đọc tập này"],
+                            ResponseAlias::HTTP_PAYMENT_REQUIRED);
+                    }
+                }
+            }
+        }
+
 
         if ($comicEpisode) {
             $comicEpisodeViewId = ComicEpisodeView::createViewLog($comicEpisode);
@@ -103,7 +121,29 @@ class ClientController extends Controller
             'view_id' => 'required|exists:comic_episode_views,id',
         ]);
 
+        $user = User::query()->find(Auth::user()->id);
+        $roleId = $user->getAttribute('role_id');
+
         $comicEpisode = $comic->getEpisode($episode_number);
+
+        if ($roleId !== 1 && $roleId !== 2) {
+            if (is_null($user->getAttribute('email_verified_at'))) {
+                return response()->json(['message' => "Bạn phải xác thực email để thực hiện hành động này"],
+                    ResponseAlias::HTTP_METHOD_NOT_ALLOWED);
+            }
+
+            $episode = $comic->episodes->slice(2, 1)->first();
+            if ($episode) {
+                $episodeNum = $episode->episode_number;
+                if ($episode_number > $episodeNum) {
+                    $registrationExpiresOn = $user->getAttribute('registration_expires_on');
+                    if (is_null($registrationExpiresOn) || Carbon::now()->gt(Carbon::make($registrationExpiresOn)->addDay())) {
+                        return response()->json(['message' => "Bạn cần mua gói thành viên thực hiện hành động này"],
+                            ResponseAlias::HTTP_PAYMENT_REQUIRED);
+                    }
+                }
+            }
+        }
 
         if (ComicEpisodeView::accepotViewLog($comicEpisode, $validate["view_id"])) {
             return response()->json(['message' => "Accept view successfully",], ResponseAlias::HTTP_OK);
@@ -270,7 +310,13 @@ class ClientController extends Controller
                 'subscription_package_duration_text' => $subscriptionPackage->getAttribute("duration_text"),
             ]);
 
-            $registrationExpiresOn = $user->registration_expires_on ? Carbon::make($user->registration_expires_on) : Carbon::now();
+            $registrationExpiresOn = $user->registration_expires_on ?
+                (
+                Carbon::now()->gt(Carbon::make($user->registration_expires_on)->addDay()) ?
+                    Carbon::now() :
+                    Carbon::make($user->registration_expires_on)
+                ) :
+                Carbon::now();
 
             $registrationExpiresOn->addDays($duration);
 

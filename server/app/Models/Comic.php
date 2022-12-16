@@ -204,7 +204,7 @@ class Comic extends Model
      */
     public function episodes()
     {
-        return $this->hasMany(ComicEpisode::class, 'comic_id', 'id');
+        return $this->hasMany(ComicEpisode::class, 'comic_id', 'id')->orderBy('episode_number');
     }
 
     function categories()
