@@ -8,7 +8,7 @@ import {
     getUserInfo,
 } from "../../redux/reducers/userSlice";
 
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import { userSliceInfoSelector } from "../../redux/selectors";
 
 function UserInfoPopUp({ setVisiblePopUp, isVisiblePopUp }) {
@@ -269,7 +269,6 @@ function UserInfoPopUp({ setVisiblePopUp, isVisiblePopUp }) {
                     </div>
                 </div>
             </div>
-            <ToastContainer position="top-right" newestOnTop />
         </>
     );
 }
