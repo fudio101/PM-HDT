@@ -117,9 +117,12 @@ function Header({ isVisible }) {
                                     <div className="inline-block w-full px-4 py-2 pt-0 text-center text-white rounded-md font-bold">
                                         Thời hạn còn lại: 6 ngày
                                     </div>
-                                    <button className="inline-block w-full px-4 py-2 text-center text-white bg-gray-600 rounded-md shadow hover:bg-gray-800">
+                                    <Link
+                                        className="inline-block w-full px-4 py-2 text-center text-white bg-gray-600 rounded-md shadow hover:bg-gray-800 text-center"
+                                        to={"/subscription"}
+                                    >
                                         Đăng ký gói
-                                    </button>
+                                    </Link>
                                     <button
                                         onClick={() => {
                                             setVisiblePopUp(!isVisiblePopUp);

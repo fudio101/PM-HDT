@@ -5,6 +5,7 @@ import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import { useDispatch } from "react-redux";
 import { logout } from "../../../redux/reducers/userSlice";
 import UserInfoPopUp from "../../modal/UserInfoPopUp";
+import { Link } from "react-router-dom";
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
@@ -53,7 +54,7 @@ export default function HeaderDropdown({ className, name }) {
                                 {() => (
                                     <div
                                         className={classNames(
-                                            "text-gray-900 block px-4 py-2 text-sm font-bold"
+                                            "text-gray-900 block px-4 py-2 text-sm font-bold text-center"
                                         )}
                                     >
                                         Thời hạn còn lại: 6 ngày
@@ -62,16 +63,17 @@ export default function HeaderDropdown({ className, name }) {
                             </Menu.Item>
                             <Menu.Item>
                                 {({ active }) => (
-                                    <button
+                                    <Link
+                                        to={"/subscription"}
                                         className={classNames(
                                             active
                                                 ? "bg-gray-100 text-gray-900"
                                                 : "text-gray-700",
-                                            "block px-4 py-2 text-sm w-full"
+                                            "block px-4 py-2 text-sm w-full text-center"
                                         )}
                                     >
                                         Đăng ký gói
-                                    </button>
+                                    </Link>
                                 )}
                             </Menu.Item>
                             <Menu.Item>

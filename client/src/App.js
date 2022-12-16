@@ -51,7 +51,6 @@ function App() {
                 />
                 <Route path="/popular" element={<RankPage />} />
                 <Route path="/lastest" element={<LatestComicsPage />} />
-                <Route path="/subscription" element={<SubscriptionPage />} />
 
                 <Route element={<AuthorizeLayout />}>
                     <Route
@@ -59,6 +58,7 @@ function App() {
                         element={<ChapterPage />}
                     />
                 </Route>
+                <Route path="/subscription" element={<SubscriptionPage />} />
             </Route>
             <Route element={<PrivateLayout />}>
                 <Route path="/login" element={<Login />} />
