@@ -159,7 +159,7 @@ function ChapterPage() {
     ]);
 
     return (
-        <div className={classes.container}>
+        <div className={`${classes.container} w-screen`}>
             <div className={classes.navbar_top}>
                 <ul>
                     {previousChapter ? (
