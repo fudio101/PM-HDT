@@ -51,6 +51,11 @@ const chapterSlice = createSlice({
 
                 state.status = "idle";
             })
+            .addCase(getChapter.rejected, (state, action) => {
+                state.status = "loading";
+                state.acceptedView = false;
+                state.data = {};
+            })
             .addCase(acceptView.pending, (state, action) => {
                 state.acceptedView = false;
             })
@@ -65,9 +70,23 @@ const chapterSlice = createSlice({
 
 export const getChapter = createAsyncThunk(
     "chapter/get",
-    async (input, { getState }) => {
-        const res = await chapterApi.getChapter(input.comicSlug, input.chapter);
-        return res.data;
+    async (input, { rejectWithValue }) => {
+        try {
+            const res = await chapterApi.getChapter(
+                input.comicSlug,
+                input.chapter
+            );
+            return res.data;
+        } catch (error) {
+            if (error.response && error.response.data.message) {
+                return rejectWithValue({
+                    status: error.response.status,
+                    message: error.response.data.message,
+                });
+            } else {
+                return rejectWithValue(error.message);
+            }
+        }
     }
 );
 

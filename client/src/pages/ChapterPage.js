@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import classes from "./asset/css/ChapterPage.module.css";
 import { IconContext } from "react-icons";
 import { TiArrowLeftThick, TiArrowRightThick, TiHome } from "react-icons/ti";
@@ -21,6 +21,8 @@ import {
 import ReactModal from "react-modal";
 import { addReadComic } from "../redux/reducers/readComicList";
 import { useScrollPercentage } from "react-scroll-percentage";
+import { unwrapResult } from "@reduxjs/toolkit";
+import { toast } from "react-toastify";
 
 const customStyles = {
     overlay: {
@@ -55,6 +57,7 @@ function ChapterPage() {
     let nextChapter = useSelector(nextChapterSelector);
     let isAcceptedView = useSelector(isAcceptedViewSelector);
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     useEffect(() => {
         setReadAccepted(false);
         setTimeoutAccepted(false);
@@ -80,12 +83,23 @@ function ChapterPage() {
     }, [dispatch, comicSlug, isAcceptedView, nextChapter]);
 
     useEffect(() => {
-        dispatch(
-            getChapter({
-                comicSlug: comicSlug,
-                chapter: chapter,
-            })
-        );
+        const fetchData = async () => {
+            try {
+                unwrapResult(
+                    await dispatch(
+                        getChapter({
+                            comicSlug: comicSlug,
+                            chapter: chapter,
+                        })
+                    )
+                );
+            } catch (error) {
+                if (error.status === 402) toast.warning(error.message);
+                navigate("/subscription");
+            }
+        };
+
+        fetchData();
     }, [dispatch, comicSlug, chapter]);
 
     const closeModal = () => {
