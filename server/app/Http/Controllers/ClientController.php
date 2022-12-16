@@ -276,7 +276,7 @@ class ClientController extends Controller
 
             User::query()->find($user->id)->update(['registration_expires_on' => $registrationExpiresOn]);
 
-            return response()->json(['message' => "Đăng ký gói thành công"], ResponseAlias::HTTP_OK);
+            return response()->json(['message' => "Mua gói thành viên thành công"], ResponseAlias::HTTP_OK);
 
         } catch (Exception $exception) {
             return response()->json(['message' => $exception->getMessage()], ResponseAlias::HTTP_BAD_REQUEST);
