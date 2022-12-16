@@ -154,3 +154,8 @@ export const isMainLoadingSelector = createSelector(
     (state) => state.user.status,
     (status) => status === "loading"
 );
+
+export const subscriptionsSliceDataSelector = (state) =>
+    state.subscriptions.data;
+export const subscriptionsSlicevndToUsdRateSelector = (state) =>
+    state.subscriptions.vndToUsdRate;

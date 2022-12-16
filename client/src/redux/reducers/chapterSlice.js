@@ -66,13 +66,7 @@ const chapterSlice = createSlice({
 export const getChapter = createAsyncThunk(
     "chapter/get",
     async (input, { getState }) => {
-        const { user } = getState();
-        const token = user.token;
-        const res = await chapterApi.getChapter(
-            token,
-            input.comicSlug,
-            input.chapter
-        );
+        const res = await chapterApi.getChapter(input.comicSlug, input.chapter);
         return res.data;
     }
 );
@@ -80,12 +74,10 @@ export const getChapter = createAsyncThunk(
 export const acceptView = createAsyncThunk(
     "chapter/acceptView",
     async (input, { getState }) => {
-        const { user, chapter } = getState();
+        const { chapter } = getState();
         const acceptedView = chapter.acceptedView;
         if (!acceptedView) {
-            const token = user.token;
             const res = await chapterApi.acceptView(
-                token,
                 input.comicSlug,
                 input.chapter,
                 input.viewId

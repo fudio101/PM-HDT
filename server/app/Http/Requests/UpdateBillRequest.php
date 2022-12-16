@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateSubscriptionPackageRequest extends FormRequest
+class UpdateBillRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +13,7 @@ class UpdateSubscriptionPackageRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return false;
     }
 
     /**
@@ -24,12 +24,7 @@ class UpdateSubscriptionPackageRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'string|min:3|max:50',
-            'price' => 'numeric|gt:0',
-            'duration' => 'integer|gt:0',
-            'duration_text' => 'string|min:3|max:50',
-            'description' => 'string',
-            'image' => 'image'
+            //
         ];
     }
 }

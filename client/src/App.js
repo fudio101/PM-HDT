@@ -21,6 +21,8 @@ import Signup from "./pages/auth/Signup";
 import ForgotPassword from "./pages/auth/ForgotPassword";
 import PrivateLayout from "./components/layouts/PrivateLayout";
 import VerifyAccount from "./pages/auth/VerifyAccount";
+import SubscriptionPage from "./pages/SubscriptionPage";
+import AuthorizeLayout from "./components/layouts/AuthorizeLayout";
 
 function App() {
     const dispatch = useDispatch();
@@ -49,10 +51,17 @@ function App() {
                 />
                 <Route path="/popular" element={<RankPage />} />
                 <Route path="/lastest" element={<LatestComicsPage />} />
-                <Route
-                    path="/chapter/:comicSlug/:chapter"
-                    element={<ChapterPage />}
-                />
+
+                <Route element={<AuthorizeLayout />}>
+                    <Route
+                        path="/chapter/:comicSlug/:chapter"
+                        element={<ChapterPage />}
+                    />
+                    <Route
+                        path="/subscription"
+                        element={<SubscriptionPage />}
+                    />
+                </Route>
             </Route>
             <Route element={<PrivateLayout />}>
                 <Route path="/login" element={<Login />} />

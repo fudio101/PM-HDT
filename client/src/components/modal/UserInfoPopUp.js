@@ -11,7 +11,7 @@ import {
 import { ToastContainer, toast } from "react-toastify";
 import { userSliceInfoSelector } from "../../redux/selectors";
 
-function UserInfoPopUp({ onClose, setVisiblePopUp, isVisiblePopUp }) {
+function UserInfoPopUp({ setVisiblePopUp, isVisiblePopUp }) {
     const [isChangePassword, setChangePassword] = useState(false);
     const dispatch = useDispatch();
     const userInfo = useSelector(userSliceInfoSelector);
@@ -126,7 +126,7 @@ function UserInfoPopUp({ onClose, setVisiblePopUp, isVisiblePopUp }) {
                                         </label>
                                         <input
                                             disabled
-                                            value={userInfo?.email}
+                                            placeholder={userInfo?.email}
                                             type="email"
                                             name="email"
                                             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"

@@ -1,13 +1,13 @@
 import axiosClient from "./axiosClient";
 
 const chapterApi = {
-    getChapter: (token, comicSlug, chapter) =>
+    getChapter: (comicSlug, chapter) =>
         axiosClient.get(`get-episode/${comicSlug}/${chapter}`, {
             headers: {
-                Authorization: `Bearer ${token}`,
+                Authorization: `Bearer ${localStorage.getItem("_userToken")}`,
             },
         }),
-    acceptView: (token, comicSlug, chapter, viewId) =>
+    acceptView: (comicSlug, chapter, viewId) =>
         axiosClient.put(
             `accept-view/${comicSlug}/${chapter}`,
             {
@@ -15,7 +15,9 @@ const chapterApi = {
             },
             {
                 headers: {
-                    Authorization: `Bearer ${token}`,
+                    Authorization: `Bearer ${localStorage.getItem(
+                        "_userToken"
+                    )}`,
                 },
             }
         ),
