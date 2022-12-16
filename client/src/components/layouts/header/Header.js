@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import moment from "moment";
 import Search from "./Search";
 import classes from "./Header.module.css";
 import logo from "../logo.png";
@@ -15,7 +16,6 @@ function Header({ isVisible }) {
     const userInfo = useSelector(userSliceInfoSelector);
     const dispatch = useDispatch();
     let location = useLocation();
-
     useEffect(() => {
         dispatch(getUserInfo());
     }, [dispatch, location]);
@@ -116,7 +116,12 @@ function Header({ isVisible }) {
                                     </div>
                                     <div className="inline-block w-full px-4 py-2 pt-0 text-center text-white rounded-md font-bold">
                                         Thời hạn còn lại:{" "}
-                                        {userInfo.registration_expires_on}
+                                        {userInfo.registration_expires_on
+                                            ? moment(
+                                                  userInfo.registration_expires_on,
+                                                  "YYYY-MM-DD"
+                                              ).format("DD/MM/YYYY")
+                                            : "Hết hạn đăng ký"}
                                     </div>
                                     <Link
                                         className="inline-block w-full px-4 py-2 text-center text-white bg-gray-600 rounded-md shadow hover:bg-gray-800 text-center"

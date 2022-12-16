@@ -3,6 +3,7 @@ import { Fragment } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import { useDispatch } from "react-redux";
+import moment from "moment";
 import { logout } from "../../../redux/reducers/userSlice";
 import UserInfoPopUp from "../../modal/UserInfoPopUp";
 import { Link } from "react-router-dom";
@@ -58,7 +59,12 @@ export default function HeaderDropdown({ className, name, userInfo }) {
                                         )}
                                     >
                                         Thời hạn còn lại:{" "}
-                                        {userInfo.registration_expires_on}
+                                        {userInfo.registration_expires_on
+                                            ? moment(
+                                                  userInfo.registration_expires_on,
+                                                  "YYYY-MM-DD"
+                                              ).format("DD/MM/YYYY")
+                                            : "Hết hạn đăng ký"}
                                     </div>
                                 )}
                             </Menu.Item>
