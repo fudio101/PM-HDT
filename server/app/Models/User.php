@@ -8,15 +8,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Sanctum\HasApiTokens;
 use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
 
 //use Illuminate\Auth\MustVerifyEmail;
-
-//use Illuminate\Database\Eloquent\Relations\BelongsTo;
-
-//use PHPOpenSourceSaver\JWTAuth\Http\Middleware\RefreshToken;
 
 class User extends Authenticatable implements JWTSubject, MustVerifyEmail
 {
@@ -64,6 +61,18 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
                 null :
                 array_shift($image)
 
+        );
+    }
+
+    public function registrationExpiresOn()
+    {
+        return Attribute::make(
+            get: static fn(
+                $value,
+                $attributes
+            ) => ($attributes["role_id"] === 1 || $attributes['role_id'] === 2) ?
+                Carbon::now()->addYear()->format('Y-m-d') :
+                $value
         );
     }
 
