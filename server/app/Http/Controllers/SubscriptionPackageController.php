@@ -49,6 +49,7 @@ class SubscriptionPackageController extends Controller
                 'name',
                 'price',
                 'duration',
+                'duration_text',
                 'description'
             ]));
 
@@ -93,7 +94,8 @@ class SubscriptionPackageController extends Controller
                 'name',
                 'price',
                 'duration',
-                'description'
+                'duration_text',
+                'description',
             ]));
 
             $image = $request->file("image");

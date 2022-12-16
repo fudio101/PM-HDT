@@ -260,13 +260,14 @@ class ClientController extends Controller
     {
         try {
             $user = Auth::user();
-            $duration = $subscriptionPackage->duration;
+            $duration = $subscriptionPackage->getAttribute("duration");
 
             Bill::query()->create([
                 'user_id' => $user->id,
                 'subscription_package_id' => $subscriptionPackage->getKey(),
-                'subscription_package_price' => $subscriptionPackage->price,
-                'subscription_package_duration' => $duration
+                'subscription_package_price' => $subscriptionPackage->getAttribute("price"),
+                'subscription_package_duration' => $duration,
+                'subscription_package_duration_text' => $subscriptionPackage->getAttribute("duration_text"),
             ]);
 
             $registrationExpiresOn = $user->registration_expires_on ? Carbon::make($user->registration_expires_on) : Carbon::now();

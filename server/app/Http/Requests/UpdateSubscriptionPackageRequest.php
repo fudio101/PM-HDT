@@ -27,6 +27,7 @@ class UpdateSubscriptionPackageRequest extends FormRequest
             'name' => 'string|min:3|max:50',
             'price' => 'numeric|gt:0',
             'duration' => 'integer|gt:0',
+            'duration_text' => 'string|min:3|max:50',
             'description' => 'string',
             'image' => 'image'
         ];

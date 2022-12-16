@@ -27,6 +27,7 @@ class StoreSubscriptionPackageRequest extends FormRequest
             'name' => 'required|string|min:3|max:50',
             'price' => 'required|numeric|gt:0',
             'duration' => 'required|integer|gt:0',
+            'duration_text' => 'required|string|min:3|max:50',
             'description' => 'string',
             'image' => 'image'
         ];

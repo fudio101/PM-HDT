@@ -15,6 +15,7 @@ class SubscriptionPackage extends Model
         'name',
         'price',
         'duration',
+        'duration_text',
         'description'
     ];
 

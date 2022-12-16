@@ -14,7 +14,8 @@ class Bill extends Model
         'user_id',
         'subscription_package_id',
         'subscription_package_price',
-        'subscription_package_duration'
+        'subscription_package_duration',
+        'subscription_package_duration_text',
     ];
 
     protected $hidden = [
