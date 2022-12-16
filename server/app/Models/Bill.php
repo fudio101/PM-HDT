@@ -16,4 +16,8 @@ class Bill extends Model
         'subscription_package_price',
         'subscription_package_duration'
     ];
+
+    protected $hidden = [
+        'updated_at',
+    ];
 }
