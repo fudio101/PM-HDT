@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Select from "react-select";
-
-import Wrapper from "../../UI/Wrapper";
 import DocumentItem from "../comic-sample/DocumentItem";
-
+import Card from "../../../components/UI/Card";
 import classes from "../../../pages/asset/css/NewComicPage.module.css";
 
 function ComicEditForm(props) {
@@ -93,82 +91,84 @@ function ComicEditForm(props) {
   };
 
   return (
-    <div>
-      <div className={classes.new_comic}>
-        <div className={classes.preview_section}>
-          <DocumentItem postData={inputData} />
-        </div>
-        <div className={classes.input_section}>
-          <form className={classes.comic_form_info}>
-            <div className={classes.comic_section}>
-              <div className={classes.author_section}>
-                <label>Author</label>
-                <div>
-                  <Select
-                    placeholder={"Select Author..."}
-                    closeMenuOnSelect={true}
-                    options={props.authorOptions}
-                    onChange={authorInputHandler}
-                    defaultValue={props.authorOptions[0]}
-                  />
-                </div>
-              </div>
+    <div
+      className={
+        "grid grid-cols-1 md:grid-cols-12 gap-4 place-items-center md:h-5/6 w-full m-4 justify-center"
+      }
+    >
+      <Card className={"col-span-4 "}>
+        <DocumentItem postData={inputData} />
+      </Card>
+      <Card className={"col-span-8"}>
+        <form className={classes.comic_form_info}>
+          <div className={classes.comic_section}>
+            <div className={classes.author_section}>
+              <label>Author</label>
               <div>
-                <label>Name</label>
-                <input
-                  placeholder="Comic Name..."
-                  className={classes.author_name_input}
-                  name="name"
-                  type={"text"}
-                  onChange={formInputHandler}
-                ></input>
-              </div>
-              <div>
-                <label>Thumbnail</label>
-                <input
-                  name="image_url"
-                  type={"file"}
-                  onChange={inputIMGHandler}
-                  className={classes.upload__thumbnail}
-                ></input>
-              </div>
-              <div>
-                <label>Categories</label>
-                <div className={classes.cate_choose}>
-                  <Select
-                    placeholder={"Select Categories..."}
-                    closeMenuOnSelect={false}
-                    // defaultValue={[props.cateOptions[0]]}
-                    isMulti
-                    options={props.cateOptions}
-                    onChange={cateInputHandler}
-                  />
-                </div>
-              </div>
-              <div>
-                <label>Country</label>
-                <div className={classes.cate_choose}>
-                  <Select
-                    placeholder={"Select Country..."}
-                    closeMenuOnSelect={false}
-                    // defaultValue={[props.countryOptions[0]]}
-                    options={props.countryOptions}
-                    onChange={countryHandler}
-                  />
-                </div>
-              </div>
-              <div>
-                <label>Desciption</label>
-                <textarea
-                  name="description"
-                  placeholder="Desciption Here"
-                  onChange={formInputHandler}
-                ></textarea>
+                <Select
+                  placeholder={"Select Author..."}
+                  closeMenuOnSelect={true}
+                  options={props.authorOptions}
+                  onChange={authorInputHandler}
+                  defaultValue={props.authorOptions[0]}
+                />
               </div>
             </div>
-          </form>
-        </div>
-      </div>
+            <div>
+              <label>Name</label>
+              <input
+                placeholder="Comic Name..."
+                className={classes.author_name_input}
+                name="name"
+                type={"text"}
+                onChange={formInputHandler}
+              ></input>
+            </div>
+            <div>
+              <label>Thumbnail</label>
+              <input
+                name="image_url"
+                type={"file"}
+                onChange={inputIMGHandler}
+                className={classes.upload__thumbnail}
+              ></input>
+            </div>
+            <div>
+              <label>Categories</label>
+              <div className={classes.cate_choose}>
+                <Select
+                  placeholder={"Select Categories..."}
+                  closeMenuOnSelect={false}
+                  // defaultValue={[props.cateOptions[0]]}
+                  isMulti
+                  options={props.cateOptions}
+                  onChange={cateInputHandler}
+                />
+              </div>
+            </div>
+            <div>
+              <label>Country</label>
+              <div className={classes.cate_choose}>
+                <Select
+                  placeholder={"Select Country..."}
+                  closeMenuOnSelect={false}
+                  // defaultValue={[props.countryOptions[0]]}
+                  options={props.countryOptions}
+                  onChange={countryHandler}
+                />
+              </div>
+            </div>
+            <div>
+              <label>Desciption</label>
+              <textarea
+                name="description"
+                placeholder="Desciption Here"
+                onChange={formInputHandler}
+              ></textarea>
+            </div>
+          </div>
+        </form>
+      </Card>
     </div>
   );
 }

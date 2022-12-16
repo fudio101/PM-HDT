@@ -4,8 +4,8 @@ import moment from "moment";
 import { trackPromise } from "react-promise-tracker";
 import { useDispatch, useSelector } from "react-redux";
 import { getComic } from "../../store/actions/comicAction";
-import { newChapter, getComicEpByID } from "../../store/actions/comicEpAction";
-import { useNavigate } from "react-router-dom";
+import { newChapter } from "../../store/actions/comicEpAction";
+// import { useNavigate } from "react-router-dom";
 
 import HorizonItem from "../../components/comic/comic-sample/HorizonItem";
 import DnDUpload from "../../components/comic/new-chapter/DnDUpload";
@@ -54,7 +54,7 @@ const initVal = {
 
 function NewChapterPage() {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const { comic, error } = useSelector((state) => state.comic);
   const { id } = useParams();
   const [returnPts, setReturnPts] = useState([]); // return (data) edit chapter values

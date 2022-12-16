@@ -8,6 +8,7 @@ function HorizonItem(props) {
       <div className={classes.post_feature}>
         <div className={`${classes.post_eature_media}  ${classes.post_media}`}>
           <img
+            alt="something went wrong"
             className={classes.post_feature_image}
             src={props.postData?.image_url}
           />
@@ -34,6 +35,7 @@ function HorizonItem(props) {
           </p>
           <div className={classes.post_author}>
             <img
+              alt="something went wrong"
               src={props.postData.author.image_url}
               className={classes.post_author_image}
             />

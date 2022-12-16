@@ -2,7 +2,7 @@ import React from "react";
 import { useTable, usePagination, useGlobalFilter } from "react-table";
 import classes from "./TableStyle.module.css";
 
-import { NavLink } from "react-router-dom";
+// import { NavLink } from "react-router-dom";
 
 function TableAuthor({ columns, data, setRowSelected }) {
   const tableBtn = (hooks) => {

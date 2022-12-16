@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import classes from "./asset/css/UserModal.module.css";
 import { useForm } from "react-hook-form";
 
 function UserModal(props) {
-  const [isChangePassword, setIsChangePassword, reset] = useState(false);
+  const [isChangePassword, setIsChangePassword] = useState(false);
   const { register, handleSubmit } = useForm();
 
   const onSubmit = (data) => {

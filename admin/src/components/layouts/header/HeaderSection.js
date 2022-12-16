@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import classes from "./HeaderSection.module.css";
 import UserModal from "../../Modal/UserModal";
 import { useDispatch } from "react-redux";

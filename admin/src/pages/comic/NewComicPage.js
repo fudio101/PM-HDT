@@ -148,8 +148,13 @@ function NewComicPage() {
       />
 
       <div className={classes.btn_wrapper}>
-        <Button className={classes.create__btn} onClick={uploadComicHandler}>
-          Create
+        <Button
+          className={
+            "inline-block px-6 py-2 text-xs font-semibold leading-6 text-center text-white uppercase transition bg-blue-700 rounded-full shadow ripple hover:shadow-lg hover:bg-blue-800 focus:outline-none"
+          }
+          onClick={uploadComicHandler}
+        >
+          New Comic
         </Button>
       </div>
       <ToastContainer position="bottom-right" newestOnTop />

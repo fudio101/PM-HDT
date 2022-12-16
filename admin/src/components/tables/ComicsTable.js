@@ -30,7 +30,10 @@ function ComicTable({ columns, data, setRowSelected }) {
         Cell: (row) => {
           return (
             <div className={classes.thumbnail__img}>
-              <img src={row.row.original.image_url}></img>
+              <img
+                alt="something went wrong"
+                src={row.row.original.image_url}
+              ></img>
             </div>
           );
         },

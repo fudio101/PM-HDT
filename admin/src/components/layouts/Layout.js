@@ -1,6 +1,6 @@
 import React from "react";
 
-import HeaderSection from "./header/HeaderSection";
+// import HeaderSection from "./header/HeaderSection";
 import VerticalBar from "./vertical-bar/VerticalBar";
 import HashLoader from "react-spinners/HashLoader";
 // import Spinner from "../UI/Spinner";

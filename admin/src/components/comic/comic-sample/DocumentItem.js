@@ -4,7 +4,7 @@ import { NavLink } from "react-router-dom";
 
 function DocumentItem(props) {
   return (
-    <div className={classes.post_item}>
+    <div>
       <div className={classes.post_media}>
         <img
           src={props.postData.image_url}

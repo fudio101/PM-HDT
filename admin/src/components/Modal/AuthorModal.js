@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 import classes from "./asset/css/AuthorModal.module.css";
 
@@ -9,7 +9,6 @@ function AuthorModal(props) {
   const [avatar, setAvatar] = useState(
     props.editData.image_url ? props.editData.image_url : dummyAVT
   );
-  const accountInputHandler = () => {};
 
   // useEffect(() => {
   //   setAvatar();
@@ -41,7 +40,7 @@ function AuthorModal(props) {
 
         <div className={classes.content}>
           <div className={classes.avatar_display}>
-            <img src={avatar}></img>
+            <img alt="something went wrong" src={avatar}></img>
           </div>
           <div>
             <label>Author Avatar</label>
