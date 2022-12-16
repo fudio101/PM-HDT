@@ -57,8 +57,11 @@ function App() {
                         path="/chapter/:comicSlug/:chapter"
                         element={<ChapterPage />}
                     />
+                    <Route
+                        path="/subscription"
+                        element={<SubscriptionPage />}
+                    />
                 </Route>
-                <Route path="/subscription" element={<SubscriptionPage />} />
             </Route>
             <Route element={<PrivateLayout />}>
                 <Route path="/login" element={<Login />} />
