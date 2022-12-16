@@ -12,6 +12,7 @@
     "@testing-library/user-event": "^14.4.3",
     "autoprefixer": "^10.4.13",
     "axios": "^1.2.0",
+    "moment": "^2.29.4",
     "node-sass": "^8.0.0",
     "postcss": "^8.4.19",
     "query-string": "^7.1.1",
