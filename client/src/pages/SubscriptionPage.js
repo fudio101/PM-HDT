@@ -1,55 +1,68 @@
 // import { Link } from "react-router-dom";
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+    getSubscriptionList,
+    getVndToUsdRate,
+} from "../redux/reducers/subscriptionsSlice";
+import {
+    subscriptionsSliceDataSelector,
+    subscriptionsSlicevndToUsdRateSelector,
+} from "../redux/selectors";
 
 const initialOptions = {
-    "client-id":
-        "Ab75pEApBfo7em1WUlyyDx1HJsBru4zRPztdrNtRLQzASJyB7NTadveBv4wTpJeAhuUhs1zBp-uzqX8t",
+    "client-id": process.env.REACT_APP_BASE_PAYPAL_CLIENT_ID,
     currency: "USD",
 };
-const temp = [1000000, 20000000, 300000, 400000];
 const formatter = new Intl.NumberFormat("it-IT", {
     style: "currency",
     currency: "VND",
 });
 
 function SubscriptionPage() {
+    const dispatch = useDispatch();
+    const subscriptionPackages = useSelector(subscriptionsSliceDataSelector);
+    const vndToUsdRate = useSelector(subscriptionsSlicevndToUsdRateSelector);
+
+    useEffect(() => {
+        dispatch(getSubscriptionList());
+        dispatch(getVndToUsdRate());
+    }, [dispatch]);
+
     return (
         <div className="w-full min-h-screen gap-4 flex-wrap flex justify-center items-center">
             <PayPalScriptProvider options={initialOptions}>
-                {temp.map((value, index) => (
+                {subscriptionPackages.map((value, index) => (
                     <div key={index}>
                         {/* Card */}
                         <div className="p-2 bg-white rounded-xl transform transition-all hover:-translate-y-2 duration-300 shadow-lg hover:shadow-2xl w-11/12 max-w-sm sm:w-72">
                             {/* Image */}
                             <img
                                 className="w-full object-cover rounded-xl"
-                                src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80"
+                                src={
+                                    value.image_url
+                                        ? value.image_url
+                                        : "https://images.unsplash.com/photo-1506744038136-46273834b3fb?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80"
+                                }
                                 alt=""
                             />
                             <div className="p-2">
                                 {/* Heading */}
                                 <h2 className="font-bold text-lg mb-2 text-amber-400">
-                                    Gói tháng
+                                    {value.name}
                                 </h2>
                                 <div className="grid grid-cols-2 gap-2 py-2">
                                     <div className="font-bold inline text-lg mb-2 ">
-                                        {formatter.format(value)}
+                                        {formatter.format(value.price)}
                                     </div>
                                     <div className="inline font-bold text-lg mb-2 text-right ">
-                                        {" "}
                                         30 Ngày
                                     </div>
                                 </div>
                                 {/* Description */}
                                 <p className="text-sm text-gray-600">
-                                    Lorem ipsum dolor sit amet, consectetur
-                                    adipiscing elit. Fusce eget dolor metus.
-                                    Vestibulum mattis ultrices tellus at
-                                    aliquam. Praesent dapibus lacus ac mi dictum
-                                    feugiat. Maecenas eu felis et enim commodo
-                                    venenatis dictum nec turpis. Donec non
-                                    mattis neque. Duis tincidunt eleifend metus,
-                                    ac facilisis felis. Etiam sed augue a.
+                                    {value.description}
                                 </p>
                             </div>
                             {/* CTA */}
@@ -69,15 +82,15 @@ function SubscriptionPage() {
                                                 purchase_units: [
                                                     {
                                                         amount: {
-                                                            value: value,
+                                                            value:
+                                                                value.price *
+                                                                vndToUsdRate,
                                                         },
                                                     },
                                                 ],
                                             })
                                             .then((orderId) => {
                                                 // Your code here after create the order
-                                                console.log(data);
-                                                console.log(orderId);
                                                 return orderId;
                                             });
                                     }}
@@ -86,8 +99,16 @@ function SubscriptionPage() {
                                             .capture()
                                             .then(function () {
                                                 // Your code here after capture the order
-                                                console.log(data);
-                                                console.log(actions);
+                                                actions.order
+                                                    .get()
+                                                    .then((value) => {
+                                                        const status =
+                                                            value.status;
+                                                        console.log(
+                                                            status ===
+                                                                "COMPLETED"
+                                                        );
+                                                    });
                                             });
                                     }}
                                 />

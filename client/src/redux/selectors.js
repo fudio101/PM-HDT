@@ -157,3 +157,5 @@ export const isMainLoadingSelector = createSelector(
 
 export const subscriptionsSliceDataSelector = (state) =>
     state.subscriptions.data;
+export const subscriptionsSlicevndToUsdRateSelector = (state) =>
+    state.subscriptions.vndToUsdRate;
