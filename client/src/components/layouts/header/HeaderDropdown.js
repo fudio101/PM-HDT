@@ -11,7 +11,7 @@ function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
 }
 
-export default function HeaderDropdown({ className, name }) {
+export default function HeaderDropdown({ className, name, userInfo }) {
     const dispatch = useDispatch();
     const [isVisiblePopUp, setVisiblePopUp] = React.useState(false);
 
@@ -57,7 +57,8 @@ export default function HeaderDropdown({ className, name }) {
                                             "text-gray-900 block px-4 py-2 text-sm font-bold text-center"
                                         )}
                                     >
-                                        Thời hạn còn lại: 6 ngày
+                                        Thời hạn còn lại:{" "}
+                                        {userInfo.registration_expires_on}
                                     </div>
                                 )}
                             </Menu.Item>

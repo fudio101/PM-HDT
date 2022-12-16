@@ -115,7 +115,8 @@ function Header({ isVisible }) {
                                         Chào {userInfo.name}
                                     </div>
                                     <div className="inline-block w-full px-4 py-2 pt-0 text-center text-white rounded-md font-bold">
-                                        Thời hạn còn lại: 6 ngày
+                                        Thời hạn còn lại:{" "}
+                                        {userInfo.registration_expires_on}
                                     </div>
                                     <Link
                                         className="inline-block w-full px-4 py-2 text-center text-white bg-gray-600 rounded-md shadow hover:bg-gray-800 text-center"
@@ -165,6 +166,7 @@ function Header({ isVisible }) {
                         <HeaderDropdown
                             className="px-2 py-2 inline-block"
                             name={userInfo.name}
+                            userInfo={userInfo}
                         />
                     )}
                 </div>

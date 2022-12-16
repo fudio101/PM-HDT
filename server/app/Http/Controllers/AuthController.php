@@ -9,6 +9,7 @@ use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\RegistrationVerificationRequest;
 use App\Http\Requests\ResetPasswordRequest;
+use App\Http\Resources\MeResource;
 use App\Http\Traits\ActivationCode;
 use App\Models\User;
 use App\Models\VerifyToken;
@@ -215,7 +216,7 @@ class AuthController extends Controller
      */
     public function me()
     {
-        return response()->json(Auth::user());
+        return response()->json(new MeResource(Auth::user()));
     }
 
     /**
