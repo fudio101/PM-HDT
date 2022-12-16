@@ -57,7 +57,7 @@ function SubscriptionPage() {
                                         {formatter.format(value.price)}
                                     </div>
                                     <div className="inline font-bold text-lg mb-2 text-right ">
-                                        30 Ngày
+                                        {value.duration_text}
                                     </div>
                                 </div>
                                 {/* Description */}
