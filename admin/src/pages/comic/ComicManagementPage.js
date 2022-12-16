@@ -7,13 +7,12 @@ import classes from "../asset/css/StandardMain.module.css";
 import { NavLink } from "react-router-dom";
 
 import comicAPI from "../../api/comicAPI";
-import { useDispatch, useSelector } from "react-redux";
-import { getAllComic } from "../../store/actions/comicAction";
+// import { getAllComic } from "../../store/actions/comicAction";
 
 function ComicManagementPage() {
   const [comicList, setComicList] = useState([]);
-  const dispatch = useDispatch();
-  const { comic } = useSelector((state) => state.comic);
+  // const dispatch = useDispatch();
+  // const { comic } = useSelector((state) => state.comic);
   // get all comics
   const fetchComicList = async () => {
     try {

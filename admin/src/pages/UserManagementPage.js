@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 
 import Button from "../components/UI/Button";
-import Table from "../components/tables/Table";
 import EditUser from "../components/Modal/EditUser";
 import Usertable from "../components/tables/UserTabe";
 

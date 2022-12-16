@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import classes from "../asset/css/StandardMain.module.css";
 import PackageTable from "../../components/tables/PackageTable";
 import Button from "../../components/UI/Button";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import { getAllPackage } from "../../store/actions/packagesAction";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { unwrapResult } from "@reduxjs/toolkit";
@@ -46,12 +46,12 @@ function PackageManagementPage() {
   useEffect(() => {
     fetchAllPackages();
   }, []);
-  console.log(packageList);
-  const { error, author, success } = useSelector((state) => state.author);
-  const [authorData, setAuthorData] = useState();
+  // console.log(packageList);
+  // const { error, author, success } = useSelector((state) => state.author);
+  // const [authorData, setAuthorData] = useState();
   // const [authorList, setAuthorList] = useState([]);
 
-  const [isNew, setNew] = React.useState(false);
+  // const [isNew, setNew] = React.useState(false);
   const [rowSelected, setRowSelected] = React.useState("");
 
   return (

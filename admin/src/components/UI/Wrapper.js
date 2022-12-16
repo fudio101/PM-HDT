@@ -7,7 +7,7 @@ function Wrapper(props) {
     //   {props.children}
     // </div>
 
-    <div className="w-auto h-auto bg-rose-300">{props.children}</div>
+    <div className="w-auto h-auto ">{props.children}</div>
   );
 }
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import classes from "./asset/css/EditUser.module.css";
 import Select from "react-select";
 import { useForm } from "react-hook-form";

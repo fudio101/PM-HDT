@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
 
 import Layout from "./components/layouts/Layout";
@@ -56,7 +56,7 @@ function App() {
         <Route path="/author-manage" element={<AuthorManagementPage />} />
         <Route path="/packages-manage" element={<PackageManagementPage />} />
         <Route path="/new-packages" element={<NewPackagePage />} />
-        <Route path="/edit-packages/:id" element={<PackageEditPage />} />
+        <Route path="/edit-package/:id" element={<PackageEditPage />} />
       </Route>
       <Route path="/login" element={<AuthPage />} />
       <Route path="/" element={<AuthPage />} />

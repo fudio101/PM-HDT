@@ -4,7 +4,7 @@ import { ToastContainer, toast } from "react-toastify";
 import Table from "../components/tables/Table";
 import Button from "../components/UI/Button";
 import CategoryModal from "../components/Modal/CategoryModal";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import {
   getAllCate,
   newCate,

@@ -3,8 +3,6 @@ import { useTable, usePagination, useGlobalFilter } from "react-table";
 import classes from "./TableStyle.module.css";
 import { useNavigate } from "react-router-dom";
 
-import { NavLink } from "react-router-dom";
-
 function PackageTable({ columns, data, setRowSelected }) {
   const navigate = useNavigate();
   const tableBtn = (hooks) => {
@@ -20,7 +18,7 @@ function PackageTable({ columns, data, setRowSelected }) {
             <div
               className={classes.edit_btn}
               onClick={() => {
-                navigate(`/edit-packages/${row.row.original.id}`);
+                navigate(`/edit-package/${row.row.original.id}`);
                 setRowSelected({
                   id: row.row.original.id,
                   name: row.row.original.name,

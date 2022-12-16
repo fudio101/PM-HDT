@@ -31,11 +31,6 @@ body {
   grid-gap: 0 40px;
 }
 
-.post_item {
-  box-shadow: rgb(0 0 0 / 10%) 0px 30px 40px;
-  border-radius: 1rem;
-  width: 21rem;
-}
 .post_media {
   margin-bottom: 10px;
   display: block;
