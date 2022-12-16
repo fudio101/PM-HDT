@@ -2,6 +2,8 @@
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
+import subscriptionApi from "../api/subscriptionApi";
 import {
     getSubscriptionList,
     getVndToUsdRate,
@@ -33,7 +35,7 @@ function SubscriptionPage() {
     return (
         <div className="w-full min-h-screen gap-4 flex-wrap flex justify-center items-center">
             <PayPalScriptProvider options={initialOptions}>
-                {subscriptionPackages.map((value, index) => (
+                {subscriptionPackages.map((subscriptionPackage, index) => (
                     <div key={index}>
                         {/* Card */}
                         <div className="p-2 bg-white rounded-xl transform transition-all hover:-translate-y-2 duration-300 shadow-lg hover:shadow-2xl w-11/12 max-w-sm sm:w-72">
@@ -41,8 +43,8 @@ function SubscriptionPage() {
                             <img
                                 className="w-full object-cover rounded-xl"
                                 src={
-                                    value.image_url
-                                        ? value.image_url
+                                    subscriptionPackage.image_url
+                                        ? subscriptionPackage.image_url
                                         : "https://images.unsplash.com/photo-1506744038136-46273834b3fb?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80"
                                 }
                                 alt=""
@@ -50,19 +52,21 @@ function SubscriptionPage() {
                             <div className="p-2">
                                 {/* Heading */}
                                 <h2 className="font-bold text-lg mb-2 text-amber-400">
-                                    {value.name}
+                                    {subscriptionPackage.name}
                                 </h2>
                                 <div className="grid grid-cols-2 gap-2 py-2">
                                     <div className="font-bold inline text-lg mb-2 ">
-                                        {formatter.format(value.price)}
+                                        {formatter.format(
+                                            subscriptionPackage.price
+                                        )}
                                     </div>
                                     <div className="inline font-bold text-lg mb-2 text-right ">
-                                        {value.duration_text}
+                                        {subscriptionPackage.duration_text}
                                     </div>
                                 </div>
                                 {/* Description */}
                                 <p className="text-sm text-gray-600">
-                                    {value.description}
+                                    {subscriptionPackage.description}
                                 </p>
                             </div>
                             {/* CTA */}
@@ -83,7 +87,7 @@ function SubscriptionPage() {
                                                     {
                                                         amount: {
                                                             value:
-                                                                value.price *
+                                                                subscriptionPackage.price *
                                                                 vndToUsdRate,
                                                         },
                                                     },
@@ -104,10 +108,20 @@ function SubscriptionPage() {
                                                     .then((value) => {
                                                         const status =
                                                             value.status;
-                                                        console.log(
+                                                        if (
                                                             status ===
-                                                                "COMPLETED"
-                                                        );
+                                                            "COMPLETED"
+                                                        )
+                                                            subscriptionApi
+                                                                .buySubscriptionPackage(
+                                                                    subscriptionPackage.id
+                                                                )
+                                                                .then((res) =>
+                                                                    toast.success(
+                                                                        res.data
+                                                                            .message
+                                                                    )
+                                                                );
                                                     });
                                             });
                                     }}
