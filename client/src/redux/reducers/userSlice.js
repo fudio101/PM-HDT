@@ -95,33 +95,34 @@ export const signup = createAsyncThunk(
 export const getUserInfo = createAsyncThunk(
     "user/info",
     async (input, { getState }) => {
+        if (!getState().user.token) return null;
         const res = await authApi.me();
         return res.data;
     }
 );
 
 export const changePassword = createAsyncThunk(
-  "user/changePassword",
-  async (input, { rejectWithValue }) => {
-    try {
-      const res = await authApi.changePassword(input);
-      return res;
-    } catch (error) {
-      if (error.response && error.response.data.message) {
-        return rejectWithValue(error.response.data.message);
-      } else {
-        return rejectWithValue(error.message);
-      }
+    "user/changePassword",
+    async (input, { rejectWithValue }) => {
+        try {
+            const res = await authApi.changePassword(input);
+            return res;
+        } catch (error) {
+            if (error.response && error.response.data.message) {
+                return rejectWithValue(error.response.data.message);
+            } else {
+                return rejectWithValue(error.message);
+            }
+        }
     }
-  }
 );
 
 export const changeUserInfo = createAsyncThunk(
-  "user/changeUserInfo",
-  async (name, { getState }) => {
-    const res = await authApi.changeUserInfo(name);
-    return res.user;
-  }
+    "user/changeUserInfo",
+    async (name, { getState }) => {
+        const res = await authApi.changeUserInfo(name);
+        return res.user;
+    }
 );
 
 const { actions } = userSlice;
