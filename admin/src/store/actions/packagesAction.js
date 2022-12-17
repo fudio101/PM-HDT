@@ -24,7 +24,7 @@ export const getPackage = createAsyncThunk(
   async (id, { rejectWithValue }) => {
     try {
       const res = await packagesAPI.get(id);
-      return res.subscription_packages;
+      return res.subscription_package;
     } catch (error) {
       if (error.response && error.response.data.message) {
         return rejectWithValue(error.response.data.message);
@@ -41,7 +41,7 @@ export const delPackage = createAsyncThunk(
   "package/delPackage",
   async (id, { rejectWithValue }) => {
     try {
-      const res = await packagesAPI.delete(id);
+      const res = await packagesAPI.destroy(id);
       return res;
     } catch (error) {
       if (error.response && error.response.data.message) {

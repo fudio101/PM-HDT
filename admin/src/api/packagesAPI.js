@@ -11,8 +11,8 @@ const packagesAPI = {
     return axiosClient.post("/subscription-packages", subscription_package);
   },
   update: (id, subscription_package) => {
-    return axiosClient.put(
-      `/subscription-packages/${id}`,
+    return axiosClient.post(
+      `/subscription-packages/${id}?_method=PUT`,
       subscription_package
     );
   },

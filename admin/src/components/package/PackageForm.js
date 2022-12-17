@@ -3,18 +3,21 @@ import CurrencyFormat from "react-currency-format";
 import Card from "../UI/Card";
 
 const initPackageValue = {
-  name: "Gói Tháng",
+  name: "Package Name",
   price: 1000000,
   description: "package description...",
   duration: 30,
   duration_text: "30 Ngày",
+  image_url: require("./assets/imgs/logo1.png"),
 };
 
 function PackageForm(props) {
   const ref = useRef();
   const bottom = useRef();
-  const [packageValue, setPackageValue] = React.useState(initPackageValue);
-  const [imageThumbnail, setImageThumbnail] = React.useState();
+  const [packageValue, setPackageValue] = React.useState();
+  const [imageThumbnail, setImageThumbnail] = React.useState(
+    initPackageValue.image_url
+  );
 
   const packageInputHandler = (e) => {
     const { value, name } = e.target;
@@ -27,7 +30,11 @@ function PackageForm(props) {
   };
 
   useEffect(() => {
-    props.setPackageValue(packageValue);
+    setPackageValue(props.currPackage);
+  }, [props.currPackage]);
+
+  useEffect(() => {
+    props.setPackageData(packageValue);
   }, [packageValue]);
 
   const imgInputHandler = (e) => {
@@ -40,7 +47,7 @@ function PackageForm(props) {
     });
     setImageThumbnail(URL.createObjectURL(img));
   };
-
+  console.log(packageValue);
   const priceChangeHandler = (e) => {
     setPackageValue((prev) => {
       return {
@@ -48,8 +55,6 @@ function PackageForm(props) {
         price: ref.current.state.numAsString,
       };
     });
-
-    // console.log(packageValue);
   };
 
   return (
@@ -59,7 +64,7 @@ function PackageForm(props) {
         <img
           className="h-1/2 object-fill rounded-xl"
           src={
-            imageThumbnail ? imageThumbnail : require("./assets/imgs/logo1.png")
+            packageValue?.image_url ? packageValue.image_url : imageThumbnail
           }
           alt=""
         />
@@ -67,7 +72,7 @@ function PackageForm(props) {
         <div className="p-2">
           {/* <!-- Heading --> */}
           <h2 className="font-bold text-lg md:text-2xl  mb-2 ">
-            {packageValue?.name}
+            {packageValue?.name ? packageValue?.name : initPackageValue.name}
           </h2>
 
           <div className="grid grid-cols-2 gap-2 py-2">
@@ -79,12 +84,16 @@ function PackageForm(props) {
               className="font-bold inline text-lg mb-2 "
             ></CurrencyFormat>
             <div className="inline font-bold text-lg mb-2 mr-4 text-right  ">
-              {packageValue?.duration_text}
+              {packageValue
+                ? packageValue.duration_text
+                : initPackageValue.duration_text}
             </div>
           </div>
           {/* <!-- Description --> */}
           <p className="text-sm text-gray-600 py-0 md:py-2">
-            {packageValue.description}
+            {packageValue
+              ? packageValue.description
+              : initPackageValue?.description}
           </p>
         </div>
         <div className="flex justify-center">
@@ -102,6 +111,7 @@ function PackageForm(props) {
             onMouseDown={() => {
               bottom.current.scrollIntoView({ behavior: "smooth" });
             }}
+            value={packageValue?.name}
             name="name"
             className="block  p-2.5 w-11/12 text-sm text-gray-900 opacity-90 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="Package name here..."
@@ -114,6 +124,7 @@ function PackageForm(props) {
           </label>
           <CurrencyFormat
             ref={ref}
+            value={packageValue?.price}
             className="block  p-2.5 w-11/12 text-sm text-gray-900 opacity-90 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="Price here..."
             thousandSeparator={true}
@@ -129,6 +140,7 @@ function PackageForm(props) {
           <input
             name="duration_text"
             type="text"
+            value={packageValue?.duration_text}
             onChange={packageInputHandler}
             className="block p-2.5 w-11/12 text-sm text-gray-900 opacity-90 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="Duration..."
@@ -141,6 +153,7 @@ function PackageForm(props) {
           <input
             name="duration"
             type="number"
+            value={packageValue?.duration}
             onChange={packageInputHandler}
             className="block p-2.5 w-11/12 text-sm text-gray-900 opacity-90 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="Duration..."
@@ -168,6 +181,7 @@ function PackageForm(props) {
           <textarea
             name="description"
             rows="4"
+            value={packageValue?.description}
             onChange={packageInputHandler}
             className="block  p-2.5 w-11/12 text-sm text-gray-900 opacity-90 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="Write description here..."
