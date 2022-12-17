@@ -30,7 +30,15 @@ class ClientController extends Controller
     public function __construct()
     {
         $this->middleware('auth:api',
-            ['only' => ['showEpisodeImages', 'acceptEpisodeView', 'changeUserName', 'buySubscriptionPackage']]);
+            [
+                'only' => [
+                    'showEpisodeImages',
+                    'acceptEpisodeView',
+                    'changeUserName',
+                    'buySubscriptionPackage',
+                    'getUserStatistic'
+                ]
+            ]);
     }
 
     /**
@@ -355,5 +363,32 @@ class ClientController extends Controller
         $totalIncomeByMonths = Bill::getTotalIncomeByMonths($month, $month1);
 
         return response()->json(['total_income_by_months' => $totalIncomeByMonths], ResponseAlias::HTTP_OK);
+    }
+
+    public function getUserStatistic()
+    {
+        $users = User::query()->where('role_id', '=', 3)->get();
+
+        $notVerified = 0;
+        $unpaid = 0;
+        $paid = 0;
+        foreach ($users as $user) {
+            if (is_null($user->email_verified_at)) {
+                ++$notVerified;
+            } else {
+                $registrationExpiresOn = $user->registration_expires_on;
+                if (is_null($registrationExpiresOn) || Carbon::make($registrationExpiresOn)->addDay()->floorDay()->lt(now())) {
+                    ++$unpaid;
+                } else {
+                    ++$paid;
+                }
+            }
+        }
+
+        return response()->json([
+            'not_verified' => $notVerified,
+            'unpaid' => $unpaid,
+            'paid' => $paid,
+        ], ResponseAlias::HTTP_OK);
     }
 }
