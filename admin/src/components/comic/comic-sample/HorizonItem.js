@@ -15,7 +15,7 @@ function HorizonItem(props) {
         </div>
         <div className={classes.post_feature_info}>
           <div>
-            {props.postData.categories.map((item) => {
+            {props.postData?.categories.map((item) => {
               return (
                 <div className={classes.post_category} key={item.id}>
                   {item.name}
@@ -27,24 +27,24 @@ function HorizonItem(props) {
             <div
               className={`${classes.post_feature_title} ${classes.post_title}`}
             >
-              {props.postData.name}
+              {props.postData?.name}
             </div>
           </h2>
           <p className={classes.post_desc}>
-            {props.postData.description ? props.postData.description : ""}
+            {props.postData?.description ? props.postData?.description : ""}
           </p>
           <div className={classes.post_author}>
             <img
               alt="something went wrong"
-              src={props.postData.author.image_url}
+              src={props.postData?.author.image_url}
               className={classes.post_author_image}
             />
             <div className={classes.post_author_info}>
               <h4 className={classes.post_author_name}>
-                {props.postData.author.name}
+                {props.postData?.author.name}
               </h4>
               <div className={classes.post_author_time}>
-                {props.postData.published_date}
+                {props.postData?.published_date}
               </div>
             </div>
           </div>

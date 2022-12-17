@@ -12,7 +12,7 @@ import DnDUpload from "../../components/comic/new-chapter/DnDUpload";
 import Button from "../../components/UI/Button";
 
 import classes from "../asset/css/NewChapter.module.css";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import { useParams } from "react-router-dom";
 import { unwrapResult } from "@reduxjs/toolkit";
 
@@ -55,35 +55,48 @@ const initVal = {
 function NewChapterPage() {
   const dispatch = useDispatch();
   // const navigate = useNavigate();
-  const { comic, error } = useSelector((state) => state.comic);
+  const { comic } = useSelector((state) => state.comic);
   const { id } = useParams();
   const [returnPts, setReturnPts] = useState([]); // return (data) edit chapter values
   const [photoArr, setPhotosArr] = useState([]);
   const [comicData, setComicData] = useState(initVal);
   const [episode, setEpisode] = useState();
-  const [defaultEpNum, setDefaultEpNum] = useState();
+
+  const fetchComic = async () => {
+    try {
+      setComicData(unwrapResult(await dispatch(getComic(id))));
+    } catch (error) {}
+  };
 
   useEffect(() => {
-    dispatch(getComic(id));
-  }, []);
-
-  useEffect(() => {
-    setComicData((prev) => ({
-      ...prev,
-      ...comic,
-    }));
+    // dispatch(getComic(id));
+    fetchComic();
     const maxEpNum = Math.max(
-      ...comicData.episodes.map((x) => x.episode_number)
+      ...comicData?.episodes.map((x) => x.episode_number)
     );
-    setDefaultEpNum(maxEpNum + 1);
-    setEpisode(maxEpNum + 1);
-  }, [comic]);
 
-  useEffect(() => {
-    toast(error, {
-      type: "error",
-    });
-  }, [error]);
+    setEpisode(maxEpNum + 1);
+  }, [comicData]);
+
+  // useEffect(() => {
+  //   setComicData((prev) => ({
+  //     ...prev,
+  //     ...comic,
+  //   }));
+  //   const maxEpNum = Math.max(
+  //     ...comicData?.episodes.map((x) => x.episode_number)
+  //   );
+
+  //   console.log(maxEpNum);
+  //   setDefaultEpNum(maxEpNum + 1);
+  //   setEpisode(maxEpNum + 1);
+  // }, [comic]);
+
+  // useEffect(() => {
+  //   toast(error, {
+  //     type: "error",
+  //   });
+  // }, [error]);
 
   const uploadEPHandlerAction = async () => {
     try {
@@ -128,7 +141,7 @@ function NewChapterPage() {
             id="points"
             name="points"
             min={1}
-            defaultValue={defaultEpNum}
+            defaultValue={episode}
             onChange={(e) => {
               setEpisode(e.target.value);
             }}
@@ -140,8 +153,6 @@ function NewChapterPage() {
         <div className={classes.btn__wrapper__done}></div>
         <DnDUpload photos={photoArr} setReturnPts={setReturnPts} />
       </div>
-
-      <ToastContainer position="bottom-right" newestOnTop />
     </div>
   );
 }

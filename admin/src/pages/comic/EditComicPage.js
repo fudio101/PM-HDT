@@ -2,13 +2,10 @@ import React, { useState, useEffect } from "react";
 import Select from "react-select";
 import moment from "moment";
 import { trackPromise } from "react-promise-tracker";
-import Wrapper from "../../components/UI/Wrapper";
 
 import Button from "../../components/UI/Button";
 import DnDUpload from "../../components/comic/new-chapter/DnDUpload";
 import ComicEditForm from "../../components/comic/comic-edit/ComicEditForm";
-
-import classes from "../asset/css/NewComicPage.module.css";
 
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -99,6 +96,9 @@ function EditComicPage() {
   const [countries, setCountriesCollection] = useState([]);
   const [isUpdateComic, setIsUpdateComic] = useState(true);
 
+  const [photoArr, setPhotosArr] = useState([]);
+  const [selectedEp, setSelectedEp] = useState();
+
   const fetchAllCountry = async () => {
     const result = unwrapResult(await dispatch(getAllCountry()));
     setCountriesCollection(
@@ -152,9 +152,6 @@ function EditComicPage() {
     });
     setComicEpisodeList(list);
   }, [comic, comicData]);
-
-  const [photoArr, setPhotosArr] = useState([]);
-  const [selectedEp, setSelectedEp] = useState();
 
   const chapterInputHandler = async (e) => {
     setSelectedEp(e.id);
@@ -284,7 +281,7 @@ function EditComicPage() {
   };
 
   return (
-    <div>
+    <div className="p-2">
       <ul className="flex border-b space-x-4">
         <li className="-mb-px mr-1">
           <NavLink
@@ -315,7 +312,7 @@ function EditComicPage() {
           </NavLink>
         </li>
       </ul>
-      <Wrapper>
+      <div>
         {isUpdateComic ? (
           <div>
             <ComicEditForm
@@ -325,7 +322,7 @@ function EditComicPage() {
               cateOptions={cateColection}
               countryOptions={countries}
             />
-            <div className={"flex space-x-5 justify-center w-full"}>
+            <div className={"flex space-x-5 justify-center w-full mt-8 mb-4"}>
               <Button
                 className={
                   "inline-block px-6 py-2 text-xs font-semibold leading-6 text-center text-white uppercase transition bg-yellow-500 rounded-full shadow ripple hover:shadow-lg hover:bg-yellow-600 focus:outline-none"
@@ -345,7 +342,7 @@ function EditComicPage() {
             </div>
           </div>
         ) : (
-          <Card className="min-h-full h-full">
+          <Card>
             <div>
               <Select
                 placeholder={"Select The Episode To Edit..."}
@@ -354,30 +351,33 @@ function EditComicPage() {
                 onChange={chapterInputHandler}
               />
             </div>
+
             <div>
-              <DnDUpload photos={photoArr} setReturnPts={setReturnPts} />
-            </div>
-            <div className={"flex space-x-5 justify-center  w-full"}>
-              <Button
-                className={
-                  "inline-block px-6 py-2 text-xs font-semibold leading-6 text-center text-white uppercase transition bg-yellow-500 rounded-full shadow ripple hover:shadow-lg hover:bg-yellow-600 focus:outline-none"
-                }
-                onClick={updateComicEpHandler}
-              >
-                Update Chapter
-              </Button>
-              <Button
-                className={
-                  "inline-block px-6 py-2 text-xs font-semibold leading-6 text-center text-white uppercase transition bg-red-500 rounded-full shadow ripple hover:shadow-lg hover:bg-red-600 focus:outline-none"
-                }
-                onClick={deleteEpisodeHandler}
-              >
-                Delete Chapter
-              </Button>
+              <div>
+                <DnDUpload photos={photoArr} setReturnPts={setReturnPts} />
+              </div>
+              <div className={"flex space-x-5 justify-center  w-full py-2"}>
+                <button
+                  className={
+                    "inline-block px-6 py-2 text-xs font-semibold leading-6 text-center text-white uppercase transition bg-yellow-500 rounded-full shadow ripple hover:shadow-lg hover:bg-yellow-600 focus:outline-none"
+                  }
+                  onClick={updateComicEpHandler}
+                >
+                  Update Chapter
+                </button>
+                <button
+                  className={
+                    "inline-block px-6 py-2 text-xs font-semibold leading-6 text-center text-white uppercase transition bg-red-500 rounded-full shadow ripple hover:shadow-lg hover:bg-red-600 focus:outline-none"
+                  }
+                  onClick={deleteEpisodeHandler}
+                >
+                  Delete Chapter
+                </button>
+              </div>
             </div>
           </Card>
         )}
-      </Wrapper>
+      </div>
       <ToastContainer position="bottom-right" newestOnTop />
     </div>
   );

@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import CurrencyFormat from "react-currency-format";
 import Card from "../UI/Card";
 
@@ -7,12 +7,14 @@ const initPackageValue = {
   price: 1000000,
   description: "package description...",
   duration: 30,
+  duration_text: "30 Ngày",
 };
 
-function PackageForm() {
+function PackageForm(props) {
   const ref = useRef();
   const bottom = useRef();
   const [packageValue, setPackageValue] = React.useState(initPackageValue);
+  const [imageThumbnail, setImageThumbnail] = React.useState();
 
   const packageInputHandler = (e) => {
     const { value, name } = e.target;
@@ -24,6 +26,21 @@ function PackageForm() {
     });
   };
 
+  useEffect(() => {
+    props.setPackageValue(packageValue);
+  }, [packageValue]);
+
+  const imgInputHandler = (e) => {
+    const img = e.target.files[0];
+    setPackageValue((prev) => {
+      return {
+        ...prev,
+        image: img,
+      };
+    });
+    setImageThumbnail(URL.createObjectURL(img));
+  };
+
   const priceChangeHandler = (e) => {
     setPackageValue((prev) => {
       return {
@@ -31,6 +48,7 @@ function PackageForm() {
         price: ref.current.state.numAsString,
       };
     });
+
     // console.log(packageValue);
   };
 
@@ -40,7 +58,9 @@ function PackageForm() {
         {/* <!-- Image --> */}
         <img
           className="h-1/2 object-fill rounded-xl"
-          src={require("./assets/imgs/logo1.png")}
+          src={
+            imageThumbnail ? imageThumbnail : require("./assets/imgs/logo1.png")
+          }
           alt=""
         />
 
@@ -59,7 +79,7 @@ function PackageForm() {
               className="font-bold inline text-lg mb-2 "
             ></CurrencyFormat>
             <div className="inline font-bold text-lg mb-2 mr-4 text-right  ">
-              {packageValue?.duration} Ngày
+              {packageValue?.duration_text}
             </div>
           </div>
           {/* <!-- Description --> */}
@@ -74,7 +94,7 @@ function PackageForm() {
         </div>
       </Card>
       <Card className="col-span-4 w-11/12">
-        <div className="md:py-4 ml-4">
+        <div className="md:py-1 ml-4">
           <label className="block font-semibold mb-1 text-lg text-gray-900 opacity-90 dark:text-white">
             Name
           </label>
@@ -88,7 +108,7 @@ function PackageForm() {
             onChange={packageInputHandler}
           ></input>
         </div>
-        <div className="md:py-4 ml-4">
+        <div className="md:py-1 ml-4">
           <label className="block font-semibold mb-1 text-lg text-gray-900 opacity-90 dark:text-white">
             Price
           </label>
@@ -102,7 +122,19 @@ function PackageForm() {
           />
           {/* <input></input> */}
         </div>
-        <div className="md:py-4 ml-4">
+        <div className="md:py-1 ml-4">
+          <label className="block font-semibold mb-1 text-lg text-gray-900 opacity-90 dark:text-white">
+            Duration Text
+          </label>
+          <input
+            name="duration_text"
+            type="text"
+            onChange={packageInputHandler}
+            className="block p-2.5 w-11/12 text-sm text-gray-900 opacity-90 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            placeholder="Duration..."
+          ></input>
+        </div>
+        <div className="md:py-1 ml-4">
           <label className="block font-semibold mb-1 text-lg text-gray-900 opacity-90 dark:text-white">
             Duration (Day)
           </label>
@@ -114,19 +146,22 @@ function PackageForm() {
             placeholder="Duration..."
           ></input>
         </div>
-        <div className="md:py-4 ml-4">
+
+        <div className="md:py-1 ml-4">
           <label className="block font-semibold mb-1 text-lg text-gray-900 opacity-90 dark:text-white">
             Image
           </label>
-          <label class="block ">
-            <span class="sr-only">Choose File</span>
+          <label className="block ">
+            <label className="sr-only">Choose File</label>
             <input
               type="file"
-              class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+              onChange={imgInputHandler}
+              accept="image/png, image/jpeg"
+              className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
             />
           </label>
         </div>
-        <div className="md:py-4 ml-4">
+        <div className="md:py-1 ml-4">
           <label className="block font-semibold mb-1 text-lg text-gray-900 opacity-90 dark:text-white">
             Description
           </label>

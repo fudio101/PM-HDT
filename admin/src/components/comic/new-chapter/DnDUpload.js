@@ -19,13 +19,6 @@ import DnDLayout from "./DnD/DnDLayout";
 
 import classes from "./style.module.css";
 
-// const photos = [
-//   "https://about.canva.com/wp-content/uploads/sites/8/2019/03/yellow.png",
-//   "https://about.canva.com/wp-content/uploads/sites/8/2019/03/green.png",
-//   "https://about.canva.com/wp-content/uploads/sites/8/2019/03/red.png",
-//   "https://about.canva.com/wp-content/uploads/sites/8/2019/03/blue.png",
-// ];
-
 function DnDUpload(props) {
   const [selectedImage, setSelectedImage] = useState(null);
   const [items, setItems] = useState(props.photos);
@@ -87,7 +80,7 @@ function DnDUpload(props) {
           type="file"
           multiple
           name="myImage"
-          className={classes.upload__imgs}
+          className=" m-4 text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
           onChange={addImgHandler}
         />
       </div>
