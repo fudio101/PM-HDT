@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Bill extends Model
 {
@@ -21,4 +22,14 @@ class Bill extends Model
     protected $hidden = [
         'updated_at',
     ];
+
+    public function user(): HasOne
+    {
+        return $this->hasOne(User::class, 'id', 'user_id');
+    }
+
+    public function subscriptionPackage(): HasOne
+    {
+        return $this->hasOne(SubscriptionPackage::class, 'id', 'subscription_package_id');
+    }
 }
