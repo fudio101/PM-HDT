@@ -1,6 +1,8 @@
 import { useForm } from "react-hook-form";
 import authApi from "../../api/authApi";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { getUserInfo } from "../../redux/reducers/userSlice";
 
 function VerifyAccount() {
     const {
@@ -15,6 +17,7 @@ function VerifyAccount() {
     });
     const navigate = useNavigate();
     const location = useLocation();
+    const dispatch = useDispatch();
     const from = location.state?.from || "/";
 
     const resendVerifyCodeHandler = async () => {
@@ -26,6 +29,7 @@ function VerifyAccount() {
     const submitFormHandle = async () => {
         try {
             await authApi.verify(watch("verifyCode"));
+            dispatch(getUserInfo(true));
             navigate(from, { replace: true });
         } catch (error) {}
     };

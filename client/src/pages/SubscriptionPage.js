@@ -8,6 +8,7 @@ import {
     getSubscriptionList,
     getVndToUsdRate,
 } from "../redux/reducers/subscriptionsSlice";
+import { getUserInfo } from "../redux/reducers/userSlice";
 import {
     subscriptionsSliceDataSelector,
     subscriptionsSlicevndToUsdRateSelector,
@@ -116,12 +117,17 @@ function SubscriptionPage() {
                                                                 .buySubscriptionPackage(
                                                                     subscriptionPackage.id
                                                                 )
-                                                                .then((res) =>
+                                                                .then((res) => {
+                                                                    dispatch(
+                                                                        getUserInfo(
+                                                                            true
+                                                                        )
+                                                                    );
                                                                     toast.success(
                                                                         res.data
                                                                             .message
-                                                                    )
-                                                                );
+                                                                    );
+                                                                });
                                                     });
                                             });
                                     }}
