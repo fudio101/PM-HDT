@@ -100,7 +100,7 @@ function ChapterPage() {
         };
 
         fetchData();
-    }, [dispatch, comicSlug, chapter]);
+    }, [dispatch, comicSlug, chapter, navigate]);
 
     const closeModal = () => {
         setIsOpenModal(false);

@@ -18,7 +18,7 @@ return new class extends Migration {
             $table->foreignId('subscription_package_id')->constrained();
             $table->unsignedDouble('subscription_package_price');
             $table->unsignedInteger('subscription_package_duration')->comment('By days');
-            $table->unsignedInteger('subscription_package_duration_text');
+            $table->string('subscription_package_duration_text');
             $table->string('status')->default('COMPLETED');
             $table->timestamps();
         });
