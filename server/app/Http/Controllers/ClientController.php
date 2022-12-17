@@ -329,7 +329,7 @@ class ClientController extends Controller
         }
     }
 
-    public function getTotalIncomes()
+    public function getTotalIncomes(): JsonResponse
     {
         $totalIncomeThisMonth = Bill::totalIncomeThisMonth();
         $totalIncomeToday = Bill::totalIncomeToday();
@@ -340,5 +340,20 @@ class ClientController extends Controller
                 'today' => $totalIncomeToday
             ]
         ], ResponseAlias::HTTP_OK);
+    }
+
+    public function getTotalIncomeByMonths(Request $request): JsonResponse
+    {
+        $validate = $request->validate([
+            'month' => 'required|date_format:Y-m',
+            'month1' => 'required|date_format:Y-m',
+        ]);
+
+        $month = $validate['month'];
+        $month1 = $validate['month1'];
+
+        $totalIncomeByMonths = Bill::getTotalIncomeByMonths($month, $month1);
+
+        return response()->json(['total_income_by_months' => $totalIncomeByMonths], ResponseAlias::HTTP_OK);
     }
 }
