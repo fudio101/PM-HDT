@@ -328,4 +328,17 @@ class ClientController extends Controller
             return response()->json(['message' => $exception->getMessage()], ResponseAlias::HTTP_BAD_REQUEST);
         }
     }
+
+    public function getTotalIncomes()
+    {
+        $totalIncomeThisMonth = Bill::totalIncomeThisMonth();
+        $totalIncomeToday = Bill::totalIncomeToday();
+
+        return response()->json([
+            'data' => [
+                'month' => $totalIncomeThisMonth,
+                'today' => $totalIncomeToday
+            ]
+        ], ResponseAlias::HTTP_OK);
+    }
 }
