@@ -25,11 +25,11 @@
 
 .upload__imgs::-webkit-file-upload-button {
   margin-top: 1rem;
-  background: rgb(32, 119, 249);
+  background: rgb(115, 154, 213);
   color: rgb(255, 255, 255);
   font-weight: bold;
   padding: 0.4em;
-  border-radius: 10px;
+  border-radius: 16px;
   border: none;
 }
 

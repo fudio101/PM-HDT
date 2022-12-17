@@ -1,5 +1,6 @@
 import React from "react";
 import { BrowserRouter } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
 
 import ReactDOM from "react-dom/client";
 import { Provider } from "react-redux";
@@ -15,6 +16,7 @@ root.render(
     {/* <React.StrictMode> */}
     <Provider store={store}>
       <App />
+      <ToastContainer position="bottom-right" newestOnTop />
     </Provider>
     {/* </React.StrictMode> */}
   </BrowserRouter>

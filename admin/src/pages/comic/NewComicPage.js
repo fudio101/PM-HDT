@@ -12,8 +12,6 @@ import Button from "../../components/UI/Button";
 import { ToastContainer, toast } from "react-toastify";
 import { unwrapResult } from "@reduxjs/toolkit";
 
-import classes from "../asset/css/StandardMain.module.css";
-
 const initVal = {
   name: "Comic Name Here",
   image_url: require("../asset/img/default_2.png"),
@@ -138,7 +136,7 @@ function NewComicPage() {
   };
 
   return (
-    <>
+    <div>
       <ComicEditForm
         setData={setData}
         initVal={initVal}
@@ -146,8 +144,7 @@ function NewComicPage() {
         authorOptions={authorColection}
         countryOptions={countries}
       />
-
-      <div className={classes.btn_wrapper}>
+      <div className={"flex space-x-5 justify-center w-full my-4"}>
         <Button
           className={
             "inline-block px-6 py-2 text-xs font-semibold leading-6 text-center text-white uppercase transition bg-blue-700 rounded-full shadow ripple hover:shadow-lg hover:bg-blue-800 focus:outline-none"
@@ -158,7 +155,7 @@ function NewComicPage() {
         </Button>
       </div>
       <ToastContainer position="bottom-right" newestOnTop />
-    </>
+    </div>
   );
 }
 

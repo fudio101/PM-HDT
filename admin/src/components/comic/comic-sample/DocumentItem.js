@@ -8,11 +8,11 @@ function DocumentItem(props) {
       <div className={classes.post_media}>
         <img
           src={props.postData.image_url}
-          alt="image not found"
+          alt="not found"
           className={classes.post_image}
         />
       </div>
-      <div className={classes.post_info}>
+      <div className=" p-3 rounded-lg  h-3">
         <div>
           {props.postData.categories.map((item) => {
             return (
@@ -30,19 +30,21 @@ function DocumentItem(props) {
         <div className={classes.post_desc}>
           {props.postData.description ? props.postData.description : ""}
         </div>
-        <div className={classes.post_author}>
-          <img
-            src={props.postData.author.image_url}
-            alt=""
-            className={classes.post_author_image}
-          />
-          <div className={classes.post_author_info}>
-            <h4 className={classes.post_author_name}>
-              {props.postData.author.name}
-            </h4>
-            <time className={classes.post_author_time}>
-              {props.postData.published_date}
-            </time>
+        <div className="absolute bottom-3">
+          <div className=" flex items-center">
+            <img
+              src={props.postData.author.image_url}
+              alt="somthing went wrong"
+              className={classes.post_author_image}
+            />
+            <div className={classes.post_author_info}>
+              <h4 className={classes.post_author_name}>
+                {props.postData.author.name}
+              </h4>
+              <time className={classes.post_author_time}>
+                {props.postData.published_date}
+              </time>
+            </div>
           </div>
         </div>
       </div>

@@ -34,7 +34,7 @@ const menus = [
     icon: MdSubscriptions,
   },
   {
-    name: "Receipt",
+    name: "Receipts",
     link: "/receipt-manage",
     icon: MdReceiptLong,
   },

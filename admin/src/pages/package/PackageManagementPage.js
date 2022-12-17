@@ -25,7 +25,7 @@ function PackageManagementPage() {
         accessor: "price",
       },
       {
-        Header: "Duration",
+        Header: "Duration (Day)",
         accessor: "duration",
       },
       {
@@ -41,7 +41,6 @@ function PackageManagementPage() {
 
   const fetchAllPackages = async () => {
     await setPackageList(unwrapResult(await dispatch(getAllPackage())));
-    console.log(unwrapResult(await dispatch(getAllPackage())));
   };
   useEffect(() => {
     fetchAllPackages();
