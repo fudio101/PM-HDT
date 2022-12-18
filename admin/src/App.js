@@ -21,6 +21,8 @@ import { useLocation } from "react-router-dom";
 
 import "react-toastify/ReactToastify.min.css";
 import NewPackagePage from "./pages/package/NewPackagePage";
+import ReceiptManagementPage from "./pages/receipt/ReceiptManagementPage";
+import ReceiptView from "./pages/receipt/ReceiptView";
 
 function App() {
   const dispatch = useDispatch();
@@ -57,6 +59,9 @@ function App() {
         <Route path="/packages-manage" element={<PackageManagementPage />} />
         <Route path="/new-packages" element={<NewPackagePage />} />
         <Route path="/edit-package/:id" element={<PackageEditPage />} />
+        <Route path="/edit-package/:id" element={<PackageEditPage />} />
+        <Route path="/receipt-manage" element={<ReceiptManagementPage />} />
+        <Route path="/receipt-manage/:id" element={<ReceiptView />} />
       </Route>
       <Route path="/login" element={<AuthPage />} />
       <Route path="/" element={<AuthPage />} />

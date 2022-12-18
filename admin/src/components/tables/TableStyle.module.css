@@ -158,6 +158,7 @@ th {
   font-size: 14px;
   font-weight: bolder;
   margin-left: 0.5rem;
+  cursor: pointer;
 }
 
 .view_btn:hover {
