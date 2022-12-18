@@ -9,10 +9,11 @@ function PackageTable({ columns, data, navi }) {
   const tableBtn = (hooks) => {
     hooks.visibleColumns.push((columns) => [
       ...columns,
-      navi === "/receipt-manage" && {
+
+      {
         Header: "Published Date",
-        accessor: "published_datel",
-        id: "published_date",
+        accessor: "created_at",
+        id: "created_at",
         Cell: (row) => {
           return (
             <div>
@@ -23,6 +24,7 @@ function PackageTable({ columns, data, navi }) {
           );
         },
       },
+
       {
         Header: "Actions",
         accessor: "Action",
@@ -49,13 +51,13 @@ function PackageTable({ columns, data, navi }) {
       },
     ]);
   };
-
+  const row = navi === "/receipt-manage" ? "" : "created_at";
   const tableInstance = useTable(
     {
       columns: columns,
       data,
       initialState: {
-        hiddenColumns: ["id"],
+        hiddenColumns: ["id", row],
       },
     },
     useGlobalFilter, // useGlobalFilter!

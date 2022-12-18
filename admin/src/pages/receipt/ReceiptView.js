@@ -45,7 +45,7 @@ function ReceiptView() {
               <div className=" text-md">
                 Thanks for your purchase from Comic World
               </div>
-              <div className=" font-bold text-2xl mt-3">INVOICE ID:</div>
+              <div className=" font-bold text-2xl mt-3">RECEIPT ID:</div>
               <div className=" font-bold text-2xl mt-3 opacity-70">
                 {receiptData?.id}
               </div>
