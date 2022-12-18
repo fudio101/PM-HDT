@@ -94,8 +94,8 @@ export const signup = createAsyncThunk(
 
 export const getUserInfo = createAsyncThunk(
     "user/info",
-    async (input, { getState }) => {
-        if (!getState().user.token) return null;
+    async (forced = false, { getState }) => {
+        if (!forced && !getState().user.token) return null;
         const res = await authApi.me();
         return res.data;
     }

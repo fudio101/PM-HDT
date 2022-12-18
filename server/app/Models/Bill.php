@@ -57,4 +57,30 @@ class Bill extends Model
             ->get()
             ->sum('subscription_package_price');
     }
+
+    public static function getTotalIncomeByMonths(mixed $month, mixed $month1)
+    {
+        $month_ = Carbon::make($month)->floorMonth()->addMonth();
+        $month1_ = Carbon::make($month1)->floorMonth()->addMonth();
+
+        $totalIncomeByMonths = [];
+        for ($i = $month_->copy(); $i->lte($month1_); $i->addMonth()) {
+            $i_ = $i->copy();
+
+            $time = $i_->copy();
+            $time1 = $time->copy()->addMonth()->subMicrosecond();
+
+            $totalIncomeByMonths[] = [
+                "date" => $i_->format('Y-m'),
+                "income" => self::query()
+                    ->where('created_at', '>=', $time)
+                    ->where('created_at', '<=', $time1)
+                    ->get()
+                    ->sum('subscription_package_price')
+            ];
+
+        }
+
+        return $totalIncomeByMonths;
+    }
 }
