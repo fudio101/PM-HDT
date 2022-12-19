@@ -29,6 +29,8 @@ import { useParams } from "react-router-dom";
 import { unwrapResult } from "@reduxjs/toolkit";
 import Card from "../../components/UI/Card";
 
+import confirm from "react-alert-confirm";
+
 // react-select
 const initVal = {
   name: "Comic Name Here",
@@ -179,8 +181,14 @@ function EditComicPage() {
       });
     }
   };
-  const deleteEpisodeHandler = () => {
-    trackPromise(deleteEpisodeHandlerAction());
+  const deleteEpisodeHandler = (e) => {
+    e.preventDefault();
+    confirm({
+      title: "Delete",
+      language: "en",
+      content: <h2>Confirm To Delete</h2>,
+      onOk: deleteEpisodeHandlerAction,
+    });
   };
 
   //update comic episode
@@ -272,12 +280,18 @@ function EditComicPage() {
     }
   };
 
-  const updateComicHandler = () => {
-    trackPromise(updateComicHandlerAction());
+  const deleteComicHandler = (e) => {
+    e.preventDefault();
+    confirm({
+      title: "Delete",
+      language: "en",
+      content: <h2>Confirm To Delete</h2>,
+      onOk: deleteComicHandlerAction,
+    });
   };
 
-  const deleteComicHandler = () => {
-    trackPromise(deleteComicHandlerAction());
+  const updateComicHandler = () => {
+    trackPromise(updateComicHandlerAction());
   };
 
   return (

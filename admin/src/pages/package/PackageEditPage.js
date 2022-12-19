@@ -10,6 +10,7 @@ import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { useNavigate, useParams } from "react-router-dom";
 import { unwrapResult } from "@reduxjs/toolkit";
+import confirm from "react-alert-confirm";
 
 function PackageEditPage() {
   const { id } = useParams();
@@ -57,7 +58,7 @@ function PackageEditPage() {
     }
   };
 
-  const deletePackageHandler = async (e) => {
+  const onDeletePackage = async () => {
     try {
       unwrapResult(await dispatch(delPackage(id)));
       toast("Package Deleted Successfully", {
@@ -71,6 +72,16 @@ function PackageEditPage() {
         type: "error",
       });
     }
+  };
+
+  const deletePackageHandler = async (e) => {
+    e.preventDefault();
+    confirm({
+      title: "Delete",
+      language: "en",
+      content: <h2>Confirm To Delete</h2>,
+      onOk: onDeletePackage,
+    });
   };
 
   return (

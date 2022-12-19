@@ -12,6 +12,7 @@ import {
   delAuthor,
   update,
 } from "../store/actions/authorAction";
+import confirm from "react-alert-confirm";
 
 // import authorAPI from "../api/authorAPI";
 
@@ -74,8 +75,7 @@ function AuthorManagementPage() {
 
   // Delete An author
 
-  const deleteHandler = async (e) => {
-    e.preventDefault();
+  const onDeleteAuthor = async () => {
     try {
       unwrapResult(await dispath(delAuthor(rowSelected.id)));
       if (success === true) {
@@ -91,6 +91,15 @@ function AuthorManagementPage() {
 
     fetchAuthorList();
     closeHandler();
+  };
+  const deleteHandler = (e) => {
+    e.preventDefault();
+    confirm({
+      title: "Delete",
+      language: "en",
+      content: <h2>Confirm To Delete</h2>,
+      onOk: onDeleteAuthor,
+    });
   };
 
   //update an author

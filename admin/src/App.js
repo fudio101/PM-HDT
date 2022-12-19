@@ -19,6 +19,7 @@ import { useDispatch } from "react-redux";
 import { unwrapResult } from "@reduxjs/toolkit";
 import { useLocation } from "react-router-dom";
 
+import "react-alert-confirm/lib/style.css";
 import "react-toastify/ReactToastify.min.css";
 import NewPackagePage from "./pages/package/NewPackagePage";
 import ReceiptManagementPage from "./pages/receipt/ReceiptManagementPage";

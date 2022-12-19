@@ -133,7 +133,7 @@ function NewComicPage() {
 
       unwrapResult(await dispatch(newComic({ comic: formData })));
 
-      toast("New Document Added", {
+      toast("New Comic Added", {
         type: "success",
       });
       setTimeout(() => {

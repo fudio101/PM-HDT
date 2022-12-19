@@ -14,6 +14,7 @@ import {
   deleteUser,
 } from "../store/actions/userAction";
 import { unwrapResult } from "@reduxjs/toolkit";
+import confirm from "react-alert-confirm";
 
 import classes from "./asset/css/StandardMain.module.css";
 
@@ -112,7 +113,8 @@ function UserManagementPage() {
   };
 
   //delete
-  const deleteUserHandler = async (e) => {
+
+  const onDeleteUser = async () => {
     try {
       unwrapResult(await dispatch(deleteUser(rowSelected.id)));
       toast("User Account Deleted Successfully", {
@@ -125,6 +127,15 @@ function UserManagementPage() {
         type: "error",
       });
     }
+  };
+  const deleteUserHandler = async (e) => {
+    e.preventDefault();
+    confirm({
+      title: "Delete",
+      language: "en",
+      content: <h2>Confirm To Delete</h2>,
+      onOk: onDeleteUser,
+    });
   };
 
   return (

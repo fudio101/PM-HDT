@@ -13,6 +13,7 @@ import {
 } from "../store/actions/categoryAction";
 import { unwrapResult } from "@reduxjs/toolkit";
 
+import confirm from "react-alert-confirm";
 import classes from "./asset/css/StandardMain.module.css";
 
 function CategoryManagementPage() {
@@ -68,8 +69,7 @@ function CategoryManagementPage() {
     closeHandler();
   };
 
-  const deleteHandler = async (e) => {
-    e.preventDefault();
+  const deleteCate = async () => {
     try {
       const action = await dispatch(delCate(rowSelected.id));
       unwrapResult(action);
@@ -84,6 +84,16 @@ function CategoryManagementPage() {
 
     fetchCategoryList();
     closeHandler();
+  };
+
+  const deleteHandler = (e) => {
+    e.preventDefault();
+    confirm({
+      title: "Delete",
+      language: "en",
+      content: <h2>Confirm To Delete</h2>,
+      onOk: deleteCate,
+    });
   };
   const updateHandler = async (e) => {
     e.preventDefault();

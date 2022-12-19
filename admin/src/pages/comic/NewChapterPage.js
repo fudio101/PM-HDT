@@ -151,7 +151,7 @@ function NewChapterPage() {
             }}
           />
           <Button className={classes.btn__done} onClick={uploadEPHandler}>
-            Done
+            New Chapter
           </Button>
         </div>
         <div className={classes.btn__wrapper__done}></div>
