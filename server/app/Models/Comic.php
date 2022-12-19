@@ -63,6 +63,8 @@ class Comic extends Model
     {
         return [
             'name' => $this->name,
+            'country' => $this->country->name,
+            'categories' => implode(' ', $this->categories->pluck('name')->toArray()),
         ];
     }
 
