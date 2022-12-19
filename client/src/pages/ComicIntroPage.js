@@ -8,39 +8,41 @@ import comicApi from "../api/comicApi";
 import Loading from "../components/layouts/loading/Loading";
 
 function ComicIntroPage() {
-    const { comicSlug } = useParams();
-    const [comic, setComic] = useState();
-    const [isLoading, setIsLoading] = useState(true);
+  const { comicSlug } = useParams();
+  const [comic, setComic] = useState();
+  const [isLoading, setIsLoading] = useState(true);
 
-    useEffect(() => {
-        const getData = async () => {
-            try {
-                setIsLoading(true);
-                const { data } = await comicApi.getComic(comicSlug);
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        setIsLoading(true);
+        const { data } = await comicApi.getComic(comicSlug);
 
-                setComic(data?.data);
-                setIsLoading(false);
-            } catch (e) {
-                console.log("getComic", e);
-            }
-        };
+        setComic(data?.data);
+        setIsLoading(false);
+      } catch (e) {
+        console.log("getComic", e);
+      }
+    };
 
-        getData();
-    }, [comicSlug]);
+    getData();
+  }, [comicSlug]);
 
-    return (
-        <div className={classes.container}>
-            <ComicTitle info={comic} />
-            <hr
-                style={{
-                    marginTop: "2rem",
-                    marginBottom: "2rem",
-                }}
-            />
-            <ComicChapters chapters={comic?.episodes} comicSlug={comic?.slug} />
-            <Loading isLoading={isLoading} />
-        </div>
-    );
+  return (
+    <div className={classes.container}>
+      <ComicTitle info={comic} />
+
+      <hr
+        style={{
+          marginTop: "2rem",
+          marginBottom: "2rem",
+        }}
+      />
+
+      <ComicChapters chapters={comic?.episodes} comicSlug={comic?.slug} />
+      <Loading isLoading={isLoading} />
+    </div>
+  );
 }
 
 export default ComicIntroPage;
