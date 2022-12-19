@@ -6,11 +6,12 @@ import classes from "../../../pages/asset/css/NewComicPage.module.css";
 
 function ComicEditForm(props) {
   const [inputData, setInputData] = useState(props.initVal);
+  const [inPutDataForm, setInPutDataForm] = useState();
   const bottom = useRef();
 
   useEffect(() => {
-    props.setData(inputData);
-  }, [inputData, props]);
+    props.setData(inPutDataForm);
+  }, [inputData, props, inPutDataForm]);
 
   useEffect(() => {
     // console.log(props.initVal);
@@ -33,11 +34,27 @@ function ComicEditForm(props) {
       // author_avt: e.author_avt,
       // authorID: e.id,
     }));
+
+    setInPutDataForm((prev) => ({
+      ...prev,
+      author: {
+        name: e.value,
+        image_url: e.author_avt,
+        id: e.id,
+      },
+    }));
   };
 
   const formInputHandler = (e) => {
     const { value, name } = e.target;
     setInputData((prev) => {
+      return {
+        ...prev,
+        [name]: value,
+      };
+    });
+
+    setInPutDataForm((prev) => {
       return {
         ...prev,
         [name]: value,
@@ -56,9 +73,16 @@ function ComicEditForm(props) {
       cateArr.push(cate.label);
     });
 
-    console.log(arr);
+    // console.log(arr);
 
     setInputData((prev) => {
+      return {
+        ...prev,
+        categories: [...arr],
+      };
+    });
+
+    setInPutDataForm((prev) => {
       return {
         ...prev,
         categories: [...arr],
@@ -79,11 +103,26 @@ function ComicEditForm(props) {
         image: e.target.files[0],
       };
     });
+
+    setInPutDataForm((prev) => {
+      return {
+        ...prev,
+        [name]: img,
+        image: e.target.files[0],
+      };
+    });
     // props.setData(inputData);
   };
 
   const countryHandler = (e) => {
     setInputData((prev) => {
+      return {
+        ...prev,
+        country: e.id,
+      };
+    });
+
+    setInPutDataForm((prev) => {
       return {
         ...prev,
         country: e.id,
@@ -141,6 +180,7 @@ function ComicEditForm(props) {
               <input
                 name="image_url"
                 type={"file"}
+                accept="image/*"
                 onChange={inputIMGHandler}
                 className={
                   "block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"

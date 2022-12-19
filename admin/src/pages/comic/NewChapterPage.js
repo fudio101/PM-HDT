@@ -55,7 +55,7 @@ const initVal = {
 function NewChapterPage() {
   const dispatch = useDispatch();
   // const navigate = useNavigate();
-  const { comic } = useSelector((state) => state.comic);
+  // const { comic } = useSelector((state) => state.comic);
   const { id } = useParams();
   const [returnPts, setReturnPts] = useState([]); // return (data) edit chapter values
   const [photoArr, setPhotosArr] = useState([]);
@@ -69,8 +69,12 @@ function NewChapterPage() {
   };
 
   useEffect(() => {
-    // dispatch(getComic(id));
     fetchComic();
+  }, []);
+
+  useEffect(() => {
+    // dispatch(getComic(id));
+
     const maxEpNum = Math.max(
       ...comicData?.episodes.map((x) => x.episode_number)
     );
@@ -107,7 +111,7 @@ function NewChapterPage() {
       });
 
       formData.append("comic_id", id);
-      formData.append("episode_number", episode);
+      formData.append("episode_number", Number(episode));
       unwrapResult(await dispatch(newChapter({ photos: formData })));
       toast("New Episode Added Successfully", {
         type: "success",

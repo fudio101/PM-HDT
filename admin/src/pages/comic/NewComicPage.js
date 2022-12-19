@@ -103,18 +103,34 @@ function NewComicPage() {
   const navigate = useNavigate();
 
   const uploadComicHandlerAction = async () => {
+    console.log(data);
     try {
       const formData = new FormData();
-      formData.append("name", data.name);
-      formData.append("published_date", data.published_date);
-      formData.append("status", 0);
-      formData.append("image", data.image);
-      formData.append("author_id", data.author.id);
-      formData.append("description", data.description);
-      formData.append("country_id", data.country);
-      data.categories.forEach((cate) => {
-        formData.append("category_id[]", cate.id);
-      });
+      for (const [key, value] of Object.entries(data)) {
+        if (key === "categories") {
+          value.forEach((cate) => {
+            formData.append("category_id[]", cate.id);
+          });
+        }
+        if (key === "author") {
+          formData.append("author_id", value.id);
+        }
+
+        if (key === "country") {
+          formData.append("country_id", value);
+        }
+        formData.append(key, value);
+      }
+
+      formData.append("published_date", moment().format("YYYY-MM-DD"));
+      // formData.append("name", data.name);
+      // formData.append("published_date", data.published_date);
+      // formData.append("status", 0);
+      // formData.append("image", data.image);
+      // formData.append("author_id", data.author.id);
+      // formData.append("description", data.description);
+      // formData.append("country_id", data.country);
+
       unwrapResult(await dispatch(newComic({ comic: formData })));
 
       toast("New Document Added", {
@@ -124,7 +140,6 @@ function NewComicPage() {
         navigate("/comic-manage");
       }, 1500);
     } catch (error) {
-      console.log(error);
       toast(error, {
         type: "error",
       });
