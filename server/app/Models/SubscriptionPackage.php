@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class SubscriptionPackage extends Model
@@ -19,7 +20,7 @@ class SubscriptionPackage extends Model
         'description'
     ];
 
-    protected $appends = ['image_url'];
+//    protected $appends = ['image_url'];
 
     protected $hidden = [
         'deleted_at',
@@ -39,5 +40,14 @@ class SubscriptionPackage extends Model
     public function getImageUrlAttribute()
     {
         return Storage::temporaryUrl($this->image, now()->addMinutes(30));
+    }
+
+    public static function getStatistic()
+    {
+        return self::query()
+            ->leftJoin('bills', 'bills.subscription_package_id', '=', 'subscription_packages.id')
+            ->groupBy('subscription_packages.id')
+            ->select(['subscription_packages.name', DB::raw('COUNT(bills.id) as total')])
+            ->get();
     }
 }

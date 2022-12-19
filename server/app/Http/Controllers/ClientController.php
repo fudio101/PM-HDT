@@ -37,7 +37,8 @@ class ClientController extends Controller
                     'changeUserName',
                     'buySubscriptionPackage',
                     'getUserStatistic',
-                    'rateComic'
+                    'rateComic',
+                    'getSubscriptionPackageStatistic'
                 ]
             ]);
     }
@@ -398,5 +399,14 @@ class ClientController extends Controller
         $request->validate(['rating' => 'required|integer|min:0|max:5']);
         $comic->rateOnce($request->input('rating'));
         return response(null, ResponseAlias::HTTP_CREATED);
+    }
+
+    public function getSubscriptionPackageStatistic()
+    {
+        $subscriptionPackageStatistic = SubscriptionPackage::getStatistic();
+
+        return response()->json([
+            'subscription_package_statistic' => $subscriptionPackageStatistic,
+        ], ResponseAlias::HTTP_OK);
     }
 }

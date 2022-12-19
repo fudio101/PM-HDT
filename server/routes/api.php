@@ -72,3 +72,4 @@ Route::get('get-total-views', [ClientController::class, 'getTotalViews']);
 Route::get('get-total-incomes', [ClientController::class, 'getTotalIncomes']);
 Route::get('get-total-income-by-months', [ClientController::class, 'getTotalIncomeByMonths']);
 Route::get('get-user-statistic', [ClientController::class, 'getUserStatistic']);
+Route::get('get-subscription-package-statistic', [ClientController::class, 'getSubscriptionPackageStatistic']);

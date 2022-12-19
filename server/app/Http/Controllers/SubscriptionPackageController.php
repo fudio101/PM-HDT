@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreSubscriptionPackageRequest;
 use App\Http\Requests\UpdateSubscriptionPackageRequest;
+use App\Http\Resources\SubscriptionPackageResource;
 use App\Models\SubscriptionPackage;
 use Exception;
 use Illuminate\Http\JsonResponse;
@@ -32,7 +33,7 @@ class SubscriptionPackageController extends Controller
      */
     public function index(): JsonResponse
     {
-        $subscriptionPackages = SubscriptionPackage::all();
+        $subscriptionPackages = SubscriptionPackageResource::collection(SubscriptionPackage::all());
         return response()->json(['subscription_packages' => $subscriptionPackages], ResponseAlias::HTTP_OK);
     }
 
@@ -60,7 +61,7 @@ class SubscriptionPackageController extends Controller
 
             return response()->json([
                 'message' => 'Successfully added new subscription package!',
-                'subscription_package' => $subscriptionPackage
+                'subscription_package' => new SubscriptionPackageResource($subscriptionPackage)
             ], ResponseAlias::HTTP_CREATED);
         } catch (Exception $exception) {
             return response()->json([
@@ -77,7 +78,8 @@ class SubscriptionPackageController extends Controller
      */
     public function show(SubscriptionPackage $subscriptionPackage): JsonResponse
     {
-        return response()->json(['subscription_package' => $subscriptionPackage], ResponseAlias::HTTP_OK);
+        return response()->json(['subscription_package' => new SubscriptionPackageResource($subscriptionPackage)],
+            ResponseAlias::HTTP_OK);
     }
 
     /**
@@ -105,7 +107,7 @@ class SubscriptionPackageController extends Controller
 
             return response()->json([
                 'message' => 'Successful update',
-                'subscription_package' => $subscriptionPackage
+                'subscription_package' => new SubscriptionPackageResource($subscriptionPackage)
             ], ResponseAlias::HTTP_OK);
         } catch (Exception $exception) {
             return response()->json(['message' => $exception->getMessage()], ResponseAlias::HTTP_BAD_REQUEST);
