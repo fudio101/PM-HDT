@@ -28,14 +28,14 @@ function SearchComicsPage() {
     });
 
     return (
-        <>
+        <div className="flex-col">
             <SearchComicsFilter />
             {comicsFilter.length > 0 ? (
                 <PaginatedItems data={items} itemsPerPage={itemsPerPage} />
             ) : (
                 <div>Không tìm thấy kết quả</div>
             )}
-        </>
+        </div>
     );
 }
 
