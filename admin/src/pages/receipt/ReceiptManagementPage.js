@@ -1,15 +1,14 @@
 import React, { useState } from "react";
 import classes from "../asset/css/StandardMain.module.css";
 import PackageTable from "../../components/tables/PackageTable";
-import Button from "../../components/UI/Button";
 import { ToastContainer } from "react-toastify";
 import { getAllPackage } from "../../store/actions/packagesAction";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import { unwrapResult } from "@reduxjs/toolkit";
+import { getAllReceipt } from "../../store/actions/receiptAction";
 
-function PackageManagementPage() {
+function ReceiptManagementPage() {
   const columns = React.useMemo(
     () => [
       {
@@ -17,33 +16,32 @@ function PackageManagementPage() {
         accessor: "id",
       },
       {
-        Header: "Name",
-        accessor: "name",
+        Header: "Email",
+        accessor: "user_email",
+      },
+      {
+        Header: "Package Name",
+        accessor: "subscription_package_name",
       },
       {
         Header: "Price (VND)",
-        accessor: "price",
+        accessor: "subscription_package_price",
       },
       {
-        Header: "Duration (Day)",
-        accessor: "duration",
-      },
-      {
-        Header: "Description",
-        accessor: "description",
+        Header: "Duration (day)",
+        accessor: "subscription_package_duration",
       },
     ],
     []
   );
   const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const [packageList, setPackageList] = useState([]);
+  const [receiptList, setReceiptList] = useState([]);
 
-  const fetchAllPackages = async () => {
-    await setPackageList(unwrapResult(await dispatch(getAllPackage())));
+  const fetchAllReceipts = async () => {
+    await setReceiptList(unwrapResult(await dispatch(getAllReceipt())));
   };
   useEffect(() => {
-    fetchAllPackages();
+    fetchAllReceipts();
   }, []);
   // console.log(packageList);
   // const { error, author, success } = useSelector((state) => state.author);
@@ -56,24 +54,14 @@ function PackageManagementPage() {
   return (
     <>
       <div className={classes.main_title}>
-        <p className={classes.font_weight_bold}>PACKAGES MANAGEMENT</p>
+        <p className={classes.font_weight_bold}>RECEIPTS MANAGEMENT</p>
       </div>
 
       <div className={classes.tile}>
-        <div className={`${classes.row} ${classes.element_button}`}>
-          <Button
-            className={classes.add_btn}
-            onClick={() => {
-              navigate("/new-packages");
-            }}
-          >
-            Add
-          </Button>
-        </div>
         <PackageTable
           columns={columns}
-          data={packageList}
-          navi={"/edit-package"}
+          data={receiptList}
+          navi="/receipt-manage"
           // setRowSelected={setRowSelected}
         ></PackageTable>
       </div>
@@ -83,4 +71,4 @@ function PackageManagementPage() {
   );
 }
 
-export default PackageManagementPage;
+export default ReceiptManagementPage;

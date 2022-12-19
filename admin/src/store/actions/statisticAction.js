@@ -33,11 +33,64 @@ export const viewByMonth = createAsyncThunk(
   }
 );
 
+// get total view
 export const getTotalView = createAsyncThunk(
   "statistic/getTotalView",
   async (limit, { rejectWithValue }) => {
     try {
       const res = await statisticAPI.getTotalView();
+      return res.data;
+    } catch (error) {
+      if (error.response && error.response.data.message) {
+        return rejectWithValue(error.response.data.message);
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  }
+);
+
+//get total income by month
+export const getTotalIncomeByMonth = createAsyncThunk(
+  "statistic/getTotalIncomeByMonth",
+  async (arg, { rejectWithValue }) => {
+    try {
+      const res = await statisticAPI.getTotalIncomeByMonth();
+      return res.data;
+    } catch (error) {
+      if (error.response && error.response.data.message) {
+        return rejectWithValue(error.response.data.message);
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  }
+);
+
+//get user statistic  -> for pie chart
+export const getUserStatistic = createAsyncThunk(
+  "statistic/getUserStatistic",
+  async (arg, { rejectWithValue }) => {
+    try {
+      const res = await statisticAPI.getUserStatistic();
+      return res.data;
+    } catch (error) {
+      if (error.response && error.response.data.message) {
+        return rejectWithValue(error.response.data.message);
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  }
+);
+
+//get total income by month/day
+
+export const getTotalIncome = createAsyncThunk(
+  "statistic/getTotalIncome",
+  async (arg, { rejectWithValue }) => {
+    try {
+      const res = await statisticAPI.getTotalIncome();
       return res.data;
     } catch (error) {
       if (error.response && error.response.data.message) {

@@ -2,12 +2,28 @@ import React from "react";
 import { useTable, usePagination, useGlobalFilter } from "react-table";
 import classes from "./TableStyle.module.css";
 import { useNavigate } from "react-router-dom";
+import moment from "moment";
 
-function PackageTable({ columns, data, setRowSelected }) {
+function PackageTable({ columns, data, navi }) {
   const navigate = useNavigate();
   const tableBtn = (hooks) => {
     hooks.visibleColumns.push((columns) => [
       ...columns,
+
+      {
+        Header: "Date",
+        accessor: "created_at",
+        id: "created_at",
+        Cell: (row) => {
+          return (
+            <div>
+              {moment(row.row.original.published_date).format(
+                "ddd-DD/MMM/YYYY"
+              )}
+            </div>
+          );
+        },
+      },
 
       {
         Header: "Actions",
@@ -16,30 +32,32 @@ function PackageTable({ columns, data, setRowSelected }) {
         Cell: (row) => {
           return (
             <div
-              className={classes.edit_btn}
+              className={`${
+                navi !== "/receipt-manage" ? classes.edit_btn : classes.view_btn
+              }`}
               onClick={() => {
-                navigate(`/edit-package/${row.row.original.id}`);
-                setRowSelected({
-                  id: row.row.original.id,
-                  name: row.row.original.name,
-                  image_url: row.row.original.image_url,
-                });
+                navigate(`${navi}/${row.row.original.id}`);
+                // setRowSelected({
+                //   id: row.row.original.id,
+                //   name: row.row.original.name,
+                //   image_url: row.row.original.image_url,
+                // });
               }}
             >
-              edit
+              {navi === "/receipt-manage" ? "view" : "edit"}
             </div>
           );
         },
       },
     ]);
   };
-
+  const row = navi === "/receipt-manage" ? "" : "created_at";
   const tableInstance = useTable(
     {
       columns: columns,
       data,
       initialState: {
-        hiddenColumns: ["id"],
+        hiddenColumns: ["id", row],
       },
     },
     useGlobalFilter, // useGlobalFilter!
