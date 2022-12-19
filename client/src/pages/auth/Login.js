@@ -1,7 +1,6 @@
 import { useForm } from "react-hook-form";
 import { Link, useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { BsGoogle, BsFacebook } from "react-icons/bs";
 import { login } from "../../redux/reducers/userSlice";
 import { useNavigate } from "react-router-dom";
 import { unwrapResult } from "@reduxjs/toolkit";
