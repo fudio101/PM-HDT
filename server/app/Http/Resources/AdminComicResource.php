@@ -20,6 +20,7 @@ class AdminComicResource extends JsonResource
         $data = parent::toArray($request);
 
         return array_merge($data, [
+            'rate' => $this->averageRating,
             'categories' => $this->categories,
             'author' => $this->author,
             'country' => $this->country,
