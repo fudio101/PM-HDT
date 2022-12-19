@@ -18,32 +18,32 @@ class DatabaseSeeder extends Seeder
     {
         // \App\Models\User::factory(10)->create();
 
-        Role::factory()->create([
-            'name' => 'Admin'
-        ]);
-
-        Role::factory()->create([
-            'name' => 'Agent'
-        ]);
-
-        User::factory()->create([
-            'name' => 'Admin',
-            'email' => 'thenguyen1024@gmail.com',
-            'password' => Hash::make('Ng01637202484'),
-            'role_id' => 1,
-        ]);
-
-        Country::factory()->create([
-            'name' => 'Nhật Bản'
-        ]);
-
-        Country::factory()->create([
-            'name' => 'Hàn Quốc'
-        ]);
-
-        Country::factory()->create([
-            'name' => 'Trung Quốc'
-        ]);
+//        Role::factory()->create([
+//            'name' => 'Admin'
+//        ]);
+//
+//        Role::factory()->create([
+//            'name' => 'Agent'
+//        ]);
+//
+//        User::factory()->create([
+//            'name' => 'Admin',
+//            'email' => 'thenguyen1024@gmail.com',
+//            'password' => Hash::make('Ng01637202484'),
+//            'role_id' => 1,
+//        ]);
+//
+//        Country::factory()->create([
+//            'name' => 'Nhật Bản'
+//        ]);
+//
+//        Country::factory()->create([
+//            'name' => 'Hàn Quốc'
+//        ]);
+//
+//        Country::factory()->create([
+//            'name' => 'Trung Quốc'
+//        ]);
 
 
 //        for ($k = 1; $k <= 40; $k++) {
