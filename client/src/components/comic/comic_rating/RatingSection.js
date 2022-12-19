@@ -1,10 +1,16 @@
 import React from "react";
+import { useParams } from "react-router-dom";
+import { rateComic } from "../../../redux/reducers/chapterSlice";
+import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
+
 import {
   Popover,
   PopoverHandler,
   PopoverContent,
 } from "@material-tailwind/react";
 import ReactStars from "react-rating-stars-component";
+import { unwrapResult } from "@reduxjs/toolkit";
 
 function RatingSection() {
   const [ratingPoint, setRatingPoint] = React.useState(5);
@@ -13,9 +19,9 @@ function RatingSection() {
     count: 5,
     color: "gray",
     activeColor: "yellow",
-    value: 4.5,
+    value: 5,
     a11y: true,
-    isHalf: true,
+    isHalf: false,
     emptyIcon: <i className="far fa-star" />,
     halfIcon: <i className="fa fa-star-half-alt" />,
     filledIcon: <i className="fa fa-star" />,
@@ -23,6 +29,19 @@ function RatingSection() {
       setRatingPoint(newValue);
     },
   };
+  const dispatch = useDispatch();
+  const { comicSlug } = useParams();
+  const ratingHandler = async () => {
+    try {
+      unwrapResult(
+        await dispatch(rateComic({ slug: comicSlug, rating: ratingPoint }))
+      );
+      toast("Cảm Ơn Bạn Đã Phản Hồi 💕", {
+        type: "success",
+      });
+    } catch (error) {}
+  };
+
   return (
     <>
       <Popover>
@@ -42,13 +61,10 @@ function RatingSection() {
             </div>
             <div>
               <button
-                ripple={true}
                 className={
                   "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
                 }
-                onClick={() => {
-                  alert(ratingPoint);
-                }}
+                onClick={ratingHandler}
               >
                 Submit
               </button>

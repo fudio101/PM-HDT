@@ -42,7 +42,9 @@ function ReceiptView() {
           </div>
           <div className="flex justify-between p-4">
             <div className="w-full text-center">
-              <div className=" font-bold text-2xl">Hi Hậu</div>
+              <div className=" font-bold text-2xl">
+                Hi {receiptData?.user_name}
+              </div>
               <div className=" text-md">
                 Thanks for your purchase from Comic World
               </div>
