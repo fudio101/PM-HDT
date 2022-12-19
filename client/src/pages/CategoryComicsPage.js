@@ -45,7 +45,7 @@ function CategoryComicsPage() {
     });
 
     return (
-        <>
+        <div className="flex-col">
             <div style={titleCSS}>{categoryName}</div>
             <CategoryComicsFilter />
             {comicsFilter.length > 0 ? (
@@ -53,7 +53,7 @@ function CategoryComicsPage() {
             ) : (
                 <div>Không tìm thấy kết quả</div>
             )}
-        </>
+        </div>
     );
 }
 
