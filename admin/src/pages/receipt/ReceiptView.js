@@ -30,12 +30,13 @@ function ReceiptView() {
         <div ref={ref} className="w-3/5 bg-white shadow-lg">
           <div className="flex justify-between p-4">
             <div>
-              <h1 className="text-3xl italic font-bold tracking-widest text-indigo-900">
+              <h1 className="text-3xl italic font-extrabold tracking-widest text-indigo-900">
                 <img
                   src={require("../asset/img/logo512.png")}
                   className={"w-8 inline"}
                 ></img>
                 <div className="inline px-3">Comic World</div>
+                <div className="inline font-semibold text-xl">Thank You.</div>
               </h1>
             </div>
           </div>
@@ -127,7 +128,7 @@ function ReceiptView() {
       <div className="flex justify-center space-x-3 bg-gray-100 py-4 ">
         <ReactToPdf
           targetRef={ref}
-          filename="div-blue.pdf"
+          filename={`Receipt ${receiptData?.id}-${receiptData?.subscription_package_name}`}
           // options={{ orientation: "landscape" }}
           x={6}
           y={6}

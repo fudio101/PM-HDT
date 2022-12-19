@@ -26,14 +26,14 @@ function LatestComicsPage() {
     });
 
     return (
-        <>
+        <div className="flex-col">
             <LatestComicsFilter />
             {comicsFilter.length > 0 ? (
                 <PaginatedItems data={items} itemsPerPage={itemsPerPage} />
             ) : (
                 <div>Không tìm thấy kết quả</div>
             )}
-        </>
+        </div>
     );
 }
 

@@ -11,7 +11,7 @@ function PackageTable({ columns, data, navi }) {
       ...columns,
 
       {
-        Header: "Published Date",
+        Header: "Date",
         accessor: "created_at",
         id: "created_at",
         Cell: (row) => {

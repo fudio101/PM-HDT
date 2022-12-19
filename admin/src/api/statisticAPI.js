@@ -15,6 +15,21 @@ const statisticAPI = {
     const url = "/get-total-views";
     return axiosClient.get(url);
   },
+
+  getTotalIncome: () => {
+    const url = "get-total-incomes";
+    return axiosClient.get(url);
+  },
+
+  getTotalIncomeByMonth: (limit) => {
+    const url = `/get-total-income-by-months?${limit}`;
+    return axiosClient.get(url);
+  },
+
+  getUserStatistic: () => {
+    const url = "/get-user-statistic";
+    return axiosClient.get(url);
+  },
 };
 
 export default statisticAPI;

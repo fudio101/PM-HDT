@@ -160,15 +160,15 @@ textarea {
 
 .charts {
   display: grid;
-  grid-template-columns: 50% auto;
+  grid-template-columns: 60% auto;
   gap: 20px;
-  margin-top: 6rem;
+  margin-top: 2rem;
 }
 
 .charts_card {
   background-color: #ffffff;
   margin-bottom: 20px;
-  padding: 25px;
+  padding: 6px;
   box-sizing: border-box;
   -webkit-column-break-inside: avoid;
   border: 1px solid #d2d2d3;
@@ -186,5 +186,5 @@ textarea {
 
 .bar__container {
   width: 100%;
-  height: 24rem;
+  height: 28rem;
 }

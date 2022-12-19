@@ -11,7 +11,7 @@ function RankPage() {
     let comicsFilter = useSelector(comicRankingsFilterResultSelector);
 
     return (
-        <div className={classes.container}>
+        <div className={`${classes.container} flex-col`}>
             {/* <div className={classes.tag_name}>
         <h1 className={classes.tag_title}>Popular</h1>
       </div> */}

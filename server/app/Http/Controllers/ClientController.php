@@ -36,7 +36,8 @@ class ClientController extends Controller
                     'acceptEpisodeView',
                     'changeUserName',
                     'buySubscriptionPackage',
-                    'getUserStatistic'
+                    'getUserStatistic',
+                    'rateComic'
                 ]
             ]);
     }
@@ -390,5 +391,12 @@ class ClientController extends Controller
             'unpaid' => $unpaid,
             'paid' => $paid,
         ], ResponseAlias::HTTP_OK);
+    }
+
+    public function rateComic(Request $request, Comic $comic)
+    {
+        $request->validate(['rating' => 'required|integer|min:0|max:5']);
+        $comic->rateOnce($request->input('rating'));
+        return response(null, ResponseAlias::HTTP_CREATED);
     }
 }

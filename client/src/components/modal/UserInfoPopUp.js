@@ -87,7 +87,7 @@ function UserInfoPopUp({ setVisiblePopUp, isVisiblePopUp }) {
                     className={`fixed flex h-screen justify-center items-center z-50  w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-modal md:h-full `}
                 >
                     <div className="relative w-full h-full max-w-md md:h-auto">
-                        <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                        <div className="relative bg-white rounded-lg shadow">
                             <button
                                 onClick={() => {
                                     setVisiblePopUp(false);
@@ -97,7 +97,7 @@ function UserInfoPopUp({ setVisiblePopUp, isVisiblePopUp }) {
                                     resetField("new_password_confirmation");
                                 }}
                                 type="button"
-                                className="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white"
+                                className="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
                                 data-modal-toggle="authentication-modal"
                             >
                                 <svg
@@ -111,7 +111,7 @@ function UserInfoPopUp({ setVisiblePopUp, isVisiblePopUp }) {
                                 </svg>
                             </button>
                             <div className="px-6 py-6 lg:px-8">
-                                <div className="text-center mb-4 text-xl w-full font-semibold text-gray-900 dark:text-white">
+                                <div className="text-center mb-4 text-xl w-full font-semibold text-gray-900">
                                     {isChangePassword
                                         ? "Đổi Mật Khẩu"
                                         : "Chỉnh Sửa Thông Tin"}
@@ -121,7 +121,7 @@ function UserInfoPopUp({ setVisiblePopUp, isVisiblePopUp }) {
                                     onSubmit={handleSubmit(submitFormHandle)}
                                 >
                                     <div>
-                                        <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                        <label className="block mb-2 text-sm font-medium text-gray-900">
                                             Email
                                         </label>
                                         <input
@@ -129,26 +129,26 @@ function UserInfoPopUp({ setVisiblePopUp, isVisiblePopUp }) {
                                             placeholder={userInfo?.email}
                                             type="email"
                                             name="email"
-                                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                         />
                                     </div>
 
                                     {!isChangePassword ? (
                                         <div>
-                                            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                            <label className="block mb-2 text-sm font-medium text-gray-900">
                                                 Tên Mới
                                             </label>
                                             <input
                                                 {...register("name")}
                                                 type="text"
-                                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                                 required
                                             />
                                         </div>
                                     ) : (
                                         <>
                                             <div>
-                                                <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                                <label className="block mb-2 text-sm font-medium text-gray-900">
                                                     Mật Khẩu Cũ
                                                 </label>
                                                 <input
@@ -165,7 +165,7 @@ function UserInfoPopUp({ setVisiblePopUp, isVisiblePopUp }) {
                                                         }
                                                     )}
                                                     type="password"
-                                                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                                                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                                     required
                                                 />
                                                 {errors.old_password && (
@@ -178,7 +178,7 @@ function UserInfoPopUp({ setVisiblePopUp, isVisiblePopUp }) {
                                                 )}
                                             </div>
                                             <div>
-                                                <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                                <label className="block mb-2 text-sm font-medium text-gray-900">
                                                     Mật Khẩu Mới
                                                 </label>
                                                 <input
@@ -195,7 +195,7 @@ function UserInfoPopUp({ setVisiblePopUp, isVisiblePopUp }) {
                                                         }
                                                     )}
                                                     type="password"
-                                                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                                                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                                     required
                                                 />
                                                 {errors.new_password && (
@@ -208,7 +208,7 @@ function UserInfoPopUp({ setVisiblePopUp, isVisiblePopUp }) {
                                                 )}
                                             </div>
                                             <div>
-                                                <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                                <label className="block mb-2 text-sm font-medium text-gray-900">
                                                     Xác Nhận Mật Khẩu
                                                 </label>
                                                 <input
@@ -225,7 +225,7 @@ function UserInfoPopUp({ setVisiblePopUp, isVisiblePopUp }) {
                                                         }
                                                     )}
                                                     type="password"
-                                                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                                                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                                     required
                                                 />
                                                 {errors.new_password_confirmation && (
@@ -243,7 +243,7 @@ function UserInfoPopUp({ setVisiblePopUp, isVisiblePopUp }) {
 
                                     <div className="flex justify-between">
                                         <div
-                                            className="block text-base text-center w-full cursor-pointer font-semibold opacity-90 text-blue-700 hover:underline dark:text-blue-300 "
+                                            className="block text-base text-center w-full cursor-pointer font-semibold opacity-90 text-blue-700 hover:underline"
                                             onClick={() =>
                                                 setChangePassword(
                                                     !isChangePassword
@@ -257,7 +257,7 @@ function UserInfoPopUp({ setVisiblePopUp, isVisiblePopUp }) {
                                     </div>
                                     <button
                                         type="submit"
-                                        className="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                                        className="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
                                     >
                                         {!isChangePassword
                                             ? "Xác Nhận"

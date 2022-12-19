@@ -16,10 +16,11 @@ use Illuminate\Support\Facades\Storage;
 use Laravel\Scout\Searchable;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
+use willvincent\Rateable\Rateable;
 
 class Comic extends Model
 {
-    use HasFactory, SoftDeletes, AddUser, HasSlug, Searchable;
+    use HasFactory, SoftDeletes, AddUser, HasSlug, Searchable, Rateable;
 
     protected $table = 'comics';
     protected $fillable = [

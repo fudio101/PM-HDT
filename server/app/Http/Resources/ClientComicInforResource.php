@@ -19,7 +19,7 @@ class ClientComicInforResource extends JsonResource
         return [
             'name' => $this->name,
             'slug' => $this->slug,
-            'like' => $this->like,
+            'rate' => $this->averageRating,
             'num_of_episodes' => $this->num_of_episodes,
             'description' => $this->description,
             'published_date' => $this->published_date,
