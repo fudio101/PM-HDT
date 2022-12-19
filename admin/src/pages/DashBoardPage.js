@@ -146,10 +146,10 @@ const DashBoardPage = () => {
     const totalView = setTotalView(
       unwrapResult(await dispatch(getTotalView()))
     ); // total view by day, month
-    const totalComic = unwrapResult(await dispatch(getAllComic()));
-    const totalEpisode = unwrapResult(await dispatch(getAllComicEP()));
-    const totalIncome = unwrapResult(await dispatch(getTotalIncome()));
-    console.log(unwrapResult(await dispatch(getTotalIncome())));
+    const totalComic = unwrapResult(dispatch(getAllComic()));
+    const totalEpisode = unwrapResult(dispatch(getAllComicEP()));
+    const totalIncome = unwrapResult(dispatch(getTotalIncome()));
+    console.log(unwrapResult(dispatch(getTotalIncome())));
     setStatisticData({
       // viewByMonth: totalView.month,
       // viewByDay: totalView.today,
@@ -330,35 +330,6 @@ const DashBoardPage = () => {
                     label={<CustomizedLabel />}
                   />
                 </LineChart>
-              </ResponsiveContainer>
-            </div>
-          </div>
-
-          <div className={""}>
-            {/* <p className={classes.chart_title}>Pie Chart</p> */}
-            <div className={classes.bar__container}>
-              <ResponsiveContainer width="100%" height="100%">
-                <PieChart width={200} height={200}>
-                  <Pie
-                    activeIndex={activeIndex}
-                    activeShape={renderActiveShape}
-                    data={data}
-                    cx="50%"
-                    cy="50%"
-                    innerRadius={60}
-                    outerRadius={80}
-                    fill="#8884d8"
-                    dataKey="value"
-                    onMouseEnter={onPieEnter}
-                  >
-                    {data.map((entry, index) => (
-                      <Cell
-                        key={`cell-${index}`}
-                        fill={COLORS[index % COLORS.length]}
-                      />
-                    ))}
-                  </Pie>
-                </PieChart>
               </ResponsiveContainer>
             </div>
           </div>
