@@ -77,12 +77,12 @@ function ComicTitle({ info }) {
                 <div className="flex items-center space-x-4">
                   <div className="flex-1 min-w-0">
                     <div className="text-sm text-gray-500 truncate dark:text-gray-400">
-                      {info?.rate && (
+                      {info?.rating && (
                         <ReactStars
                           count={5}
                           size={24}
                           activeColor="#ffd700"
-                          value={Number(Math.round(info?.rate * 10) / 10)}
+                          value={Number(Math.round(info?.rating * 10) / 10)}
                           edit={false}
                           isHalf={true}
                         />
@@ -91,7 +91,7 @@ function ComicTitle({ info }) {
                   </div>
                   <div className="inline-flex items-center text-base font-semibold text-gray-900">
                     {`${
-                      info?.rate ? Number(info?.rate).toFixed(1) : "-.-"
+                      info?.rating ? Number(info?.rating).toFixed(1) : "-.-"
                     } / 5`}
                   </div>
                 </div>

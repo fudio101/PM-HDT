@@ -89,13 +89,19 @@ function CategoryManagementPage() {
     e.preventDefault();
 
     try {
-      const action = await dispatch(
-        update({ category: { name: cateData.name }, id: rowSelected.id })
-      );
-      unwrapResult(action);
-      toast("Category Updated Successfully", {
-        type: "success",
-      });
+      if (cateData.name !== "") {
+        const action = await dispatch(
+          update({ category: { name: cateData.name }, id: rowSelected.id })
+        );
+        unwrapResult(action);
+        toast("Category Updated Successfully", {
+          type: "success",
+        });
+      } else {
+        toast("empty category name!", {
+          type: "error",
+        });
+      }
     } catch (error) {
       toast(error, {
         type: "error",
