@@ -53,10 +53,10 @@ export const getTotalView = createAsyncThunk(
 //get total income by month
 export const getTotalIncomeByMonth = createAsyncThunk(
   "statistic/getTotalIncomeByMonth",
-  async (arg, { rejectWithValue }) => {
+  async (limit, { rejectWithValue }) => {
     try {
-      const res = await statisticAPI.getTotalIncomeByMonth();
-      return res.data;
+      const res = await statisticAPI.getTotalIncomeByMonth(limit);
+      return res.total_income_by_months;
     } catch (error) {
       if (error.response && error.response.data.message) {
         return rejectWithValue(error.response.data.message);
@@ -73,7 +73,7 @@ export const getUserStatistic = createAsyncThunk(
   async (arg, { rejectWithValue }) => {
     try {
       const res = await statisticAPI.getUserStatistic();
-      return res.data;
+      return res;
     } catch (error) {
       if (error.response && error.response.data.message) {
         return rejectWithValue(error.response.data.message);
@@ -92,6 +92,22 @@ export const getTotalIncome = createAsyncThunk(
     try {
       const res = await statisticAPI.getTotalIncome();
       return res.data;
+    } catch (error) {
+      if (error.response && error.response.data.message) {
+        return rejectWithValue(error.response.data.message);
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  }
+);
+
+export const getPackageSold = createAsyncThunk(
+  "statistic/getPackageSold",
+  async (arg, { rejectWithValue }) => {
+    try {
+      const res = await statisticAPI.packageSold();
+      return res.subscription_package_statistic;
     } catch (error) {
       if (error.response && error.response.data.message) {
         return rejectWithValue(error.response.data.message);

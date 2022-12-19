@@ -30,6 +30,11 @@ const statisticAPI = {
     const url = "/get-user-statistic";
     return axiosClient.get(url);
   },
+
+  packageSold: () => {
+    const url = "/get-subscription-package-statistic";
+    return axiosClient.get(url);
+  },
 };
 
 export default statisticAPI;

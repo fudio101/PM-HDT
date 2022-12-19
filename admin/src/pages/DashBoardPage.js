@@ -29,6 +29,9 @@ import {
   topComics,
   getTotalView,
   getTotalIncome,
+  getUserStatistic,
+  getTotalIncomeByMonth,
+  getPackageSold,
 } from "../store/actions/statisticAction.js";
 
 import { getAllComic } from "../store/actions/comicAction";
@@ -44,7 +47,7 @@ const data = [
 ];
 
 //FOR CHART CORLORS
-const COLORS = ["#FF8042", "#0088FE", "#FFBB28", "#00C49F"];
+const COLORS = ["#0088FE", "#FFBB28", "#00C49F", "#F00000", "#FF8042"];
 
 //FOR PIE CHART
 const renderActiveShape = (props) => {
@@ -120,47 +123,70 @@ const renderActiveShape = (props) => {
   );
 };
 
-const CustomizedLabel = (props) => {
-  const { x, y, stroke, value } = props;
-  return (
-    <text x={x} y={y} dy={-4} fill={stroke} fontSize={10} textAnchor="middle">
-      {value}
-    </text>
-  );
-};
+// const CustomizedLabel = (props) => {
+//   const { x, y, stroke, value } = props;
+//   return (
+//     <text x={x} y={y} dy={-4} fill={stroke} fontSize={10} textAnchor="middle">
+//       {value}
+//     </text>
+//   );
+// };
 
 const DashBoardPage = () => {
   const dispatch = useDispatch();
 
   const [topComicList, setTopComicList] = React.useState();
-  const [viewByTime, setViewByMonth] = React.useState();
+  // const [viewByTime, setViewByMonth] = React.useState();
   const [totalView, setTotalView] = React.useState();
-  const [statisticData, setStatisticData] = React.useState();
+  const [totalComic, setTotalComic] = React.useState();
+  const [totalEpisode, setTotalEpisode] = React.useState();
+  const [totalIncome, setTotalIncome] = React.useState();
+  const [userStatistic, setUserStatistic] = React.useState();
+  const [totalAccount, setTotalAccount] = React.useState();
+  const [totalViewAndIncomeByMonth, setTotalViewAndIncomeByMonth] =
+    React.useState();
+  const [packageTypeSold, setPackageTypeSold] = React.useState();
+
   const [activeIndex, setActiveIndex] = React.useState(0); //FOR PIE CHART
 
   const onPieEnter = (_, index) => {
     setActiveIndex(index);
   };
 
-  const fetchStatisticData = async () => {
-    const totalView = setTotalView(
-      unwrapResult(await dispatch(getTotalView()))
-    ); // total view by day, month
-    const totalComic = unwrapResult(dispatch(getAllComic()));
-    const totalEpisode = unwrapResult(dispatch(getAllComicEP()));
-    const totalIncome = unwrapResult(dispatch(getTotalIncome()));
-    console.log(unwrapResult(dispatch(getTotalIncome())));
-    setStatisticData({
-      // viewByMonth: totalView.month,
-      // viewByDay: totalView.today,
-      totalComic: totalComic.length,
-      totalEpisode: totalEpisode.length,
-      totalIncome,
-    });
+  const fetchUserStatistic = async () => {
+    const res = unwrapResult(await dispatch(getUserStatistic()));
+    let accounts = 0;
+    let arr = [];
+    for (const [key, value] of Object.entries(res)) {
+      accounts += value;
+      key === "not_verified"
+        ? arr.push({ name: "not verified", value: value })
+        : arr.push({ name: key, value: value });
+    }
+    setTotalAccount(accounts);
+    setUserStatistic(arr);
+  };
+
+  const fetchPackageSold = async () => {
+    setPackageTypeSold(unwrapResult(await dispatch(getPackageSold())));
+  };
+  const fetchTotalView = async () => {
+    setTotalView(unwrapResult(await dispatch(getTotalView()))); // total view by day, month
+  };
+  const fetchTotalIncome = async () => {
+    setTotalIncome(unwrapResult(await dispatch(getTotalIncome())));
+  };
+
+  const fetchAllComic = async () => {
+    setTotalComic(unwrapResult(await dispatch(getAllComic())));
   };
 
   const fetchTopComicData = async () => {
     setTopComicList(unwrapResult(await dispatch(topComics())));
+  };
+
+  const fetchAllComicEpisode = async () => {
+    setTotalEpisode(unwrapResult(await dispatch(getAllComicEP())));
   };
 
   const fetchViewData = async () => {
@@ -169,14 +195,40 @@ const DashBoardPage = () => {
     limit += `month1=${start.format("YYYY-MM")}&`;
     start.subtract(11, "month");
     limit += `month=${start.format("YYYY-MM")}`;
-    setViewByMonth(unwrapResult(await dispatch(viewByMonth(limit))));
+
+    const views = unwrapResult(await dispatch(viewByMonth(limit)));
+    const income = unwrapResult(await dispatch(getTotalIncomeByMonth(limit)));
+
+    let arr = [];
+    views.forEach((element, index) => {
+      element.income = income[index].income;
+      arr.push(element);
+    });
+    // for (const [key, value] of Object.entries(views)) {
+    //   key === "not_verified"
+    //     ? arr.push({ name: "not verified", value: value })
+    //     : arr.push({ name: key, value: value });
+    // }
+    // console.log("res", arr);
+    setTotalViewAndIncomeByMonth(arr);
+    // setUserStatistic(arr);
   };
 
   useEffect(() => {
     fetchTopComicData();
     fetchViewData();
-    fetchStatisticData();
+    fetchAllComicEpisode();
+    fetchAllComic();
+    fetchTotalIncome();
+    fetchTotalView();
+    fetchUserStatistic();
+    fetchPackageSold();
   }, []);
+
+  // console.log("total Comic", totalComic);
+  // console.log("Total income", totalIncome);
+
+  // useEffect(() => {}, [userStatistic]);
 
   return (
     <>
@@ -187,8 +239,8 @@ const DashBoardPage = () => {
         <StatisticCard
           title={"Comics/Episodes"}
           value={
-            statisticData?.totalComic && statisticData.totalEpisode ? (
-              `${statisticData.totalComic} / ${statisticData.totalEpisode}`
+            totalComic && totalEpisode ? (
+              `${totalComic.length} / ${totalEpisode.length}`
             ) : (
               <SyncLoader
                 color="#46457a"
@@ -217,8 +269,12 @@ const DashBoardPage = () => {
         <StatisticCard
           title={"Total Income Day/Month"}
           value={
-            statisticData?.totalIncome ? (
-              `${statisticData.totalIncome.today} / ${statisticData.totalIncome.month}`
+            totalIncome ? (
+              `${new Intl.NumberFormat("VND", {
+                maximumSignificantDigits: 3,
+              }).format(totalIncome.today)} / ${new Intl.NumberFormat("VND", {
+                maximumSignificantDigits: 3,
+              }).format(totalIncome.month)}`
             ) : (
               <SyncLoader
                 color="#46457a"
@@ -230,10 +286,10 @@ const DashBoardPage = () => {
           }
         />
         <StatisticCard
-          title={"Total Views This Month"}
+          title={"Accounts"}
           value={
-            statisticData?.viewByMonth ? (
-              statisticData.viewByMonth
+            totalAccount ? (
+              totalAccount
             ) : (
               <SyncLoader
                 color="#46457a"
@@ -270,27 +326,28 @@ const DashBoardPage = () => {
                   // }
                   />
                   <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
-                  <Bar dataKey="views" fill="#8884d8" barSize={60} />
-                  {data.map((entry, index) => (
-                    <Cell
-                      key={`cell-${index}`}
-                      fill={COLORS[index % COLORS.length]}
-                    />
-                  ))}
+                  <Bar dataKey="views" fill="#8884d8" barSize={60}>
+                    {topComicList?.map((entry, index) => (
+                      <Cell
+                        key={`cell-${index}`}
+                        fill={COLORS[index % COLORS.length]}
+                      />
+                    ))}
+                  </Bar>
                 </BarChart>
               </ResponsiveContainer>
             </div>
           </div>
 
-          <div className={""}>
-            {/* <p className={classes.chart_title}>Pie Chart</p> */}
+          <div className={classes.charts_card}>
+            <p className={classes.chart_title}>User Statistic</p>
             <div className={classes.bar__container}>
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart width={200} height={200}>
                   <Pie
                     activeIndex={activeIndex}
                     activeShape={renderActiveShape}
-                    data={data}
+                    data={userStatistic}
                     cx="50%"
                     cy="50%"
                     innerRadius={60}
@@ -311,23 +368,72 @@ const DashBoardPage = () => {
               </ResponsiveContainer>
             </div>
           </div>
-
+        </div>
+        <div className={classes.charts2}>
           <div className={classes.charts_card}>
-            <p className={classes.chart_title}>Views Last 12 Months</p>
+            <p className={classes.chart_title}>
+              Subscription Package Statistic
+            </p>
             <div className={classes.bar__container}>
               <ResponsiveContainer width="100%" height="100%">
-                <LineChart width={700} height={500} data={viewByTime}>
+                <PieChart width={200} height={200}>
+                  <Pie
+                    activeIndex={activeIndex}
+                    activeShape={renderActiveShape}
+                    data={packageTypeSold}
+                    cx="50%"
+                    cy="50%"
+                    innerRadius={60}
+                    outerRadius={80}
+                    fill="#8884d8"
+                    dataKey="total"
+                    onMouseEnter={onPieEnter}
+                  >
+                    {" "}
+                    {packageTypeSold?.map((entry, index) => (
+                      <Cell
+                        key={`cell-${index}`}
+                        fill={COLORS[index % COLORS.length]}
+                      />
+                    ))}
+                  </Pie>
+                </PieChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
+
+          <div className={classes.charts_card}>
+            <p className={classes.chart_title}>Views-Income Last 12 Months</p>
+            <div className={classes.bar__container}>
+              <ResponsiveContainer width="100%" height="100%">
+                <LineChart
+                  width={500}
+                  height={300}
+                  data={totalViewAndIncomeByMonth}
+                  margin={{
+                    top: 5,
+                    right: 30,
+                    left: 20,
+                    bottom: 5,
+                  }}
+                >
                   <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="date" height={30} />
-                  <YAxis />
+                  <XAxis dataKey="date" />
+
                   <Tooltip />
                   <Legend />
                   <Line
+                    yAxisId="left"
                     type="monotone"
                     dataKey="views"
-                    strokeWidth={2}
                     stroke="#8884d8"
-                    label={<CustomizedLabel />}
+                    activeDot={{ r: 8 }}
+                  />
+                  <Line
+                    yAxisId="right"
+                    type="monotone"
+                    dataKey="income"
+                    stroke="#82ca9d"
                   />
                 </LineChart>
               </ResponsiveContainer>
