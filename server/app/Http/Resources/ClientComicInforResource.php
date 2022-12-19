@@ -16,10 +16,11 @@ class ClientComicInforResource extends JsonResource
     public function toArray($request)
     {
 //        return parent::toArray($request);
+        $rating = $this->averageRating;
         return [
             'name' => $this->name,
             'slug' => $this->slug,
-            'rate' => $this->averageRating,
+            'rating' => $rating ?: 0,
             'num_of_episodes' => $this->num_of_episodes,
             'description' => $this->description,
             'published_date' => $this->published_date,
