@@ -143,12 +143,15 @@ class AuthController extends Controller
 
             $oldToken = VerifyToken::query()->where('user_id', '=',
                 Auth::user()->id)->orderByDesc('created_at')->first();
-            $expires = Carbon::make($oldToken->created_at)->addMinutes(5);
 
-            $now = Carbon::now();
-            if ($now->lt($expires)) {
-                $temp = $now->diffForHumans($expires);
-                return response()->json(['message' => "Làm ơn chờ {$temp} khi thử lại"], 400);
+            if ($oldToken) {
+                $expires = Carbon::make($oldToken->created_at)->addMinutes(5);
+
+                $now = Carbon::now();
+                if ($now->lt($expires)) {
+                    $temp = $now->diffForHumans($expires);
+                    return response()->json(['message' => "Làm ơn chờ {$temp} khi thử lại"], 400);
+                }
             }
 
             //create a new activation code
