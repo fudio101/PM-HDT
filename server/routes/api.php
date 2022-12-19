@@ -61,6 +61,7 @@ Route::get('get-just-updated-comics', [ClientController::class, 'getJustUpdatedC
 Route::get('get-comics-by-category/{category}', [ClientController::class, 'getComicsByCategory']);
 Route::put('change-user-name', [ClientController::class, 'changeUserName']);
 Route::post('buy-subscription-package/{subscriptionPackage}', [ClientController::class, 'buySubscriptionPackage']);
+Route::post('rate-comic/{comic:slug}', [ClientController::class, 'rateComic']);
 
 Route::get('get-view-statistics-by-day', [ClientController::class, 'getViewStatisticsByDay']);
 Route::get('get-view-statistics-by-month', [ClientController::class, 'getViewStatisticsByMonth']);
